@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-05 การจับคู่ข้อมูล (HosXP → HA.OS) (Data Mapping)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-04.html">◂ ก่อนหน้า</a>
+      <a href="S2-06.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-05 · งวดที่ 2</span>
+    <h1>การจับคู่ข้อมูล (HosXP → HA.OS)</h1>
+    <div class="en">Data Mapping</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-DMAP-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp (HosXP) + DB Analyst</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ระยะวิเคราะห์/ออกแบบ — ฐานของงาน Migration (HosXP → HA.OS) และ Interface</span>
+      <span class="chip who">เจ้าของ: Senior Imp (HosXP) — นำงาน Migration</span>
+      <span class="chip iso">ISO 29110: SI.2 / SI.3 (Architecture/Design)</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> ระบุการจับคู่ข้อมูล (field-to-field) จากระบบเดิม HosXP ไปยัง HA.OS และระหว่างระบบที่เชื่อมต่อกับ HA.OS พร้อมชนิดข้อมูลและกฎการแปลง เพื่อใช้เป็นฐานในการพัฒนา Interface และการย้ายข้อมูล (Migration) ให้ถูกต้องครบถ้วนและ reconcile ได้ 100% · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2569</td><td>Senior Imp (HosXP)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 วัตถุประสงค์/ขอบเขต -->
+    <h2 class="sec"><span class="n">1</span>วัตถุประสงค์และขอบเขต</h2>
+    <ul>
+      <li>กำหนดการจับคู่ข้อมูลจาก HosXP (ระบบเดิม) → HA.OS และระหว่าง HA.OS กับระบบที่เชื่อมต่อ: สปสช., LIS, PACS</li>
+      <li>ระบุชนิดข้อมูล กฎการแปลง (transformation) และหมายเหตุของแต่ละ field</li>
+      <li>ใช้เป็นฐานสำหรับงาน Migration (Dress Rehearsal 1–2 รอบ) และ Integration พร้อมเกณฑ์ตรวจสอบ (reconciliation 100%)</li>
+    </ul>
+    <div class="warn"><b>⚠️ ข้อควรระวัง:</b> field ที่มีกฎแปลง/รหัส master ต่างกัน ต้องตกลงและยืนยันกับ <b>Senior Imp (HosXP)</b> ผู้นำงาน Migration ก่อน lock การออกแบบ (ดูหัวข้อ 3)</div>
+
+    <!-- 2 ตาราง Data Mapping -->
+    <h2 class="sec"><span class="n">2</span>ตารางจับคู่ข้อมูล (Data Mapping)</h2>
+
+    <h3 class="sub">2.1 HosXP → HA.OS (ข้อมูลผู้ป่วย — Patient)</h3>
+    <table>
+      <thead><tr>
+        <th style="width:22%">ระบบต้นทาง.field (HosXP)</th><th style="width:22%">HA.OS.field</th><th style="width:14%">ชนิด</th><th>กฎการแปลง</th><th style="width:18%">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>HOSXP.patient.hn</td><td>haos_patient.hn</td><td>VARCHAR(13)</td><td>คงรูปแบบเดิม ใช้เป็น key เชื่อม</td><td>Primary key เชื่อมระบบ</td></tr>
+        <tr><td>HOSXP.patient.fname / lname</td><td>haos_patient.full_name</td><td>VARCHAR</td><td>ต่อ fname + ' ' + lname</td><td>ตรวจ encoding ภาษาไทย</td></tr>
+        <tr><td>HOSXP.patient.birthday</td><td>haos_patient.dob</td><td>DATE</td><td>คงค่า / format YYYY-MM-DD</td><td><span class="fill">ยืนยันรูปแบบวันที่</span></td></tr>
+        <tr><td>HOSXP.patient.sex</td><td>haos_patient.gender</td><td>CHAR(1)</td><td>map 1→M, 2→F (lookup)</td><td>ตกลง code list</td></tr>
+        <tr><td>HOSXP.patient.pttype</td><td>haos_patient.coverage</td><td>VARCHAR</td><td>map สิทธิ์การรักษาตามตาราง lookup</td><td><span class="fill">ขอ master สิทธิ์</span></td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">2.2 HA.OS ↔ สปสช. (เบิกจ่ายตามสิทธิ์ — e-Claim)</h3>
+    <table>
+      <thead><tr>
+        <th style="width:22%">ระบบต้นทาง.field</th><th style="width:22%">ปลายทาง.field</th><th style="width:14%">ชนิด</th><th>กฎการแปลง</th><th style="width:18%">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>HAOS.invoice.invoice_no</td><td>NHSO.claim.doc_no</td><td>VARCHAR</td><td>prefix ตามรหัสหน่วยบริการ + running</td><td>ส่งจาก HA.OS → สปสช.</td></tr>
+        <tr><td>HAOS.invoice.amount</td><td>NHSO.claim.amount</td><td>DECIMAL(12,2)</td><td>หน่วยบาท ทศนิยม 2 ตำแหน่ง</td><td>กระทบยอด reconciliation</td></tr>
+        <tr><td>HAOS.patient.cid</td><td>NHSO.claim.pid</td><td>VARCHAR(13)</td><td>เลขบัตร ปชช. ใช้ตรวจสิทธิ์</td><td>ตรวจสิทธิ์ก่อนส่งเบิก</td></tr>
+        <tr><td>HAOS.service.procedure_code</td><td>NHSO.claim.proc</td><td>VARCHAR</td><td>map รหัสหัตถการ → รหัส สปสช.</td><td>ตกลงรหัสกับ สปสช.</td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">2.3 HA.OS ↔ LIS (ผลตรวจ — Lab Result)</h3>
+    <table>
+      <thead><tr>
+        <th style="width:22%">ระบบต้นทาง.field</th><th style="width:22%">HA.OS.field</th><th style="width:14%">ชนิด</th><th>กฎการแปลง</th><th style="width:18%">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>LIS.RESULT.ORDER_ID</td><td>haos_lab_order.order_id</td><td>VARCHAR</td><td>map ตาม HL7 ORM/ORU</td><td>ผูกกับ visit/HN</td></tr>
+        <tr><td>LIS.RESULT.TEST_CODE</td><td>haos_lab_result.test_code</td><td>VARCHAR</td><td>map รหัสตรวจ (lookup LOINC/local)</td><td><span class="fill">ตกลง code list</span></td></tr>
+        <tr><td>LIS.RESULT.VALUE / UNIT</td><td>haos_lab_result.value / unit</td><td>VARCHAR</td><td>คงค่า + หน่วยตามต้นทาง</td><td>แสดงค่าอ้างอิง (ref range)</td></tr>
+        <tr><td>LIS.RESULT.STATUS</td><td>haos_lab_result.status</td><td>VARCHAR</td><td>map P→Prelim, F→Final</td><td>—</td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">2.4 HA.OS ↔ PACS (ภาพรังสี — Imaging)</h3>
+    <table>
+      <thead><tr>
+        <th style="width:22%">ระบบต้นทาง.field</th><th style="width:22%">HA.OS.field</th><th style="width:14%">ชนิด</th><th>กฎการแปลง</th><th style="width:18%">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>PACS.STUDY.STUDY_UID</td><td>haos_image.study_uid</td><td>VARCHAR</td><td>DICOM Study Instance UID (คงค่า)</td><td>ใช้ลิงก์ WADO เปิดภาพ</td></tr>
+        <tr><td>PACS.STUDY.PATIENT_ID</td><td>haos_image.hn</td><td>VARCHAR</td><td>map Patient ID → HN</td><td>ต้องตรงกับ HA.OS</td></tr>
+        <tr><td>PACS.STUDY.MODALITY</td><td>haos_image.modality</td><td>VARCHAR</td><td>คงค่า (เช่น CR, CT, US)</td><td>—</td></tr>
+        <tr><td>PACS.STUDY.STUDY_DATE</td><td>haos_image.study_date</td><td>DATE</td><td>format YYYY-MM-DD</td><td>—</td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- 3 field ที่ต้องตกลงกับ Senior Imp -->
+    <h2 class="sec"><span class="n">3</span>รายการ field ที่ต้องตกลง/ยืนยันสำหรับการย้ายข้อมูล</h2>
+    <table>
+      <thead><tr><th style="width:8%">ลำดับ</th><th style="width:26%">field / ประเด็น</th><th>สิ่งที่ต้องตกลง</th><th style="width:16%">สถานะ</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>รูปแบบวันเกิด/วันเวลา</td><td>มาตรฐานการแปลงวันที่จาก HosXP</td><td><span class="fill">รอยืนยัน</span></td></tr>
+        <tr><td>2</td><td>Master สิทธิ์การรักษา (pttype)</td><td>ตาราง lookup รหัสสิทธิ์และการ map ไป สปสช.</td><td><span class="fill">รอยืนยัน</span></td></tr>
+        <tr><td>3</td><td>รหัสยา (TMT) / บัญชียา</td><td>การ map รหัสยาเดิม → TMT มาตรฐาน</td><td><span class="fill">รอยืนยัน</span></td></tr>
+        <tr><td>4</td><td>ขอบเขตข้อมูลย้อนหลัง</td><td>ช่วงปีของเวชระเบียน/visit ที่ต้องย้าย</td><td><span class="fill">รอยืนยัน</span></td></tr>
+        <tr><td>5</td><td>เกณฑ์ reconciliation</td><td>วิธีตรวจยอด/รายการให้ตรง 100% หลังย้าย</td><td><span class="fill">รอยืนยัน</span></td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">4</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp (HosXP)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

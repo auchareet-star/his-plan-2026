@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-02 ตารางสอบทานความต้องการ (Requirement Traceability Matrix)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-01.html">◂ ก่อนหน้า</a>
+      <a href="S2-03.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-02 · งวดที่ 2</span>
+    <h1>ตารางสอบทานความต้องการ</h1>
+    <div class="en">Requirement Traceability Matrix (RTM)</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-RTM-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">BA (สาม)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110 (SI.2/SI.5)</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ตลอดงวดที่ 2–3 — เอกสารมีชีวิต อัปเดตทุกครั้งที่ออกแบบ/พัฒนา/ทดสอบ</span>
+      <span class="chip who">เจ้าของ: BA (สาม)</span>
+      <span class="chip iso">ISO 29110: SI.2/SI.5 Traceability</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> เชื่อมโยงความต้องการตามสัญญาแนบท้าย 1 ทั้ง 1,358 ข้อกำหนด (36 โมดูล) ไปยังเอกสารออกแบบ → โมดูล/งานพัฒนา → กรณีทดสอบ (Test Case) เพื่อพิสูจน์ว่าทุกข้อกำหนดถูกออกแบบ พัฒนา และทดสอบครบถ้วน ไม่มีตกหล่น · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <div class="tip"><b>RTM ใช้สอบทานครบวงจร:</b> RTM ใช้สอบทานความต้องการตั้งแต่ <b>ออกแบบ → Build → Test</b> ให้ครบทุกข้อตามแนบท้าย 1 — อ่านตามแถว (ไล่จาก Req ID → เอกสารออกแบบ → โมดูลที่ build → Test Case → สถานะ) จะเห็นได้ทันทีว่าข้อนั้นไปถึงขั้นไหน และข้อใดยัง “หลุด” ไม่มีคู่เชื่อม</div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2569</td><td>BA (สาม)</td><td>ร่างฉบับแรก ตั้งต้นจากผล Fit/Gap (S2-01)</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 วัตถุประสงค์ / วิธีอ่าน -->
+    <h2 class="sec"><span class="n">1</span>วัตถุประสงค์และวิธีอ่านตาราง</h2>
+    <p><strong>1.1 วัตถุประสงค์</strong> — ทำให้ทุกความต้องการตามสัญญาแนบท้าย 1 มีร่องรอย (traceability) ตลอดวงจรพัฒนา เพื่อใช้ตรวจรับว่า “สิ่งที่ส่งมอบตรงกับสัญญาแนบท้าย 1 ครบ” และใช้วิเคราะห์ผลกระทบเมื่อมี change request</p>
+    <p><strong>1.2 ความหมายของแต่ละคอลัมน์</strong></p>
+    <table>
+      <thead><tr><th style="width:22%">คอลัมน์</th><th>ความหมาย</th></tr></thead>
+      <tbody>
+        <tr><td>Req ID</td><td>รหัสความต้องการภายในโครงการ (สอดคล้องกับ Fit/Gap S2-01)</td></tr>
+        <tr><td>อ้างแนบท้าย 1</td><td>โมดูล/ข้ออ้างอิงในสัญญาแนบท้าย 1</td></tr>
+        <tr><td>คำอธิบายความต้องการ</td><td>สาระของข้อกำหนดโดยย่อ</td></tr>
+        <tr><td>เอกสารออกแบบ</td><td>รหัสเอกสาร/หัวข้อออกแบบที่รองรับ (เช่น SDD-xx, Use Case)</td></tr>
+        <tr><td>โมดูล / Build</td><td>โมดูลหรือรายการพัฒนา/Config ที่ทำให้เกิดจริง</td></tr>
+        <tr><td>Test Case ID</td><td>รหัสกรณีทดสอบที่พิสูจน์ความต้องการนี้</td></tr>
+        <tr><td>สถานะ</td><td>สถานะปัจจุบัน: ออกแบบ / พัฒนา / ทดสอบ / ผ่าน</td></tr>
+      </tbody>
+    </table>
+    <p><strong>1.3 รหัสสถานะที่ใช้</strong>:
+      <span class="badge b-gap">ยังไม่เริ่ม</span>
+      <span class="badge b-par">กำลังออกแบบ/พัฒนา</span>
+      <span class="badge b-cfg">รอ/อยู่ระหว่างทดสอบ</span>
+      <span class="badge b-fit">ผ่านแล้ว</span>
+    </p>
+
+    <!-- 2 RTM เต็ม -->
+    <h2 class="sec"><span class="n">2</span>ตาราง RTM (Requirement Traceability Matrix)</h2>
+    <table>
+      <thead><tr>
+        <th style="width:8%">Req ID</th>
+        <th style="width:9%">อ้างแนบท้าย 1</th>
+        <th style="width:24%">คำอธิบายความต้องการ</th>
+        <th style="width:13%">เอกสารออกแบบ</th>
+        <th style="width:15%">โมดูล / Build</th>
+        <th style="width:11%">Test Case ID</th>
+        <th style="width:10%">สถานะ</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>MR-01</td><td>เวชระเบียน</td><td>ลงทะเบียน/ค้นประวัติผู้ป่วยด้วย HN/บัตร ปชช.</td><td>SDD-MR-01</td><td>เวชระเบียน (Config + 9 จุดบริการ)</td><td>TC-MR-01</td><td><span class="badge b-fit">ผ่านแล้ว</span></td></tr>
+        <tr><td>MR-02</td><td>Queue</td><td>Patient Self Visit (คีออส) + จัดคิวอัตโนมัติ</td><td>SDD-MR-02</td><td>Queue (Partial)</td><td>TC-MR-02</td><td><span class="badge b-par">กำลังพัฒนา</span></td></tr>
+        <tr><td>PH-02</td><td>คลังยาและวัสดุ</td><td>แจ้งเตือนแพ้ยาขณะสั่งยา (Drug Allergy Alert)</td><td>SDD-PH-02</td><td>คลังยา (Fit)</td><td>TC-PH-02</td><td><span class="badge b-cfg">อยู่ระหว่างทดสอบ</span></td></tr>
+        <tr><td>PH-03</td><td>Pharmacist Module</td><td>eMAR — บันทึกการบริหารยา</td><td>SDD-PH-03</td><td>Pharmacist/Nurse (Config)</td><td>TC-PH-03</td><td><span class="badge b-par">กำลังพัฒนา</span></td></tr>
+        <tr><td>DR-02</td><td>Doctor Module</td><td>Progress Note / รอบ Ward</td><td>SDD-DR-02</td><td>Doctor Module (Partial)</td><td>TC-DR-02</td><td><span class="badge b-par">กำลังออกแบบ</span></td></tr>
+        <tr><td>NS-02</td><td>Nurse Module</td><td>eMAR + barcode bedside</td><td>SDD-NS-02</td><td>Nurse Module (Build)</td><td>TC-NS-02</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>BL-02</td><td>งานเรียกเก็บ</td><td>เรียกเก็บตามสิทธิ์ + เชื่อม สปสช.</td><td>SDD-BL-02</td><td>Interface สปสช. (Build)</td><td>TC-BL-02</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>MG-01</td><td>Migration</td><td>ย้ายข้อมูล HosXP → HA.OS (reconcile 100%)</td><td>SDD-MG-01</td><td>ETL Migration (Build)</td><td>TC-MG-01</td><td><span class="badge b-par">กำลังออกแบบ</span></td></tr>
+        <tr><td>LS-01</td><td>LIS</td><td>ส่งตรวจ Lab / รับผลกลับ (HL7)</td><td>SDD-LS-01</td><td>เชื่อม LIS (HL7)</td><td>TC-LS-01</td><td><span class="badge b-cfg">อยู่ระหว่างทดสอบ</span></td></tr>
+        <tr><td>RD-01</td><td>รังสีวิทยา</td><td>สั่งถ่ายภาพรังสี + ดูภาพ PACS</td><td>SDD-RD-01</td><td>เชื่อม PACS (DICOM)</td><td>TC-RD-01</td><td><span class="badge b-cfg">อยู่ระหว่างทดสอบ</span></td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <p class="hint">เพิ่มแถวให้ครบทุก Req ID ที่ระบุไว้ในผล Fit/Gap (S2-01) และครบทั้ง 1,358 ข้อกำหนด / 36 โมดูลตามสัญญาแนบท้าย 1 รวมถึงงาน Smart IPD (ER, วิสัญญีพยาบาล, เวชศาสตร์ฟื้นฟู, ห้องตรวจสุขภาพ)</p>
+
+    <!-- 3 Coverage -->
+    <h2 class="sec"><span class="n">3</span>สรุปความครอบคลุม (Coverage Summary)</h2>
+    <p class="small muted">นับจำนวนความต้องการที่มีร่องรอยครบในแต่ละขั้น เพื่อแสดงร้อยละความครอบคลุม (ฐาน = 1,358 ข้อกำหนด)</p>
+    <table class="alt">
+      <thead><tr><th>ขั้นตอน</th><th style="width:18%">จำนวนที่ครอบคลุม</th><th style="width:18%">จากทั้งหมด</th><th style="width:18%">ร้อยละ</th></tr></thead>
+      <tbody>
+        <tr><td>มีเอกสารออกแบบ (Design coverage)</td><td><span class="fill">__</span></td><td><span class="fill">1,358</span></td><td><span class="fill">__%</span></td></tr>
+        <tr><td>มีโมดูล/งานพัฒนา (Build coverage)</td><td><span class="fill">__</span></td><td><span class="fill">1,358</span></td><td><span class="fill">__%</span></td></tr>
+        <tr><td>มี Test Case (Test coverage)</td><td><span class="fill">__</span></td><td><span class="fill">1,358</span></td><td><span class="fill">__%</span></td></tr>
+        <tr><td>ทดสอบผ่านแล้ว (Verified)</td><td><span class="fill">__</span></td><td><span class="fill">1,358</span></td><td><span class="fill">__%</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip"><b>เป้าหมาย:</b> ก่อน UAT/ตรวจรับ ทุกบรรทัดต้องมี Design + Build + Test Case ครบ 100% และสถานะ “ผ่านแล้ว” = 100% ของข้อบังคับ (Must)</div>
+
+    <!-- 4 gap tracking -->
+    <h2 class="sec"><span class="n">4</span>รายการความต้องการที่ยังไม่ครอบคลุม (Gap Tracking)</h2>
+    <p class="small muted">ความต้องการที่ยังขาดเอกสารออกแบบ/งานพัฒนา/Test Case — ใช้ติดตามให้ปิดครบก่อนตรวจรับ</p>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:28%">คำอธิบาย</th><th style="width:18%">ขั้นที่ยังขาด</th><th style="width:13%">ผู้รับผิดชอบ</th><th style="width:12%">กำหนดปิด</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><td>BL-02</td><td>เรียกเก็บตามสิทธิ์ + เชื่อม สปสช.</td><td>ออกแบบ + Build + Test</td><td><span class="fill">Dev Lead (ซี)</span></td><td><span class="fill">__/__/2569</span></td><td>รอสเปก/ช่องทาง สปสช.</td></tr>
+        <tr><td>NS-02</td><td>eMAR + barcode bedside</td><td>Build + Test</td><td><span class="fill">Dev (มิน)</span></td><td><span class="fill">__/__/2569</span></td><td>รอสเปกอุปกรณ์ barcode</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">5</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — BA (สาม)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

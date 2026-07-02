@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-04 ข้อกำหนดความต้องการระบบ (System Requirement Specification)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-03.html">◂ ก่อนหน้า</a>
+      <a href="S2-05.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-04 · งวดที่ 2</span>
+    <h1>ข้อกำหนดความต้องการระบบ</h1>
+    <div class="en">System Requirement Specification (SRS)</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-SRS-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">SA (ก้อง/โอ)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110 SI.2 (Requirements Analysis)</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: หลัง Fit/Gap — เป็นฐานอ้างอิงการออกแบบ/พัฒนา/ทดสอบ (UAT)</span>
+      <span class="chip who">เจ้าของ: SA (ก้อง/โอ)</span>
+      <span class="chip iso">ISO 29110: SI.2 Software Requirements Analysis</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดความต้องการของระบบ HIS (HA.OS) ทั้ง Functional และ Non-functional อย่างชัดเจน วัดผลได้ และสอบกลับได้ (traceable) ครอบคลุม 36 โมดูล / 1,358 ข้อกำหนด ตามสัญญาแนบท้าย 1 เพื่อใช้เป็นข้อตกลงร่วมระหว่างผู้รับจ้างและเจ้าของงาน และเป็นเกณฑ์ในการออกแบบ พัฒนา และทดสอบยอมรับ (UAT) · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2569</td><td>SA</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 บทนำ/ขอบเขต -->
+    <h2 class="sec"><span class="n">1</span>บทนำและขอบเขต (Introduction &amp; Scope)</h2>
+    <p><strong>1.1 วัตถุประสงค์ของเอกสาร</strong> — <span class="muted">อธิบายว่าเอกสารนี้ระบุความต้องการของระบบ HIS (HA.OS) เพื่อใช้เป็นฐานในการออกแบบและทดสอบ</span></p>
+    <p><strong>1.2 ขอบเขตระบบ</strong></p>
+    <ul>
+      <li>โมดูลหลัก (36 โมดูล / 1,358 ข้อกำหนด ตามสัญญาแนบท้าย 1): เวชระเบียน, Queue &amp; Patient Self Visit, Doctor Module, Nurse Module, Pharmacist Module + eMAR, คลังยาและวัสดุ, งานเรียกเก็บ, LIS, รังสีวิทยา (RIS/PACS) และงาน Smart IPD (ER, วิสัญญีพยาบาล, เวชศาสตร์ฟื้นฟู, ห้องตรวจสุขภาพ, Master Data Smart IPD)</li>
+      <li>การเชื่อมต่อ: สปสช. (ตรวจสิทธิ์/e-Claim), กระทรวงสาธารณสุข (43 แฟ้ม), LIS (HL7), PACS/RIS (DICOM); การย้ายข้อมูลจาก HosXP (ระบบเดิม)</li>
+      <li>ครอบคลุม 9 จุดบริการ (รพ.เมืองสมุทรปู่เจ้าฯ 6 จุด + สมุทรเวชกิจ 3 จุด)</li>
+      <li>มาตรฐาน: ISO 29110, HA (เน้น audit trail, การควบคุมสิทธิ์เข้าถึง, ความครบถ้วนและการสืบค้นเวชระเบียน)</li>
+    </ul>
+    <p><strong>1.3 นิยามและคำย่อ</strong></p>
+    <table>
+      <thead><tr><th style="width:22%">คำย่อ</th><th>ความหมาย</th></tr></thead>
+      <tbody>
+        <tr><td>HIS / HA.OS</td><td>Hospital Information System — ระบบสารสนเทศโรงพยาบาลที่ส่งมอบ (แพลตฟอร์ม HA.OS)</td></tr>
+        <tr><td>FR / NFR</td><td>Functional Requirement / Non-functional Requirement</td></tr>
+        <tr><td>HosXP</td><td>ระบบสารสนเทศโรงพยาบาลเดิม (ต้นทางการย้ายข้อมูล)</td></tr>
+        <tr><td>eMAR</td><td>Electronic Medication Administration Record (บันทึกการบริหารยา)</td></tr>
+        <tr class="fillrow"><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+    <p><strong>1.4 เอกสารอ้างอิง</strong> — <span class="muted">สัญญาแนบท้าย 1, S2-01 รายงาน Fit/Gap, S2-02 RTM, S2-03 Workflow, มาตรฐาน ISO 29110, คู่มือ HA</span></p>
+
+    <!-- 2 ภาพรวมระบบ -->
+    <h2 class="sec"><span class="n">2</span>ภาพรวมระบบ (System Overview)</h2>
+    <p><span class="muted">อธิบายสถาปัตยกรรมเชิงตรรกะ ผู้ใช้งาน และความสัมพันธ์กับระบบรอบข้าง</span></p>
+    <p><strong>2.1 บทบาทผู้ใช้งาน (Actors)</strong></p>
+    <ul>
+      <li>แพทย์, พยาบาล (รวมวิสัญญีพยาบาล), เภสัชกร, เจ้าหน้าที่เวชระเบียน, เจ้าหน้าที่การเงิน/เรียกเก็บ, นักเทคนิคการแพทย์/รังสี, ผู้ดูแลระบบ (Admin)</li>
+      <li>ผู้ป่วย (ผ่าน Patient Self Visit / คีออส) สำหรับลงทะเบียนและจัดคิว</li>
+    </ul>
+    <p><strong>2.2 บริบทการเชื่อมต่อ (Context)</strong></p>
+    <div class="ascii">        +-----------+        +----------+
+        |  HosXP    |        |  สปสช.   |
+        | (ระบบเดิม)|        | (NHSO)   |
+        +-----+-----+        +-----+----+
+              | migration (ETL)   |  สิทธิ์/e-Claim
+              v                   v
+        +----------------------------------+
+        |        HA.OS (HIS — 9 จุดบริการ)  |
+        |  เวชระเบียน · Queue · Doctor      |
+        |  Nurse+eMAR · Pharmacist · คลังยา |
+        |  ER · วิสัญญี · ฟื้นฟู · เรียกเก็บ |
+        +----+-------------+-----------+----+
+             | lab result  | image     | 43 แฟ้ม
+             v             v           v
+        +--------+    +--------+   +-----------+
+        |  LIS   |    |  PACS  |   | กระทรวง สธ.|
+        +--------+    +--------+   +-----------+</div>
+
+    <!-- 3 Functional Requirements -->
+    <h2 class="sec"><span class="n">3</span>ความต้องการเชิงหน้าที่ (Functional Requirements)</h2>
+    <p class="small muted">ระดับความสำคัญ (MoSCoW): <span class="badge b-must">Must</span> จำเป็น · <span class="badge b-should">Should</span> ควรมี · <span class="badge b-could">Could</span> มีได้ถ้าเอื้ออำนวย</p>
+    <table>
+      <thead><tr>
+        <th style="width:9%">FR-ID</th><th style="width:14%">โมดูล</th><th>รายละเอียดความต้องการ</th><th style="width:9%">Priority</th><th style="width:26%">เกณฑ์ยอมรับ (Acceptance)</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>FR-01</td><td>คลังยา / Pharmacist</td>
+          <td>ระบบต้องเตือนการแพ้ยา (Drug Allergy Alert) แบบ pop-up ก่อนสั่งจ่ายยา โดยตรวจสอบจากประวัติแพ้ยาของผู้ป่วยและ interaction พื้นฐาน</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>เมื่อสั่งยาที่ผู้ป่วยมีประวัติแพ้ ระบบแสดง alert บังคับให้ยืนยัน/ระบุเหตุผลก่อนดำเนินการต่อ และบันทึก log</td>
+        </tr>
+        <tr>
+          <td>FR-02</td><td>Queue / Patient Self Visit</td>
+          <td>ระบบต้องจัดการคิวและ Patient Self Visit (คีออส) จัดคิวอัตโนมัติตามจุดบริการ รองรับการให้บริการข้าม 9 จุดบริการ</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>ผู้ป่วยลงทะเบียนเองและได้คิวตามจุดบริการถูกต้อง ระบบไม่จัดคิวซ้ำซ้อน</td>
+        </tr>
+        <tr>
+          <td>FR-03</td><td>Nurse Module / eMAR</td>
+          <td>ระบบต้องบันทึกการบริหารยา (eMAR) ตามคำสั่งแพทย์ พร้อมยืนยันด้วย barcode bedside และตราเวลา (timestamp) ผูกกับเวชระเบียน</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>บันทึกการให้ยาครบ 5 Rights ตรวจสอบย้อนหลังได้ มี timestamp และ audit trail</td>
+        </tr>
+        <tr>
+          <td>FR-04</td><td>Doctor Module</td>
+          <td>ระบบต้องรองรับคำสั่งแพทย์ (Doctor Order) ทั้ง OPD/IPD บันทึก Progress Note และสรุปการจำหน่าย (Discharge Summary)</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>สั่งการรักษา/บันทึก/สรุปจำหน่ายได้ครบ และแสดงประวัติย้อนหลังต่อผู้ป่วยได้</td>
+        </tr>
+        <tr>
+          <td>FR-05</td><td>งานเรียกเก็บ</td>
+          <td>ระบบต้องคำนวณค่ารักษาตามรายการ ออกใบเสร็จ/ใบแจ้งหนี้ รองรับสิทธิ์การรักษา (สปสช./ประกันสังคม/จ่ายตรง) และส่งเบิก (e-Claim)</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>ยอดเงินคำนวณถูกต้อง ออกใบเสร็จได้ และส่งแฟ้มเบิกตามรูปแบบ สปสช. ผ่านการตรวจสอบ</td>
+        </tr>
+        <tr>
+          <td>FR-06</td><td>Integration / สปสช.</td>
+          <td>ระบบต้องเชื่อมต่อ สปสช. เพื่อตรวจสอบสิทธิ์การรักษาแบบ Real-time/ใกล้เคียง และส่งข้อมูลเบิกจ่าย</td>
+          <td><span class="badge b-must">Must</span></td>
+          <td>ตรวจสิทธิ์ด้วยเลขบัตร ปชช. แล้วได้ผลภายในเวลาที่กำหนด และข้อมูลเบิกถูกต้องตามรูปแบบ</td>
+        </tr>
+        <tr>
+          <td>FR-07</td><td>LIS / รังสี-PACS</td>
+          <td>ระบบต้องส่งคำสั่งตรวจ (Order) ไป LIS/RIS และแสดงผล Lab/ภาพรังสีจาก PACS ในหน้าจอเวชระเบียนของผู้ป่วย</td>
+          <td><span class="badge b-should">Should</span></td>
+          <td>สั่งตรวจและรับผลกลับมาแสดงในเวชระเบียนได้ เปิดดูภาพ PACS จากลิงก์ได้</td>
+        </tr>
+        <tr>
+          <td>FR-08</td><td>Smart IPD เฉพาะทาง</td>
+          <td>ระบบต้องรองรับงาน ER (Triage), วิสัญญีพยาบาล (Anesthesia Record), เวชศาสตร์ฟื้นฟู และห้องตรวจสุขภาพ (แพ็กเกจ + รายงานผล)</td>
+          <td><span class="badge b-should">Should</span></td>
+          <td>บันทึก/ติดตามงานแต่ละหน่วยได้ครบ และออกเอกสาร/รายงานตามที่กำหนด</td>
+        </tr>
+        <tr>
+          <td>FR-09</td><td>รายงานภาครัฐ</td>
+          <td>ระบบควรส่งออกข้อมูลมาตรฐาน 43 แฟ้ม ของกระทรวงสาธารณสุข ตามรอบที่กำหนด</td>
+          <td><span class="badge b-could">Could</span></td>
+          <td>สร้างและส่งออกแฟ้ม 43 แฟ้มได้ครบถ้วนตามโครงสร้างมาตรฐาน</td>
+        </tr>
+        <tr class="fillrow"><td><span class="fill">FR-__</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- 4 Non-functional Requirements -->
+    <h2 class="sec"><span class="n">4</span>ความต้องการที่ไม่ใช่เชิงหน้าที่ (Non-functional Requirements)</h2>
+    <table>
+      <thead><tr><th style="width:11%">NFR-ID</th><th style="width:18%">ด้าน</th><th>ข้อกำหนด</th><th style="width:24%">เป้าหมาย/เกณฑ์วัด</th></tr></thead>
+      <tbody>
+        <tr><td>NFR-01</td><td>Performance</td><td>เวลาตอบสนองของหน้าจอหลักและการดึงข้อมูลผู้ป่วย</td><td>≤ 3 วินาที ที่ผู้ใช้พร้อมกัน <span class="fill">__</span> คน (รวม 9 จุดบริการ)</td></tr>
+        <tr><td>NFR-02</td><td>Security / HA</td><td>ควบคุมการเข้าถึงตามบทบาท (RBAC), เก็บ audit trail การเข้าถึง/แก้ไขเวชระเบียน, รองรับการสืบค้นเวชระเบียนย้อนหลัง, เข้ารหัสข้อมูลขณะส่งและจัดเก็บ</td><td>มี audit log ครบทุกธุรกรรมสำคัญ และสืบค้นเวชระเบียนได้ ตามแนวทาง HA</td></tr>
+        <tr><td>NFR-03</td><td>Usability</td><td>ใช้งานภาษาไทย หน้าจอสอดคล้องกัน เรียนรู้ได้เร็ว รองรับงาน Smart IPD bedside</td><td>ผู้ใช้ผ่านการฝึกอบรมใช้งานงานหลักได้โดยไม่ต้องพึ่งคู่มือทุกขั้นตอน</td></tr>
+        <tr><td>NFR-04</td><td>Availability</td><td>ระบบพร้อมใช้งานในเวลาทำการ มีการสำรองข้อมูลและแผนกู้คืน (DR); SLA Critical เริ่มแก้ภายใน 2 ชม. + workaround ภายใน 8 ชม.</td><td>Uptime ≥ <span class="fill">99.x%</span> ในเวลาทำการ, RPO/RTO ตามที่ตกลง</td></tr>
+        <tr><td>NFR-05</td><td>Compliance</td><td>สอดคล้อง ISO 29110, HA และข้อกำหนดคุ้มครองข้อมูลส่วนบุคคล (PDPA); ข้อมูลผู้ป่วยเป็นกรรมสิทธิ์ของโรงพยาบาล</td><td>ผ่านการตรวจสอบตามรายการ checklist</td></tr>
+        <tr class="fillrow"><td><span class="fill">NFR-__</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td><td><span class="fill">&nbsp;</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- 5 Interface Requirements -->
+    <h2 class="sec"><span class="n">5</span>ความต้องการด้านการเชื่อมต่อ (Interface Requirements)</h2>
+    <table>
+      <thead><tr><th style="width:11%">IF-ID</th><th style="width:20%">ระบบที่เชื่อม</th><th>วิธี/มาตรฐาน</th><th style="width:24%">ข้อมูลที่แลกเปลี่ยน</th></tr></thead>
+      <tbody>
+        <tr><td>IF-01</td><td>สปสช. (NHSO)</td><td>API / แฟ้มมาตรฐาน <span class="fill">(ตกลงช่องทาง/ใบรับรอง)</span></td><td>ตรวจสอบสิทธิ์การรักษา, ข้อมูลเบิกจ่าย (e-Claim)</td></tr>
+        <tr><td>IF-02</td><td>กระทรวงสาธารณสุข</td><td>แฟ้มมาตรฐาน 43 แฟ้ม</td><td>ข้อมูลบริการสุขภาพตามรอบส่งออก</td></tr>
+        <tr><td>IF-03</td><td>LIS</td><td>HL7 ORM/ORU</td><td>คำสั่งตรวจ, ผลตรวจทางห้องปฏิบัติการ</td></tr>
+        <tr><td>IF-04</td><td>PACS / RIS</td><td>DICOM / WADO link</td><td>ภาพรังสี</td></tr>
+        <tr><td>IF-05</td><td>HosXP (ระบบเดิม)</td><td>DB View / ETL <span class="fill">(งาน Migration)</span></td><td>ข้อมูลตั้งต้นเพื่อย้ายเข้า HA.OS</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 6 Data Requirements -->
+    <h2 class="sec"><span class="n">6</span>ความต้องการด้านข้อมูล (Data Requirements)</h2>
+    <ul>
+      <li><strong>ข้อมูลหลัก (Master):</strong> ผู้ป่วย, บุคลากร, รหัสหัตถการ/ค่ารักษา, รายการยา (TMT), สิทธิ์การรักษา, Master Data Smart IPD</li>
+      <li><strong>ข้อมูลธุรกรรม (Transaction):</strong> เวชระเบียน/visit, คิว, คำสั่งแพทย์, บันทึกพยาบาล/eMAR, ผล Lab/รังสี, ใบเสร็จ/เบิกสิทธิ์, แฟ้ม 43 แฟ้ม</li>
+      <li><strong>ความครบถ้วนและสืบค้นเวชระเบียน:</strong> ทุกธุรกรรมต้องผูก HN และมี audit trail (ใคร/เมื่อใด/ทำอะไร) พร้อมความสามารถสืบค้นเวชระเบียนย้อนหลังตามแนวทาง HA</li>
+      <li><strong>การเก็บรักษาและสำรองข้อมูล:</strong> ระยะเวลาเก็บตามระเบียบเวชระเบียน <span class="fill">__ ปี</span> และมีการ backup ตามรอบที่กำหนด; ข้อมูลผู้ป่วยเป็นกรรมสิทธิ์ของโรงพยาบาล</li>
+      <li><strong>การโยกย้ายข้อมูล (Migration):</strong> รายการข้อมูลเดิมจาก HosXP ที่ต้องนำเข้า + เกณฑ์ตรวจสอบความถูกต้อง (reconcile 100%) อ้างอิงเอกสาร Data Mapping (S2-05)</li>
+    </ul>
+
+    <!-- 7 ข้อสมมุติ/ข้อจำกัด -->
+    <h2 class="sec"><span class="n">7</span>ข้อสมมุติฐานและข้อจำกัด (Assumptions &amp; Constraints)</h2>
+    <ul class="muted">
+      <li><span class="fill">สปสช./กระทรวงสาธารณสุข เปิดช่องทาง/ใบรับรองการเชื่อมต่อตามที่ตกลงและภายในกรอบเวลา</span></li>
+      <li><span class="fill">ข้อมูลต้นทางจาก HosXP มีคุณภาพเพียงพอและเข้าถึงได้สำหรับงาน Migration (Dress Rehearsal 1–2 รอบ)</span></li>
+      <li><span class="fill">เจ้าของงานยืนยันรายการหัตถการ/อัตราค่ารักษา/สิทธิ์ ก่อนเริ่มออกแบบโมดูลการเงิน</span></li>
+      <li><span class="fill">ระบบต้องทำงานตามกรอบเวลา 3 งวด: งวด 1 (10/07/2569, 20%), งวด 2 Go-live รพ.หลัก (~20/01/2570, 30%), งวด 3 ครบทุกสถานที่ (~27/02/2570, 50%)</span></li>
+    </ul>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">8</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — SA (ก้อง/โอ)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

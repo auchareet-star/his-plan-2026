@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S3-04 การส่งมอบ Source Code + Escrow (Source Code Handover + Escrow)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s3">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S3-03.html">◂ ก่อนหน้า</a>
+      <a href="S3-05.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S3-04 · งวดที่ 3</span>
+    <h1>การส่งมอบ Source Code + Escrow</h1>
+    <div class="en">Source Code Handover + Escrow</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-SRC-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">ซี (Dev Lead, อโยเดีย)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2027</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ส่งมอบงวดสุดท้าย — งวด 3 (Rollout ครบ 9 จุดบริการ)</span>
+      <span class="chip who">เจ้าของ: ซี (Dev Lead, อโยเดีย)</span>
+      <span class="chip iso">สัญญาแนบท้าย 1 · ISO 29110 SI.6</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> เป็นหลักฐานการส่งมอบ <b>สิทธิ์การใช้งาน (License to Use)</b> ระบบ HIS (HA.OS) และการ <b>วาง Source Code ไว้ใน Escrow แบบเข้ารหัส (Encrypted Escrow)</b> กับผู้รับฝากที่เป็นกลาง ให้แก่โรงพยาบาลเมืองสมุทร ตามสัญญาแนบท้าย 1 พร้อมระบุกรรมสิทธิ์/สิทธิ์ เงื่อนไขการปล่อย Escrow และใบรับมอบ · <b>หมายเหตุสำคัญ:</b> กรรมสิทธิ์ Source Code <u>ยังคงเป็นของผู้รับจ้าง (บริษัท อโยเดีย จำกัด)</u> โรงพยาบาลได้รับ <u>สิทธิ์การใช้งาน</u> มิใช่กรรมสิทธิ์ ส่วน <u>ข้อมูลผู้ป่วยเป็นของโรงพยาบาล</u> · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2027</td><td>ซี (Dev Lead)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 รายการ Source -->
+    <h2 class="sec"><span class="n">1</span>รายการซอร์สโค้ดที่นำเข้า Escrow (Deliverable / Escrow Items)</h2>
+    <p class="small muted">ตามสัญญาแนบท้าย 1 — ตรวจครบทุกรายการก่อนวาง Escrow / ส่งมอบสิทธิ์การใช้งาน</p>
+    <ul class="chk">
+      <li><b>Source Code — HA.OS Web (Frontend)</b> ครบทุก repository</li>
+      <li><b>Source Code — HA.OS API (Backend)</b> ครบทุก repository</li>
+      <li><b>Integration — สปสช. / HL7</b> โมดูลเชื่อมต่อระบบภายนอก</li>
+      <li><b>Database Script</b> — schema, migration, seed/master data, stored procedure</li>
+      <li><b>Migration Script (HosXP → HA.OS)</b> — สคริปต์/แม็ปข้อมูลจากระบบเดิม HosXP</li>
+      <li><b>Config Table / ตารางค่าตั้งค่า</b> — รายการพารามิเตอร์ + ค่าตัวอย่าง (ไม่รวม secret จริง)</li>
+      <li><b>Build / Deploy Instruction</b> — สคริปต์และคู่มือทำซ้ำได้</li>
+      <li><b>เอกสาร API</b> — API spec / OpenAPI / Postman collection</li>
+      <li class="star">รายการ dependency + เวอร์ชัน (lock file) ครบ</li>
+    </ul>
+    <table>
+      <thead><tr><th style="width:36%">รายการ</th><th style="width:22%">เวอร์ชัน/Tag</th><th>ที่อยู่ (Repo/Path)</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>haos-web (frontend)</td><td><span class="fill">__</span></td><td><span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>haos-api (backend)</td><td><span class="fill">__</span></td><td><span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>haos-integration (สปสช./HL7)</td><td><span class="fill">__</span></td><td><span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>db-scripts</td><td><span class="fill">__</span></td><td><span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>migration-hosxp</td><td><span class="fill">__</span></td><td><span class="fill">__</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- 2 รูปแบบ/สื่อส่งมอบ -->
+    <h2 class="sec"><span class="n">2</span>รูปแบบและสื่อการวาง Escrow / ส่งมอบ (Delivery Media)</h2>
+    <table>
+      <thead><tr><th style="width:26%">ช่องทาง</th><th style="width:14%">เลือก</th><th>รายละเอียด / จำนวนชุด</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>Encrypted Archive (Escrow)</td><td>☐</td><td>วางกับผู้รับฝาก (Escrow Agent) — archive เข้ารหัส + URL/เลขอ้างอิง: <span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>External Storage (HDD/SSD/USB)</td><td>☐</td><td>จำนวน <span class="fill">__</span> ชุด · เข้ารหัส ☐</td></tr>
+        <tr class="fillrow"><td>แผ่น/สื่อบันทึก</td><td>☐</td><td>จำนวน <span class="fill">__</span> ชุด</td></tr>
+      </tbody>
+    </table>
+    <ul class="chk">
+      <li>แนบ checksum (SHA-256) ของ archive แต่ละชุดเพื่อตรวจความครบถ้วน</li>
+      <li>ส่งมอบ/เก็บ decryption key แยกช่องทางที่ปลอดภัย (ไม่อยู่รวมกับ archive)</li>
+    </ul>
+
+    <!-- 3 License -->
+    <h2 class="sec"><span class="n">3</span>กรรมสิทธิ์, License และสิทธิ์ (Ownership, License &amp; Rights)</h2>
+    <div class="warn"><b>⚠️ ข้อกำหนดทรัพย์สินทางปัญญา (สำคัญที่สุด):</b> กรรมสิทธิ์ใน Source Code ของระบบ HIS (HA.OS) <b>เป็นของผู้รับจ้าง — บริษัท อโยเดีย จำกัด</b> และ <u>ไม่</u> โอนให้แก่โรงพยาบาล โรงพยาบาลได้รับเพียง <b>สิทธิ์การใช้งาน (License to Use)</b> ระบบเท่านั้น · ส่วน <b>ข้อมูลผู้ป่วย (Patient Data) เป็นกรรมสิทธิ์ของโรงพยาบาล</b> แยกออกจากกรรมสิทธิ์ Source Code โดยชัดเจน</div>
+    <ul>
+      <li><b>3.1 กรรมสิทธิ์ Source Code:</b> <span class="muted">Source Code ทั้งหมดยังคงเป็นกรรมสิทธิ์ของผู้รับจ้าง (บริษัท อโยเดีย จำกัด) — ไม่มีการโอนกรรมสิทธิ์ให้โรงพยาบาล โรงพยาบาลได้รับสิทธิ์การใช้งานระบบ (License to Use) ภายใต้เงื่อนไขสัญญา และเข้าถึง Source Code ได้เฉพาะเมื่อเข้าเงื่อนไขการปล่อย Escrow (ดูข้อ 4)</span> <span class="fill">__________</span></li>
+      <li><b>3.2 สิทธิ์การใช้งานของโรงพยาบาล (License Scope):</b> <span class="muted">ระบุขอบเขตสิทธิ์ใช้งาน — จำนวนจุดบริการ (9 จุด), ระยะเวลา, การใช้งานภายในองค์กร, ข้อห้ามทำซ้ำ/แจกจ่าย/ดัดแปลงนอกขอบเขต</span> <span class="fill">__________</span></li>
+      <li><b>3.3 กรรมสิทธิ์ข้อมูลผู้ป่วย:</b> ข้อมูลผู้ป่วยและข้อมูลที่เกิดจากการให้บริการทั้งหมด <b>เป็นกรรมสิทธิ์ของโรงพยาบาล</b> ผู้รับจ้างไม่มีสิทธิ์ในข้อมูลดังกล่าวนอกเหนือจากที่จำเป็นต่อการให้บริการ/MA</li>
+      <li><b>3.4 Third-party / Open Source:</b> รายการ component พร้อม license (MIT/Apache/ฯลฯ) และข้อจำกัด</li>
+      <li><b>3.5 License เชิงพาณิชย์:</b> <span class="muted">หากมี — ระบุจำนวน, อายุ, การต่ออายุ</span></li>
+    </ul>
+    <table>
+      <thead><tr><th style="width:40%">Component / Library</th><th style="width:24%">License</th><th>หมายเหตุ/ข้อจำกัด</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td><span class="fill">__</span></td><td><span class="fill">__</span></td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 4 Escrow -->
+    <h2 class="sec"><span class="n">4</span>การวาง Source Code ใน Escrow แบบเข้ารหัส (Encrypted Source Code Escrow)</h2>
+    <div class="warn"><b>⚠️ หลักการ Escrow:</b> เนื่องจากกรรมสิทธิ์ Source Code เป็นของผู้รับจ้าง การคุ้มครองความต่อเนื่องของโรงพยาบาลทำผ่านการวาง Source Code <b>แบบเข้ารหัส (Encrypted Escrow)</b> ไว้กับ <b>ผู้รับฝากที่เป็นกลาง (Escrow Agent)</b> โดย archive ที่เข้ารหัสและ <b>กุญแจถอดรหัส (decryption key) เก็บแยกกัน</b> · Source Code จะถูก <b>ปล่อย (release)</b> ให้โรงพยาบาลใช้งานได้เฉพาะเมื่อเข้า <b>เงื่อนไขการปล่อย (Release Triggers)</b> ที่กำหนดเท่านั้น เช่น ผู้รับจ้างเลิกกิจการ หรือไม่ปฏิบัติตามภาระผูกพัน MA</div>
+    <table>
+      <thead><tr><th style="width:30%">หัวข้อ Escrow</th><th>รายละเอียด</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>ผู้รับฝาก (Escrow Agent)</td><td><span class="fill">__________</span> (ผู้รับฝากที่เป็นกลาง / Neutral Third Party)</td></tr>
+        <tr class="fillrow"><td>เนื้อหาที่วาง (Deposit Content)</td><td>Encrypted Archive ของ Source Code ตามข้อ 1 + decryption key เก็บแยก (held separately) + checksum (SHA-256) · <span class="fill">__</span></td></tr>
+        <tr class="fillrow"><td>การเข้ารหัส (Encryption)</td><td>Algorithm: <span class="fill">__ (เช่น AES-256)</span> · การเก็บกุญแจ (Key Custody): <span class="fill">__ (เก็บแยกจาก archive)</span></td></tr>
+        <tr class="fillrow"><td>เงื่อนไขปล่อย (Release Triggers)</td><td><span class="fill">__</span> — เช่น ผู้รับจ้างเลิกกิจการ / ล้มละลาย, ไม่ปฏิบัติตามภาระผูกพัน MA หรือการรับประกัน, หยุดให้บริการเกินกำหนด</td></tr>
+        <tr class="fillrow"><td>กระบวนการปล่อย (Release Process)</td><td><span class="fill">__</span> — วิธียืนยันเงื่อนไข, ผู้มีอำนาจอนุมัติ, การมอบกุญแจถอดรหัสให้โรงพยาบาล</td></tr>
+        <tr class="fillrow"><td>รอบปรับปรุง Escrow (Update Cycle)</td><td><span class="fill">__</span> — เช่น ทุกครั้งที่ขึ้นเวอร์ชันใหญ่ / รายไตรมาส ตลอดอายุ MA</td></tr>
+        <tr class="fillrow"><td>ค่าใช้จ่าย / ผู้รับผิดชอบ</td><td><span class="fill">__</span></td></tr>
+      </tbody>
+    </table>
+    <ul class="chk">
+      <li>ตรวจ archive เข้ารหัสและ checksum ตรงกับ Source Code เวอร์ชันที่ส่งมอบ</li>
+      <li>ยืนยันว่า decryption key เก็บแยกจาก archive และอยู่ในความดูแลตามที่ตกลง</li>
+      <li class="star">ระบุเงื่อนไขการปล่อย (Release Triggers) ครบถ้วนและชัดเจนในสัญญา Escrow</li>
+    </ul>
+
+    <!-- 5 คำแนะนำ Build/Deploy -->
+    <h2 class="sec"><span class="n">5</span>คำแนะนำ Build / Deploy (สำหรับใช้เมื่อปล่อย Escrow)</h2>
+    <p class="small muted">สรุปขั้นตอนสำหรับให้ทีม รพ. สร้างและติดตั้งระบบเองได้ <b>เมื่อเข้าเงื่อนไขปล่อย Escrow แล้วเท่านั้น</b> (รายละเอียดเต็มอยู่ในชุดคู่มือ Build/Deploy)</p>
+    <div class="ascii"># Web / API (HA.OS)
+$ git clone &lt;repo-url&gt; &amp;&amp; cd haos-api
+$ cp .env.example .env            # กรอกค่าตามตาราง config
+$ &lt;install deps&gt;                  # ตามไฟล์ lock
+$ &lt;run db migrate&gt;
+$ &lt;build&gt; &amp;&amp; &lt;deploy&gt;
+
+# Integration (สปสช. / HL7)
+$ cd haos-integration
+$ &lt;config endpoint สปสช./HL7&gt;
+$ &lt;build&gt; &amp;&amp; &lt;deploy&gt;
+
+# Data Migration (HosXP → HA.OS)
+$ cd migration-hosxp
+$ &lt;run migration scripts&gt;        # reconciliation 100% ก่อนใช้งานจริง</div>
+    <ul class="chk">
+      <li>ระบุ prerequisite (เวอร์ชัน toolchain/SDK) ครบ</li>
+      <li>ทดสอบ build จากเครื่องสะอาดสำเร็จก่อนวาง Escrow</li>
+    </ul>
+
+    <!-- 6 ใบรับมอบ -->
+    <h2 class="sec"><span class="n">6</span>ใบรับมอบสิทธิ์การใช้งาน + Escrow (Handover Receipt)</h2>
+    <p>ข้าพเจ้าได้รับมอบ <b>สิทธิ์การใช้งานระบบ (License to Use)</b> ตามข้อ 3 และได้รับการยืนยันการ <b>วาง Source Code แบบเข้ารหัสไว้ใน Escrow</b> ตามข้อ 4 ครบถ้วน <span class="muted">(มิใช่การรับโอนกรรมสิทธิ์ Source Code ซึ่งยังคงเป็นของบริษัท อโยเดีย จำกัด)</span> วันที่ <span class="fill">__ /__ /2027</span></p>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้ส่งมอบ — ซี (Dev Lead, อโยเดีย)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้รับมอบ — IT โรงพยาบาลเมืองสมุทร</span></div>
+    </div>
+
+    <!-- 7 ลงนามอนุมัติ -->
+    <h2 class="sec"><span class="n">7</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — ซี (Dev Lead)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

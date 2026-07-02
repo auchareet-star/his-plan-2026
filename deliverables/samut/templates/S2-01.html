@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-01 รายงานการวิเคราะห์ Fit/Gap (Fit/Gap Analysis Report)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S1-10.html">◂ ก่อนหน้า</a>
+      <a href="S2-02.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-01 · งวดที่ 2</span>
+    <h1>รายงานการวิเคราะห์ Fit/Gap</h1>
+    <div class="en">Fit/Gap Analysis Report</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-FGA-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">BA (สาม) + SA (ก้อง/โอ)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110 (SI.2 Analysis)</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ต้นงวดที่ 2 — ก่อนเริ่มออกแบบ/พัฒนา เพื่อล็อกขอบเขต Build vs Config</span>
+      <span class="chip who">เจ้าของ: BA (สาม) ร่วมกับ SA และ Product Specialist (มีน — consult DTMU Phase 2)</span>
+      <span class="chip iso">ISO 29110: SI.2 Software Requirements Analysis</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> วิเคราะห์ทุกความต้องการตามสัญญาแนบท้าย 1 (36 โมดูล / 1,358 ข้อกำหนด) เทียบกับความสามารถของระบบฐาน HA.OS (อ้างอิง DTMU Phase 2) และส่วนที่ต้องพัฒนา/ปรับเฉพาะเมืองสมุทร ระบุชัดว่าแต่ละข้อเป็น <span class="badge b-fit">Fit</span> / <span class="badge b-cfg">Config</span> / <span class="badge b-par">Partial</span> / <span class="badge b-gap">Gap</span> พร้อมประมาณการ Effort และแนวทางดำเนินการ เพื่อใช้เป็นฐานวางแผน Backlog การพัฒนา · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <div class="tip"><b>ความหมายของผลวิเคราะห์:</b>
+      <span class="badge b-fit">Fit</span> ระบบฐาน HA.OS รองรับครบ ใช้ได้ทันที ·
+      <span class="badge b-cfg">Config</span> รองรับได้ด้วยการตั้งค่า/ปรับพารามิเตอร์ ไม่ต้องเขียนโค้ด ·
+      <span class="badge b-par">Partial</span> รองรับบางส่วน ต้องเสริมบางจุด ·
+      <span class="badge b-gap">Gap</span> ระบบฐานยังไม่มี ต้องพัฒนาใหม่ (Build)
+    </div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2569</td><td>BA (สาม)</td><td>ร่างฉบับแรก หลังจบ Fit/Gap Workshop รอบที่ 1</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 บทสรุปผู้บริหาร -->
+    <h2 class="sec"><span class="n">1</span>บทสรุปผู้บริหาร (Executive Summary)</h2>
+    <p>การวิเคราะห์ครอบคลุมความต้องการตามสัญญาแนบท้าย 1 ทั้งหมด <span class="fill">1,358</span> ข้อกำหนด ใน <span class="fill">36</span> โมดูล ครอบคลุมงาน HIS โรงพยาบาลทั่วไปเต็มรูปแบบ + Smart IPD (Doctor/Nurse/Pharmacist Module, eMAR, ER, วิสัญญีพยาบาล, เวชศาสตร์ฟื้นฟู, ห้องตรวจสุขภาพ) และครอบคลุมทั้ง 9 จุดบริการ (รพ.เมืองสมุทรปู่เจ้าฯ 6 จุด + สมุทรเวชกิจ 3 จุด) โดยจัดประชุมเชิงปฏิบัติการ (Workshop) รายโมดูลร่วมกับ Process Owner และ Product Specialist (มีน — consult DTMU Phase 2)</p>
+    <p class="eg">ผลภาพรวม: ส่วนใหญ่ของระบบฐาน HA.OS (อ้างอิง DTMU Phase 2 ระบบฐาน) รองรับงาน HIS พื้นฐานได้ในระดับ Fit/Config แต่ส่วนที่เป็นการตั้งค่าเฉพาะของเมืองสมุทร (โครงสร้าง 9 จุดบริการ, สิทธิ์การรักษา, บัญชียา/หัตถการ) และงานเชื่อมต่อ สปสช./HL7 รวมทั้งการย้ายข้อมูลจาก HosXP (ระบบเดิม) เป็น Partial/Gap ที่ต้องวางแผนและดำเนินการเป็นหลัก</p>
+    <table>
+      <thead><tr><th style="width:55%">ประเด็นสำคัญ</th><th>ผลสรุป</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>สัดส่วน Fit/Config (ใช้ระบบฐานได้)</td><td><span class="fill">___%</span></td></tr>
+        <tr class="fillrow"><td>สัดส่วน Partial/Gap (ต้องพัฒนา/เสริม)</td><td><span class="fill">___%</span></td></tr>
+        <tr class="fillrow"><td>Effort รวมโดยประมาณ</td><td><span class="fill">___ man-day</span></td></tr>
+        <tr class="fillrow"><td>ความเสี่ยงสูงสุด</td><td>การย้ายข้อมูล HosXP (ระบบเดิม) → HA.OS ให้ reconcile 100% และความพร้อมของ Interface สปสช.</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>⚠️ ข้อสังเกตเชิงนโยบาย:</b> ระบบฐาน HA.OS อ้างอิงจาก DTMU Phase 2 (ระบบฐาน) การวิเคราะห์ทุกข้อที่เกี่ยวกับ Config/มาตรฐาน HA ต้องยืนยันกับ Product Specialist (มีน) และทีม DTMU ก่อนปิด Fit/Gap · ส่วนงานย้ายข้อมูลต้องยืนยันกับ Senior Imp (HosXP) ที่นำงาน Migration</div>
+
+    <!-- 2 วิธีการวิเคราะห์ -->
+    <h2 class="sec"><span class="n">2</span>วิธีการวิเคราะห์ (Methodology)</h2>
+    <p><strong>2.1 แนวทาง</strong> — จัด Workshop รายโมดูล โดยแต่ละรอบมี Process Owner ของงานนั้น + BA (สาม) + SA (ก้อง/โอ) + Product Specialist (มีน — consult DTMU Phase 2) ทบทวนความต้องการตามสัญญาแนบท้าย 1 ทีละข้อ แล้วลงผลเป็น Fit/Config/Partial/Gap พร้อม Effort และแนวทาง</p>
+    <p><strong>2.2 เกณฑ์การให้ผล</strong> — ตามนิยามในกล่องด้านบน โดยข้อใดเป็น Config ของ HA.OS หรืออ้างอิงมาตรฐาน HA ต้องมี Product Specialist (มีน) ยืนยันความเป็นไปได้จริงก่อนปิด</p>
+    <p><strong>2.3 ตารางแผน Workshop รายโมดูล</strong></p>
+    <table>
+      <thead><tr><th style="width:8%">รอบ</th><th>โมดูล (อ้างสัญญาแนบท้าย 1)</th><th>ผู้เข้าร่วม</th><th>วันที่</th><th>สถานะ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>W1</td><td>เวชระเบียน · Queue &amp; Patient Self Visit</td><td>BA, PO เวชระเบียน, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+        <tr class="fillrow"><td>W2</td><td>Doctor Module · Nurse Module (Smart IPD)</td><td>BA, PO แพทย์/พยาบาล, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+        <tr class="fillrow"><td>W3</td><td>คลังยาและวัสดุ · Pharmacist Module · eMAR</td><td>BA, PO เภสัช, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+        <tr class="fillrow"><td>W4</td><td>ER · วิสัญญีพยาบาล · เวชศาสตร์ฟื้นฟู · ห้องตรวจสุขภาพ</td><td>BA, PO ที่เกี่ยวข้อง, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+        <tr class="fillrow"><td>W5</td><td>งานเรียกเก็บ · Interface สปสช./HL7 · Migration HosXP</td><td>BA, PO การเงิน, Senior Imp (HosXP)</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 3 สรุปผลเชิงสถิติ -->
+    <h2 class="sec"><span class="n">3</span>สรุปผลเชิงสถิติ (Fit/Gap Summary by Module)</h2>
+    <p class="small muted">ตารางนับจำนวนข้อกำหนดในแต่ละโมดูล (รวม 36 โมดูล / 1,358 ข้อกำหนด ตามสัญญาแนบท้าย 1) แยกตามผลวิเคราะห์ ใช้เป็นภาพรวมก่อนลงรายละเอียดในข้อ 4</p>
+    <table class="alt">
+      <thead><tr>
+        <th>โมดูล (สัญญาแนบท้าย 1)</th>
+        <th style="width:9%">รวมข้อ</th>
+        <th style="width:11%"><span class="badge b-fit">Fit</span></th>
+        <th style="width:11%"><span class="badge b-cfg">Config</span></th>
+        <th style="width:11%"><span class="badge b-par">Partial</span></th>
+        <th style="width:11%"><span class="badge b-gap">Gap</span></th>
+        <th style="width:13%">Effort (man-day)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1. คลังยาและวัสดุ</td><td>101</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>2. Doctor Module</td><td>91</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>3. Nurse Module</td><td>84</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>4. งานเรียกเก็บ</td><td>81</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>5. Queue &amp; Patient Self Visit</td><td>74</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>6. Pharmacist Module (รวม eMAR)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>7. เวชระเบียน (Medical Record)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>8. ห้องฉุกเฉิน (ER)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>9. วิสัญญีพยาบาล (Anesthesia Nurse)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>10. เวชศาสตร์ฟื้นฟู (Rehabilitation)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>11. ห้องตรวจสุขภาพ (Check-up)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>12. Master Data Smart IPD</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>13. ห้องปฏิบัติการ (LIS)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td>14. รังสีวิทยา (RIS/PACS)</td><td class="fill">__</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr class="fillrow"><td>15.–36. ... (กรอกโมดูลที่เหลือให้ครบ 36 โมดูลตามสัญญาแนบท้าย 1)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td><b>รวมทั้งหมด (36 โมดูล)</b></td><td><b><span class="fill">1,358</span></b></td><td><b><span class="fill">__</span></b></td><td><b><span class="fill">__</span></b></td><td><b><span class="fill">__</span></b></td><td><b><span class="fill">__</span></b></td><td><b><span class="fill">__</span></b></td></tr>
+      </tbody>
+    </table>
+    <p class="hint">หมายเหตุ: ตารางต้องครบทั้ง 36 โมดูลตามสัญญาแนบท้าย 1 · ยอดรวมข้อกำหนดต้องเท่ากับ 1,358 · โมดูลใหญ่สุด: คลังยาและวัสดุ 101 · Doctor 91 · Nurse 84 · งานเรียกเก็บ 81 · Queue 74</p>
+
+    <!-- 4 ตาราง Fit/Gap รายโมดูลแบบเต็ม -->
+    <h2 class="sec"><span class="n">4</span>ตาราง Fit/Gap รายโมดูลแบบเต็ม (Detailed Fit/Gap)</h2>
+    <p class="small muted">คอลัมน์: <b>Req ID</b> รหัสความต้องการ · <b>ความต้องการ (แนบท้าย 1)</b> · <b>ระบบฐาน HA.OS ทำได้?</b> · <b>ผล</b> (badge) · <b>Effort</b> (man-day สำหรับ Partial/Gap) · <b>การดำเนินการ</b></p>
+
+    <h3 class="sub">4.1 เวชระเบียน + Queue &amp; Patient Self Visit (Medical Record / Queue)</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>MR-01</td><td>ลงทะเบียนผู้ป่วยใหม่/ค้นประวัติด้วย HN/บัตร ปชช.</td><td>HA.OS มีอยู่แล้ว</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน + ตั้งค่า 9 จุดบริการ</td></tr>
+        <tr><td>MR-02</td><td>Patient Self Visit (คีออส) + จัดคิวอัตโนมัติตามจุดบริการ</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>8</td><td>ตั้งค่า/ปรับ Queue ตามผัง 9 จุดบริการ</td></tr>
+        <tr><td>MR-03</td><td>บันทึก Vital sign / ประวัติแพ้ยา-แพ้สาร</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน + ย้ายข้อมูลแพ้ยาจาก HosXP</td></tr>
+        <tr><td>MR-04</td><td>กำหนดสิทธิ์เข้าถึงเวชระเบียนรายบทบาท + audit trail (HA)</td><td>ตั้งค่าได้ในระบบสิทธิ์</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่า Role-based ตามมาตรฐาน HA</td></tr>
+        <tr class="fillrow"><td>MR-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.2 คลังยาและวัสดุ + Pharmacist Module / eMAR (Pharmacy · 101 ข้อ)</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>PH-01</td><td>สั่งยา/จ่ายยา ตัดสต็อกอัตโนมัติ + บริหารคลังยา/วัสดุ</td><td>HA.OS มีอยู่</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน + ตั้งค่าคลังราย รพ.</td></tr>
+        <tr><td>PH-02</td><td>แจ้งเตือนแพ้ยา (Drug Allergy Alert) ขณะสั่งยา</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ฐานแพ้ยา + ย้ายข้อมูลจาก HosXP</td></tr>
+        <tr><td>PH-03</td><td>eMAR — บันทึกการบริหารยา (Medication Administration Record)</td><td>มีใน Nurse/Pharmacist Module</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่า workflow eMAR ตามหอผู้ป่วย</td></tr>
+        <tr><td>PH-04</td><td>กำหนดบัญชียา/รูปแบบฉลากยา (เฉพาะเมืองสมุทร)</td><td>ตั้งค่าได้</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่า master ยาและ template ฉลาก</td></tr>
+        <tr class="fillrow"><td>PH-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.3 Doctor Module (91 ข้อ) — Smart IPD</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>DR-01</td><td>คำสั่งแพทย์ (Doctor Order) ผู้ป่วยใน + OPD</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน Smart IPD</td></tr>
+        <tr><td>DR-02</td><td>บันทึกความก้าวหน้า (Progress Note) / รอบ Ward</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>6</td><td>ปรับ template ตามรูปแบบเมืองสมุทร</td></tr>
+        <tr><td>DR-03</td><td>สรุปการจำหน่าย (Discharge Summary)</td><td>มีในระบบฐาน</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่าแบบฟอร์มสรุปจำหน่าย</td></tr>
+        <tr class="fillrow"><td>DR-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.4 Nurse Module (84 ข้อ) + eMAR — Smart IPD</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>NS-01</td><td>บันทึกทางการพยาบาล (Nursing Note) / รับเวร-ส่งเวร</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน Smart IPD</td></tr>
+        <tr><td>NS-02</td><td>eMAR — บริหารยาตามคำสั่งแพทย์ พร้อม barcode</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>10</td><td>ตั้งค่า/เสริม barcode bedside</td></tr>
+        <tr><td>NS-03</td><td>แผนการพยาบาล (Care Plan) / ประเมินผู้ป่วยแรกรับ</td><td>มีในระบบฐาน</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่าแบบประเมินตามมาตรฐาน HA</td></tr>
+        <tr class="fillrow"><td>NS-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.5 งานเรียกเก็บ (Billing · 81 ข้อ)</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>BL-01</td><td>คำนวณค่ารักษาตามรายการ + ออกใบเสร็จ/ใบแจ้งหนี้</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>ใช้ระบบฐาน + ตั้งค่าอัตราค่ารักษา</td></tr>
+        <tr><td>BL-02</td><td>เรียกเก็บตามสิทธิ์ (สปสช./ประกันสังคม/จ่ายตรง)</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>15</td><td>เชื่อม Interface สปสช. + ตั้งค่าสิทธิ์</td></tr>
+        <tr><td>BL-03</td><td>ส่งออกแฟ้มเบิกจ่าย (e-Claim) ตามรูปแบบ สปสช.</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>12</td><td>map ฟิลด์ + ทดสอบกับ สปสช.</td></tr>
+        <tr class="fillrow"><td>BL-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.6 ER / วิสัญญีพยาบาล / เวชศาสตร์ฟื้นฟู / ห้องตรวจสุขภาพ (Smart IPD เฉพาะทาง)</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>ER-01</td><td>คัดกรองฉุกเฉิน (Triage) + บันทึกงาน ER</td><td>มีในระบบฐาน</td><td><span class="badge b-cfg">Config</span></td><td>–</td><td>ตั้งค่าระดับ triage ตามมาตรฐาน</td></tr>
+        <tr><td>AN-01</td><td>บันทึกวิสัญญีพยาบาล (Anesthesia Record)</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>8</td><td>ปรับแบบฟอร์มตามงานวิสัญญี</td></tr>
+        <tr><td>RH-01</td><td>เวชศาสตร์ฟื้นฟู — แผนกายภาพ/บันทึกการรักษา</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>8</td><td>ตั้งค่า/เสริม workflow เวชศาสตร์ฟื้นฟู</td></tr>
+        <tr><td>CK-01</td><td>ห้องตรวจสุขภาพ — แพ็กเกจตรวจ + ออกใบรายงานผล</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>10</td><td>ตั้งค่าแพ็กเกจ + เทมเพลตรายงาน</td></tr>
+        <tr class="fillrow"><td>__-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">4.7 ห้องปฏิบัติการ + รังสีวิทยา (LIS / RIS-PACS)</h3>
+    <table>
+      <thead><tr><th style="width:9%">Req ID</th><th style="width:30%">ความต้องการ (แนบท้าย 1)</th><th style="width:18%">ระบบฐาน HA.OS ทำได้?</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>LS-01</td><td>ส่งตรวจ Lab / รับผลกลับ (HL7)</td><td>มีในระบบฐาน</td><td><span class="badge b-fit">Fit</span></td><td>–</td><td>เชื่อม HL7/API กับเครื่อง LIS</td></tr>
+        <tr><td>RD-01</td><td>สั่งถ่ายภาพรังสี (RIS Order) + ดูภาพ PACS</td><td>มีบางส่วน</td><td><span class="badge b-par">Partial</span></td><td>6</td><td>เชื่อม DICOM/WADO กับ PACS</td></tr>
+        <tr class="fillrow"><td>__-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <p class="hint">เพิ่มหัวข้อ 4.x สำหรับโมดูลที่เหลือให้ครบทั้ง 36 โมดูลตามสัญญาแนบท้าย 1 (Master Data Smart IPD, นัดหมาย, บริหารหอผู้ป่วย, คลังเวชภัณฑ์, รายงาน 43 แฟ้ม, สิทธิ์ผู้ใช้ ฯลฯ) ในรูปแบบตารางเดียวกัน</p>
+
+    <!-- 5 Integration -->
+    <h2 class="sec"><span class="n">5</span>Fit/Gap ด้านการเชื่อมต่อระบบ (Integration)</h2>
+    <table>
+      <thead><tr><th style="width:16%">ระบบปลายทาง</th><th style="width:24%">สิ่งที่ต้องเชื่อม</th><th style="width:16%">วิธี/Protocol</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>หมายเหตุ/ความเสี่ยง</th></tr></thead>
+      <tbody>
+        <tr><td>สปสช. (NHSO)</td><td>ตรวจสอบสิทธิ์ + ส่งเบิก (e-Claim)</td><td>API / แฟ้มมาตรฐาน</td><td><span class="badge b-par">Partial</span></td><td>20</td><td>ขึ้นกับสเปก/ช่องทางของ สปสช. — critical path</td></tr>
+        <tr><td>HosXP (ระบบเดิม)</td><td>ดึงข้อมูลตั้งต้นเพื่อย้าย (Migration)</td><td>DB View / ETL</td><td><span class="badge b-par">Partial</span></td><td>25</td><td>นำโดย Senior Imp (HosXP) · ต้อง reconcile 100%</td></tr>
+        <tr><td>LIS (เครื่องตรวจ)</td><td>ส่งตรวจ/รับผล</td><td>HL7 v2 / API</td><td><span class="badge b-cfg">Config</span></td><td>6</td><td>มาตรฐานชัด ความเสี่ยงต่ำ</td></tr>
+        <tr><td>PACS / RIS</td><td>ดึง/แสดงภาพ DICOM</td><td>DICOM / WADO-RS</td><td><span class="badge b-cfg">Config</span></td><td>6</td><td>มาตรฐานชัด ความเสี่ยงต่ำ</td></tr>
+        <tr><td>กระทรวงสาธารณสุข</td><td>ส่งออกข้อมูล 43 แฟ้ม</td><td>แฟ้มมาตรฐาน</td><td><span class="badge b-par">Partial</span></td><td>10</td><td>ต้อง map และทดสอบความถูกต้อง</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>⚠️ Integration พึ่งภายนอกสูง:</b> การเชื่อม สปสช./43 แฟ้ม ขึ้นกับสเปกของหน่วยงานภายนอก ให้ระบุเป็น dependency ใน Gap Backlog และยืนยันช่องทาง/ใบรับรองล่วงหน้า</div>
+
+    <!-- 6 ข้อมูล/Migration -->
+    <h2 class="sec"><span class="n">6</span>Fit/Gap ด้านข้อมูลและการย้ายข้อมูล (Data / Migration · HosXP → HA.OS)</h2>
+    <table>
+      <thead><tr><th style="width:22%">ชุดข้อมูล</th><th style="width:16%">แหล่งต้นทาง</th><th style="width:18%">ปริมาณ/คุณภาพ</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>การดำเนินการ</th></tr></thead>
+      <tbody>
+        <tr><td>Master ผู้ป่วย (HN, ข้อมูลพื้นฐาน)</td><td>HosXP (ระบบเดิม)</td><td>มาก / ดี</td><td><span class="badge b-cfg">Config</span></td><td>8</td><td>map + ETL ตรง ๆ</td></tr>
+        <tr><td>ประวัติแพ้ยา</td><td>HosXP (ระบบเดิม)</td><td>กลาง / ต้อง cleanse</td><td><span class="badge b-par">Partial</span></td><td>6</td><td>ทำความสะอาด + mapping รหัสยา (TMT)</td></tr>
+        <tr><td>เวชระเบียน/visit ย้อนหลัง</td><td>HosXP (ระบบเดิม)</td><td>มาก / กระจัดกระจาย</td><td><span class="badge b-par">Partial</span></td><td>18</td><td>กำหนดขอบเขตย้อนหลัง + Dress Rehearsal 1–2 รอบ</td></tr>
+        <tr><td>Master บัญชียา/หัตถการ/สิทธิ์</td><td>HosXP (ระบบเดิม)</td><td>ดี</td><td><span class="badge b-cfg">Config</span></td><td>5</td><td>map รหัสและ lookup</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <p class="small muted">รายละเอียดวิธีย้ายข้อมูล/การ reconcile (เป้าหมาย 100%) และ Dress Rehearsal อยู่ในเอกสาร Data Mapping (S2-05) และแผน Data Migration งวด S3</p>
+
+    <!-- 7 Gap Backlog -->
+    <h2 class="sec"><span class="n">7</span>รายการ Gap จัดลำดับและการตัดสินใจ (Gap Backlog · Build vs Config)</h2>
+    <p class="small muted">รวบรวมทุกรายการ Partial/Gap จัดลำดับความสำคัญ (MoSCoW) และระบุการตัดสินใจ Build (พัฒนาใหม่) หรือ Config (ตั้งค่า)</p>
+    <table>
+      <thead><tr><th style="width:9%">Gap ID</th><th style="width:26%">รายการ Gap</th><th style="width:10%">ลำดับ</th><th style="width:12%">ตัดสินใจ</th><th style="width:9%">Effort</th><th>เหตุผล / เงื่อนไข</th></tr></thead>
+      <tbody>
+        <tr><td>G-01</td><td>Interface สปสช. ตรวจสิทธิ์ + e-Claim (BL-02/03)</td><td><span class="badge b-must">Must</span></td><td>Build/Config</td><td>27</td><td>จำเป็นต่อการเรียกเก็บ ขึ้นกับสเปก สปสช.</td></tr>
+        <tr><td>G-02</td><td>Migration HosXP → HA.OS (reconcile 100%)</td><td><span class="badge b-must">Must</span></td><td>Build/ETL</td><td>25</td><td>หัวใจของ Go-live นำโดย Senior Imp (HosXP)</td></tr>
+        <tr><td>G-03</td><td>eMAR + barcode bedside (NS-02)</td><td><span class="badge b-must">Must</span></td><td>Config+Build</td><td>10</td><td>ความปลอดภัยการบริหารยา Smart IPD</td></tr>
+        <tr><td>G-04</td><td>ห้องตรวจสุขภาพ — แพ็กเกจ + รายงานผล (CK-01)</td><td><span class="badge b-should">Should</span></td><td>Build</td><td>10</td><td>งานเฉพาะของเมืองสมุทร</td></tr>
+        <tr><td>G-05</td><td>ส่งออก 43 แฟ้ม กระทรวงสาธารณสุข</td><td><span class="badge b-should">Should</span></td><td>Config+Build</td><td>10</td><td>ข้อกำหนดรายงานภาครัฐ</td></tr>
+        <tr><td>G-06</td><td>วิสัญญีพยาบาล / เวชศาสตร์ฟื้นฟู (AN-01/RH-01)</td><td><span class="badge b-should">Should</span></td><td>Config+Build</td><td>16</td><td>Smart IPD เฉพาะทาง</td></tr>
+        <tr class="fillrow"><td>G-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <div class="tip"><b>เกณฑ์ Build vs Config:</b> หากระบบฐาน HA.OS รองรับได้ด้วยการตั้งค่า → <b>Config</b> (เร็ว ความเสี่ยงต่ำ) · หากเป็นงานเฉพาะของเมืองสมุทร/ไม่มีในฐาน → <b>Build</b> (ควบคุมได้เอง แต่ใช้ effort สูง)</div>
+
+    <!-- 8 ความเสี่ยง -->
+    <h2 class="sec"><span class="n">8</span>ความเสี่ยงจากการวิเคราะห์ (Risks)</h2>
+    <table>
+      <thead><tr><th style="width:34%">ความเสี่ยง</th><th style="width:10%">โอกาส</th><th style="width:10%">ผลกระทบ</th><th>การรับมือ</th></tr></thead>
+      <tbody>
+        <tr><td>การย้ายข้อมูล HosXP → HA.OS ไม่ reconcile ครบ 100%</td><td>สูง</td><td>สูง</td><td>Dress Rehearsal 1–2 รอบ, ตรวจสอบยอดทุกชุดข้อมูล นำโดย Senior Imp (HosXP)</td></tr>
+        <tr><td>Interface สปสช./43 แฟ้ม ล่าช้าจากสเปกภายนอก</td><td>สูง</td><td>สูง</td><td>ยืนยันช่องทาง/ใบรับรองล่วงหน้า, mock/stub ระหว่างรอ</td></tr>
+        <tr><td>ขอบเขตบานปลายข้าม 9 จุดบริการ/2 สัญญา</td><td>กลาง</td><td>สูง</td><td>ล็อก scope ตามแนบท้าย 1, ใช้ MoSCoW, จัดการ change request</td></tr>
+        <tr><td>Assumption เรื่อง Config HA.OS ไม่ตรงจริง</td><td>กลาง</td><td>สูง</td><td>ยืนยันกับ Product Specialist (มีน)/ทีม DTMU ก่อนปิด Fit/Gap, ทำ PoC จุดเสี่ยง</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">9</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — BA / SA</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — Product Specialist (มีน)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

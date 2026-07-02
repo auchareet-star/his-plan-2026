@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S3-06 รายงานทดสอบ End-to-End และ Stabilize (E2E &amp; Stabilize Report)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s3">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S3-05.html">◂ ก่อนหน้า</a>
+      <a href="S3-07.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S3-06 · งวดที่ 3</span>
+    <h1>รายงานทดสอบ End-to-End และ Stabilize</h1>
+    <div class="en">E2E &amp; Stabilize Report</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-E2E-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">QA + ผู้ใช้</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2027</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">Project Manager</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ทดสอบ E2E ครบ 9 จุดบริการ + ระยะ Stabilize/Hypercare ปลายงวด 3 ก่อนปิดงวด</span>
+      <span class="chip who">เจ้าของ: QA + ผู้ใช้งานจริง</span>
+      <span class="chip iso">ISO 29110: SI Integration &amp; Test</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> รายงานผลการทดสอบระบบ HIS (HA.OS) แบบครบวงจร (End-to-End) ตาม flow ผู้ป่วยจริง และรายงานระยะ Stabilize/Hypercare หลัง rollout ครบทั้ง 9 จุดบริการ ครอบคลุมการเชื่อมต่อระบบเดิม HosXP, สปสช./HL7 และการเฝ้าระวังเสถียรภาพ (defect rate, downtime, SLA) จนถึงเกณฑ์ออกจากระยะ Stabilize เข้าสู่ระยะรับประกัน 1.5 ปี + MA 5 ปี · กรอบเวลา: หลัง Go-live รพ.หลัก → ระหว่าง rollout 9 จุดบริการ → Stabilize → ปิดงวด 3 · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2027</td><td>QA</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 ขอบเขต E2E scenario -->
+    <h2 class="sec"><span class="n">1</span>ขอบเขตการทดสอบครบวงจร (E2E Scope)</h2>
+    <p><strong>1.1 Flow ผู้ป่วยครบวงจรที่ทดสอบ</strong></p>
+    <div class="ascii">ลงทะเบียน ─▸ ซักประวัติ/คัดกรอง ─▸ ตรวจ/บันทึกการรักษา ─▸ สั่งยา/แลป/X-ray ─▸ เก็บเงิน/เคลม สปสช. ─▸ นัด/Admit</div>
+    <p><strong>1.2 ระบบที่เกี่ยวข้องในการทดสอบ</strong></p>
+    <ul>
+      <li>HIS (HA.OS) — Web HIS · เชื่อมต่อ/โอนย้ายจากระบบเดิม <strong>HosXP</strong></li>
+      <li>ระบบห้องยา/คลังยาและวัสดุ, LIS (แลป), PACS/รังสี (X-ray), งานเรียกเก็บ/การเงิน/ลูกหนี้, นัดหมาย, สปสช./HL7</li>
+      <li>Smart IPD: Doctor Module, Nurse Module, Pharmacist Module, eMAR (ใน Nurse/Pharmacist)</li>
+      <li>บทบาทผู้ทดสอบ: เวชระเบียน, แพทย์ (Doctor Module), พยาบาล (Nurse Module), เภสัชกร, งานเรียกเก็บ/การเงิน, แอดมิน</li>
+    </ul>
+    <p><strong>1.3 สภาพแวดล้อมและข้อมูลที่ใช้ทดสอบ</strong></p>
+    <ul>
+      <li>Environment: <span class="fill">UAT / Pre-prod / Production (Hypercare)</span> · เวอร์ชันระบบ: <span class="fill">________</span></li>
+      <li>ข้อมูลทดสอบ: <span class="fill">ชุดผู้ป่วยจำลอง / ข้อมูล Migration HosXP→HA.OS</span></li>
+    </ul>
+
+    <!-- 2 ตารางผล E2E -->
+    <h2 class="sec"><span class="n">2</span>ผลการทดสอบครบวงจร (E2E Results)</h2>
+    <p class="small muted">เกณฑ์ผ่าน: ทุกขั้นตอนใน scenario ทำงานต่อเนื่องและส่งข้อมูลถูกต้องระหว่างระบบ</p>
+    <table>
+      <thead><tr><th style="width:24%">Scenario</th><th>ขั้นตอน (Steps)</th><th style="width:12%">ผล</th></tr></thead>
+      <tbody>
+        <tr><td>E2E-01 OPD ครบวงจร</td><td>ลงทะเบียน → ซักประวัติ/คัดกรอง → ตรวจ/บันทึกการรักษา (Doctor/Nurse) → สั่งยา → เก็บเงิน → ออกใบนัด</td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr><td>E2E-02 สั่งแลป + X-ray</td><td>เปิดเวชระเบียน → สั่งแลป (LIS) + X-ray (PACS) → รับผล → บันทึกผลในเคส</td><td><span class="badge b-par">ตรวจซ้ำ</span></td></tr>
+        <tr><td>E2E-03 IPD/Smart IPD ครบวงจร</td><td>Admit → คำสั่งแพทย์ → จ่ายยา/eMAR (Nurse/Pharmacist) → บันทึกการพยาบาล → Discharge/สรุปค่าใช้จ่าย</td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr><td>E2E-04 เคลม สปสช. (HL7)</td><td>บันทึกบริการ → ส่งข้อมูลเคลม สปสช. ผ่าน HL7 → ตอบกลับ → กระทบยอดงานเรียกเก็บ</td><td><span class="badge b-gap">ไม่ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+      <tfoot><tr style="font-weight:700;background:#f3f7f7"><td>สรุป</td><td>ผ่าน <span class="fill">__</span> / ตรวจซ้ำ <span class="fill">__</span> / ไม่ผ่าน <span class="fill">__</span> จากทั้งหมด <span class="fill">__</span></td><td><span class="fill">__%</span></td></tr></tfoot>
+    </table>
+
+    <!-- 3 สถานะ E2E ราย จุดบริการ -->
+    <h2 class="sec"><span class="n">3</span>สถานะ E2E ราย 9 จุดบริการ (Per-site E2E Status)</h2>
+    <p class="small muted">ปากน้ำ (สมุทรเวชกิจ) 3 จุดบริการ + ปู่เจ้าฯ 6 จุดบริการ = รวม 9 จุดบริการ · เกณฑ์: ทุก scenario หลักผ่าน + ไม่มี defect ค้างระดับ High/Critical</p>
+    <table>
+      <thead><tr><th style="width:8%">ลำดับ</th><th style="width:18%">สัญญา/Site</th><th>จุดบริการ</th><th style="width:14%">วันที่ Go-live</th><th style="width:14%">สถานะ E2E</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>1</td><td>ปากน้ำ (สมุทรเวชกิจ)</td><td>รพ.เมืองสมุทรปากน้ำ (รพ.หลัก)</td><td>__/__/2027</td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>2</td><td>ปากน้ำ (สมุทรเวชกิจ)</td><td>คลินิกสาขา 1</td><td>__/__/2027</td><td><span class="badge b-par">ตรวจซ้ำ</span></td></tr>
+        <tr class="fillrow"><td>3</td><td>ปากน้ำ (สมุทรเวชกิจ)</td><td>คลินิกสาขา 2</td><td>__/__/2027</td><td><span class="badge b-gap">ค้าง</span></td></tr>
+        <tr class="fillrow"><td>4</td><td>ปู่เจ้าฯ</td><td>รพ.เมืองสมุทรปู่เจ้าฯ (รพ.หลัก)</td><td>__/__/2027</td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>5</td><td>ปู่เจ้าฯ</td><td>คลินิกสาขา 1</td><td>__/__/2027</td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>6</td><td>ปู่เจ้าฯ</td><td>คลินิกสาขา 2</td><td>__/__/2027</td><td><span class="badge b-par">ตรวจซ้ำ</span></td></tr>
+        <tr class="fillrow"><td>7</td><td>ปู่เจ้าฯ</td><td>คลินิกสาขา 3</td><td>__/__/2027</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>8</td><td>ปู่เจ้าฯ</td><td>คลินิกสาขา 4</td><td>__/__/2027</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>9</td><td>ปู่เจ้าฯ</td><td>คลินิกสาขา 5</td><td>__/__/2027</td><td>&nbsp;</td></tr>
+      </tbody>
+      <tfoot><tr style="font-weight:700;background:#f3f7f7"><td colspan="4">สรุปจุดบริการที่ E2E ผ่านครบ</td><td><span class="fill">__</span> / 9</td></tr></tfoot>
+    </table>
+
+    <!-- 4 Defect -->
+    <h2 class="sec"><span class="n">4</span>รายการข้อบกพร่องที่พบ (Defect Log)</h2>
+    <table>
+      <thead><tr><th style="width:8%">ID</th><th style="width:16%">Scenario</th><th>รายละเอียดข้อบกพร่อง</th><th style="width:12%">ระดับ</th><th style="width:12%">สถานะ</th></tr></thead>
+      <tbody>
+        <tr><td>D-01</td><td>E2E-02</td><td>ผล X-ray จาก PACS แสดงล่าช้า ~30 วิ</td><td><span class="badge b-should">Medium</span></td><td><span class="badge b-par">กำลังแก้</span></td></tr>
+        <tr><td>D-02</td><td>E2E-04</td><td>ข้อมูลเคลม สปสช. (HL7) บางรายการ map ฟิลด์ไม่ครบ ทำให้ปฏิเสธเคลม</td><td><span class="badge b-must">High</span></td><td><span class="badge b-gap">ค้างแก้</span></td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <p class="small muted">ระดับ: <span class="badge b-must">High</span> ต้องแก้ก่อนปิดงวด/ออกจาก Stabilize · <span class="badge b-should">Medium</span> ควรแก้ · <span class="badge b-could">Low</span> แก้ภายหลังได้</p>
+
+    <!-- 5 Stabilize / Hypercare -->
+    <h2 class="sec"><span class="n">5</span>ระยะ Stabilize / Hypercare และการเฝ้าระวังเสถียรภาพ</h2>
+    <p class="small muted">หลัง rollout แต่ละจุดบริการ ระบบเข้าสู่ระยะ Hypercare (ทีมเฝ้าระวังใกล้ชิด รับแจ้งปัญหาเร่งด่วน) ก่อนเปลี่ยนผ่านเข้าระยะ Stabilize เต็มรูปแบบ</p>
+    <p><strong>5.1 ขอบเขตระยะ Hypercare</strong></p>
+    <ul>
+      <li>ระยะ Hypercare หลัง rollout แต่ละจุดบริการ: <span class="fill">__</span> วันทำการ (เฝ้าระวัง on-site/remote ใกล้ชิด)</li>
+      <li>ช่องทางรับแจ้งปัญหาเร่งด่วน + escalation ตาม SLA (ดูข้อ 5.3)</li>
+      <li>War room / daily standup ระหว่าง Hypercare เพื่อ triage defect รายวัน</li>
+    </ul>
+    <p><strong>5.2 ตารางเฝ้าระวังเสถียรภาพ (Stability Watch)</strong></p>
+    <table>
+      <thead><tr><th>ตัวชี้วัด (KPI)</th><th style="width:22%">เป้าหมาย</th><th style="width:18%">ค่าที่วัดได้</th><th style="width:14%">ผล</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>Defect rate (Critical/High) ต่อสัปดาห์</td><td>= 0 ค้างค้าง</td><td><span class="fill">__</span></td><td><span class="badge b-par">เฝ้าระวัง</span></td></tr>
+        <tr class="fillrow"><td>System downtime (นอกแผน)</td><td>≤ <span class="fill">__</span> ชม./เดือน</td><td><span class="fill">__</span></td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>SLA Critical — เริ่มแก้ภายใน 2 ชม.</td><td>100% ของเคส</td><td><span class="fill">__%</span></td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+        <tr class="fillrow"><td>SLA Critical — workaround ภายใน 8 ชม.</td><td>100% ของเคส</td><td><span class="fill">__%</span></td><td><span class="badge b-par">เฝ้าระวัง</span></td></tr>
+        <tr class="fillrow"><td>Migration reconciliation (HosXP→HA.OS)</td><td>100%</td><td><span class="fill">__%</span></td><td><span class="badge b-fit">ผ่าน</span></td></tr>
+      </tbody>
+    </table>
+    <p><strong>5.3 SLA ระหว่าง Hypercare/Stabilize</strong></p>
+    <div class="warn"><b>⚠️ SLA ระดับ Critical:</b> เริ่มแก้ไขภายใน <b>2 ชั่วโมง</b> และจัดให้มี workaround ภายใน <b>8 ชั่วโมง</b> (ตามบันทึกเพิ่มเติม) · เคส Critical ที่เกิน SLA ต้อง escalate ทันที</div>
+
+    <!-- 6 เกณฑ์ออกจาก Stabilize -->
+    <h2 class="sec"><span class="n">6</span>เกณฑ์ออกจากระยะ Stabilize (Exit Criteria) และความพร้อมปิดงวด 3</h2>
+    <ul class="chk">
+      <li>ทุก scenario หลักและทุกจุดบริการ (9/9) มีสถานะ <span class="badge b-fit">ผ่าน</span> หรือมีแผนปิดที่ยอมรับได้</li>
+      <li>Defect ระดับ <span class="badge b-must">High</span>/Critical = 0 รายการค้าง</li>
+      <li>การเชื่อมต่อระบบเดิม HosXP, สปสช./HL7 และระบบเกี่ยวข้องทำงานครบ</li>
+      <li>ผล Migration HosXP→HA.OS reconciliation 100%</li>
+      <li>KPI เสถียรภาพ (ข้อ 5.2) อยู่ในเกณฑ์ต่อเนื่อง <span class="fill">__</span> สัปดาห์ โดยไม่มีเหตุ Critical ค้าง</li>
+      <li>ผู้ใช้งานจริงครบทุกจุดบริการร่วมทดสอบและยืนยันผล</li>
+    </ul>
+    <p><strong>สรุปผลโดยรวม:</strong> <span class="fill">☐ ออกจาก Stabilize / พร้อมปิดงวด 3 &nbsp;&nbsp; ☐ พร้อมแบบมีเงื่อนไข &nbsp;&nbsp; ☐ ยังไม่พร้อม</span></p>
+    <div class="warn"><b>⚠️ เงื่อนไขก่อนปิดงวด 3:</b> Defect ระดับ High ทุกรายการ (เช่น D-02) ต้องแก้ไขและทดสอบซ้ำผ่าน และ KPI เสถียรภาพต้องผ่านเกณฑ์ก่อนเปลี่ยนผ่านเข้าสู่ระยะรับประกัน 1.5 ปี + MA 5 ปี · เมื่อผ่านเกณฑ์ออกจาก Stabilize ให้ดำเนินการตรวจรับขั้นสุดท้าย (อ้างอิง <a href="S3-07.html">S3-07 การตรวจรับขั้นสุดท้าย</a>) และเข้าสู่เงื่อนไขรับประกัน/SLA (อ้างอิง <a href="S3-08.html">S3-08 การรับประกันและ SLA</a>)</div>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">7</span>การรับรองและอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — QA</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้แทนผู้ใช้งาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

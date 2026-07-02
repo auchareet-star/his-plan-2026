@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1-10 โครงสร้างทีมงานโครงการ (Project Team Structure)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s1">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S1-09.html">◂ ก่อนหน้า</a>
+      <a href="S2-01.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S1-10 · งวดที่ 1</span>
+    <h1>โครงสร้างทีมงานโครงการ</h1>
+    <div class="en">Project Team Structure</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-ORG-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">อาร์ต (PM เมืองสมุทร)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">โอ๋ (Senior PM)</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">เจ้าของงาน</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: เริ่มโครงการ — ยืนยันทีมและความรับผิดชอบ</span>
+      <span class="chip who">เจ้าของ: PM เมืองสมุทร (อาร์ต)</span>
+      <span class="chip iso">ISO 29110 (PM+SI) · HA</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> แสดงผังองค์กรโครงการ ตำแหน่งครบทุกตำแหน่งพร้อมผู้รับผิดชอบจริง บทบาทหน้าที่ การจัดสรรอัตรากำลังตามงวด และรูปแบบการประสานงานกับทีมระบบเดิม HosXP (ระบบเดิม) โดยมีโครงสร้างทีมเดียวทำงานคู่ขนาน 2 สัญญา (สมุทรเวชกิจ ปากน้ำ + รพ.เมืองสมุทรปู่เจ้าฯ) · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>PM (อาร์ต)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 ผังองค์กร -->
+    <h2 class="sec"><span class="n">1</span>ผังองค์กรโครงการ (Organization Chart)</h2>
+    <div class="ascii">
+                  ┌────────────────────────────┐
+                  │   คณะกรรมการกำกับโครงการ      │
+                  │   (Steering Committee)      │
+                  └─────────────┬──────────────┘
+                                │
+                  ┌─────────────┴──────────────┐
+                  │   Senior PM — โอ๋ (ทุก Site) │
+                  └─────────────┬──────────────┘
+                                │
+                  ┌─────────────┴──────────────┐
+                  │   PM เมืองสมุทร — อาร์ต      │
+                  └──┬──────────┬──────────┬────┘
+                     │          │          │
+        ┌────────────┴──┐  ┌────┴─────┐  ┌─┴─────────────────┐
+        │ SA — ก้อง/โอ  │  │ PC — โม  │  │  Tester/Imp Lead  │
+        │  + PO จูน     │  │BA — สาม  │  │ Senior Imp(HosXP) │
+        └───┬───────┬───┘  └──────────┘  └─────────┬─────────┘
+            │       │                              │ นำ Migration
+   ┌────────┴──┐ ┌──┴───────────┐        ┌─────────┴────────┐
+   │  Dev Team │ │ Product/Req  │  ─ ─ ─▶│  ระบบเดิม HosXP   │
+   ├───────────┤ ├──────────────┤(ประสาน)│ (external/ยืมตัว) │
+   │ซี(Lead)   │ │ PO — จูน     │        │  ผ่าน SPOC        │
+   │มิน,โอปอล์  │ │มีน(ช) DTMU   │        └──────────────────┘
+   │+ Dev Pool │ │ consult/req  │
+   └───────────┘ └──────────────┘
+    </div>
+
+    <!-- 2 ตารางตำแหน่ง -->
+    <h2 class="sec"><span class="n">2</span>ตำแหน่งในทีมและผู้รับผิดชอบจริง</h2>
+    <table>
+      <thead><tr><th style="width:24%">ตำแหน่ง</th><th style="width:8%">จำนวน</th><th style="width:40%">คุณสมบัติ / ประสบการณ์ขั้นต่ำ</th><th>ผู้รับผิดชอบ</th></tr></thead>
+      <tbody>
+        <tr><td>Senior PM (กำกับทุก Site)</td><td>1</td><td>บริหารโครงการ HIS หลายไซต์ ≥ <b>5 ปี</b>, มาตรฐาน ISO 29110</td><td><span class="fill">โอ๋</span></td></tr>
+        <tr><td>Project Manager (เมืองสมุทร)</td><td>1</td><td>บริหารโครงการ IT ≥ <b>5 ปี</b>, เคยบริหารโครงการ HIS/โรงพยาบาล</td><td><span class="fill">อาร์ต</span></td></tr>
+        <tr><td>PO / Product Specialist (เมืองสมุทร)</td><td>1</td><td>เชี่ยวชาญผลิตภัณฑ์ HA.OS / กระบวนงานโรงพยาบาล</td><td><span class="fill">จูน</span></td></tr>
+        <tr><td>Project Coordinator</td><td>1</td><td>ประสานงานโครงการ ≥ <b>3 ปี</b></td><td><span class="fill">โม</span></td></tr>
+        <tr><td>Product Specialist (DTMU) — consult/get req</td><td>1</td><td>ผู้เชี่ยวชาญระบบฐาน DTMU Phase 2</td><td><span class="fill">มีน(ช)</span></td></tr>
+        <tr><td>Business Analyst (shared)</td><td>1</td><td>วิเคราะห์ธุรกิจ/กระบวนงาน ≥ <b>3 ปี</b></td><td><span class="fill">สาม</span></td></tr>
+        <tr><td>System Analyst (shared)</td><td>2</td><td>วิเคราะห์/ออกแบบระบบ ≥ <b>5 ปี</b></td><td><span class="fill">ก้อง / โอ</span></td></tr>
+        <tr><td>Tester / Implementer Lead + นำ Migration</td><td>1</td><td>เชี่ยวชาญ HosXP, ทดสอบ/ติดตั้ง/โยกย้ายข้อมูล</td><td><span class="fill">Senior Imp (HosXP)</span></td></tr>
+        <tr><td>Dev Lead</td><td>1</td><td>พัฒนาโปรแกรม ≥ <b>5 ปี</b></td><td><span class="fill">ซี</span></td></tr>
+        <tr><td>Developer</td><td>2</td><td>พัฒนาโปรแกรม ≥ <b>3 ปี</b> (ต่อคน)</td><td><span class="fill">มิน / โอปอล์</span></td></tr>
+        <tr><td>Dev Pool (shared)</td><td><span class="fill">__</span></td><td>นักพัฒนาส่วนกลาง จัดสรรตามจังหวะงาน</td><td><span class="fill">Dev Pool</span></td></tr>
+      </tbody>
+    </table>
+    <p class="small muted">หมายเหตุ: เป็นโครงสร้างทีมเดียวทำงานคู่ขนาน 2 สัญญา (สมุทรเวชกิจ ปากน้ำ + รพ.เมืองสมุทรปู่เจ้าฯ) — แนบประวัติ (CV) และหลักฐานประสบการณ์ของบุคลากรแต่ละตำแหน่งประกอบ</p>
+
+    <!-- 3 บทบาทและความรับผิดชอบ -->
+    <h2 class="sec"><span class="n">3</span>บทบาทและความรับผิดชอบโดยย่อ (Roles &amp; Responsibilities)</h2>
+    <table>
+      <thead><tr><th style="width:26%">ตำแหน่ง</th><th>ความรับผิดชอบหลัก</th></tr></thead>
+      <tbody>
+        <tr><td>Senior PM (โอ๋)</td><td>กำกับภาพรวมทุก Site (DTMU/DTWU/เมืองสมุทร), ดูแลมาตรฐาน/คุณภาพ, อนุมัติส่งมอบระดับโครงการ</td></tr>
+        <tr><td>PM เมืองสมุทร (อาร์ต)</td><td>บริหารภาพรวมไซต์เมืองสมุทร, แผน/งบ/ความเสี่ยง, สื่อสารกับเจ้าของงาน, อนุมัติส่งมอบงวด</td></tr>
+        <tr><td>PO / Product Specialist (จูน)</td><td>ดูแล Product Backlog, จัดลำดับความสำคัญ 36 โมดูล, ยืนยันความต้องการกับผู้ใช้</td></tr>
+        <tr><td>Project Coordinator (โม)</td><td>ประสานงาน, จัดประชุม, เอกสาร, ฝึกอบรม, ติดตามงาน</td></tr>
+        <tr><td>Product Specialist DTMU (มีน(ช))</td><td>ให้คำปรึกษา/เก็บความต้องการอ้างอิงระบบฐาน DTMU Phase 2</td></tr>
+        <tr><td>BA (สาม)</td><td>Fit/Gap, เก็บความต้องการ, จัดทำเอกสารวิเคราะห์กระบวนงาน</td></tr>
+        <tr><td>SA (ก้อง / โอ)</td><td>ออกแบบระบบ/Interface, สอบทานเทคนิค, ประเมินผลกระทบ</td></tr>
+        <tr><td>Tester/Imp Lead — Senior Imp (HosXP)</td><td>วางแผน/ทดสอบทุกระดับ, บริหาร Defect, UAT support และ<strong>นำ Data Migration HosXP → HA.OS</strong></td></tr>
+        <tr><td>Dev: ซี (Lead) / มิน / โอปอล์ + Dev Pool</td><td>พัฒนา/Config โมดูล, Integration, Smart IPD, แก้ Defect</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 4 การจัดสรรเวลา/อัตรากำลังตามงวด -->
+    <h2 class="sec"><span class="n">4</span>การจัดสรรอัตรากำลังตามงวด (Resource Allocation by Phase)</h2>
+    <p class="small muted">ระดับการใช้งาน: ● เต็มเวลา/หลัก · ◐ บางส่วน · ○ ตามที่ต้องการ</p>
+    <table>
+      <thead><tr><th style="width:28%">ตำแหน่ง</th><th>งวด 1<br>Setup/วางแผน</th><th>งวด 2<br>พัฒนา/ติดตั้ง/Go-live รพ.หลัก</th><th>งวด 3<br>Rollout ครบ 9 จุด/ตรวจรับ</th></tr></thead>
+      <tbody>
+        <tr><td>Senior PM (โอ๋)</td><td>◐</td><td>◐</td><td>◐</td></tr>
+        <tr><td>PM เมืองสมุทร (อาร์ต)</td><td>●</td><td>●</td><td>●</td></tr>
+        <tr><td>PO (จูน)</td><td>●</td><td>●</td><td>◐</td></tr>
+        <tr><td>Project Coordinator (โม)</td><td>●</td><td>●</td><td>●</td></tr>
+        <tr><td>BA (สาม) · Product Specialist DTMU (มีน(ช))</td><td>●</td><td>◐</td><td>○</td></tr>
+        <tr><td>SA (ก้อง / โอ)</td><td>●</td><td>●</td><td>◐</td></tr>
+        <tr><td>Tester/Imp Lead — Senior Imp (HosXP)</td><td>◐</td><td>●</td><td>●</td></tr>
+        <tr><td>Dev (ซี/มิน/โอปอล์ + Dev Pool)</td><td>○</td><td>●</td><td>◐</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 5 ทีมระบบเดิม HosXP -->
+    <h2 class="sec"><span class="n">5</span>ทีมระบบเดิม HosXP (External) และรูปแบบการประสานงาน</h2>
+    <p>การโยกย้ายข้อมูลและการเชื่อมต่อ<strong>อ้างอิงระบบเดิม HosXP (ระบบเดิม)</strong> ซึ่งนำโดย <strong>Senior Imp (HosXP)</strong> ในทีม โดยจุดที่ต้องอาศัยทีม/ผู้ดูแลระบบเดิมฝั่งโรงพยาบาลจะประสานผ่านจุดติดต่อเดียว (SPOC) เป็นช่วง ๆ ตามจังหวะงาน</p>
+    <table>
+      <thead><tr><th style="width:30%">หัวข้อ</th><th>รายละเอียด</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td><b>SPOC ฝั่งระบบเดิม HosXP (รพ.)</b></td><td><span class="fill">ชื่อ/ตำแหน่ง/ช่องทางติดต่อ</span></td></tr>
+        <tr class="fillrow"><td><b>SPOC ฝั่งโครงการ</b></td><td><span class="fill">Senior Imp (HosXP) / Project Coordinator (โม)</span></td></tr>
+        <tr class="fillrow"><td><b>รูปแบบการขอใช้/ขอข้อมูล</b></td><td><span class="fill">จองคิวล่วงหน้า ≥ __ วัน, batch ตามจังหวะ critical path (Migration เริ่ม 1 ก.ค. 2569)</span></td></tr>
+        <tr class="fillrow"><td><b>โควตา/เงื่อนไข</b></td><td><span class="fill">ตาม MOU — ระบุชั่วโมง/ช่วงเวลา</span></td></tr>
+        <tr class="fillrow"><td><b>การยกระดับปัญหา (Escalation)</b></td><td><span class="fill">PM (อาร์ต) → Senior PM (โอ๋) → ประธาน Steering Committee</span></td></tr>
+      </tbody>
+    </table>
+    <ul class="chk">
+      <li>เริ่มประสานข้อมูล HosXP ตั้งแต่ Day 0 สำหรับงาน Migration บน critical path</li>
+      <li>จัด Dress Rehearsal การโยกย้าย 1–2 รอบ ก่อน Production และยืนยัน reconciliation 100%</li>
+      <li>เตรียม mock/stub ของ Interface เพื่อพัฒนาต่อได้ระหว่างรอข้อมูลระบบเดิม</li>
+      <li class="star">ถอดความรู้ (Knowledge Capture) ทุกครั้งที่ประสานงานกับทีมระบบเดิม HosXP</li>
+    </ul>
+    <div class="warn"><b>⚠️ ความเสี่ยงสำคัญ:</b> หากการเข้าถึงข้อมูล/ทีมระบบเดิม HosXP ไม่ตรงจังหวะ critical path จะกระทบกำหนด Go-live และค่าปรับ (0.1%/วัน เพดาน 10%) — ต้องมี MOU และกลไก escalation ชัดเจน (ดู <a href="S1-01.html">S1-01 ข้อการบริหารความเสี่ยง</a>)</div>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">6</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — PM เมืองสมุทร (อาร์ต)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — Senior PM (โอ๋)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ — เจ้าของงาน</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

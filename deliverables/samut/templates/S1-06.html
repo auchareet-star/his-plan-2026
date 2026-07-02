@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1-06 แผนการทดสอบระบบ (Test Plan)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s1">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S1-05.html">◂ ก่อนหน้า</a>
+      <a href="S1-07.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S1-06 · งวดที่ 1</span>
+    <h1>แผนการทดสอบระบบ</h1>
+    <div class="en">Test Plan</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-TST-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp (HosXP) — Tester/Implementer Lead</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">ก้อง / โอ (SA)</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">อาร์ต (PM เมืองสมุทร)</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110 (SI.5 Test)</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: วางแผนทดสอบ (งวด 1) — ลงมือทดสอบจริงในงวด 2 (ก่อน Go-live รพ.หลัก)</span>
+      <span class="chip who">เจ้าของ: Senior Imp (HosXP) — Tester Lead</span>
+      <span class="chip iso">ISO 29110: SI.5 Software Test</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดกลยุทธ์ ระดับ และวิธีการทดสอบระบบ HIS เมืองสมุทร (36 โมดูล / 1,358 ข้อกำหนด) ทุกระดับ (Unit → SIT → UAT → E2E → Performance → Security) รวมถึงการทดสอบการโยกย้ายข้อมูล (Migration Test จาก HosXP → HA.OS) พร้อมเกณฑ์เริ่ม/จบ (Entry/Exit), นิยามความรุนแรงของข้อบกพร่อง (Defect Severity) และ SLA การแก้ไข เพื่อให้มั่นใจว่าระบบพร้อมขึ้น Go-Live · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>Senior Imp (HosXP)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 วัตถุประสงค์/ขอบเขต -->
+    <h2 class="sec"><span class="n">1</span>วัตถุประสงค์และขอบเขตการทดสอบ</h2>
+    <p><strong>1.1 วัตถุประสงค์</strong></p>
+    <ul>
+      <li>ยืนยันว่าระบบ HIS เมืองสมุทร ทำงานได้ตรงตามข้อกำหนด (1,358 ข้อกำหนด ใน 36 โมดูล) และเอกสารออกแบบในงวด 2</li>
+      <li>ตรวจสอบการเชื่อมต่อ (Integration) ภายใน Smart IPD (Doctor / Nurse / Pharmacist Module, eMAR, ER, วิสัญญี, เวชศาสตร์ฟื้นฟู) และระบบที่เกี่ยวข้องทำงานถูกต้องครบถ้วน</li>
+      <li>ยืนยันความถูกต้องของการโยกย้ายข้อมูลจากระบบเดิม HosXP → HA.OS (reconciliation 100%)</li>
+      <li>ลดความเสี่ยงของข้อบกพร่อง (Defect) ระดับ Critical/High ก่อนขึ้นใช้งานจริง (Go-live รพ.หลัก งวด 2)</li>
+    </ul>
+    <p><strong>1.2 ขอบเขต (In-scope)</strong></p>
+    <ul>
+      <li>โมดูล HIS ตามสัญญาแนบท้าย 1 ครบ 36 โมดูล (อาทิ คลังยาและวัสดุ 101, Doctor Module 91, Nurse Module 84, งานเรียกเก็บ 81, Queue &amp; Patient Self Visit 74)</li>
+      <li>Smart IPD: Doctor/Nurse/Pharmacist Module, eMAR, Master Data Smart IPD, ER, ห้องตรวจสุขภาพ, เวชศาสตร์ฟื้นฟู, วิสัญญีพยาบาล</li>
+      <li>การทดสอบการโยกย้ายข้อมูล (Migration Test) จาก HosXP (ระบบเดิม) → HA.OS รวม Dress Rehearsal 1–2 รอบ</li>
+      <li>จุดเชื่อมต่อทุก Interface และการใช้งานครบ 9 จุดบริการ (ปากน้ำ 3 จุด + ปู่เจ้าฯ 6 จุด)</li>
+    </ul>
+    <p><strong>1.3 นอกขอบเขต (Out-of-scope)</strong></p>
+    <ul class="muted"><li><span class="fill">ระบุงานที่ไม่รวมในแผนทดสอบ เช่น โครงสร้างเครือข่าย/ฮาร์ดแวร์ของโรงพยาบาล, บริการ AI/Speech-to-Text (คิดค่าใช้จ่ายแยก) ฯลฯ</span></li></ul>
+
+    <!-- 2 ระดับการทดสอบ -->
+    <h2 class="sec"><span class="n">2</span>ระดับการทดสอบและเกณฑ์เริ่ม/จบ (Test Levels &amp; Entry/Exit Criteria)</h2>
+    <table>
+      <thead><tr><th style="width:14%">ระดับ</th><th style="width:24%">ขอบเขต/ผู้รับผิดชอบ</th><th style="width:31%">เกณฑ์เริ่ม (Entry)</th><th>เกณฑ์จบ (Exit)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Unit Test</b></td><td>ฟังก์ชันย่อย / Dev (ซี/มิน/โอปอล์)</td><td>โค้ดผ่าน build, มี test case</td><td>ผ่าน ≥ <span class="fill">80%</span> coverage, ไม่มี bug บล็อก</td></tr>
+        <tr><td><b>SIT</b><br>(System Integration)</td><td>การเชื่อมต่อระหว่างโมดูล / Tester Lead + Dev</td><td>Unit ผ่าน, ติดตั้งบน Test env, Interface พร้อม</td><td>ทุก Interface ส่ง-รับข้อมูลถูกต้อง, ไม่มี Critical/High ค้าง</td></tr>
+        <tr><td><b>Migration Test</b></td><td>โยกย้าย HosXP → HA.OS / Senior Imp (HosXP) นำ</td><td>Mapping ครบ, มี Dress Rehearsal env พร้อม</td><td>Reconciliation <span class="fill">100%</span>, จำนวน/ยอดข้อมูลตรงกัน</td></tr>
+        <tr><td><b>UAT</b><br>(User Acceptance)</td><td>ผู้ใช้จริงตามกระบวนงาน / Key User + Tester</td><td>SIT ผ่าน, มี UAT script, ข้อมูลทดสอบพร้อม</td><td>ผู้ใช้ลงนามรับรอง, ไม่มี Critical/High ค้าง</td></tr>
+        <tr><td><b>E2E</b><br>(End-to-End)</td><td>กระบวนงานเต็มเส้น (ผู้ป่วยเข้า→ตรวจ→IPD→จ่ายยา→เบิกจ่าย) / Tester</td><td>โมดูลที่เกี่ยวข้องผ่าน SIT</td><td>ทุก business flow หลักผ่านครบ</td></tr>
+        <tr><td><b>Performance</b></td><td>โหลด/ความเร็ว/ความทนทาน / SA + Tester</td><td>ระบบเสถียรบน env ใกล้เคียง Production</td><td>ผ่านเกณฑ์ตอบสนอง <span class="fill">≤ 3 วิ</span> ที่ <span class="fill">__</span> users พร้อมกัน</td></tr>
+        <tr><td><b>Security</b></td><td>ช่องโหว่/สิทธิ์เข้าถึง/PDPA / SA + Tester</td><td>ระบบติดตั้งครบ, มี checklist OWASP</td><td>ไม่พบช่องโหว่ระดับ High ขึ้นไป</td></tr>
+      </tbody>
+    </table>
+    <p class="eg">SIT จะทดสอบกรณีแพทย์สั่งยาใน Doctor Module แล้วส่งต่อไป Pharmacist Module และบันทึกการให้ยา (eMAR) ใน Nurse Module ให้แสดงผลถูกต้องครบเส้นทาง</p>
+
+    <!-- 3 นิยามความรุนแรง defect -->
+    <h2 class="sec"><span class="n">3</span>นิยามความรุนแรงของข้อบกพร่อง (Defect Severity) และ SLA การแก้ไข</h2>
+    <table>
+      <thead><tr><th style="width:13%">ระดับ</th><th style="width:42%">นิยาม</th><th style="width:22%">SLA แก้ไข (เริ่ม/แก้เสร็จ)</th><th>ผลต่อ Go-Live</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-must">Critical</span></td><td>ระบบหยุดทำงาน/ข้อมูลเสียหาย/กระทบความปลอดภัยผู้ป่วย — ไม่มีทางเลี่ยง</td><td>เริ่มภายใน <span class="fill">2 ชม.</span> / workaround ภายใน <span class="fill">8 ชม.</span></td><td><b>บล็อก</b> ห้ามขึ้นระบบ</td></tr>
+        <tr><td><span class="badge b-should">High</span></td><td>ฟังก์ชันหลักใช้งานไม่ได้ มีทางเลี่ยงยาก</td><td>ภายใน <span class="fill">1 วันทำการ</span></td><td><b>บล็อก</b></td></tr>
+        <tr><td><span class="badge b-could">Medium</span></td><td>ฟังก์ชันรองผิดพลาด มีทางเลี่ยงได้</td><td>ภายใน <span class="fill">3 วันทำการ</span></td><td>ไม่บล็อก (มีแผนแก้)</td></tr>
+        <tr><td><span class="badge" style="background:#6c7a89">Low</span></td><td>ข้อบกพร่องเล็กน้อย/ความสวยงาม/ข้อความ</td><td>ภายใน <span class="fill">งวดถัดไป</span></td><td>ไม่บล็อก</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>⚠️ เกณฑ์ Go-Live:</b> ต้องไม่มี Defect ระดับ Critical และ High ค้างอยู่ จึงจะผ่าน Exit ของ UAT และอนุมัติขึ้นระบบจริง · SLA Critical อ้างอิงบันทึกเพิ่มเติม 26 มิ.ย. 2569 (เริ่มแก้ภายใน 2 ชม. + workaround ภายใน 8 ชม.)</div>
+
+    <!-- 4 สภาพแวดล้อม + ข้อมูลทดสอบ -->
+    <h2 class="sec"><span class="n">4</span>สภาพแวดล้อมและข้อมูลทดสอบ (Test Environment &amp; Data)</h2>
+    <h3 class="sub">4.1 สภาพแวดล้อม</h3>
+    <table>
+      <thead><tr><th style="width:22%">สภาพแวดล้อม</th><th style="width:30%">วัตถุประสงค์</th><th>หมายเหตุ/สเปก</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>DEV</td><td>พัฒนา + Unit Test</td><td><span class="fill">________</span></td></tr>
+        <tr class="fillrow"><td>SIT / TEST</td><td>ทดสอบเชื่อมต่อ + E2E</td><td><span class="fill">แยกจาก Production, มี mock ระบบที่เกี่ยวข้อง</span></td></tr>
+        <tr class="fillrow"><td>Migration / Dress Rehearsal</td><td>ซ้อมโยกย้าย HosXP → HA.OS</td><td><span class="fill">สำเนาข้อมูลจริง HosXP (ปกปิด) สำหรับซ้อม 1–2 รอบ</span></td></tr>
+        <tr class="fillrow"><td>UAT / Staging</td><td>ผู้ใช้ทดสอบ + Performance</td><td><span class="fill">สเปกใกล้เคียง Production</span></td></tr>
+      </tbody>
+    </table>
+    <h3 class="sub">4.2 ข้อมูลทดสอบ (Test Data)</h3>
+    <ul>
+      <li>ใช้ข้อมูลจำลอง (Synthetic) สำหรับเคสทั่วไป และข้อมูลจริงที่ปกปิด (Masked/De-identified) สำหรับ Migration ตาม PDPA</li>
+      <li>เตรียมชุดข้อมูลผู้ป่วยตัวอย่างครอบคลุมเคส OPD/IPD/ER (admit, สั่งยา, ให้ยา eMAR, ผ่าตัด/วิสัญญี, เวชศาสตร์ฟื้นฟู, เรียกเก็บ)</li>
+      <li>ผู้รับผิดชอบเตรียมข้อมูล: <span class="fill">Senior Imp (HosXP) + ทีม Dev</span></li>
+    </ul>
+    <p class="eg">เตรียมผู้ป่วย IPD จำลอง 1 ราย ที่มี admit + แพทย์สั่งยา + เภสัชจ่ายยา + พยาบาลบันทึก eMAR + เรียกเก็บ เพื่อทดสอบ flow ครบทั้งระบบ</p>
+
+    <!-- 5 เครื่องมือ -->
+    <h2 class="sec"><span class="n">5</span>เครื่องมือที่ใช้ในการทดสอบ (Test Tools)</h2>
+    <table>
+      <thead><tr><th style="width:30%">ประเภท</th><th style="width:35%">เครื่องมือ</th><th>การใช้งาน</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>บริหารกรณีทดสอบ/Defect</td><td><span class="fill">เช่น Jira / Azure DevOps / TestRail</span></td><td>บันทึก Test Case, ติดตาม Defect</td></tr>
+        <tr class="fillrow"><td>ทดสอบอัตโนมัติ (UI/API)</td><td><span class="fill">เช่น Selenium / Postman</span></td><td>Regression, API Interface</td></tr>
+        <tr class="fillrow"><td>ตรวจสอบ Migration / Reconciliation</td><td><span class="fill">เช่น SQL scripts / Data compare tool</span></td><td>เทียบจำนวน/ยอดข้อมูล HosXP ↔ HA.OS</td></tr>
+        <tr class="fillrow"><td>ทดสอบโหลด (Performance)</td><td><span class="fill">เช่น JMeter / k6</span></td><td>Load / Stress test</td></tr>
+        <tr class="fillrow"><td>ทดสอบความปลอดภัย</td><td><span class="fill">เช่น OWASP ZAP</span></td><td>สแกนช่องโหว่</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 6 ตารางเวลาทดสอบ -->
+    <h2 class="sec"><span class="n">6</span>ตารางเวลาการทดสอบ (Test Schedule)</h2>
+    <p class="small muted">หมายเหตุ: การทดสอบจริงดำเนินการในงวด <b>2</b> (Go-live รพ.หลัก ~20/01/2027) และต่อเนื่องถึงงวด 3 (rollout ครบ 9 จุดบริการ ~27/02/2027) — รายละเอียดผลทดสอบจะส่งมอบในเอกสารงวดถัดไป</p>
+    <table>
+      <thead><tr><th>ระดับการทดสอบ</th><th>ช่วงเวลา (โดยประมาณ)</th><th>ผู้รับผิดชอบ</th><th>ผลส่งมอบ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>Unit Test</td><td><span class="fill">ระหว่างพัฒนา (งวด 2)</span></td><td>Dev (ซี/มิน/โอปอล์)</td><td>Unit Test Report</td></tr>
+        <tr class="fillrow"><td>SIT</td><td><span class="fill">งวด 2</span></td><td>Tester + Dev</td><td>SIT Report</td></tr>
+        <tr class="fillrow"><td>Migration Test / Dress Rehearsal</td><td><span class="fill">งวด 2 (ก่อน Go-live)</span></td><td>Senior Imp (HosXP)</td><td>Reconciliation Report</td></tr>
+        <tr class="fillrow"><td>UAT</td><td><span class="fill">งวด 2</span></td><td>Key User + Tester</td><td>UAT Sign-off</td></tr>
+        <tr class="fillrow"><td>E2E / Performance / Security</td><td><span class="fill">งวด 2–3</span></td><td>Tester + SA</td><td>รายงานผลแต่ละด้าน</td></tr>
+      </tbody>
+    </table>
+    <ul class="chk">
+      <li>กำหนดและทบทวน Test Case ครบทุกโมดูล (36 โมดูล / 1,358 ข้อกำหนด)</li>
+      <li>เตรียมสภาพแวดล้อมและข้อมูลทดสอบพร้อมก่อนเริ่มงวด 2</li>
+      <li>ซ้อม Migration HosXP → HA.OS 1–2 รอบ และยืนยัน reconciliation 100% ก่อน Production</li>
+      <li class="star">ยืนยันไม่มี Critical/High ค้าง ก่อนเสนอ Go-Live แต่ละจุดบริการ</li>
+    </ul>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">7</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp (HosXP) / Tester Lead</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — SA (ก้อง / โอ)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ — PM เมืองสมุทร (อาร์ต)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

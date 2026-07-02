@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S3-01 แผน Rollout รายสาขา/คลินิก (Rollout Plan (9 sites))</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s3">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-18.html">◂ ก่อนหน้า</a>
+      <a href="S3-02.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S3-01 · งวดที่ 3</span>
+    <h1>แผน Rollout รายสาขา/คลินิก</h1>
+    <div class="en">Rollout Plan (9 sites)</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-ROLL-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">PM เมืองสมุทร (อาร์ต)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2027</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ทยอยเปิดใช้ระบบครบทุกจุดบริการ — งวด 3</span>
+      <span class="chip who">เจ้าของ: PM เมืองสมุทร (อาร์ต)</span>
+      <span class="chip iso">ISO 29110: SI.6 Product Delivery</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> วางแผน Rollout ระบบ HIS (HA.OS) ขึ้นใช้งานจริงครบทั้ง <b>9 จุดบริการ</b> ของทั้งสองสัญญา (สมุทรเวชกิจ 3 จุด + ปู่เจ้าฯ 6 จุด) แบบ <b>ทำซ้ำได้ (repeatable)</b> ต่อแต่ละจุด — ลำดับ rollout, ทีม onsite, เกณฑ์เปิดใช้ (Go/No-Go), ขั้นตอนติดตั้งต่อจุด, ค่า config (เน้น สปสช./HL7/HosXP migration), smoke test, rollback และบันทึกการติดตั้งต่อจุด · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2027</td><td>PM (อาร์ต)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 ภาพรวม Rollout + ลำดับ -->
+    <h2 class="sec"><span class="n">1</span>ภาพรวมและลำดับ Rollout (Rollout Sequence)</h2>
+    <p class="small muted">หลักการ: <b>เปิด รพ.หลักก่อน (Go-live งวด 2 ~20/01/2027)</b> ให้ระบบนิ่งและทีม onsite ชำนาญ แล้วจึง <b>ทยอย rollout คลินิกในงวด 3</b> จนครบ 9 จุดบริการ (ตรวจรับครบ ~27/02/2027) · เปิดทีละจุดเพื่อจำกัดความเสี่ยงและให้ทีม onsite ดูแลได้เต็มที่</p>
+    <table>
+      <thead><tr><th>งวด</th><th>สิ่งที่ส่งมอบ</th><th>กำหนด</th><th>วันที่จริง</th><th>% เงิน</th></tr></thead>
+      <tbody>
+        <tr><td>งวด 1</td><td>Setup &amp; ส่งแผนบริหารโครงการ</td><td>ส่ง 10/07/2026</td><td>10/07/2026</td><td>20%</td></tr>
+        <tr><td>งวด 2</td><td>พัฒนา–ทดสอบ–Migration–Go-live รพ.หลัก (2 จุด)</td><td>Go-live ~20/01/2027</td><td>__/__/2027</td><td>30%</td></tr>
+        <tr><td>งวด 3</td><td>Rollout คลินิกครบ + ตรวจรับครบ 9 จุดบริการ</td><td>~27/02/2027</td><td>__/__/2027</td><td>50%</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>⚠️ จุดวิกฤต:</b> รพ.หลักทั้งสองสัญญาต้อง Go-live เสถียรในงวด 2 ก่อน จึงเริ่ม rollout คลินิกในงวด 3 ได้ · ทุกจุดต้องผ่านเกณฑ์ Go/No-Go (ข้อ 4) ก่อนเปิดใช้จริง · ห้ามเปิดจุดที่ network/ผู้ใช้ยังไม่พร้อม</div>
+
+    <!-- 2 ตาราง 9 จุดบริการ -->
+    <h2 class="sec"><span class="n">2</span>รายการ 9 จุดบริการและลำดับเปิดใช้ (Site List &amp; Schedule)</h2>
+    <p class="small muted">สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) 3 จุด = รพ. + 2 คลินิก · เมืองสมุทรปู่เจ้าฯ 6 จุด = รพ. + 5 คลินิก · เปิด รพ.หลักก่อน (ลำดับ 1–2) แล้วทยอยคลินิก · กรอกชื่อ/วันที่/ทีมจริง</p>
+    <table>
+      <thead><tr><th style="width:7%">ลำดับ</th><th style="width:26%">ชื่อจุดบริการ</th><th style="width:14%">สังกัด</th><th style="width:15%">วันที่เป้าหมายเปิดใช้</th><th style="width:18%">ทีม onsite</th><th>สถานะ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>1</td><td>รพ.เมืองสมุทรปู่เจ้าฯ (รพ.หลัก)</td><td>ปู่เจ้าฯ</td><td>~20/01/2027 (งวด 2)</td><td><span class="fill">__</span></td><td><span class="fill">☐ Go-live ☐ stable</span></td></tr>
+        <tr class="fillrow"><td>2</td><td>รพ.สมุทรเวชกิจ (รพ.หลัก)</td><td>สมุทรเวชกิจ</td><td>~20/01/2027 (งวด 2)</td><td><span class="fill">__</span></td><td><span class="fill">☐ Go-live ☐ stable</span></td></tr>
+        <tr class="fillrow"><td>3</td><td><span class="fill">คลินิกปู่เจ้าฯ #1</span></td><td>ปู่เจ้าฯ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>4</td><td><span class="fill">คลินิกปู่เจ้าฯ #2</span></td><td>ปู่เจ้าฯ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>5</td><td><span class="fill">คลินิกปู่เจ้าฯ #3</span></td><td>ปู่เจ้าฯ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>6</td><td><span class="fill">คลินิกปู่เจ้าฯ #4</span></td><td>ปู่เจ้าฯ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>7</td><td><span class="fill">คลินิกปู่เจ้าฯ #5</span></td><td>ปู่เจ้าฯ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>8</td><td><span class="fill">คลินิกสมุทรเวชกิจ #1</span></td><td>สมุทรเวชกิจ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+        <tr class="fillrow"><td>9</td><td><span class="fill">คลินิกสมุทรเวชกิจ #2</span></td><td>สมุทรเวชกิจ</td><td><span class="fill">__/__/2027</span></td><td><span class="fill">__</span></td><td><span class="fill">☐ พร้อม ☐ เปิดใช้</span></td></tr>
+      </tbody>
+    </table>
+    <p class="small muted">รวม 9 จุดบริการ — ครบเมื่อทั้ง 9 แถวสถานะ “เปิดใช้/stable” จึงยื่นตรวจรับงวด 3</p>
+
+    <!-- 3 ทีม onsite -->
+    <h2 class="sec"><span class="n">3</span>ทีม Onsite และความรับผิดชอบ (Rollout Team)</h2>
+    <p class="small muted">ทีมเดินสาย rollout ต่อจุด — กำหนดผู้นำต่อจุดและ backup · ตารางนี้สรุปบทบาทหลัก</p>
+    <table>
+      <thead><tr><th style="width:24%">บทบาท</th><th style="width:22%">ผู้รับผิดชอบ</th><th>หน้าที่ระหว่าง Rollout</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>PM / กำกับ Rollout</td><td>อาร์ต (PM เมืองสมุทร)</td><td>คุมตารางเปิดใช้ทุกจุด, ตัดสิน Go/No-Go, ประสานเจ้าของงาน</td></tr>
+        <tr class="fillrow"><td>Migration Lead</td><td>Senior Imp (HosXP)</td><td>นำการโอนย้ายข้อมูล HosXP→HA.OS ต่อจุด + reconciliation</td></tr>
+        <tr class="fillrow"><td>Dev Lead / แก้ปัญหา onsite</td><td>ซี (Dev Lead)</td><td>แก้ defect ด่วน, ปรับ config, สนับสนุน hotfix</td></tr>
+        <tr class="fillrow"><td>Implementer / สอนใช้งานหน้างาน</td><td><span class="fill">__</span></td><td>ติดตั้ง, smoke test, ช่วยผู้ใช้วันเปิดใช้ (hypercare)</td></tr>
+        <tr class="fillrow"><td>ผู้แทนเจ้าของงานต่อจุด</td><td><span class="fill">__</span></td><td>ยืนยันผู้ใช้พร้อม, ลงนามรับมอบจุดบริการ</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 4 เกณฑ์ Go/No-Go -->
+    <h2 class="sec"><span class="n">4</span>เกณฑ์เปิดใช้รายจุด (Go/No-Go Criteria per Site)</h2>
+    <p class="small muted">ทุกข้อต้องผ่าน (Go) ก่อนเปิดใช้แต่ละจุด · หากข้อใดไม่ผ่าน = No-Go เลื่อนเปิดและบันทึกเหตุผล</p>
+    <ul class="chk">
+      <li>Smoke test รายจุด (ข้อ 7) ผ่านครบทุกข้อ</li>
+      <li>ผู้ใช้หน้างานพร้อม (อบรมแล้ว, รับสิทธิ์เข้าใช้, มีผู้ประสานต่อจุด)</li>
+      <li>Network / อุปกรณ์ปลายทางพร้อม (เชื่อมต่อ App Server เสถียร, จอแสดงคิวพร้อม)</li>
+      <li>ข้อมูล Migration HosXP→HA.OS ของจุดนั้น reconciliation ครบถ้วน</li>
+      <li class="star">ไม่มี defect ระดับ Critical/High ค้างที่กระทบจุดบริการนั้น</li>
+      <li>มีแผน rollback (ข้อ 8) และทีม onsite/hypercare พร้อมในวันเปิดใช้</li>
+    </ul>
+
+    <!-- 5 ขั้นตอนติดตั้งต่อจุด -->
+    <h2 class="sec"><span class="n">5</span>ขั้นตอนการเปิดใช้ต่อจุด (Repeatable per Site)</h2>
+    <p class="small muted">ระบบ HA.OS เป็น Web-based HIS ส่วนกลาง — ต่อแต่ละจุดเน้นการเตรียมข้อมูล/สิทธิ์/network และตรวจรับหน้างาน ไม่ใช่การติดตั้งแอปแยกเครื่อง</p>
+    <ul class="chk">
+      <li>ยืนยันเวอร์ชัน HA.OS บน Production ที่อนุมัติ (release tag: <span class="fill">__</span>)</li>
+      <li>เตรียม Master Data เฉพาะจุด (ผังบริการ/ห้องตรวจ/คิว) ตามข้อ 6</li>
+      <li>โอนย้าย/ตรวจสอบข้อมูลผู้ป่วยของจุดนั้นจาก HosXP + reconciliation</li>
+      <li>สร้างบัญชีผู้ใช้/สิทธิ์ตามบทบาทหน้างาน + ทดสอบ login</li>
+      <li>ตรวจ network/เครื่องลูกข่าย/จอแสดงคิว เชื่อม App Server ได้</li>
+      <li>รัน smoke test รายจุด (ข้อ 7) → ตัดสิน Go/No-Go (ข้อ 4)</li>
+      <li>เปิดใช้จริง + hypercare หน้างาน + บันทึกผลในข้อ 9</li>
+    </ul>
+    <div class="ascii">$ # ตรวจระบบส่วนกลาง HA.OS พร้อมก่อนเปิดจุดใหม่
+$ curl -fsS https://his.msm.local/healthz          # คาดหวัง 200 OK
+$ curl -fsS https://his.msm.local/api/sites/&lt;site_id&gt;/status   # จุดบริการ active
+$ ./scripts/site-enable.sh &lt;site_id&gt;                # เปิดสิทธิ์จุดบริการ
+$ ./scripts/migrate-verify.sh &lt;site_id&gt;             # reconciliation ข้อมูลจุดนั้น
+$ curl -fsS https://his.msm.local/api/integration/nhso/ping   # ทดสอบเชื่อม สปสช.</div>
+
+    <!-- 6 Config -->
+    <h2 class="sec"><span class="n">6</span>ค่า Configuration ที่ตั้ง (เน้น สปสช./HL7/HosXP)</h2>
+    <table>
+      <thead><tr><th style="width:30%">พารามิเตอร์</th><th style="width:30%">ค่าที่ตั้ง</th><th>คำอธิบาย</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>API_BASE_URL</td><td><span class="fill">https://his.msm.local/api</span></td><td>endpoint หลัก HA.OS</td></tr>
+        <tr class="fillrow"><td>DB_HOST / DB_NAME</td><td><span class="fill">__</span></td><td>ฐานข้อมูล Production</td></tr>
+        <tr class="fillrow"><td>SITE_ID / SITE_NAME</td><td><span class="fill">__</span></td><td>รหัส/ชื่อจุดบริการที่เปิดใช้</td></tr>
+        <tr class="fillrow"><td>HOSXP_MIGRATE_SOURCE</td><td><span class="fill">__</span></td><td>แหล่งข้อมูลระบบเดิม HosXP (สำหรับ migration)</td></tr>
+        <tr class="fillrow"><td>NHSO_ENDPOINT (สปสช.)</td><td><span class="fill">__</span></td><td>เชื่อมสิทธิการรักษา/เบิกจ่าย สปสช.</td></tr>
+        <tr class="fillrow"><td>HL7_ENDPOINT</td><td><span class="fill">__</span></td><td>รับ-ส่งข้อความมาตรฐาน HL7</td></tr>
+        <tr class="fillrow"><td>LIS_ENDPOINT</td><td><span class="fill">__</span></td><td>ผลแลป</td></tr>
+        <tr class="fillrow"><td>PACS / RIS_ENDPOINT</td><td><span class="fill">__</span></td><td>ภาพรังสี/ผลรังสี</td></tr>
+        <tr class="fillrow"><td>SMTP / NOTIFY</td><td><span class="fill">__</span></td><td>การแจ้งเตือน</td></tr>
+      </tbody>
+    </table>
+    <div class="warn"><b>⚠️ ความปลอดภัย:</b> Secret/รหัสผ่าน/Key ห้ามเก็บใน source — เก็บใน secret store/ไฟล์ env ที่เข้าถึงจำกัด และส่งมอบให้ IT รพ. แยกต่างหาก · ข้อมูลผู้ป่วยเป็นของโรงพยาบาล ต้องควบคุมสิทธิ์เข้าถึงตามบทบาท</div>
+
+    <!-- 7 Smoke Test ต่อจุด -->
+    <h2 class="sec"><span class="n">7</span>การตรวจสอบหลังเปิดใช้รายจุด (Smoke Test per Site)</h2>
+    <ul class="chk">
+      <li>เปิดหน้าเข้าสู่ระบบ HA.OS ได้ + login ผู้ใช้ของจุดนั้นผ่าน</li>
+      <li>ลงทะเบียน/ค้นหาผู้ป่วย + ตรวจสิทธิ์ สปสช. ของจุดนั้นได้</li>
+      <li>สร้าง Visit / คิว (Patient Self Visit &amp; Queue) + จอแสดงคิวทำงาน</li>
+      <li>สั่ง/จ่ายยา (คลังยาและวัสดุ) + ออกใบเสร็จ/งานเรียกเก็บได้</li>
+      <li>ส่ง/รับผล LIS + เรียกดูภาพ PACS/RIS ได้</li>
+      <li>รับ-ส่งข้อความ HL7 + เชื่อม สปสช. ทำงานถูกต้อง</li>
+      <li>ข้อมูลที่ migrate จาก HosXP ของจุดนั้นแสดงถูกต้อง (สุ่มตรวจ)</li>
+      <li class="star">ไม่มี error ระดับ Critical/High ใน log</li>
+    </ul>
+
+    <!-- 8 Rollback -->
+    <h2 class="sec"><span class="n">8</span>ขั้นตอนการถอยกลับรายจุด (Rollback)</h2>
+    <ul class="chk">
+      <li>ปิดสิทธิ์/หยุดเปิดใช้จุดบริการนั้น (disable site) + แจ้งผู้ใช้หน้างาน</li>
+      <li>สลับจุดนั้นกลับใช้ระบบเดิม HosXP ชั่วคราว (กระดาษ/แผนสำรอง)</li>
+      <li>ย้อนข้อมูล/ตั้งค่าของจุดนั้นกลับ (restore backup ไฟล์: <span class="fill">__</span>)</li>
+      <li>วิเคราะห์สาเหตุ + แก้ defect ก่อนตั้งวันเปิดใช้ใหม่</li>
+      <li>ตรวจ smoke test รายจุดผ่านอีกครั้ง + แจ้งทีม</li>
+    </ul>
+    <p class="small muted">เวลา Rollback เป้าหมาย (RTO): <span class="fill">__ นาที</span> — การ rollback จุดเดียวไม่กระทบจุดอื่นที่เปิดใช้แล้ว (ระบบส่วนกลางยังทำงาน)</p>
+
+    <!-- 9 บันทึกการติดตั้ง/เปิดใช้ -->
+    <h2 class="sec"><span class="n">9</span>บันทึกการเปิดใช้รายจุด (Installation / Go-live Log per Site)</h2>
+    <table>
+      <thead><tr><th style="width:7%">ลำดับ</th><th style="width:20%">จุดบริการ</th><th style="width:16%">วันที่/เวลาเปิดใช้</th><th style="width:18%">ผู้รับผิดชอบ onsite</th><th>ผล / หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>1</td><td>รพ.เมืองสมุทรปู่เจ้าฯ</td><td>__/__/2027 __:__</td><td>&nbsp;</td><td>☐ เปิดใช้ ☐ rollback</td></tr>
+        <tr class="fillrow"><td>2</td><td>รพ.สมุทรเวชกิจ</td><td>__/__/2027 __:__</td><td>&nbsp;</td><td>☐ เปิดใช้ ☐ rollback</td></tr>
+        <tr class="fillrow"><td>3</td><td>&nbsp;</td><td>__/__/2027 __:__</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">10</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — PM เมืองสมุทร (อาร์ต)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

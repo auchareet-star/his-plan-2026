@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1-05 แผนการพัฒนาและส่งมอบ (Implementation / Development Plan)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s1">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S1-04.html">◂ ก่อนหน้า</a>
+      <a href="S1-06.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S1-05 · งวดที่ 1</span>
+    <h1>แผนการพัฒนาและส่งมอบ</h1>
+    <div class="en">Implementation / Development Plan</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-IMP-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Project Manager / Dev Lead</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: วางแผนก่อนพัฒนา — ดำเนินจริงในงวด 2</span>
+      <span class="chip who">เจ้าของ: Project Manager / Dev Lead</span>
+      <span class="chip iso">ISO 29110: SI.4 Construction</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดกลยุทธ์การพัฒนา การจัดประเภทงานเป็น Config / Custom / Dev ใหม่ ลำดับโมดูลและความสัมพันธ์ (dependency) แผน Sprint นิยาม Definition of Done และแนวทางการเชื่อมต่อระบบ เพื่อให้การพัฒนาและส่งมอบระบบ HIS (HA.OS) 36 โมดูล / 1,358 ข้อกำหนด เป็นไปตามแผนเวลาและคุณภาพ · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>PM / Dev Lead</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 กลยุทธ์การพัฒนา -->
+    <h2 class="sec"><span class="n">1</span>กลยุทธ์การพัฒนา (Development Strategy)</h2>
+    <ul>
+      <li>พัฒนาแบบ <strong>รายโมดูลเป็นเฟส (Phased / Iterative)</strong> ส่งมอบทีละชุดเพื่อให้ทดสอบและตรวจรับได้เร็ว</li>
+      <li>ยึดหลัก <strong>Config ก่อน Custom ก่อน Dev ใหม่</strong> — ใช้ความสามารถมาตรฐานของ HA.OS ก่อน ปรับแต่ง (customize) เท่าที่จำเป็น เขียนใหม่เฉพาะส่วน Gap (ต่อยอดจาก Fit/Gap)</li>
+      <li>จัดลำดับตาม dependency และความสำคัญต่อ Go-live (โมดูลแกน HIS + Smart IPD ก่อน)</li>
+      <li>ใช้ระบบควบคุมเวอร์ชันและ CI/CD เพื่อ deploy ขึ้น Test/Staging อัตโนมัติ</li>
+    </ul>
+    <div class="tip"><b>หลักการจัดประเภทงาน:</b> <span class="badge b-cfg">CONFIG</span> ตั้งค่าได้ทำก่อน, <span class="badge b-par">CUSTOM</span> ปรับแต่งบนฐาน HA.OS, <span class="badge b-gap">DEV ใหม่</span> ที่ซับซ้อนหรือพึ่งระบบฐานจาก DTMU Phase 2 วางไว้ให้สอดคล้องกับช่วงที่ระบบฐานพร้อม</div>
+
+    <!-- 2 ลำดับโมดูล + dependency -->
+    <h2 class="sec"><span class="n">2</span>ลำดับโมดูลและความสัมพันธ์ (Dependency)</h2>
+    <table>
+      <thead><tr><th style="width:8%">ลำดับ</th><th style="width:30%">โมดูล</th><th style="width:14%">ประเภท</th><th style="width:18%">ขึ้นกับ (Depends on)</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>1</td><td>Master Data / ผู้ป่วย (Patient bank)</td><td><span class="badge b-cfg">CONFIG</span></td><td>—</td><td>เป็นฐานของทุกโมดูล</td></tr>
+        <tr class="fillrow"><td>2</td><td>เวชระเบียน / Patient Self Visit &amp; Queue (74)</td><td><span class="badge b-cfg">CONFIG</span></td><td>1</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>3</td><td>Doctor Module (91) — Smart IPD/OPD</td><td><span class="badge b-par">CUSTOM</span></td><td>1, 2</td><td>โมดูลแกนหลัก</td></tr>
+        <tr class="fillrow"><td>4</td><td>Nurse Module (84) / eMAR</td><td><span class="badge b-par">CUSTOM</span></td><td>3</td><td>Smart IPD</td></tr>
+        <tr class="fillrow"><td>5</td><td>คลังยาและวัสดุ (101) / Pharmacist Module</td><td><span class="badge b-cfg">CONFIG</span></td><td>3</td><td>โมดูลใหญ่สุด</td></tr>
+        <tr class="fillrow"><td>6</td><td>ER + วิสัญญีพยาบาล + เวชศาสตร์ฟื้นฟู + ตรวจสุขภาพ</td><td><span class="badge b-par">CUSTOM</span></td><td>3, 4</td><td>Smart IPD</td></tr>
+        <tr class="fillrow"><td>7</td><td>รังสี/PACS + LIS</td><td><span class="badge b-gap">DEV ใหม่</span></td><td>3</td><td>integration</td></tr>
+        <tr class="fillrow"><td>8</td><td>งานเรียกเก็บ (81) / การเงิน-ลูกหนี้ + Interface สปสช./HL7</td><td><span class="badge b-gap">DEV ใหม่</span></td><td>2, 3</td><td>โมดูลที่รอ DTMU Phase 2 (ระบบฐาน)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 3 แผน Sprint -->
+    <h2 class="sec"><span class="n">3</span>แผน Sprint</h2>
+    <p class="small muted">วาง Sprint ให้พอดีกับช่วง build ในงวด 2 (ก่อน Go-live รพ.หลัก ~20/01/2027) — แต่ละ Sprint 2 สัปดาห์ (ปรับได้)</p>
+    <table class="alt">
+      <thead><tr><th style="width:14%">Sprint</th><th style="width:28%">ช่วงเวลา</th><th>โมดูลที่พัฒนา</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>Sprint 1</td><td>__/__/2026 – __/__/2026</td><td>Master Data, เวชระเบียน, Queue (Config)</td></tr>
+        <tr class="fillrow"><td>Sprint 2</td><td>__/__/2026 – __/__/2026</td><td>Doctor Module / Smart IPD</td></tr>
+        <tr class="fillrow"><td>Sprint 3</td><td>__/__/2026 – __/__/2027</td><td>Nurse Module / eMAR, คลังยาและวัสดุ</td></tr>
+        <tr class="fillrow"><td>Sprint 4</td><td>__/__/2027 – __/__/2027</td><td>ER, วิสัญญีพยาบาล, เวชศาสตร์ฟื้นฟู, ตรวจสุขภาพ</td></tr>
+        <tr class="fillrow"><td>Sprint 5</td><td>__/__/2027 – __/__/2027</td><td>รังสี/PACS, LIS (integration)</td></tr>
+        <tr class="fillrow"><td>Sprint 6</td><td>__/__/2027 – __/__/2027</td><td>งานเรียกเก็บ + Interface สปสช./HL7 + เก็บงาน/แก้ไข</td></tr>
+      </tbody>
+    </table>
+    <p class="eg">Sprint 2 พัฒนา Doctor Module พร้อม demo ให้แพทย์รีวิวปลาย Sprint เพื่อปรับก่อนเข้า UAT</p>
+
+    <!-- 4 Definition of Done -->
+    <h2 class="sec"><span class="n">4</span>นิยามความเสร็จสมบูรณ์ (Definition of Done)</h2>
+    <ul class="chk">
+      <li class="star">พัฒนา/Config ครบตามความต้องการ (SRS) ที่ sign-off แล้ว</li>
+      <li>ผ่าน Unit Test / Code Review</li>
+      <li>ผ่าน Integration Test กับโมดูล/ระบบที่เกี่ยวข้อง</li>
+      <li>ไม่มี defect ระดับ Critical/High คงค้าง</li>
+      <li>มีเอกสารประกอบ (คู่มือ/หมายเหตุการตั้งค่า) ครบ</li>
+      <li>Deploy ขึ้น Staging และพร้อมให้ผู้ใช้ทดสอบ UAT</li>
+      <li>เจ้าของงานยืนยันยอมรับฟังก์ชัน (Acceptance)</li>
+    </ul>
+
+    <!-- 5 Integration + DTMU Phase 2 -->
+    <h2 class="sec"><span class="n">5</span>การเชื่อมต่อระบบ (Integration) และโมดูลที่รอ DTMU Phase 2</h2>
+    <p class="muted">การเชื่อม สปสช./HL7 และบางโมดูลพึ่งระบบฐานจาก DTMU Phase 2 (ระบบฐาน) เป็นช่วง ๆ จึงต้องลดการพึ่งพาแบบ blocking ด้วย mock/stub</p>
+    <ul>
+      <li>ออกแบบ Interface ตามสัญญา/สเปก (สปสช./HL7) ก่อนระบบฐาน DTMU Phase 2 พร้อม</li>
+      <li>สร้าง <strong>Mock/Stub ของ Interface และระบบฐาน</strong> เพื่อให้ Dev พัฒนา/ทดสอบต่อได้ระหว่างรอ DTMU Phase 2</li>
+      <li>เมื่อระบบฐาน DTMU Phase 2 พร้อม (Consult Sprint) จึงทำ Integration Test กับระบบจริงและปรับแก้</li>
+      <li>บันทึกผลทดสอบ interface และ sign-off ร่วมกับ Product Specialist DTMU</li>
+    </ul>
+    <div class="warn"><b>⚠️ จุดวิกฤต:</b> งาน Integration ที่พึ่งระบบฐาน DTMU Phase 2 ต้องจองคิวล่วงหน้าและทำเป็น batch — ใช้ mock/stub ครอบไว้เพื่อไม่ให้ Dev หยุดรอ</div>
+    <div class="ascii">Dev ──▶ HA.OS ──▶ [ Mock/Stub Interface + ระบบฐาน ]   (ระหว่างรอ DTMU Phase 2)
+                     │
+   Consult Sprint ───┴──▶ [ DTMU Phase 2 จริง + สปสช./HL7 ]   (Integration Test + sign-off)</div>
+
+    <!-- 6 ตารางเวลา build -->
+    <h2 class="sec"><span class="n">6</span>ตารางเวลาการพัฒนา (Build Schedule)</h2>
+    <p class="small muted">ช่วง build อยู่ในงวด 2 ก่อน Go-live รพ.หลัก (~20/01/2027)</p>
+    <table>
+      <thead><tr><th style="width:30%">กิจกรรม</th><th style="width:28%">ช่วงเวลา</th><th>ผู้รับผิดชอบ</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>เริ่ม Build (Sprint 1)</td><td>__/__/2026</td><td>Dev Lead</td></tr>
+        <tr class="fillrow"><td>พัฒนาโมดูลแกน + Smart IPD + Integration</td><td>__/__/2026 – __/__/2027</td><td>ทีม Dev</td></tr>
+        <tr class="fillrow"><td>Build เสร็จ (Code Complete)</td><td>__/__/2027</td><td>Dev Lead</td></tr>
+        <tr class="fillrow"><td>System/Integration Test + UAT</td><td>__/__/2027 – __/__/2027</td><td>QA + เจ้าของงาน</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>หมายเหตุ:</b> การส่งมอบระบบทดสอบ/ฝึกอบรม/Migration และ Go-live รพ.หลักอยู่ในงวด 2 (~20/01/2027) ส่วน Rollout ครบ 9 จุดบริการและตรวจรับครบทุกแห่งอยู่ในงวด 3 (~27/02/2027)</div>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">7</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Project Manager / Dev Lead</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

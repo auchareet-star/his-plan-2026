@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-03 แผนภาพกระบวนการทำงาน (Workflow Diagram)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-02.html">◂ ก่อนหน้า</a>
+      <a href="S2-04.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-03 · งวดที่ 2</span>
+    <h1>แผนภาพกระบวนการทำงาน (As-is / To-be)</h1>
+    <div class="en">Workflow Diagram</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-WFD-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">BA (สาม)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110 (SI.2)</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: งวดที่ 2 — ระยะวิเคราะห์/ออกแบบ ใช้ยืนยันกระบวนการกับ Process Owner</span>
+      <span class="chip who">เจ้าของ: BA (สาม)</span>
+      <span class="chip iso">ISO 29110: SI.2 Analysis</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> แสดงกระบวนการทำงานเดิมบน HosXP (As-is) เทียบกับกระบวนการใหม่หลังใช้ HA.OS (To-be) ด้วยผัง swimlane ระบุจุดที่เปลี่ยน/ปรับปรุง ครอบคลุมงาน Smart IPD และทั้ง 9 จุดบริการ เพื่อให้ทุกฝ่ายเห็นภาพตรงกันก่อนออกแบบระบบ · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2569</td><td>BA (สาม)</td><td>ร่างฉบับแรก ผัง flow ผู้ป่วย OPD/IPD</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 สัญลักษณ์ -->
+    <h2 class="sec"><span class="n">1</span>สัญลักษณ์ที่ใช้ (Notation)</h2>
+    <table>
+      <thead><tr><th style="width:18%">สัญลักษณ์</th><th>ความหมาย</th></tr></thead>
+      <tbody>
+        <tr><td><code>( ... )</code></td><td>จุดเริ่มต้น / จุดสิ้นสุด (Start / End)</td></tr>
+        <tr><td><code>[ ... ]</code></td><td>กิจกรรม / งาน (Activity / Task)</td></tr>
+        <tr><td><code>&lt; ... &gt;</code></td><td>จุดตัดสินใจ (Decision)</td></tr>
+        <tr><td><code>--&gt;</code></td><td>ทิศทางการไหลของงาน (Flow)</td></tr>
+        <tr><td><code>| Lane |</code></td><td>เลน/ผู้รับผิดชอบ (Swimlane / Actor)</td></tr>
+        <tr><td><code>[[HA.OS]]</code></td><td>กิจกรรมที่ทำในระบบ HA.OS (อัตโนมัติ/ดิจิทัล)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 2 As-is -->
+    <h2 class="sec"><span class="n">2</span>ผังกระบวนการเดิม (As-is — บน HosXP / ระบบเดิม)</h2>
+    <p class="small muted">ตัวอย่าง: กระบวนการรับบริการผู้ป่วย OPD ตั้งแต่ลงทะเบียนจนนัดครั้งถัดไป (บน HosXP ระบบเดิม — มีจุดบันทึกซ้ำซ้อนและขั้นตอนด้วยมือบางส่วน)</p>
+    <div class="ascii">
+SWIMLANE (As-is) — Flow ผู้ป่วย OPD บน HosXP (ระบบเดิม)
+
+ ผู้ป่วย    │ (มาถึง รพ.)
+            │     │
+ เวชระเบียน │     v
+            │ [ยื่นบัตร/รับบัตรคิวด้วยมือ] --> [ค้น/เปิดเวชระเบียนใน HosXP]
+            │                                        │
+ พยาบาล     │                                        v
+ คัดกรอง    │                          [ซักประวัติ + วัดสัญญาณชีพ คีย์ใน HosXP]
+            │                                        │
+ แพทย์      │                                        v
+            │                  [ตรวจ/บันทึกใน HosXP] --> &lt;ต้องสั่งยา?&gt;
+            │                                   │ใช่        │ไม่
+            │                                   v           │
+ ห้องยา     │                       [สั่งยาใน HosXP]        │
+            │                                   │           │
+            │                       [จ่ายยา-ตรวจแพ้ยาในระบบเดิม]│
+            │                                   │           │
+ การเงิน    │                                   v           v
+            │                       [คิดเงิน-เบิกสิทธิ์ใน HosXP]
+            │                                        │
+            │                                        v
+            │                       [นัดครั้งถัดไป-บันทึกใน HosXP] --> (กลับบ้าน)
+    </div>
+    <div class="warn"><b>ปัญหาที่พบ (As-is บน HosXP):</b> ข้อมูลกระจายหลายฐาน, งาน IPD บางส่วนยังใช้กระดาษ (ไม่มี eMAR/Doctor-Nurse Module เต็มรูปแบบ), เชื่อม สปสช./43 แฟ้มทำเป็นรอบ, ค้นภาพรังสี/ผล Lab ข้ามจุดบริการช้า</div>
+
+    <!-- 3 To-be -->
+    <h2 class="sec"><span class="n">3</span>ผังกระบวนการใหม่ (To-be — หลังใช้ HA.OS)</h2>
+    <p class="small muted">ตัวอย่าง: กระบวนการเดียวกันหลังใช้ HA.OS — บันทึกครั้งเดียวไหลต่อทั้งระบบ มี Smart IPD (Doctor/Nurse/Pharmacist + eMAR) และเชื่อม สปสช./HL7 อัตโนมัติ ครอบคลุม 9 จุดบริการ</p>
+    <div class="ascii">
+SWIMLANE (To-be) — Flow ผู้ป่วยบน HA.OS (Smart IPD)
+
+ ผู้ป่วย    │ (มาถึง / Patient Self Visit คีออส)
+            │     │
+ เวชระเบียน │     v
+            │ [[HA.OS: ค้นผู้ป่วยด้วย HN/บัตร ปชช.]] --> [[Queue อัตโนมัติตามจุดบริการ]]
+            │                                              │
+ พยาบาล     │                                              v
+ คัดกรอง    │                       [[HA.OS: ซักประวัติ+Vital sign บันทึกครั้งเดียว]]
+            │                                              │
+ แพทย์      │                                              v
+            │           [[HA.OS Doctor Module: ตรวจ+คำสั่งแพทย์]] --> &lt;สั่งยา/รับเป็นผู้ป่วยใน?&gt;
+            │                                         │ใช่         │ไม่
+            │                                         v            │
+ ห้องยา/    │   [[HA.OS Pharmacist+eMAR: จ่ายยา/บริหารยา bedside ตัดสต็อก]]│
+ พยาบาล Ward│                                         │            │
+            │   [[HA.OS Nurse Module: บันทึกการพยาบาล/รับ-ส่งเวร]]        │
+            │                                         │            │
+ การเงิน    │                                         v            v
+            │   [[HA.OS: คิดค่ารักษา + เบิกตามสิทธิ์ -> Interface สปสช./e-Claim]]
+            │                                              │
+ ระบบ HA.OS │                                              v
+            │   [[HA.OS: สร้างนัดถัดไป + ส่งออก 43 แฟ้ม]] --> [[เชื่อม LIS/PACS (HL7/DICOM)]]
+            │                                              │
+            │                                              v
+            │                                         (เสร็จสิ้น)
+    </div>
+    <div class="tip"><b>ประโยชน์ (To-be):</b> บันทึกครั้งเดียวไหลต่อทั้งระบบข้าม 9 จุดบริการ, Smart IPD (Doctor/Nurse/Pharmacist + eMAR) ครบวงจร, เบิกสิทธิ์ผ่าน Interface สปสช./e-Claim อัตโนมัติ, ส่งออก 43 แฟ้ม, เรียกดูภาพรังสี (PACS) และผล Lab (HL7) ในจอเดียว</div>
+
+    <!-- 4 จุดเปลี่ยน -->
+    <h2 class="sec"><span class="n">4</span>จุดเปลี่ยน/ปรับปรุง (As-is vs To-be)</h2>
+    <table>
+      <thead><tr><th style="width:18%">ขั้นตอน</th><th style="width:32%">As-is (HosXP เดิม)</th><th style="width:32%">To-be (HA.OS ใหม่)</th><th>ผลที่ได้</th></tr></thead>
+      <tbody>
+        <tr><td>ลงทะเบียน/คิว</td><td>รับบัตรคิวด้วยมือ ค้นใน HosXP</td><td>Patient Self Visit + Queue อัตโนมัติตามจุดบริการ</td><td>เร็วขึ้น ลดคิวหน้าจุด</td></tr>
+        <tr><td>ซักประวัติ</td><td>คีย์ใน HosXP บางจุดยังจดมือ</td><td>บันทึกครั้งเดียวใน HA.OS ใช้ต่อทั้งระบบ</td><td>ลดงานซ้ำ/คลาดเคลื่อน</td></tr>
+        <tr><td>งานผู้ป่วยใน (IPD)</td><td>บางส่วนใช้กระดาษ ไม่มี eMAR</td><td>Smart IPD: Doctor/Nurse/Pharmacist + eMAR bedside</td><td>ปลอดภัย ตรวจสอบย้อนได้</td></tr>
+        <tr><td>เก็บเงิน/เบิกสิทธิ์</td><td>เบิก สปสช./43 แฟ้มทำเป็นรอบ</td><td>เชื่อม Interface สปสช./e-Claim + ส่งออก 43 แฟ้มอัตโนมัติ</td><td>ลดข้อผิดพลาด ส่งเบิกเร็ว</td></tr>
+        <tr><td>นัดถัดไป/ภาพ-ผล</td><td>ค้นข้ามจุดบริการช้า</td><td>นัด + เชื่อม LIS/PACS (HL7/DICOM) ในจอเดียว</td><td>ดูแลต่อเนื่อง ลดเวลารอ</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 5 รายการ workflow ทั้งหมด -->
+    <h2 class="sec"><span class="n">5</span>รายการ Workflow ทั้งหมดที่ต้องจัดทำ (Workflow Inventory)</h2>
+    <p class="small muted">รายการผังกระบวนการ As-is/To-be ที่ต้องจัดทำให้ครบทุกโมดูลตามสัญญาแนบท้าย 1 — ใช้ติดตามความครบถ้วน</p>
+    <table>
+      <thead><tr><th style="width:8%">ลำดับ</th><th style="width:26%">โมดูล (แนบท้าย 1)</th><th style="width:38%">ชื่อ Flow</th><th>สถานะ</th></tr></thead>
+      <tbody>
+        <tr><td>WF-01</td><td>เวชระเบียน / Queue</td><td>Flow ผู้ป่วย OPD (ลงทะเบียน→นัดถัดไป)</td><td><span class="badge b-fit">เสร็จ</span></td></tr>
+        <tr><td>WF-02</td><td>Doctor Module</td><td>Flow คำสั่งแพทย์ + รับผู้ป่วยใน</td><td><span class="badge b-par">กำลังจัดทำ</span></td></tr>
+        <tr><td>WF-03</td><td>Nurse Module + eMAR</td><td>Flow บันทึกการพยาบาล + บริหารยา bedside</td><td><span class="badge b-par">กำลังจัดทำ</span></td></tr>
+        <tr><td>WF-04</td><td>คลังยาและวัสดุ / Pharmacist</td><td>Flow สั่ง-จ่ายยา + เตือนแพ้ยา + ตัดสต็อก</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>WF-05</td><td>งานเรียกเก็บ</td><td>Flow คิดค่ารักษา + เบิกสิทธิ์ สปสช.</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>WF-06</td><td>ER</td><td>Flow คัดกรองฉุกเฉิน (Triage) และรับ ER</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>WF-07</td><td>วิสัญญีพยาบาล</td><td>Flow บันทึกงานวิสัญญี (Anesthesia Record)</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>WF-08</td><td>เวชศาสตร์ฟื้นฟู / ห้องตรวจสุขภาพ</td><td>Flow กายภาพ / แพ็กเกจตรวจสุขภาพ</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr><td>WF-09</td><td>Migration (HosXP → HA.OS)</td><td>Flow ย้ายข้อมูล + Dress Rehearsal + reconcile</td><td><span class="badge b-gap">ยังไม่เริ่ม</span></td></tr>
+        <tr class="fillrow"><td>WF-__</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <p class="hint">เพิ่มแถวให้ครบทุกโมดูลที่ระบุในสัญญาแนบท้าย 1 (LIS, รังสีวิทยา, Master Data Smart IPD, บริหารหอผู้ป่วย, รายงาน 43 แฟ้ม, สิทธิ์ผู้ใช้ ฯลฯ) ครอบคลุมทั้ง 9 จุดบริการ</p>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">6</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — BA (สาม)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — Process Owner</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

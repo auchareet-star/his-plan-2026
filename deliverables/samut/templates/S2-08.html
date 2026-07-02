@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2-08 การออกแบบโครงสร้างฐานข้อมูล (Database Schema Design)</title>
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="s2">
+<div class="page">
+
+  <div class="toolbar">
+    <a href="../deliverables-by-milestone.html">◂ กลับหน้าสารบัญเอกสาร</a>
+    <span class="nav">
+      <a href="S2-07.html">◂ ก่อนหน้า</a>
+      <a href="S2-09.html">ถัดไป ▸</a>
+      <button class="btn-print" onclick="window.print()">🖨 พิมพ์ / บันทึก PDF</button>
+    </span>
+  </div>
+
+  <div class="dochead">
+    <span class="code">S2-08 · งวดที่ 2</span>
+    <h1>การออกแบบโครงสร้างฐานข้อมูล (Database Schema Design)</h1>
+    <div class="en">Database Schema Design</div>
+    <div class="proj">โครงการ: ระบบสารสนเทศโรงพยาบาล (HIS) — โรงพยาบาลเมืองสมุทรปู่เจ้าฯ และ สมุทรเวชกิจ (เมืองสมุทรปากน้ำ) · ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+  </div>
+
+  <div class="ctrl">
+    <div class="ctrl-h">ข้อมูลควบคุมเอกสาร (Document Control)</div>
+    <div class="meta-grid">
+      <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-DBS-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">DB Designer / SA (ก้อง/โอ)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="fill">DB Analyst / SA</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
+      <div><b>สถานะ:</b> <span class="fill">ร่าง / รออนุมัติ / อนุมัติแล้ว</span></div>
+      <div><b>อ้างอิง TOR:</b> สัญญาแนบท้าย 1 · ISO 29110</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta">
+      <span class="chip when">ใช้ตอน: ออกแบบฐานข้อมูล — เป็นพิมพ์เขียวสำหรับสร้าง schema จริง</span>
+      <span class="chip who">เจ้าของ: DB Designer</span>
+      <span class="chip iso">3NF / Referential Integrity</span>
+    </div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> ออกแบบโครงสร้างฐานข้อมูลของระบบ HIS (HA.OS) ตามหลักการ Normalization และ Referential Integrity — ครอบคลุม ERD ความสัมพันธ์ระหว่างเอนทิตี, รายการตารางทั้งหมด, นิยามตาราง (DDL), Index/Constraint และมาตรฐานการตั้งชื่อ เพื่อใช้สร้าง schema จริงรองรับ DB หลายชนิด และรองรับการ Migration จาก HosXP (ระบบเดิม) · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+
+    <!-- 0 ประวัติการแก้ไข -->
+    <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
+    <table>
+      <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
+      <tbody>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>DB Designer</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 1 หลักการออกแบบ -->
+    <h2 class="sec"><span class="n">1</span>หลักการออกแบบ (Design Principles)</h2>
+    <ul>
+      <li><strong>Normalization (3NF)</strong> — ออกแบบตารางให้อยู่ในรูปแบบบรรทัดฐานที่สาม ลดความซ้ำซ้อน (redundancy) และความผิดปกติของข้อมูล (anomaly) ยกเว้นกรณีจำเป็นด้านประสิทธิภาพจึง denormalize อย่างมีเหตุผล</li>
+      <li><strong>Referential Integrity</strong> — บังคับความสัมพันธ์ด้วย Foreign Key Constraint ทุกความสัมพันธ์ พร้อมกำหนด ON DELETE/UPDATE ที่เหมาะสม (RESTRICT/CASCADE)</li>
+      <li><strong>Surrogate Key</strong> — ทุกตารางใช้ <code>&lt;table&gt;_id</code> (BIGINT) เป็น PK เพื่อความเสถียร ส่วน Business Key (เช่น HN, VN) ใช้ UNIQUE Constraint</li>
+      <li><strong>Data Type ข้ามแพลตฟอร์ม</strong> — ใช้ชนิดข้อมูลมาตรฐาน ISO SQL รองรับ PostgreSQL / SQL Server / Oracle (ค่าเงิน NUMERIC, เวลา TIMESTAMP)</li>
+      <li><strong>Audit & Soft Delete</strong> — ทุกตารางหลักมี <code>created_at</code>, <code>updated_at</code> และพิจารณา <code>is_deleted</code> สำหรับ soft delete ข้อมูลผู้ป่วย</li>
+      <li><strong>รองรับการ Migration</strong> — มีฟิลด์ <code>legacy_hn</code>/<code>source_ref</code> เพื่อ map ข้อมูลเดิมจาก HosXP และรองรับ reconciliation 100%</li>
+      <li><strong>ความปลอดภัยข้อมูล</strong> — ข้อมูล PII/สุขภาพ เข้ารหัสและควบคุมการเข้าถึงตามสิทธิ์ (สอดคล้อง PDPA) · ข้อมูลผู้ป่วยเป็นกรรมสิทธิ์ของโรงพยาบาล</li>
+    </ul>
+
+    <!-- 2 ERD -->
+    <h2 class="sec"><span class="n">2</span>แผนภาพความสัมพันธ์ของข้อมูล (ERD)</h2>
+    <p>แสดงความสัมพันธ์หลักของเอนทิตี โดยใช้สัญลักษณ์ <code>1 ──&lt; N</code> หมายถึงความสัมพันธ์แบบหนึ่งต่อกลุ่ม (One-to-Many)</p>
+    <div class="ascii">
+   ┌──────────────┐ 1        N ┌──────────────┐ 1        N ┌──────────────┐
+   │   patient    │───────────►│    visit     │───────────►│  order_item  │
+   ├──────────────┤            ├──────────────┤            ├──────────────┤
+   │ PK patient_id│            │ PK visit_id  │            │PK order_id   │
+   │    hn (UQ)   │            │ FK patient_id│            │ FK visit_id  │
+   │    first_name│            │ FK doctor_id │            │   item_code  │
+   │    gender    │            │    visit_date│            │   dx_code    │
+   └──────┬───────┘            │    status    │            │   fee        │
+          │ 1                  └──────────────┘            └──────┬───────┘
+          │                                                       │ N
+          │ N                                                     │
+   ┌──────▼───────┐                                        ┌──────▼───────┐
+   │  admission   │                                        │   service    │
+   │  (IPD)       │        ┌──────────────┐ 1        N     ├──────────────┤
+   ├──────────────┤        │ prescription │───────────►    │ PK code      │
+   │PK admit_id   │        ├──────────────┤  presc_item    │   name       │
+   │ FK patient_id│   N    │PK presc_id   │      N         └──────────────┘
+   │ FK ward_id   │◄───────│ FK visit_id  │──────►┌──────────────┐
+   │   status     │        │ FK admit_id  │  1    │     drug     │
+   └──────────────┘        └──────────────┘       ├──────────────┤
+                                                  │ PK drug_id   │
+   ┌──────────────┐ 1    N ┌──────────────┐       │   drug_code  │
+   │    users     │───────►│ emar /       │       └──────────────┘
+   │ (doctor /    │        │ visit (ผู้ทำ) │
+   │  nurse/pharm)│        └──────────────┘
+   └──────────────┘
+    </div>
+    <p class="small muted">หมายเหตุ: patient 1:N visit, visit 1:N order_item, patient 1:N admission (IPD), visit/admission 1:N prescription, prescription 1:N prescription_item (เชื่อม drug → eMAR), users (doctor/nurse/pharmacist) 1:N visit/emar — รองรับ Smart IPD</p>
+
+    <!-- 3 รายการตารางทั้งหมด -->
+    <h2 class="sec"><span class="n">3</span>รายการตารางทั้งหมด (Table List)</h2>
+    <table>
+      <thead><tr><th style="width:8%">#</th><th style="width:22%">ชื่อตาราง</th><th style="width:42%">คำอธิบาย</th><th>Primary Key</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>patient</code></td><td>ข้อมูลผู้ป่วย (HN, ข้อมูลส่วนตัว, ประวัติแพ้, legacy_hn จาก HosXP)</td><td>patient_id</td></tr>
+        <tr><td>2</td><td><code>visit</code></td><td>การมารับบริการแต่ละครั้ง — OPD (VN)</td><td>visit_id</td></tr>
+        <tr><td>3</td><td><code>admission</code></td><td>การรับไว้ในหอผู้ป่วย (IPD/AN) — Smart IPD</td><td>admission_id</td></tr>
+        <tr><td>4</td><td><code>order_item</code></td><td>คำสั่งการรักษา/ตรวจ/หัตถการ (Doctor Module)</td><td>order_id</td></tr>
+        <tr><td>5</td><td><code>prescription</code></td><td>ใบสั่งยา (หัวใบ)</td><td>prescription_id</td></tr>
+        <tr><td>6</td><td><code>prescription_item</code></td><td>รายการยาในใบสั่งยา</td><td>presc_item_id</td></tr>
+        <tr><td>7</td><td><code>emar</code></td><td>บันทึกการบริหารยา (eMAR — Nurse/Pharmacist)</td><td>emar_id</td></tr>
+        <tr><td>8</td><td><code>drug</code></td><td>ทะเบียนยา + คลังยาและวัสดุ (โมดูลใหญ่สุด 101 ข้อ)</td><td>drug_id</td></tr>
+        <tr><td>9</td><td><code>lab_result</code></td><td>ผลแลป/ผลตรวจ (LIS)</td><td>lab_result_id</td></tr>
+        <tr><td>10</td><td><code>invoice</code></td><td>ใบแจ้งหนี้/ใบเสร็จ + งานเรียกเก็บ/สปสช.</td><td>invoice_id</td></tr>
+        <tr><td>11</td><td><code>invoice_item</code></td><td>รายการในใบเสร็จ</td><td>invoice_item_id</td></tr>
+        <tr><td>12</td><td><code>users</code></td><td>ผู้ใช้งาน (แพทย์/พยาบาล/เภสัชกร/เจ้าหน้าที่)</td><td>user_id</td></tr>
+        <tr><td>13</td><td><code>role</code></td><td>บทบาท/สิทธิ์การใช้งาน (RBAC)</td><td>role_id</td></tr>
+        <tr><td>14</td><td><code>ward</code></td><td>หอผู้ป่วย/เตียง (IPD)</td><td>ward_id</td></tr>
+        <tr><td>15</td><td><code>service</code></td><td>รหัสบริการ/หัตถการ (ICD-9-CM/TMLT)</td><td>code</td></tr>
+        <tr><td>16</td><td><code>diagnosis</code></td><td>รหัสวินิจฉัย (ICD-10-TM)</td><td>code</td></tr>
+        <tr><td>17</td><td><code>service_point</code></td><td>จุดบริการ/สาขา (9 จุดบริการ รพ.+คลินิก)</td><td>sp_code</td></tr>
+        <tr><td>18</td><td><code>lookup_code</code></td><td>ตารางอ้างอิงรหัส/Lookup รวม</td><td>lookup_id</td></tr>
+        <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>เพิ่มตารางเพิ่มเติมตามขอบเขตจริง (36 โมดูล)</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 4 นิยามตารางตัวอย่าง DDL -->
+    <h2 class="sec"><span class="n">4</span>นิยามตารางตัวอย่าง (Table Definition — DDL)</h2>
+    <p class="small muted">ตัวอย่าง DDL เชิงตรรกะ (ปรับชนิดข้อมูลให้ตรง DBMS ที่ใช้จริง) — แสดง field, type, PK/FK</p>
+    <div class="ascii">
+CREATE TABLE patient (
+    patient_id    BIGINT        NOT NULL,
+    hn            VARCHAR(13)   NOT NULL,
+    legacy_hn     VARCHAR(13)   NULL,            -- HN เดิมจาก HosXP (migration map)
+    citizen_id    VARCHAR(13)   NULL,
+    title         VARCHAR(20)   NULL,
+    first_name    VARCHAR(100)  NOT NULL,
+    last_name     VARCHAR(100)  NOT NULL,
+    gender        CHAR(1)       NOT NULL,        -- M / F / U
+    birth_date    DATE          NULL,
+    phone         VARCHAR(20)   NULL,
+    allergy_flag  BOOLEAN       NOT NULL DEFAULT FALSE,
+    created_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP     NULL,
+    CONSTRAINT pk_patient PRIMARY KEY (patient_id),
+    CONSTRAINT uq_patient_hn UNIQUE (hn)
+);
+
+CREATE TABLE visit (
+    visit_id      BIGINT        NOT NULL,
+    patient_id    BIGINT        NOT NULL,
+    visit_no      VARCHAR(15)   NOT NULL,
+    visit_date    TIMESTAMP     NOT NULL,
+    sp_code       VARCHAR(10)   NOT NULL,        -- จุดบริการ (9 จุด)
+    doctor_id     BIGINT        NULL,
+    visit_type    VARCHAR(15)   NOT NULL,        -- OPD / ER
+    status        VARCHAR(15)   NOT NULL,
+    created_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_visit PRIMARY KEY (visit_id),
+    CONSTRAINT uq_visit_no UNIQUE (visit_no),
+    CONSTRAINT fk_visit_patient FOREIGN KEY (patient_id)
+        REFERENCES patient (patient_id),
+    CONSTRAINT fk_visit_doctor FOREIGN KEY (doctor_id)
+        REFERENCES users (user_id)
+);
+
+CREATE TABLE emar (
+    emar_id        BIGINT        NOT NULL,
+    admission_id   BIGINT        NOT NULL,       -- Smart IPD
+    presc_item_id  BIGINT        NOT NULL,
+    administered_by BIGINT       NULL,           -- พยาบาลผู้ให้ยา
+    admin_time     TIMESTAMP     NULL,
+    dose           VARCHAR(30)   NULL,
+    status         VARCHAR(15)   NOT NULL,       -- given / held / refused
+    created_at     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_emar PRIMARY KEY (emar_id),
+    CONSTRAINT fk_emar_admission FOREIGN KEY (admission_id)
+        REFERENCES admission (admission_id) ON DELETE CASCADE,
+    CONSTRAINT fk_emar_presc_item FOREIGN KEY (presc_item_id)
+        REFERENCES prescription_item (presc_item_id),
+    CONSTRAINT fk_emar_nurse FOREIGN KEY (administered_by)
+        REFERENCES users (user_id)
+);
+    </div>
+
+    <!-- 5 Index & Constraint -->
+    <h2 class="sec"><span class="n">5</span>ดัชนีและข้อจำกัด (Index &amp; Constraint)</h2>
+    <table>
+      <thead><tr><th style="width:14%">ประเภท</th><th style="width:30%">ชื่อ (ตัวอย่าง)</th><th>วัตถุประสงค์</th></tr></thead>
+      <tbody>
+        <tr><td>Primary Key</td><td><code>pk_patient</code>, <code>pk_visit</code></td><td>คีย์หลักของแต่ละตาราง (clustered)</td></tr>
+        <tr><td>Unique</td><td><code>uq_patient_hn</code>, <code>uq_visit_no</code></td><td>บังคับ Business Key ไม่ซ้ำ (HN, VN)</td></tr>
+        <tr><td>Foreign Key</td><td><code>fk_visit_patient</code>, <code>fk_emar_admission</code></td><td>บังคับความสัมพันธ์/Referential Integrity</td></tr>
+        <tr><td>Index (FK)</td><td><code>idx_visit_patient_id</code></td><td>เร่งการ join/ค้นหาตาม FK</td></tr>
+        <tr><td>Index (ค้นบ่อย)</td><td><code>idx_visit_visit_date</code>, <code>idx_emar_admin_time</code></td><td>เร่งคิวรีตามวันที่/สถานะ</td></tr>
+        <tr><td>Check</td><td><code>ck_patient_gender</code></td><td>จำกัดค่า เช่น gender IN ('M','F','U')</td></tr>
+        <tr><td>Default</td><td>fee DEFAULT 0.00, created_at DEFAULT now()</td><td>ค่าเริ่มต้นเมื่อไม่ได้ระบุ</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>แนวทาง Index:</b> สร้าง Index บนทุกคอลัมน์ FK และคอลัมน์ที่ใช้ใน WHERE/JOIN/ORDER BY บ่อย · หลีกเลี่ยง Index เกินจำเป็น (กระทบ INSERT/UPDATE) · พิจารณา composite index ตามรูปแบบคิวรีจริง</div>
+
+    <!-- 6 มาตรฐานการตั้งชื่อ -->
+    <h2 class="sec"><span class="n">6</span>มาตรฐานการตั้งชื่อ (Naming Convention)</h2>
+    <table>
+      <thead><tr><th style="width:28%">รายการ</th><th style="width:34%">รูปแบบ</th><th>ตัวอย่าง</th></tr></thead>
+      <tbody>
+        <tr><td>ตาราง</td><td>snake_case เอกพจน์</td><td><code>patient</code>, <code>prescription_item</code></td></tr>
+        <tr><td>คอลัมน์</td><td>snake_case</td><td><code>visit_date</code>, <code>admin_time</code></td></tr>
+        <tr><td>Primary Key</td><td>pk_&lt;table&gt;</td><td><code>pk_patient</code></td></tr>
+        <tr><td>Foreign Key</td><td>fk_&lt;table&gt;_&lt;ref&gt;</td><td><code>fk_visit_patient</code></td></tr>
+        <tr><td>Unique</td><td>uq_&lt;table&gt;_&lt;cols&gt;</td><td><code>uq_patient_hn</code></td></tr>
+        <tr><td>Index</td><td>idx_&lt;table&gt;_&lt;cols&gt;</td><td><code>idx_visit_patient_id</code></td></tr>
+        <tr><td>Check</td><td>ck_&lt;table&gt;_&lt;rule&gt;</td><td><code>ck_patient_gender</code></td></tr>
+        <tr><td>Sequence</td><td>seq_&lt;table&gt;</td><td><code>seq_patient</code></td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>สอดคล้องกับพจนานุกรมข้อมูล:</b> มาตรฐานการตั้งชื่อในเอกสารนี้ต้องตรงกับเอกสารพจนานุกรมข้อมูล (Data Dictionary) เสมอ หากมีการแก้ไขให้ปรับทั้งสองเอกสารพร้อมกัน — และต้องสอดคล้องกับ mapping การย้ายข้อมูลจาก HosXP</div>
+
+    <!-- ลงนาม -->
+    <h2 class="sec"><span class="n">7</span>การอนุมัติเอกสาร</h2>
+    <div class="signs">
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — DB Designer</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — DB Analyst/SA</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
+    </div>
+  </div>
+
+  <div class="docfoot">
+    เอกสารต้นแบบ (Template) — โครงการ HIS เมืองสมุทร/สมุทรปู่เจ้า · ปรับ/กรอกให้ตรงข้อมูลจริงก่อนใช้ · อ้างอิงสัญญาแนบท้าย 1
+  </div>
+</div>
+</body>
+</html>

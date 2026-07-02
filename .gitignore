@@ -1,0 +1,6 @@
+# Repo tracks only the web deliverables (html/ + deliverables/)
+/*
+!.gitignore
+!README.md
+!html/
+!deliverables/
