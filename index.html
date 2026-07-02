@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนโครงการ HIS 3 Site — DTWU / เมืองสมุทร</title>
+<style>
+  :root{--primary:#0d6e6e;--primary-dark:#0a5252;--accent:#e8743b;--bg:#eef1f3;--card:#fff;
+    --line:#d7dde2;--ink:#1f2d3d;--muted:#5b6b7b;--dtwu:#9560b8;--msm:#70ad47;--dtmu:#5b9bd5;}
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+    background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;
+    border-radius:18px;padding:38px 34px;box-shadow:0 12px 34px rgba(13,110,110,.28)}
+  header.cover .k{font-size:13px;opacity:.85;letter-spacing:1px;font-weight:700}
+  header.cover h1{margin:8px 0 6px;font-size:28px;line-height:1.3}
+  header.cover .org{font-size:14px;opacity:.92}
+  .pills{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+    padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:700}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:24px}
+  .card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:24px;box-shadow:0 3px 12px rgba(31,45,61,.06);transition:.15s;border-top:5px solid var(--primary)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(13,110,110,.16)}
+  .card.plan{border-top-color:var(--primary)} .card.deli{border-top-color:var(--accent)}
+  .card .ic{font-size:30px}
+  .card h2{margin:8px 0 4px;font-size:21px;color:var(--primary-dark)}
+  .card p{margin:8px 0 6px;font-size:13.5px;color:var(--muted)}
+  .card ul{margin:6px 0 0;padding-left:20px;font-size:13px}
+  .card .go{display:inline-block;margin-top:12px;color:var(--accent);font-weight:700;font-size:13.5px}
+  .tags{margin-top:22px;font-size:13px;color:var(--muted)}
+  .tag{display:inline-block;color:#fff;border-radius:5px;padding:1px 9px;font-size:12px;font-weight:700;margin-right:4px}
+  .t-dtmu{background:var(--dtmu)}.t-dtwu{background:var(--dtwu)}.t-msm{background:var(--msm)}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:30px;padding-top:16px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="cover">
+    <div class="k">HIS PLAN 2026</div>
+    <h1>แผนโครงการ HIS 3 Site</h1>
+    <div class="org">DTMU · DTWU วลัยลักษณ์ · เมืองสมุทร / สมุทรปู่เจ้า — ผู้รับจ้าง บริษัท อโยเดีย จำกัด</div>
+    <div class="pills">
+      <span class="pill">📅 20 Sprints · 3 Site</span>
+      <span class="pill">🧩 43 Modules</span>
+      <span class="pill">📦 74 เอกสารส่งมอบ (HTML + Word)</span>
+    </div>
+  </header>
+
+  <div class="cards">
+    <a class="card plan" href="html/index.html">
+      <div class="ic">🗺️</div>
+      <h2>แผนรวมโครงการ</h2>
+      <p>Timeline, Gantt, Checklist, Fit Gap — ครบทุกมุมของแผน</p>
+      <ul>
+        <li>Timeline + Gantt (Sprint S1-S20 + รายโครงการ)</li>
+        <li>Checklist DTWU / เมืองสมุทร (RACI)</li>
+        <li>Module Fit Gap · Workshop · Summary</li>
+        <li>Jira Cards</li>
+      </ul>
+      <span class="go">เปิดแผนรวม ▸</span>
+    </a>
+
+    <a class="card deli" href="deliverables/index.html">
+      <div class="ic">📦</div>
+      <h2>เอกสารส่งมอบรายงวด</h2>
+      <p>Template เอกสารส่งมอบ (HTML พิมพ์ PDF + Word .docx)</p>
+      <ul>
+        <li>DTWU — งวด M1-M4 (38 ฉบับ)</li>
+        <li>เมืองสมุทร — งวด 1-3 (36 ฉบับ)</li>
+        <li>ฟอนต์ TH SarabunPSK · กรอกใช้งานได้จริง</li>
+      </ul>
+      <span class="go">เปิดเอกสารส่งมอบ ▸</span>
+    </a>
+  </div>
+
+  <div class="tags">
+    สี Site: <span class="tag t-dtmu">DTMU</span> ระบบฐาน ·
+    <span class="tag t-dtwu">DTWU</span> วลัยลักษณ์ ·
+    <span class="tag t-msm">เมืองสมุทร</span> สมุทรปู่เจ้า
+  </div>
+
+  <footer>เอกสารวางแผนภายใน · ค่าตัวอย่างในเทมเพลตเป็นค่าสมมุติ ควรทาน TOR/สัญญาตัวจริงก่อนใช้</footer>
+</div>
+</body>
+</html>
