@@ -30,7 +30,7 @@
     <div class="meta-grid">
       <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-DMP-001</span></div>
       <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
-      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp (HosXP) / Data Engineer</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp เตทีม (HosXP) / Data Engineer</span></div>
       <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
       <div><b>ผู้สอบทาน:</b> <span class="fill">__________</span></div>
       <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
@@ -43,7 +43,7 @@
 
     <div class="meta">
       <span class="chip when">ใช้ตอน: วางแผนต้นโครงการ — ดำเนินจริงในงวด 2 ก่อน Go-live รพ.หลัก</span>
-      <span class="chip who">เจ้าของ: Senior Imp (HosXP) — นำการ Migration</span>
+      <span class="chip who">เจ้าของ: Senior Imp เตทีม (HosXP) — นำการ Migration</span>
       <span class="chip iso">ISO 29110: SI.4 Construction</span>
     </div>
     <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดขอบเขต วิธีการ และเกณฑ์การตรวจสอบความถูกต้องของการโอนย้ายข้อมูลจากระบบเดิม <strong>HosXP</strong> มายังระบบ <strong>HA.OS</strong> ให้ครบถ้วน ถูกต้อง และตรวจสอบย้อนกลับได้ พร้อมแผน Dress Rehearsal, Cut-over และ Rollback · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
@@ -53,7 +53,7 @@
     <table>
       <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>Senior Imp (HosXP)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>Senior Imp เตทีม (HosXP)</td><td>ร่างฉบับแรก</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
@@ -83,15 +83,15 @@
         <tr><td>ระบบ</td><td>HosXP (ระบบเดิม)</td><td>HA.OS</td></tr>
         <tr class="fillrow"><td>ฐานข้อมูล</td><td><span class="blank">&nbsp;</span> (MySQL/MariaDB — HosXP)</td><td><span class="blank">&nbsp;</span> (HA.OS DB)</td></tr>
         <tr class="fillrow"><td>วิธีดึงข้อมูล</td><td><span class="blank">&nbsp;</span> (DB dump / replica / export)</td><td>Staging schema</td></tr>
-        <tr class="fillrow"><td>สิทธิ์เข้าถึง</td><td><span class="blank">&nbsp;</span> (read-only โดย Senior Imp HosXP)</td><td>DBA โครงการ</td></tr>
+        <tr class="fillrow"><td>สิทธิ์เข้าถึง</td><td><span class="blank">&nbsp;</span> (read-only โดย Senior Imp เตทีม HosXP)</td><td>DBA โครงการ</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>⚠️ ข้อควรระวัง:</b> สิทธิ์เข้าถึง HosXP และโครงสร้างตารางต้องได้รับการยืนยันจาก Senior Imp (HosXP) (ดูข้อ 7) ก่อนเริ่ม Extract</div>
+    <div class="warn"><b>⚠️ ข้อควรระวัง:</b> สิทธิ์เข้าถึง HosXP และโครงสร้างตารางต้องได้รับการยืนยันจาก Senior Imp เตทีม (HosXP) (ดูข้อ 7) ก่อนเริ่ม Extract</div>
 
     <!-- 3 วิธีการ ETL -->
     <h2 class="sec"><span class="n">3</span>วิธีการโอนย้าย (ETL: Extract / Transform / Load)</h2>
     <h3 class="sub">3.1 Extract</h3>
-    <p class="muted">ดึงข้อมูลจาก HosXP เข้า Staging โดยไม่กระทบระบบ Production (read-only / นอกเวลาทำการ) — Senior Imp (HosXP) เป็นผู้นำการ Extract เพราะคุ้นโครงสร้างฐานข้อมูล HosXP</p>
+    <p class="muted">ดึงข้อมูลจาก HosXP เข้า Staging โดยไม่กระทบระบบ Production (read-only / นอกเวลาทำการ) — Senior Imp เตทีม (HosXP) เป็นผู้นำการ Extract เพราะคุ้นโครงสร้างฐานข้อมูล HosXP</p>
     <h3 class="sub">3.2 Transform</h3>
     <ul>
       <li>Mapping ฟิลด์ต้นทาง HosXP → ปลายทาง HA.OS (ตาราง mapping แยกไฟล์)</li>
@@ -142,11 +142,11 @@
     </table>
     <div class="tip"><b>คำแนะนำ:</b> ประกาศ Downtime ให้ผู้ใช้ทราบล่วงหน้า และเตรียมแผนสำรองบันทึกด้วยมือ (manual) ระหว่าง freeze</div>
 
-    <!-- 7 บทบาท Senior Imp (HosXP) -->
-    <h2 class="sec"><span class="n">7</span>บทบาทของ Senior Imp (HosXP)</h2>
-    <p class="small muted">Senior Imp (HosXP) เป็นผู้นำการ Migration เนื่องจากคุ้นเคยโครงสร้างฐานข้อมูล HosXP — เริ่มงาน 1 ก.ค. 2569 จองคิวล่วงหน้าเป็น Sprint</p>
+    <!-- 7 บทบาท Senior Imp เตทีม (HosXP) -->
+    <h2 class="sec"><span class="n">7</span>บทบาทของ Senior Imp เตทีม (HosXP)</h2>
+    <p class="small muted">Senior Imp เตทีม (HosXP) เป็นผู้นำการ Migration เนื่องจากคุ้นเคยโครงสร้างฐานข้อมูล HosXP — เริ่มงาน 1 ก.ค. 2569 จองคิวล่วงหน้าเป็น Sprint</p>
     <table>
-      <thead><tr><th style="width:40%">กิจกรรม</th><th style="width:30%">บทบาท Senior Imp (HosXP)</th><th>บทบาททีมเรา</th></tr></thead>
+      <thead><tr><th style="width:40%">กิจกรรม</th><th style="width:30%">บทบาท Senior Imp เตทีม (HosXP)</th><th>บทบาททีมเรา</th></tr></thead>
       <tbody>
         <tr><td>อธิบายโครงสร้างตาราง/พจนานุกรมข้อมูล HosXP</td><td><b>R (นำ)</b></td><td>C</td></tr>
         <tr><td>ให้สิทธิ์ read-only / export HosXP</td><td>R</td><td>I</td></tr>
@@ -154,7 +154,7 @@
         <tr><td>ตรวจสอบ reconciliation 100%</td><td>R</td><td>C/R</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>⚠️ จุดวิกฤต:</b> Senior Imp (HosXP) ต้องนำทุกรอบ Dress Rehearsal/Cut-over ตามตารางที่ตกลงไว้ มิเช่นนั้น Migration จะหลุด critical path ของงวด 2</div>
+    <div class="warn"><b>⚠️ จุดวิกฤต:</b> Senior Imp เตทีม (HosXP) ต้องนำทุกรอบ Dress Rehearsal/Cut-over ตามตารางที่ตกลงไว้ มิเช่นนั้น Migration จะหลุด critical path ของงวด 2</div>
 
     <!-- 8 ความเสี่ยง + Rollback -->
     <h2 class="sec"><span class="n">8</span>ความเสี่ยงและแผนถอยกลับ (Rollback)</h2>
@@ -180,10 +180,10 @@
     <table>
       <thead><tr><th>กิจกรรม</th><th>ช่วงเวลา</th><th>ผู้รับผิดชอบ</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>จัดทำ Mapping + Profiling (HosXP)</td><td>__/__/2026 – __/__/2026</td><td>Senior Imp (HosXP) + Data Engineer</td></tr>
-        <tr class="fillrow"><td>Dress Rehearsal #1–#2</td><td>__/__/2026 – __/__/2027</td><td>Senior Imp (HosXP)</td></tr>
-        <tr class="fillrow"><td>แก้ไข + Reconciliation 100%</td><td>__/__/2027</td><td>Senior Imp (HosXP) + เจ้าของงาน</td></tr>
-        <tr class="fillrow"><td>Cut-over (ก่อน Go-live รพ.หลัก)</td><td>~__/01/2027</td><td>ทีมโครงการ + Senior Imp (HosXP)</td></tr>
+        <tr class="fillrow"><td>จัดทำ Mapping + Profiling (HosXP)</td><td>__/__/2026 – __/__/2026</td><td>Senior Imp เตทีม (HosXP) + Data Engineer</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal #1–#2</td><td>__/__/2026 – __/__/2027</td><td>Senior Imp เตทีม (HosXP)</td></tr>
+        <tr class="fillrow"><td>แก้ไข + Reconciliation 100%</td><td>__/__/2027</td><td>Senior Imp เตทีม (HosXP) + เจ้าของงาน</td></tr>
+        <tr class="fillrow"><td>Cut-over (ก่อน Go-live รพ.หลัก)</td><td>~__/01/2027</td><td>ทีมโครงการ + Senior Imp เตทีม (HosXP)</td></tr>
       </tbody>
     </table>
     <div class="note"><b>หมายเหตุ:</b> งาน Migration ดำเนินจริงในงวด 2 ก่อนการ Go-live รพ.หลัก (~20/01/2027) และทำซ้ำต่อเนื่องสำหรับ Rollout จุดบริการที่เหลือในงวด 3 (~27/02/2027)</div>
@@ -191,7 +191,7 @@
     <!-- ลงนาม -->
     <h2 class="sec"><span class="n">10</span>การอนุมัติเอกสาร</h2>
     <div class="signs">
-      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp (HosXP)</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp เตทีม (HosXP)</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — Project Manager</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
     </div>

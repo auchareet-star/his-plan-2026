@@ -30,7 +30,7 @@
     <div class="meta-grid">
       <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-MIG-001</span></div>
       <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
-      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp (HosXP) / Data Engineer</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp เตทีม (HosXP) / Data Engineer</span></div>
       <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2027</span></div>
       <div><b>ผู้สอบทาน:</b> <span class="fill">System Analyst (ก้อง / โอ)</span></div>
       <div><b>ผู้อนุมัติ:</b> <span class="fill">__________</span></div>
@@ -43,7 +43,7 @@
 
     <div class="meta">
       <span class="chip when">ใช้ตอน: หลังทำ Migration แต่ละรอบ — ก่อนตัดสิน Go-Live รพ.หลัก</span>
-      <span class="chip who">เจ้าของ: Senior Imp (HosXP) / Data Engineer</span>
+      <span class="chip who">เจ้าของ: Senior Imp เตทีม (HosXP) / Data Engineer</span>
       <span class="chip iso">ISO 29110: SI Data Migration</span>
     </div>
     <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> รายงานผลการกระทบยอด (Reconciliation) ข้อมูลที่โอนย้ายจากระบบเดิม <b>HosXP → HA.OS (Production รพ.หลัก)</b> โดยเปรียบเทียบจำนวนเรคคอร์ดต้นทาง–ปลายทางรายตาราง ตรวจสอบความถูกต้องด้วยการสุ่ม (Sampling) บันทึกรายการตกหล่นและการแก้ไข ผ่าน <b>Dress Rehearsal 1–2 รอบ</b> ก่อน Production จริง เพื่อยืนยันว่า <b>reconciliation = 100%</b> ก่อน Go-Live รพ.หลัก (~20/01/2027) · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
@@ -53,7 +53,7 @@
     <table>
       <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>0.1</td><td>__/__/2027</td><td>Senior Imp (HosXP)</td><td>ร่างฉบับแรก (รอบ Dress Rehearsal 1)</td></tr>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2027</td><td>Senior Imp เตทีม (HosXP)</td><td>ร่างฉบับแรก (รอบ Dress Rehearsal 1)</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
@@ -65,15 +65,15 @@
     <ul>
       <li>ต้นทาง (Source): <span class="fill">HosXP (ระบบเดิม)</span> · ฐานข้อมูล <span class="fill">__________</span></li>
       <li>ปลายทาง (Target): ระบบ HA.OS (Production รพ.หลัก) · ฐานข้อมูล <span class="fill">__________</span></li>
-      <li>เครื่องมือ ETL/Script: <span class="fill">__________</span> · นำโดย Senior Imp จาก HosXP</li>
+      <li>เครื่องมือ ETL/Script: <span class="fill">__________</span> · นำโดย Senior Imp เตทีม จาก HosXP</li>
     </ul>
     <p><strong>1.2 รอบการทำ Migration (Migration Run)</strong></p>
     <table>
       <thead><tr><th style="width:22%">รอบ</th><th style="width:18%">วันที่</th><th style="width:18%">ผู้ดำเนินการ</th><th>หมายเหตุ / Cut-off</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>Dress Rehearsal ครั้งที่ 1</td><td>__/__/2027</td><td>Senior Imp (HosXP)</td><td>ทดสอบสคริปต์ + จับเวลา</td></tr>
-        <tr class="fillrow"><td>Dress Rehearsal ครั้งที่ 2</td><td>__/__/2027</td><td>Senior Imp (HosXP)</td><td>แก้ไขรายการตกหล่นจากรอบแรก</td></tr>
-        <tr class="fillrow"><td>Production (Final / Cut-over รพ.หลัก)</td><td>__/__/2027</td><td>Senior Imp (HosXP)</td><td>ก่อน Go-Live ~20/01/2027 · กำหนด cut-off เวลา ____ น.</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal ครั้งที่ 1</td><td>__/__/2027</td><td>Senior Imp เตทีม (HosXP)</td><td>ทดสอบสคริปต์ + จับเวลา</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal ครั้งที่ 2</td><td>__/__/2027</td><td>Senior Imp เตทีม (HosXP)</td><td>แก้ไขรายการตกหล่นจากรอบแรก</td></tr>
+        <tr class="fillrow"><td>Production (Final / Cut-over รพ.หลัก)</td><td>__/__/2027</td><td>Senior Imp เตทีม (HosXP)</td><td>ก่อน Go-Live ~20/01/2027 · กำหนด cut-off เวลา ____ น.</td></tr>
       </tbody>
     </table>
     <div class="note"><b>รอบที่รายงานฉบับนี้:</b> <span class="fill">☐ Dress Rehearsal 1 &nbsp;&nbsp; ☐ Dress Rehearsal 2 &nbsp;&nbsp; ☐ Production / Cut-over</span> &nbsp;|&nbsp; วันที่ทำ: <span class="fill">__/__/2027</span></div>
@@ -141,7 +141,7 @@
     <!-- ลงนาม -->
     <h2 class="sec"><span class="n">6</span>การรับรองและอนุมัติเอกสาร</h2>
     <div class="signs">
-      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp (HosXP) / Data Engineer</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp เตทีม (HosXP) / Data Engineer</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — System Analyst</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ (เจ้าของงาน)</span></div>
     </div>

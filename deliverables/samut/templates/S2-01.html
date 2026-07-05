@@ -79,7 +79,7 @@
         <tr class="fillrow"><td>ความเสี่ยงสูงสุด</td><td>การย้ายข้อมูล HosXP (ระบบเดิม) → HA.OS ให้ reconcile 100% และความพร้อมของ Interface สปสช.</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>⚠️ ข้อสังเกตเชิงนโยบาย:</b> ระบบฐาน HA.OS อ้างอิงจาก DTMU Phase 2 (ระบบฐาน) การวิเคราะห์ทุกข้อที่เกี่ยวกับ Config/มาตรฐาน HA ต้องยืนยันกับ Product Specialist (มีน) และทีม DTMU ก่อนปิด Fit/Gap · ส่วนงานย้ายข้อมูลต้องยืนยันกับ Senior Imp (HosXP) ที่นำงาน Migration</div>
+    <div class="warn"><b>⚠️ ข้อสังเกตเชิงนโยบาย:</b> ระบบฐาน HA.OS อ้างอิงจาก DTMU Phase 2 (ระบบฐาน) การวิเคราะห์ทุกข้อที่เกี่ยวกับ Config/มาตรฐาน HA ต้องยืนยันกับ Product Specialist (มีน) และทีม DTMU ก่อนปิด Fit/Gap · ส่วนงานย้ายข้อมูลต้องยืนยันกับ Senior Imp เตทีม (HosXP) ที่นำงาน Migration</div>
 
     <!-- 2 วิธีการวิเคราะห์ -->
     <h2 class="sec"><span class="n">2</span>วิธีการวิเคราะห์ (Methodology)</h2>
@@ -93,7 +93,7 @@
         <tr class="fillrow"><td>W2</td><td>Doctor Module · Nurse Module (Smart IPD)</td><td>BA, PO แพทย์/พยาบาล, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
         <tr class="fillrow"><td>W3</td><td>คลังยาและวัสดุ · Pharmacist Module · eMAR</td><td>BA, PO เภสัช, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
         <tr class="fillrow"><td>W4</td><td>ER · วิสัญญีพยาบาล · เวชศาสตร์ฟื้นฟู · ห้องตรวจสุขภาพ</td><td>BA, PO ที่เกี่ยวข้อง, มีน</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
-        <tr class="fillrow"><td>W5</td><td>งานเรียกเก็บ · Interface สปสช./HL7 · Migration HosXP</td><td>BA, PO การเงิน, Senior Imp (HosXP)</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
+        <tr class="fillrow"><td>W5</td><td>งานเรียกเก็บ · Interface สปสช./HL7 · Migration HosXP</td><td>BA, PO การเงิน, Senior Imp เตทีม (HosXP)</td><td>__/__/2569</td><td>เสร็จ / รอ</td></tr>
       </tbody>
     </table>
 
@@ -221,7 +221,7 @@
       <thead><tr><th style="width:16%">ระบบปลายทาง</th><th style="width:24%">สิ่งที่ต้องเชื่อม</th><th style="width:16%">วิธี/Protocol</th><th style="width:9%">ผล</th><th style="width:8%">Effort</th><th>หมายเหตุ/ความเสี่ยง</th></tr></thead>
       <tbody>
         <tr><td>สปสช. (NHSO)</td><td>ตรวจสอบสิทธิ์ + ส่งเบิก (e-Claim)</td><td>API / แฟ้มมาตรฐาน</td><td><span class="badge b-par">Partial</span></td><td>20</td><td>ขึ้นกับสเปก/ช่องทางของ สปสช. — critical path</td></tr>
-        <tr><td>HosXP (ระบบเดิม)</td><td>ดึงข้อมูลตั้งต้นเพื่อย้าย (Migration)</td><td>DB View / ETL</td><td><span class="badge b-par">Partial</span></td><td>25</td><td>นำโดย Senior Imp (HosXP) · ต้อง reconcile 100%</td></tr>
+        <tr><td>HosXP (ระบบเดิม)</td><td>ดึงข้อมูลตั้งต้นเพื่อย้าย (Migration)</td><td>DB View / ETL</td><td><span class="badge b-par">Partial</span></td><td>25</td><td>นำโดย Senior Imp เตทีม (HosXP) · ต้อง reconcile 100%</td></tr>
         <tr><td>LIS (เครื่องตรวจ)</td><td>ส่งตรวจ/รับผล</td><td>HL7 v2 / API</td><td><span class="badge b-cfg">Config</span></td><td>6</td><td>มาตรฐานชัด ความเสี่ยงต่ำ</td></tr>
         <tr><td>PACS / RIS</td><td>ดึง/แสดงภาพ DICOM</td><td>DICOM / WADO-RS</td><td><span class="badge b-cfg">Config</span></td><td>6</td><td>มาตรฐานชัด ความเสี่ยงต่ำ</td></tr>
         <tr><td>กระทรวงสาธารณสุข</td><td>ส่งออกข้อมูล 43 แฟ้ม</td><td>แฟ้มมาตรฐาน</td><td><span class="badge b-par">Partial</span></td><td>10</td><td>ต้อง map และทดสอบความถูกต้อง</td></tr>
@@ -251,7 +251,7 @@
       <thead><tr><th style="width:9%">Gap ID</th><th style="width:26%">รายการ Gap</th><th style="width:10%">ลำดับ</th><th style="width:12%">ตัดสินใจ</th><th style="width:9%">Effort</th><th>เหตุผล / เงื่อนไข</th></tr></thead>
       <tbody>
         <tr><td>G-01</td><td>Interface สปสช. ตรวจสิทธิ์ + e-Claim (BL-02/03)</td><td><span class="badge b-must">Must</span></td><td>Build/Config</td><td>27</td><td>จำเป็นต่อการเรียกเก็บ ขึ้นกับสเปก สปสช.</td></tr>
-        <tr><td>G-02</td><td>Migration HosXP → HA.OS (reconcile 100%)</td><td><span class="badge b-must">Must</span></td><td>Build/ETL</td><td>25</td><td>หัวใจของ Go-live นำโดย Senior Imp (HosXP)</td></tr>
+        <tr><td>G-02</td><td>Migration HosXP → HA.OS (reconcile 100%)</td><td><span class="badge b-must">Must</span></td><td>Build/ETL</td><td>25</td><td>หัวใจของ Go-live นำโดย Senior Imp เตทีม (HosXP)</td></tr>
         <tr><td>G-03</td><td>eMAR + barcode bedside (NS-02)</td><td><span class="badge b-must">Must</span></td><td>Config+Build</td><td>10</td><td>ความปลอดภัยการบริหารยา Smart IPD</td></tr>
         <tr><td>G-04</td><td>ห้องตรวจสุขภาพ — แพ็กเกจ + รายงานผล (CK-01)</td><td><span class="badge b-should">Should</span></td><td>Build</td><td>10</td><td>งานเฉพาะของเมืองสมุทร</td></tr>
         <tr><td>G-05</td><td>ส่งออก 43 แฟ้ม กระทรวงสาธารณสุข</td><td><span class="badge b-should">Should</span></td><td>Config+Build</td><td>10</td><td>ข้อกำหนดรายงานภาครัฐ</td></tr>
@@ -266,7 +266,7 @@
     <table>
       <thead><tr><th style="width:34%">ความเสี่ยง</th><th style="width:10%">โอกาส</th><th style="width:10%">ผลกระทบ</th><th>การรับมือ</th></tr></thead>
       <tbody>
-        <tr><td>การย้ายข้อมูล HosXP → HA.OS ไม่ reconcile ครบ 100%</td><td>สูง</td><td>สูง</td><td>Dress Rehearsal 1–2 รอบ, ตรวจสอบยอดทุกชุดข้อมูล นำโดย Senior Imp (HosXP)</td></tr>
+        <tr><td>การย้ายข้อมูล HosXP → HA.OS ไม่ reconcile ครบ 100%</td><td>สูง</td><td>สูง</td><td>Dress Rehearsal 1–2 รอบ, ตรวจสอบยอดทุกชุดข้อมูล นำโดย Senior Imp เตทีม (HosXP)</td></tr>
         <tr><td>Interface สปสช./43 แฟ้ม ล่าช้าจากสเปกภายนอก</td><td>สูง</td><td>สูง</td><td>ยืนยันช่องทาง/ใบรับรองล่วงหน้า, mock/stub ระหว่างรอ</td></tr>
         <tr><td>ขอบเขตบานปลายข้าม 9 จุดบริการ/2 สัญญา</td><td>กลาง</td><td>สูง</td><td>ล็อก scope ตามแนบท้าย 1, ใช้ MoSCoW, จัดการ change request</td></tr>
         <tr><td>Assumption เรื่อง Config HA.OS ไม่ตรงจริง</td><td>กลาง</td><td>สูง</td><td>ยืนยันกับ Product Specialist (มีน)/ทีม DTMU ก่อนปิด Fit/Gap, ทำ PoC จุดเสี่ยง</td></tr>

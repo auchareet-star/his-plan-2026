@@ -85,7 +85,7 @@
     <ul>
       <li>ระบบสารสนเทศโรงพยาบาล (HIS) ตามสัญญาแนบท้าย 1 — 36 โมดูล / 1,358 ข้อกำหนด ครอบคลุมเวชระเบียน, Patient Self Visit &amp; Queue, คลังยาและวัสดุ, งานเรียกเก็บ, LIS, รังสี/PACS, นัดหมาย, การเงิน/ลูกหนี้ ฯลฯ</li>
       <li>Smart IPD: Doctor Module, Nurse Module, Pharmacist Module, eMAR, ER, ห้องตรวจสุขภาพ, เวชศาสตร์ฟื้นฟู, วิสัญญีพยาบาล</li>
-      <li>Data Migration จากระบบเดิม HosXP → HA.OS (นำโดย Senior Imp จาก HosXP), การฝึกอบรม และการติดตั้งครบ 9 จุดบริการ</li>
+      <li>Data Migration จากระบบเดิม HosXP → HA.OS (นำโดย Senior Imp เตทีม จาก HosXP), การฝึกอบรม และการติดตั้งครบ 9 จุดบริการ</li>
       <li>Interface กับ สปสช. และระบบภายนอกผ่านมาตรฐาน HL7</li>
     </ul>
     <h3 class="sub">2.2 นอกขอบเขต (Out-of-scope)</h3>
@@ -95,7 +95,7 @@
     <h2 class="sec"><span class="n">3</span>โครงสร้างทีมและความรับผิดชอบ (RACI)</h2>
     <p class="small muted">หมายเหตุ: ทีมเต็มและบทบาทอยู่ในเอกสารโครงสร้างทีมงาน · ตารางนี้สรุป RACI ของกิจกรรมหลัก (R=ผู้ทำ, A=ผู้รับผิดชอบ, C=ปรึกษา, I=แจ้งให้ทราบ)</p>
     <table class="alt">
-      <thead><tr><th>กิจกรรม</th><th>PM</th><th>SA</th><th>Dev</th><th>QA</th><th>Senior Imp (HosXP)</th><th>เจ้าของงาน</th></tr></thead>
+      <thead><tr><th>กิจกรรม</th><th>PM</th><th>SA</th><th>Dev</th><th>QA</th><th>Senior Imp เตทีม (HosXP)</th><th>เจ้าของงาน</th></tr></thead>
       <tbody>
         <tr><td>Fit/Gap Analysis</td><td>A</td><td>R</td><td>C</td><td>I</td><td>C</td><td>C</td></tr>
         <tr><td>พัฒนา/Config</td><td>A</td><td>C</td><td>R</td><td>I</td><td>C</td><td>I</td></tr>
@@ -114,7 +114,7 @@
         <tr><td>งวด 3</td><td>Rollout + ตรวจรับครบ 9 จุดบริการ</td><td>~27/02/2027</td><td>__/__/2027</td><td>50%</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>⚠️ จุดวิกฤต:</b> Data Migration HosXP→HA.OS และ Go-live รพ.หลักต้องเสร็จในงวด 2 (~20/01/2027) และต้องจองคิว Senior Imp (HosXP) นำการ Migration ล่วงหน้าตั้งแต่ 1 ก.ค. 2569 (ดูแผนความเสี่ยงข้อ 6)</div>
+    <div class="warn"><b>⚠️ จุดวิกฤต:</b> Data Migration HosXP→HA.OS และ Go-live รพ.หลักต้องเสร็จในงวด 2 (~20/01/2027) และต้องจองคิว Senior Imp เตทีม (HosXP) นำการ Migration ล่วงหน้าตั้งแต่ 1 ก.ค. 2569 (ดูแผนความเสี่ยงข้อ 6)</div>
 
     <!-- 5 การสื่อสาร -->
     <h2 class="sec"><span class="n">5</span>แผนการสื่อสาร (Communication Plan)</h2>
@@ -132,7 +132,7 @@
     <table>
       <thead><tr><th style="width:34%">ความเสี่ยง</th><th style="width:10%">โอกาส</th><th style="width:10%">ผลกระทบ</th><th>การรับมือ</th></tr></thead>
       <tbody>
-        <tr><td>คุณภาพข้อมูลต้นทาง HosXP / Senior Imp ไม่ตรงจังหวะ critical path</td><td>สูง</td><td>สูง</td><td>จองคิวล่วงหน้า, Dress Rehearsal 1–2 รอบ, data profiling, escalation</td></tr>
+        <tr><td>คุณภาพข้อมูลต้นทาง HosXP / Senior Imp เตทีม ไม่ตรงจังหวะ critical path</td><td>สูง</td><td>สูง</td><td>จองคิวล่วงหน้า, Dress Rehearsal 1–2 รอบ, data profiling, escalation</td></tr>
         <tr><td>ทำคู่ขนาน 2 สัญญา/9 จุดบริการตึง</td><td>กลาง</td><td>สูง</td><td>Front-load งวด 1, ทำเอกสาร/แผนชุดเดียวกัน, ล็อก scope 1,358 ข้อกำหนด</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
@@ -150,7 +150,7 @@
     <h2 class="sec"><span class="n">8</span>สมมุติฐานและข้อจำกัด (Assumptions &amp; Constraints)</h2>
     <ul class="muted">
       <li><span class="fill">เจ้าของงานจัดสรรผู้แทน/Process Owner เข้าร่วม workshop ตามตารางที่ตกลง</span></li>
-      <li><span class="fill">Senior Imp (HosXP) ให้ความร่วมมือตามตารางการ Migration ที่ตกลง</span></li>
+      <li><span class="fill">Senior Imp เตทีม (HosXP) ให้ความร่วมมือตามตารางการ Migration ที่ตกลง</span></li>
       <li><span class="fill">ข้อมูลและสิทธิ์เข้าถึงระบบเดิม HosXP พร้อมภายใน __/__/2026</span></li>
     </ul>
 

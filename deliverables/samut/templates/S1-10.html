@@ -76,8 +76,8 @@
                   └──┬──────────┬──────────┬────┘
                      │          │          │
         ┌────────────┴──┐  ┌────┴─────┐  ┌─┴─────────────────┐
-        │ SA — ก้อง/โอ  │  │ PC — โม  │  │  Tester/Imp Lead  │
-        │  + PO จูน     │  │BA — สาม  │  │ Senior Imp(HosXP) │
+        │ SA — ก้อง/โอ  │  │ PC — โม  │  │  Tester/Imp เตทีม Lead  │
+        │  + PO จูน     │  │BA — สาม  │  │ Senior Imp เตทีม(HosXP) │
         └───┬───────┬───┘  └──────────┘  └─────────┬─────────┘
             │       │                              │ นำ Migration
    ┌────────┴──┐ ┌──┴───────────┐        ┌─────────┴────────┐
@@ -101,7 +101,7 @@
         <tr><td>Product Specialist (DTMU) — consult/get req</td><td>1</td><td>ผู้เชี่ยวชาญระบบฐาน DTMU Phase 2</td><td><span class="fill">มีน(ช)</span></td></tr>
         <tr><td>Business Analyst (shared)</td><td>1</td><td>วิเคราะห์ธุรกิจ/กระบวนงาน ≥ <b>3 ปี</b></td><td><span class="fill">สาม</span></td></tr>
         <tr><td>System Analyst (shared)</td><td>2</td><td>วิเคราะห์/ออกแบบระบบ ≥ <b>5 ปี</b></td><td><span class="fill">ก้อง / โอ</span></td></tr>
-        <tr><td>Tester / Implementer Lead + นำ Migration</td><td>1</td><td>เชี่ยวชาญ HosXP, ทดสอบ/ติดตั้ง/โยกย้ายข้อมูล</td><td><span class="fill">Senior Imp (HosXP)</span></td></tr>
+        <tr><td>Tester / Implementer Lead + นำ Migration</td><td>1</td><td>เชี่ยวชาญ HosXP, ทดสอบ/ติดตั้ง/โยกย้ายข้อมูล</td><td><span class="fill">Senior Imp เตทีม (HosXP)</span></td></tr>
         <tr><td>Dev Lead</td><td>1</td><td>พัฒนาโปรแกรม ≥ <b>5 ปี</b></td><td><span class="fill">ซี</span></td></tr>
         <tr><td>Developer</td><td>2</td><td>พัฒนาโปรแกรม ≥ <b>3 ปี</b> (ต่อคน)</td><td><span class="fill">มิน / โอปอล์</span></td></tr>
         <tr><td>Dev Pool (shared)</td><td><span class="fill">__</span></td><td>นักพัฒนาส่วนกลาง จัดสรรตามจังหวะงาน</td><td><span class="fill">Dev Pool</span></td></tr>
@@ -121,7 +121,7 @@
         <tr><td>Product Specialist DTMU (มีน(ช))</td><td>ให้คำปรึกษา/เก็บความต้องการอ้างอิงระบบฐาน DTMU Phase 2</td></tr>
         <tr><td>BA (สาม)</td><td>Fit/Gap, เก็บความต้องการ, จัดทำเอกสารวิเคราะห์กระบวนงาน</td></tr>
         <tr><td>SA (ก้อง / โอ)</td><td>ออกแบบระบบ/Interface, สอบทานเทคนิค, ประเมินผลกระทบ</td></tr>
-        <tr><td>Tester/Imp Lead — Senior Imp (HosXP)</td><td>วางแผน/ทดสอบทุกระดับ, บริหาร Defect, UAT support และ<strong>นำ Data Migration HosXP → HA.OS</strong></td></tr>
+        <tr><td>Tester/Imp เตทีม Lead — Senior Imp เตทีม (HosXP)</td><td>วางแผน/ทดสอบทุกระดับ, บริหาร Defect, UAT support และ<strong>นำ Data Migration HosXP → HA.OS</strong></td></tr>
         <tr><td>Dev: ซี (Lead) / มิน / โอปอล์ + Dev Pool</td><td>พัฒนา/Config โมดูล, Integration, Smart IPD, แก้ Defect</td></tr>
       </tbody>
     </table>
@@ -138,19 +138,19 @@
         <tr><td>Project Coordinator (โม)</td><td>●</td><td>●</td><td>●</td></tr>
         <tr><td>BA (สาม) · Product Specialist DTMU (มีน(ช))</td><td>●</td><td>◐</td><td>○</td></tr>
         <tr><td>SA (ก้อง / โอ)</td><td>●</td><td>●</td><td>◐</td></tr>
-        <tr><td>Tester/Imp Lead — Senior Imp (HosXP)</td><td>◐</td><td>●</td><td>●</td></tr>
+        <tr><td>Tester/Imp เตทีม Lead — Senior Imp เตทีม (HosXP)</td><td>◐</td><td>●</td><td>●</td></tr>
         <tr><td>Dev (ซี/มิน/โอปอล์ + Dev Pool)</td><td>○</td><td>●</td><td>◐</td></tr>
       </tbody>
     </table>
 
     <!-- 5 ทีมระบบเดิม HosXP -->
     <h2 class="sec"><span class="n">5</span>ทีมระบบเดิม HosXP (External) และรูปแบบการประสานงาน</h2>
-    <p>การโยกย้ายข้อมูลและการเชื่อมต่อ<strong>อ้างอิงระบบเดิม HosXP (ระบบเดิม)</strong> ซึ่งนำโดย <strong>Senior Imp (HosXP)</strong> ในทีม โดยจุดที่ต้องอาศัยทีม/ผู้ดูแลระบบเดิมฝั่งโรงพยาบาลจะประสานผ่านจุดติดต่อเดียว (SPOC) เป็นช่วง ๆ ตามจังหวะงาน</p>
+    <p>การโยกย้ายข้อมูลและการเชื่อมต่อ<strong>อ้างอิงระบบเดิม HosXP (ระบบเดิม)</strong> ซึ่งนำโดย <strong>Senior Imp เตทีม (HosXP)</strong> ในทีม โดยจุดที่ต้องอาศัยทีม/ผู้ดูแลระบบเดิมฝั่งโรงพยาบาลจะประสานผ่านจุดติดต่อเดียว (SPOC) เป็นช่วง ๆ ตามจังหวะงาน</p>
     <table>
       <thead><tr><th style="width:30%">หัวข้อ</th><th>รายละเอียด</th></tr></thead>
       <tbody>
         <tr class="fillrow"><td><b>SPOC ฝั่งระบบเดิม HosXP (รพ.)</b></td><td><span class="fill">ชื่อ/ตำแหน่ง/ช่องทางติดต่อ</span></td></tr>
-        <tr class="fillrow"><td><b>SPOC ฝั่งโครงการ</b></td><td><span class="fill">Senior Imp (HosXP) / Project Coordinator (โม)</span></td></tr>
+        <tr class="fillrow"><td><b>SPOC ฝั่งโครงการ</b></td><td><span class="fill">Senior Imp เตทีม (HosXP) / Project Coordinator (โม)</span></td></tr>
         <tr class="fillrow"><td><b>รูปแบบการขอใช้/ขอข้อมูล</b></td><td><span class="fill">จองคิวล่วงหน้า ≥ __ วัน, batch ตามจังหวะ critical path (Migration เริ่ม 1 ก.ค. 2569)</span></td></tr>
         <tr class="fillrow"><td><b>โควตา/เงื่อนไข</b></td><td><span class="fill">ตาม MOU — ระบุชั่วโมง/ช่วงเวลา</span></td></tr>
         <tr class="fillrow"><td><b>การยกระดับปัญหา (Escalation)</b></td><td><span class="fill">PM (อาร์ต) → Senior PM (โอ๋) → ประธาน Steering Committee</span></td></tr>

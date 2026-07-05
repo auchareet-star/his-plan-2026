@@ -30,7 +30,7 @@
     <div class="meta-grid">
       <div><b>รหัสเอกสาร:</b> <span class="fill">MSM-TST-001</span></div>
       <div><b>เวอร์ชัน:</b> <span class="fill">0.1 (ร่าง)</span></div>
-      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp (HosXP) — Tester/Implementer Lead</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="fill">Senior Imp เตทีม (HosXP) — Tester/Implementer Lead</span></div>
       <div><b>วันที่จัดทำ:</b> <span class="fill">__ /__ /2026</span></div>
       <div><b>ผู้สอบทาน:</b> <span class="fill">ก้อง / โอ (SA)</span></div>
       <div><b>ผู้อนุมัติ:</b> <span class="fill">อาร์ต (PM เมืองสมุทร)</span></div>
@@ -43,7 +43,7 @@
 
     <div class="meta">
       <span class="chip when">ใช้ตอน: วางแผนทดสอบ (งวด 1) — ลงมือทดสอบจริงในงวด 2 (ก่อน Go-live รพ.หลัก)</span>
-      <span class="chip who">เจ้าของ: Senior Imp (HosXP) — Tester Lead</span>
+      <span class="chip who">เจ้าของ: Senior Imp เตทีม (HosXP) — Tester Lead</span>
       <span class="chip iso">ISO 29110: SI.5 Software Test</span>
     </div>
     <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดกลยุทธ์ ระดับ และวิธีการทดสอบระบบ HIS เมืองสมุทร (36 โมดูล / 1,358 ข้อกำหนด) ทุกระดับ (Unit → SIT → UAT → E2E → Performance → Security) รวมถึงการทดสอบการโยกย้ายข้อมูล (Migration Test จาก HosXP → HA.OS) พร้อมเกณฑ์เริ่ม/จบ (Entry/Exit), นิยามความรุนแรงของข้อบกพร่อง (Defect Severity) และ SLA การแก้ไข เพื่อให้มั่นใจว่าระบบพร้อมขึ้น Go-Live · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
@@ -53,7 +53,7 @@
     <table>
       <thead><tr><th style="width:12%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียดการเปลี่ยนแปลง</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>Senior Imp (HosXP)</td><td>ร่างฉบับแรก</td></tr>
+        <tr class="fillrow"><td>0.1</td><td>__/__/2026</td><td>Senior Imp เตทีม (HosXP)</td><td>ร่างฉบับแรก</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
@@ -85,7 +85,7 @@
       <tbody>
         <tr><td><b>Unit Test</b></td><td>ฟังก์ชันย่อย / Dev (ซี/มิน/โอปอล์)</td><td>โค้ดผ่าน build, มี test case</td><td>ผ่าน ≥ <span class="fill">80%</span> coverage, ไม่มี bug บล็อก</td></tr>
         <tr><td><b>SIT</b><br>(System Integration)</td><td>การเชื่อมต่อระหว่างโมดูล / Tester Lead + Dev</td><td>Unit ผ่าน, ติดตั้งบน Test env, Interface พร้อม</td><td>ทุก Interface ส่ง-รับข้อมูลถูกต้อง, ไม่มี Critical/High ค้าง</td></tr>
-        <tr><td><b>Migration Test</b></td><td>โยกย้าย HosXP → HA.OS / Senior Imp (HosXP) นำ</td><td>Mapping ครบ, มี Dress Rehearsal env พร้อม</td><td>Reconciliation <span class="fill">100%</span>, จำนวน/ยอดข้อมูลตรงกัน</td></tr>
+        <tr><td><b>Migration Test</b></td><td>โยกย้าย HosXP → HA.OS / Senior Imp เตทีม (HosXP) นำ</td><td>Mapping ครบ, มี Dress Rehearsal env พร้อม</td><td>Reconciliation <span class="fill">100%</span>, จำนวน/ยอดข้อมูลตรงกัน</td></tr>
         <tr><td><b>UAT</b><br>(User Acceptance)</td><td>ผู้ใช้จริงตามกระบวนงาน / Key User + Tester</td><td>SIT ผ่าน, มี UAT script, ข้อมูลทดสอบพร้อม</td><td>ผู้ใช้ลงนามรับรอง, ไม่มี Critical/High ค้าง</td></tr>
         <tr><td><b>E2E</b><br>(End-to-End)</td><td>กระบวนงานเต็มเส้น (ผู้ป่วยเข้า→ตรวจ→IPD→จ่ายยา→เบิกจ่าย) / Tester</td><td>โมดูลที่เกี่ยวข้องผ่าน SIT</td><td>ทุก business flow หลักผ่านครบ</td></tr>
         <tr><td><b>Performance</b></td><td>โหลด/ความเร็ว/ความทนทาน / SA + Tester</td><td>ระบบเสถียรบน env ใกล้เคียง Production</td><td>ผ่านเกณฑ์ตอบสนอง <span class="fill">≤ 3 วิ</span> ที่ <span class="fill">__</span> users พร้อมกัน</td></tr>
@@ -123,7 +123,7 @@
     <ul>
       <li>ใช้ข้อมูลจำลอง (Synthetic) สำหรับเคสทั่วไป และข้อมูลจริงที่ปกปิด (Masked/De-identified) สำหรับ Migration ตาม PDPA</li>
       <li>เตรียมชุดข้อมูลผู้ป่วยตัวอย่างครอบคลุมเคส OPD/IPD/ER (admit, สั่งยา, ให้ยา eMAR, ผ่าตัด/วิสัญญี, เวชศาสตร์ฟื้นฟู, เรียกเก็บ)</li>
-      <li>ผู้รับผิดชอบเตรียมข้อมูล: <span class="fill">Senior Imp (HosXP) + ทีม Dev</span></li>
+      <li>ผู้รับผิดชอบเตรียมข้อมูล: <span class="fill">Senior Imp เตทีม (HosXP) + ทีม Dev</span></li>
     </ul>
     <p class="eg">เตรียมผู้ป่วย IPD จำลอง 1 ราย ที่มี admit + แพทย์สั่งยา + เภสัชจ่ายยา + พยาบาลบันทึก eMAR + เรียกเก็บ เพื่อทดสอบ flow ครบทั้งระบบ</p>
 
@@ -148,7 +148,7 @@
       <tbody>
         <tr class="fillrow"><td>Unit Test</td><td><span class="fill">ระหว่างพัฒนา (งวด 2)</span></td><td>Dev (ซี/มิน/โอปอล์)</td><td>Unit Test Report</td></tr>
         <tr class="fillrow"><td>SIT</td><td><span class="fill">งวด 2</span></td><td>Tester + Dev</td><td>SIT Report</td></tr>
-        <tr class="fillrow"><td>Migration Test / Dress Rehearsal</td><td><span class="fill">งวด 2 (ก่อน Go-live)</span></td><td>Senior Imp (HosXP)</td><td>Reconciliation Report</td></tr>
+        <tr class="fillrow"><td>Migration Test / Dress Rehearsal</td><td><span class="fill">งวด 2 (ก่อน Go-live)</span></td><td>Senior Imp เตทีม (HosXP)</td><td>Reconciliation Report</td></tr>
         <tr class="fillrow"><td>UAT</td><td><span class="fill">งวด 2</span></td><td>Key User + Tester</td><td>UAT Sign-off</td></tr>
         <tr class="fillrow"><td>E2E / Performance / Security</td><td><span class="fill">งวด 2–3</span></td><td>Tester + SA</td><td>รายงานผลแต่ละด้าน</td></tr>
       </tbody>
@@ -163,7 +163,7 @@
     <!-- ลงนาม -->
     <h2 class="sec"><span class="n">7</span>การอนุมัติเอกสาร</h2>
     <div class="signs">
-      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp (HosXP) / Tester Lead</span></div>
+      <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp เตทีม (HosXP) / Tester Lead</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้สอบทาน — SA (ก้อง / โอ)</span></div>
       <div class="sign"><div class="line"></div>(<span class="blank">&nbsp;</span>)<br><span class="role">ผู้อนุมัติ — PM เมืองสมุทร (อาร์ต)</span></div>
     </div>

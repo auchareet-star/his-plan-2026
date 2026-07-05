@@ -68,7 +68,7 @@
       <li>Smart IPD: Doctor/Nurse/Pharmacist Module, eMAR, ER, ห้องตรวจสุขภาพ, เวชศาสตร์ฟื้นฟู, วิสัญญีพยาบาล, Master Data Smart IPD</li>
       <li>จุดเชื่อมต่อภายนอก: สปสช., HL7 และข้อมูล/โครงสร้างจากระบบเดิม HosXP</li>
     </ul>
-    <div class="warn"><b>⚠️ ข้อควรระวัง:</b> การสำรวจโครงสร้างข้อมูลและ interface บนระบบเดิม HosXP ต้องนัด Senior Imp (HosXP) ร่วมตั้งแต่ต้น (ดูข้อ 6) มิเช่นนั้นข้อมูลจะไม่ครบสำหรับ Fit/Gap และ Migration</div>
+    <div class="warn"><b>⚠️ ข้อควรระวัง:</b> การสำรวจโครงสร้างข้อมูลและ interface บนระบบเดิม HosXP ต้องนัด Senior Imp เตทีม (HosXP) ร่วมตั้งแต่ต้น (ดูข้อ 6) มิเช่นนั้นข้อมูลจะไม่ครบสำหรับ Fit/Gap และ Migration</div>
 
     <!-- 2 วิธีเก็บความต้องการ -->
     <h2 class="sec"><span class="n">2</span>วิธีการเก็บความต้องการ (Requirement Gathering)</h2>
@@ -116,7 +116,7 @@
         <tr class="fillrow"><td>รังสี/PACS + LIS</td><td>__/__/2026</td><td><span class="blank">&nbsp;</span></td></tr>
         <tr class="fillrow"><td>ER + ห้องตรวจสุขภาพ + เวชศาสตร์ฟื้นฟู</td><td>__/__/2026</td><td><span class="blank">&nbsp;</span></td></tr>
         <tr class="fillrow"><td>งานเรียกเก็บ / การเงิน-ลูกหนี้ (สปสช.)</td><td>__/__/2026</td><td><span class="blank">&nbsp;</span></td></tr>
-        <tr class="fillrow"><td>โครงสร้างข้อมูล/Interface HosXP (ร่วม Senior Imp)</td><td>__/__/2026</td><td><span class="blank">&nbsp;</span></td></tr>
+        <tr class="fillrow"><td>โครงสร้างข้อมูล/Interface HosXP (ร่วม Senior Imp เตทีม)</td><td>__/__/2026</td><td><span class="blank">&nbsp;</span></td></tr>
       </tbody>
     </table>
     <p class="eg">Workshop "Doctor Module / Smart IPD" 14/07/2026 — แพทย์หัวหน้าแผนก, พยาบาลวิชาชีพ, เภสัชกร, SA, Dev Lead</p>
@@ -132,9 +132,9 @@
     </ul>
     <div class="tip"><b>หลักการ:</b> Config ก่อน Develop เสมอ เพื่อลดความเสี่ยงและเวลา (สอดคล้องกับ <a href="S1-05.html">S1-05 แผนการพัฒนา</a>)</div>
 
-    <!-- 6 การมีส่วนร่วม Senior Imp/DTMU -->
-    <h2 class="sec"><span class="n">6</span>การมีส่วนร่วมของ Senior Imp (HosXP) และทีม DTMU Phase 2 (Consult Sprint)</h2>
-    <p class="small muted">โครงสร้างข้อมูลระบบเดิมเป็น HosXP และบางโมดูลพึ่งระบบฐานจาก DTMU Phase 2 จึงต้องนัด Senior Imp (HosXP) และ Product Specialist DTMU เป็นช่วง ๆ จองคิวล่วงหน้าเป็น Sprint</p>
+    <!-- 6 การมีส่วนร่วม Senior Imp เตทีม/DTMU -->
+    <h2 class="sec"><span class="n">6</span>การมีส่วนร่วมของ Senior Imp เตทีม (HosXP) และทีม DTMU Phase 2 (Consult Sprint)</h2>
+    <p class="small muted">โครงสร้างข้อมูลระบบเดิมเป็น HosXP และบางโมดูลพึ่งระบบฐานจาก DTMU Phase 2 จึงต้องนัด Senior Imp เตทีม (HosXP) และ Product Specialist DTMU เป็นช่วง ๆ จองคิวล่วงหน้าเป็น Sprint</p>
     <table>
       <thead><tr><th style="width:14%">Sprint</th><th style="width:20%">ช่วงเวลา</th><th>ขอบเขตการปรึกษา</th></tr></thead>
       <tbody>
@@ -143,7 +143,7 @@
         <tr class="fillrow"><td>Consult C</td><td>__/__/2026</td><td>ยืนยัน Gap, โมดูลที่พึ่ง DTMU Phase 2 (ระบบฐาน), ข้อจำกัดด้านเทคนิค/ความปลอดภัย</td></tr>
       </tbody>
     </table>
-    <div class="warn"><b>⚠️ จุดวิกฤต:</b> ต้องส่งคำขอจอง Senior Imp (HosXP) ตั้งแต่เริ่มงาน (1 ก.ค. 2569) — หากเลื่อน จะกระทบ Fit/Gap และ Data Migration ทั้งสาย</div>
+    <div class="warn"><b>⚠️ จุดวิกฤต:</b> ต้องส่งคำขอจอง Senior Imp เตทีม (HosXP) ตั้งแต่เริ่มงาน (1 ก.ค. 2569) — หากเลื่อน จะกระทบ Fit/Gap และ Data Migration ทั้งสาย</div>
 
     <!-- 7 ผลลัพธ์ที่ส่งมอบในงวดถัดไป -->
     <h2 class="sec"><span class="n">7</span>ผลลัพธ์ที่ส่งมอบในงวดถัดไป</h2>
@@ -165,7 +165,7 @@
       <thead><tr><th style="width:34%">ความเสี่ยง</th><th style="width:10%">โอกาส</th><th style="width:10%">ผลกระทบ</th><th>การรับมือ</th></tr></thead>
       <tbody>
         <tr><td>ผู้ให้ข้อมูล/Process Owner ไม่ว่างเข้า Workshop</td><td>กลาง</td><td>สูง</td><td>นัดล่วงหน้า, มีตัวแทนสำรอง, บันทึก/ยืนยันผ่านเอกสาร</td></tr>
-        <tr><td>ข้อมูลโครงสร้าง HosXP/interface ไม่ครบ</td><td>สูง</td><td>สูง</td><td>จอง Consult Sprint กับ Senior Imp แต่เนิ่น ๆ, ทำ Document Review ควบคู่</td></tr>
+        <tr><td>ข้อมูลโครงสร้าง HosXP/interface ไม่ครบ</td><td>สูง</td><td>สูง</td><td>จอง Consult Sprint กับ Senior Imp เตทีม แต่เนิ่น ๆ, ทำ Document Review ควบคู่</td></tr>
         <tr><td>ความต้องการเปลี่ยนภายหลัง (Scope creep)</td><td>กลาง</td><td>กลาง</td><td>ยืนยัน/ลงนาม sign-off ความต้องการรายโมดูล, change control</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
