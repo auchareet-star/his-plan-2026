@@ -47,6 +47,10 @@ strong{color:var(--primary-dark)}
 .gcard .ic{font-size:24px}
 .gcard h3{margin:6px 0 4px;color:var(--primary-dark)}
 .gcard p{margin:0;font-size:12.5px;color:var(--muted)}
+.gcard .gclick{display:block;text-decoration:none;color:inherit}
+.gcard .split{margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:12px}
+.gcard .split a{color:var(--accent);text-decoration:none;font-weight:700;margin-right:12px}
+.gcard .split a:hover{text-decoration:underline}
 .stat{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px}
 .stat .b{background:#f3f7f7;border:1px solid var(--line);border-radius:10px;padding:10px 16px;min-width:120px}
 .stat .b .n{font-size:22px;font-weight:800;color:var(--primary)}
