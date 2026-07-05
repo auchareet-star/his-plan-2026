@@ -8,7 +8,7 @@ function recalc(){
     tr.querySelector('.rowtot').textContent=t;
     tr.querySelector('.rowpct').textContent = t? Math.round((f+c)/t*100)+'%' : '–';
   });
-  ['DTWU','MSM'].forEach(function(s){
+  ['DTWU'].forEach(function(s){
     var rows=document.querySelectorAll('tr[data-site="'+s+'"]');
     var F=0,C=0,P=0,G=0;
     rows.forEach(function(tr){F+=+(tr.querySelector('.f').value||0);C+=+(tr.querySelector('.c').value||0);P+=+(tr.querySelector('.p').value||0);G+=+(tr.querySelector('.g').value||0);});
