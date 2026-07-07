@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline งวดงาน — เมืองสมุทร</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dot:#3a5bd9; --dot-ring:#cfd9f7; --line:#3a5bd9;
+    --accent:#3a5bd9; --grey-bg:#ececed; --ink:#2a2f3a; --sub:#3a4050;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:40px 24px; background:#ffffff;
+    font-family:"Prompt","Segoe UI",Tahoma,sans-serif; color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ position:relative; max-width:1080px; height:520px; margin:0 auto; }
+
+  /* horizontal track */
+  .track{ position:absolute; top:50%; left:5%; right:5%; height:3px;
+          background:var(--line); transform:translateY(-50%); }
+
+  /* node dot */
+  .dot{ position:absolute; top:50%; width:26px; height:26px; border-radius:50%;
+        background:var(--dot); transform:translate(-50%,-50%);
+        box-shadow:0 0 0 7px var(--dot-ring); z-index:2; }
+
+  /* vertical stem */
+  .stem{ position:absolute; left:50%; width:1.5px; background:#9aa3b2; transform:translateX(-50%); }
+
+  /* card */
+  .card{ position:absolute; width:210px; transform:translateX(-50%);
+         background:var(--grey-bg); border-radius:14px; padding:16px 18px;
+         box-shadow:0 4px 12px rgba(30,40,60,.07); text-align:left; }
+  .card .ph{ font-size:20px; font-weight:700; color:var(--accent); line-height:1.2; }
+  .card .desc{ font-size:15px; font-weight:500; color:var(--sub); margin-top:5px; line-height:1.3; }
+  .card.solo{ display:flex; align-items:center; min-height:70px; }
+  .card.solo .ph{ font-size:21px; }
+
+  /* duration labels */
+  .dur{ position:absolute; transform:translateX(-50%); text-align:center;
+        color:var(--accent); font-weight:600; line-height:1.3; white-space:nowrap; }
+  .dur .d1{ font-size:16px; }
+  .dur .d2{ font-size:15px; }
+</style>
+</head>
+<body>
+  <div style="max-width:1080px;margin:0 auto 8px;font-size:13px;color:#5b6b7b"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <b>Timeline งวดงาน</b></div>
+  <div class="wrap">
+    <div class="track"></div>
+
+    <!-- ===== Nodes (4) at 8% / 36% / 64% / 92% ===== -->
+    <div class="dot" style="left:8%;"></div>
+    <div class="dot" style="left:36%;"></div>
+    <div class="dot" style="left:64%;"></div>
+    <div class="dot" style="left:92%;"></div>
+
+    <!-- ===== Stems ===== -->
+    <!-- เริ่มสัญญา : down -->
+    <div class="stem" style="left:8%; top:50%; height:90px;"></div>
+    <!-- งวด1 : up -->
+    <div class="stem" style="left:36%; bottom:50%; height:90px;"></div>
+    <!-- งวด2 : down -->
+    <div class="stem" style="left:64%; top:50%; height:90px;"></div>
+    <!-- งวด3 : up -->
+    <div class="stem" style="left:92%; bottom:50%; height:90px;"></div>
+
+    <!-- ===== Cards ===== -->
+    <!-- เริ่มสัญญา (below) -->
+    <div class="card solo" style="left:8%; top:calc(50% + 90px);">
+      <div class="ph">เริ่มสัญญา</div>
+    </div>
+    <!-- งวด1 (above) -->
+    <div class="card" style="left:36%; bottom:calc(50% + 90px);">
+      <div class="ph">งวดที่ 1</div>
+      <div class="desc">ลงนามสัญญา · 20%</div>
+    </div>
+    <!-- งวด2 (below) -->
+    <div class="card" style="left:64%; top:calc(50% + 90px);">
+      <div class="ph">งวดที่ 2</div>
+      <div class="desc">Go-live รพ.หลัก · 30%</div>
+    </div>
+    <!-- งวด3 (above) -->
+    <div class="card" style="left:92%; bottom:calc(50% + 90px);">
+      <div class="ph">งวดที่ 3</div>
+      <div class="desc">ตรวจรับครบ 9 จุดบริการ · 50%</div>
+    </div>
+
+    <!-- ===== Duration labels (between nodes) ===== -->
+    <!-- 8→36 mid 22 : below -->
+    <div class="dur" style="left:22%; top:calc(50% + 16px);">
+      <div class="d1">Kick-off</div>
+    </div>
+    <!-- 36→64 mid 50 : above -->
+    <div class="dur" style="left:50%; bottom:calc(50% + 16px);">
+      <div class="d1">~7 เดือน</div>
+      <div class="d2">Fit Gap → Go-live</div>
+    </div>
+    <!-- 64→92 mid 78 : below -->
+    <div class="dur" style="left:78%; top:calc(50% + 16px);">
+      <div class="d1">~5 สัปดาห์</div>
+      <div class="d2">Rollout 9 จุด</div>
+    </div>
+
+  </div>
+</body>
+</html>

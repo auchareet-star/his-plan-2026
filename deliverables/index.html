@@ -31,6 +31,33 @@
   .note{background:#eef7f7;border-left:4px solid var(--primary);border-radius:9px;padding:12px 16px;font-size:13.5px;margin:22px 0 0}
   .note a{color:var(--primary-dark)}
   footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:28px;padding-top:14px;border-top:1px solid var(--line)}
+  /* ── TOR traceability ── */
+  .tor{margin-top:30px}
+  .tor>h2{font-size:21px;color:var(--primary-dark);margin:0 0 4px}
+  .tor .lead{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  .legend2{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;margin:0 0 18px;align-items:center;color:var(--ink)}
+  .bdg{display:inline-block;color:#fff;border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .b-ok{background:#2e9e5b}.b-add{background:#3b82c4}.b-warn{background:#d6453d}
+  details.site{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;
+    overflow:hidden;box-shadow:0 3px 12px rgba(31,45,61,.05)}
+  details.site>summary{list-style:none;cursor:pointer;padding:15px 22px;font-weight:800;font-size:17px;
+    color:var(--primary-dark);display:flex;align-items:center;gap:10px}
+  details.site>summary::-webkit-details-marker{display:none}
+  details.site>summary::before{content:"▸";color:var(--accent);transition:.2s;font-size:14px}
+  details.site[open]>summary::before{transform:rotate(90deg)}
+  details.site.dtwu>summary{border-left:5px solid var(--dtwu)}
+  details.site.msm>summary{border-left:5px solid var(--msm)}
+  .site .body{padding:2px 22px 18px}
+  .site h3{font-size:14.5px;color:var(--ink);margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+  table.trace{width:100%;border-collapse:collapse;font-size:12.5px;margin:4px 0}
+  table.trace th,table.trace td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  table.trace th{background:var(--primary);color:#fff;font-weight:600}
+  table.trace tbody tr:nth-child(even){background:#f7fafa}
+  table.trace td.code{font-family:"Cascadia Code","Consolas",monospace;font-weight:700;white-space:nowrap;color:var(--primary-dark)}
+  table.trace td.cl{color:var(--muted)}
+  .warnbox{background:#fff4e5;border-left:4px solid #f0a14b;border-radius:9px;padding:12px 16px;font-size:13px;margin:6px 0 14px}
+  .warnbox b{color:#b4651b}
+  .sumline{font-size:12.5px;color:var(--muted);margin:10px 0 0}
 </style>
 </head>
 <body>
@@ -38,7 +65,7 @@
   <header class="cover">
     <div class="k">DELIVERABLES · ชุดเอกสารส่งมอบรายงวด</div>
     <h1>เอกสารส่งมอบโครงการ HIS</h1>
-    <div class="org">DTWU / วลัยลักษณ์ · เมืองสมุทร / สมุทรปู่เจ้า — ผู้รับจ้าง บริษัท อโยเดีย จำกัด · <a href="../html/index.html">กลับหน้าแผนรวม</a></div>
+    <div class="org">DTWU / วลัยลักษณ์ · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) — ผู้รับจ้าง บริษัท อโยเดีย จำกัด · <a href="../html/index.html">กลับหน้าแผนรวม</a></div>
   </header>
 
   <div class="cards">
@@ -57,8 +84,8 @@
 
     <a class="card msm" href="samut/deliverables-by-milestone.html">
       <span class="tag">เมืองสมุทร</span>
-      <h2>เมืองสมุทร / สมุทรปู่เจ้า</h2>
-      <p>HIS เต็มรูปแบบ + Smart IPD + Migration HosXP · 9 จุดบริการ · 3 งวด (20/30/50%) · รับประกัน 1.5 ปี · MA 5 ปี</p>
+      <h2>เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ)</h2>
+      <p>HIS เต็มรูปแบบ + Smart IPD + Migration HosXP · 9 จุดบริการ · 3 งวด (ตามการส่งมอบ) · รับประกัน 1.5 ปี · MA 5 ปี</p>
       <ul>
         <li>งวด 1 — แผนบริหารโครงการ (10 ฉบับ)</li>
         <li>งวด 2 — พัฒนา/ทดสอบ/Go-live รพ.หลัก (18 ฉบับ)</li>
@@ -67,6 +94,112 @@
       <span class="go">เปิดสารบัญ 36 ฉบับ ▸</span>
     </a>
   </div>
+
+  <!-- ══════════ TOR TRACEABILITY ══════════ -->
+  <section class="tor">
+    <h2>🔗 แผนที่อ้างอิง TOR (Traceability) — รายการไหนตรงข้อไหน</h2>
+    <p class="lead">เทียบเอกสารส่งมอบแต่ละฉบับกับข้อกำหนดต้นฉบับ · DTWU อิง <b>TOR HIS Final.pdf</b> · เมืองสมุทรอิง <b>สัญญาจ้าง + เอกสารแนบท้าย 1–2</b></p>
+    <div class="legend2">
+      <span><span class="bdg b-ok">✔ ตรง TOR</span> ระบุชื่อ/เจตนารมณ์ตรงในข้อกำหนด</span>
+      <span><span class="bdg b-add">➕ เพิ่มเติม</span> ทีมเพิ่มตาม best practice — ไม่ได้ระบุใน TOR</span>
+      <span><span class="bdg b-warn">⚠ ควรเพิ่ม</span> TOR ระบุไว้ แต่ยังไม่มีการ์ด/ต้องตรวจ</span>
+    </div>
+
+    <!-- ───── DTWU ───── -->
+    <details class="site dtwu" open>
+      <summary>วลัยลักษณ์ (DTWU) — เทียบ TOR HIS Final</summary>
+      <div class="body">
+
+        <h3>งวด M1 — แผนบริหารโครงการ (TOR ข้อ 6.1 + ตารางส่งมอบงวด 1)</h3>
+        <table class="trace"><thead><tr><th>รหัส</th><th>เอกสาร</th><th>TOR ข้อ</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="code">M1-01</td><td>แผนดำเนินงานโครงการภาพรวม</td><td class="cl">6.1.1</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-02</td><td>แผนการสำรวจและออกแบบระบบ</td><td class="cl">6.1.2</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-03</td><td>แผนการโอนย้ายข้อมูล (DB Migration)</td><td class="cl">6.1.3</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-04</td><td>แผนการติดตั้งระบบ</td><td class="cl">6.1.4</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-05</td><td>แผนการพัฒนา/ส่งมอบ (Implementation)</td><td class="cl">6.1.5</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-06</td><td>แผนการทดสอบ (Simulation)</td><td class="cl">6.1.6</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-07</td><td>แผนการฝึกอบรม</td><td class="cl">6.1.7</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-08</td><td>แผนบำรุงรักษา + คู่มือ (การ์ดเน้น Backup/DR — เนื้อในครอบคลุมบำรุงรักษาแล้ว)</td><td class="cl">6.1.8</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-09</td><td>แผนบริหารการเปลี่ยนแปลง (Change Mgmt)</td><td class="cl">6.1.9</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M1-10</td><td>โครงสร้างทีมงาน / หน้าที่รับผิดชอบ</td><td class="cl">ข้อ 6.1 (ส่วนนำ) + ตารางงวด 1 (2)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">—</td><td>รายงานการจัดประชุมเริ่มโครงการ (Kick-off)</td><td class="cl">ตารางงวด 1 (3) · ข้อ 6.1 Project Kick-Off</td><td><span class="bdg b-warn">⚠</span></td></tr>
+        </tbody></table>
+        <p class="sumline">ผลรวม M1: TOR ข้อ 6.1.1–6.1.9 <b>ครบทุกข้อ</b> · จุดเดียวที่ควรเพิ่มการ์ดคือ <b>รายงาน Kick-off</b> (มีไฟล์ .docx จริงแล้ว แต่ยังไม่ขึ้นเป็นการ์ดในหน้า)</p>
+
+        <h3>งวด M2 — วิเคราะห์/ออกแบบ (TOR ข้อ 8 งวด 2)</h3>
+        <table class="trace"><thead><tr><th>รหัส</th><th>เอกสาร</th><th>TOR ข้อ</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="code">M2-01</td><td>Fit/Gap Analysis Report</td><td class="cl">— (เพิ่มจากบริบทเรา)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M2-02</td><td>Requirement Traceability Matrix (RTM)</td><td class="cl">— (หนุน ISO 29110)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M2-03</td><td>Workflow Diagram (As-is/To-be)</td><td class="cl">งวด 2 · System Requirement (1)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-04</td><td>System Requirement Specification (SRS)</td><td class="cl">งวด 2 · System Requirement (2)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-05</td><td>Business Process Mapping (BPM)</td><td class="cl">— (เพิ่มเติม)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M2-06</td><td>Data Mapping</td><td class="cl">— (TOR มีเฉพาะ Migration Data Mapping)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M2-07</td><td>User Authorization Matrix</td><td class="cl">งวด 2 · System Requirement (3)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-08</td><td>API Specification</td><td class="cl">งวด 2 · Program Spec (1)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-09</td><td>Migration Data Mapping</td><td class="cl">งวด 2 · Program Spec (2)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-10</td><td>Technical Specification</td><td class="cl">งวด 2 · Technical Spec (หัวข้อ)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-11</td><td>Data Dictionary</td><td class="cl">งวด 2 · Technical Spec (1)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-12</td><td>System Architecture</td><td class="cl">งวด 2 · Technical Spec (2)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M2-13</td><td>Database Schema Design</td><td class="cl">งวด 2 · Technical Spec (3)</td><td><span class="bdg b-ok">✔</span></td></tr>
+        </tbody></table>
+        <p class="sumline">TOR งวด 2 กำหนดไว้ 8 เอกสาร → หน้าเว็บมี <b>ครบ</b> + เพิ่ม 4 ฉบับ (Fit/Gap, RTM, BPM, Data Mapping) ตาม best practice</p>
+
+        <h3>งวด M3 — ทดสอบ + ฝึกอบรม (TOR ข้อ 8 งวด 3 + ข้อ 7)</h3>
+        <table class="trace"><thead><tr><th>รหัส</th><th>เอกสาร</th><th>TOR ข้อ</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="code">M3-01</td><td>Test Cases / Test Scripts</td><td class="cl">งวด 3 · แบบฟอร์ม/หนุนการทดสอบ (5)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-02</td><td>SIT Report (Integration)</td><td class="cl">งวด 3 · การทดสอบ (6)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-03</td><td>UAT Plan + Sign-off</td><td class="cl">งวด 3 · การทดสอบ (3)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-04</td><td>Master Data Setup Document</td><td class="cl">งวด 3 · การทดสอบ (2)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-05</td><td>Data Migration Reconciliation</td><td class="cl">งวด 3 · การทดสอบ (7)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-06</td><td>คู่มือผู้ใช้ รายบทบาท</td><td class="cl">งวด 3 · ฝึกอบรม (1–4)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-07</td><td>เอกสารฝึกอบรม + ทะเบียนผู้เข้าอบรม</td><td class="cl">ข้อ 7.6</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M3-08</td><td>E2E Test Report</td><td class="cl">งวด 3 · การทดสอบ (4)</td><td><span class="bdg b-ok">✔</span></td></tr>
+        </tbody></table>
+        <p class="sumline">M3 <b>ตรง TOR ทุกฉบับ</b> — ครอบคลุมทั้งรายงานทดสอบ SIT/UAT/E2E/Migration และชุดคู่มือ/หลักฐานอบรม</p>
+
+        <h3>งวด M4 — Go-Live / ส่งมอบ (TOR ข้อ 8 งวด 4 + ข้อ 6.3, 10)</h3>
+        <table class="trace"><thead><tr><th>รหัส</th><th>เอกสาร</th><th>TOR ข้อ</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="code">M4-01</td><td>Go-Live / Cutover Plan &amp; Checklist</td><td class="cl">— (เพิ่มเติม — หนุนติดตั้งใช้จริง)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M4-02</td><td>Deployment / Installation Document</td><td class="cl">— (เพิ่มเติม)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M4-03</td><td>Source Code + เอกสารส่งมอบ Source</td><td class="cl">ข้อ 6.3.5 / 6.3</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M4-04</td><td>As-built / System Documentation</td><td class="cl">— (เพิ่มเติม)</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="code">M4-05</td><td>คู่มือผู้ดูแลระบบ (Admin Manual)</td><td class="cl">งวด 4 (1) / ข้อ 6.3.5</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M4-06</td><td>ใบส่งมอบงาน / ใบตรวจรับ</td><td class="cl">ข้อ 14.4 (การตรวจรับ)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">M4-07</td><td>เอกสารการรับประกัน + SLA</td><td class="cl">ข้อ 10 (รับประกัน 2 ปี)</td><td><span class="bdg b-ok">✔</span></td></tr>
+        </tbody></table>
+        <p class="sumline">ตารางงวด 4 ใน TOR ระบุน้อย (คู่มือ/อบรม/แบบฟอร์ม) — หน้าเว็บเสริม Go-Live/Deployment/As-built ตาม best practice; Source code &amp; Warranty อ้างอิงข้อ 6.3/10 ครบ</p>
+      </div>
+    </details>
+
+    <!-- ───── เมืองสมุทร ───── -->
+    <details class="site msm">
+      <summary>เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) — เทียบสัญญา + เอกสารแนบ</summary>
+      <div class="body">
+        <div class="warnbox"><b>⚠ ข้อควรระวังสำคัญ:</b> ชุดเอกสารไซต์นี้เป็น <b>สัญญาจ้างเอกชน</b> (21 หน้า) + เอกสารแนบ 1 (คุณลักษณะระบบ 74 หน้า) + เอกสารแนบ 2 (ขอบเขตงาน 3 หน้า) — <u>ไม่ใช่ TOR ราชการ</u> · ตรวจครบทั้ง 95+ หน้าแล้ว <b>ไม่พบคำว่า ISO 29110 / HA / Made in Thailand / SME เลย</b> · ดังนั้น pill “ISO 29110 · HA” และตาราง “มาตรฐานบังคับ” ในหน้า samut <b>ไม่มีหลักฐานรองรับจากสัญญา</b> (คล้ายถูกคัดโครงมาจากหน้า DTWU) — ควรถอดออกหรือระบุชัดว่าเป็น “แนวปฏิบัติของทีม” ไม่ใช่ข้อบังคับสัญญา</div>
+
+        <h3>รายการที่มีข้อกำหนดรองรับในสัญญา/เอกสารแนบ (ตรง)</h3>
+        <table class="trace"><thead><tr><th>รหัส</th><th>เอกสาร</th><th>อ้างอิง</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="code">S1-03</td><td>แผนการโอนย้ายข้อมูล (HosXP→HA.OS)</td><td class="cl">แนบ 2 · ข้อ 1.1.1</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S2-05</td><td>Data Mapping (HosXP→HA.OS)</td><td class="cl">แนบ 2 · ข้อ 1.1.2</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S2-09</td><td>API Specification / Data Interface</td><td class="cl">แนบ 2 · ข้อ 2</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S2-11 / S2-12</td><td>SIT Report / UAT Plan + Sign-off</td><td class="cl">สัญญา · ข้อ 5.6 (เกณฑ์ UAT)</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S2-14</td><td>Data Migration Reconciliation</td><td class="cl">แนบ 2 · ข้อ 1.1.3</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S2-15 / S3-05</td><td>คู่มือผู้ใช้ / คู่มือผู้ดูแลระบบ (ไทย · ดิจิทัล)</td><td class="cl">สัญญา · ข้อ 7.2</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S3-04</td><td>Source Code Handover + Escrow (กรรมสิทธิ์เป็นของอโยเดีย)</td><td class="cl">สัญญา · ข้อ 12.1–12.2</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S3-07</td><td>ใบส่งมอบ / ตรวจรับครบทุกสถานที่</td><td class="cl">สัญญา · ข้อ 5</td><td><span class="bdg b-ok">✔</span></td></tr>
+          <tr><td class="code">S3-08</td><td>การรับประกัน + SLA + MA</td><td class="cl">สัญญา · ข้อ 6 / 3.2 / 4.2</td><td><span class="bdg b-ok">✔</span></td></tr>
+        </tbody></table>
+
+        <h3>รายการที่ทีมเพิ่มเอง (สัญญาไม่ได้ระบุชื่อ)</h3>
+        <table class="trace"><thead><tr><th>กลุ่ม</th><th>ตัวอย่างเอกสาร</th><th>สถานะ</th></tr></thead><tbody>
+          <tr><td class="cl">งวด 1 (S1-01~S1-10)</td><td>แผนบริหารโครงการทั้งชุด — สัญญา ข้อ 3.1 — งวด 1 ไม่ผูกกับการส่งเอกสาร ยกเว้น S1-03</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="cl">งวด 2 (บางส่วน)</td><td>S2-01 Fit/Gap, S2-02 RTM, S2-03 Workflow, S2-04 SRS, S2-06 Data Dictionary, S2-07 Architecture, S2-08 DB Schema, S2-10 Test Cases, S2-13 Master Data, S2-16 เอกสารอบรม, S2-17 Go-Live, S2-18 Deployment</td><td><span class="bdg b-add">➕</span></td></tr>
+          <tr><td class="cl">งวด 3 (บางส่วน)</td><td>S3-01 แผน Rollout, S3-02 รายงาน Rollout, S3-03 As-built, S3-06 E2E/Stabilize</td><td><span class="bdg b-add">➕</span></td></tr>
+        </tbody></table>
+        <p class="sumline">สรุป: จาก 36 ฉบับ มี ~9 กลุ่มที่ <b>อ้างอิงสัญญา/เอกสารแนบได้ตรง</b> · ที่เหลือ ~27 ฉบับเป็นเอกสารมาตรฐานโครงการที่ทีมเพิ่มเอง (ดีในแง่ practice แต่ไม่ควรระบุว่า “ตาม TOR”) · หมายเหตุ: ชื่อระบบเดิม “HosXP” ไม่ปรากฏในสัญญา/เอกสารแนบที่ตรวจ — ควรยืนยันแหล่งที่มา</p>
+      </div>
+    </details>
+  </section>
 
   <div class="note">💡 ทุกฉบับมีทั้ง <b>HTML</b> (พิมพ์เป็น PDF ได้) และ <b>Word .docx</b> (ฟอนต์ TH SarabunPSK · อยู่ในโฟลเดอร์ <code>&lt;site&gt;/docx/</code> · ชื่อไฟล์ = รหัสเอกสาร) เป็น template กรอกใช้งานได้จริง · DTWU อิงต้นแบบชุด DIS เดิม ปรับวันที่ตาม MasterPlan · เมืองสมุทรสร้างตามสัญญาแนบท้าย 1 (36 โมดูล/1,358 ข้อกำหนด) · ค่าตัวอย่างในเอกสารเป็นค่าสมมุติ ควรทาน TOR/สัญญาตัวจริงก่อนยื่น</div>
 

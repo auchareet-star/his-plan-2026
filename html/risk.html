@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Risk Register — HIS 3 Site</title><link rel="stylesheet" href="style.css">
+<style>
+ .risk-hero{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 4px}
+ .tcard{flex:1 1 260px;border-radius:12px;padding:12px 15px;color:#fff;box-shadow:0 3px 10px rgba(31,45,61,.12)}
+ .tcard .tid{font-size:12px;font-weight:700;opacity:.9;letter-spacing:.3px}
+ .tcard .trisk{font-size:13.5px;font-weight:600;margin-top:3px;line-height:1.5}
+ .lv-r{background:#d6453d} .lv-o{background:#e8743b} .lv-y{background:#e0a800;color:#5a4500}
+ span.lv{display:inline-block;padding:2px 9px;border-radius:6px;font-size:11.5px;font-weight:800;white-space:nowrap}
+ span.lv.lv-r{background:#d6453d;color:#fff} span.lv.lv-o{background:#e8743b;color:#fff} span.lv.lv-y{background:#ffc000;color:#5a4500}
+ .rtbl td.c{text-align:center;white-space:nowrap}
+ .rtbl .cause{color:var(--muted);font-size:12px;margin-top:4px;font-weight:400}
+ .rtbl b{color:var(--ink)}
+ .rtbl th:nth-child(3),.rtbl td:nth-child(3){min-width:230px}
+ .rtbl th:nth-child(7),.rtbl td:nth-child(7){min-width:200px}
+ .heat{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+ .heat .hb{border-radius:10px;padding:10px 16px;color:#fff;font-weight:800;min-width:120px;text-align:center}
+ .heat .hb small{display:block;font-weight:600;font-size:11px;opacity:.92}
+</style></head><body><div class="wrap">
+<header class="cover"><h1>⚠️ Risk Register — โครงการ HIS 3 Site</h1><div class="sub">DTMU · DTWU วลัยลักษณ์ · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) — ประเมิน ณ Sprint 1 W2 (29 มิ.ย. 2569)</div></header>
+<nav class="topnav"><a href="index.html">หน้าหลัก</a><a href="timeline.html">Timeline + Gantt</a><a href="checklist-dtwu.html">Checklist DTWU</a><a href="checklist-msm.html">Checklist เมืองสมุทร</a><a href="module-fitgap.html">Module Fit Gap</a><a href="fitgap-workshop.html">Fit Gap Workshop</a><a href="fitgap-summary.html">Fit Gap Summary</a><a href="jira-cards.html">Jira Cards</a><a href="risk.html" class="cur">⚠️ ความเสี่ยง</a><a href="../deliverables/index.html">📦 เอกสารส่งมอบ</a></nav>
+<section>
+ <h2>ความเสี่ยงสูงสุด (🔴 สูงมาก)</h2>
+ <div class="risk-hero">
+<div class="tcard lv-r"><div class="tid">R01 · ทรัพยากร/ทีม</div><div class="trisk">ทีม Fit Gap คนเดียวกัน (PO จูน + BA ชมพู่ + PO มีน) รับผิดชอบ Workshop ทั้ง 2 Site พร้อมกัน</div></div>
+<div class="tcard lv-r"><div class="tid">R02 · Migration</div><div class="trisk">เมืองสมุทรใช้ HosXP 3 เวอร์ชันแยกกัน (v4=IPD, v3=OPD, vPCU=คลินิกย่อย) ต้องรวมเป็น HA.OS เดียว</div></div>
+<div class="tcard lv-r"><div class="tid">R03 · Migration</div><div class="trisk">ซ้อม Migration แค่ 2 รอบ และ Production migration จริง (14 ม.ค.) ก่อน Go-live (~20 ม.ค.) แค่ ~6 วัน — ไม่มี buffer</div></div>
+<div class="tcard lv-r"><div class="tid">R05 · Dependency</div><div class="trisk">13 โมดูล 2 Site ผูกกับ DTMU Phase 2 (เริ่ม Dev 16 ก.ย. เสร็จ ~15 พ.ย.) — ถ้า DTMU ช้า กระทบทั้ง 2 Site</div></div>
+<div class="tcard lv-r"><div class="tid">R06 · ตารางเวลา</div><div class="trisk">เมืองสมุทร: เต็มระบบ + Migration 3 แหล่ง + Dev ใหม่ 6 โมดูล ในเวลา ~6.5 เดือน (เริ่มจริง 6 ก.ค. → Go-live 20 ม.ค.)</div></div>
+ </div>
+ <div class="heat">
+  <div class="hb lv-r">🔴 5<small>สูงมาก</small></div>
+  <div class="hb lv-o">🟠 7<small>สูง</small></div>
+  <div class="hb lv-y">🟡 3<small>กลาง</small></div>
+  <div class="hb" style="background:#0d6e6e">15<small>รวมทั้งหมด</small></div>
+ </div>
+</section>
+
+<section>
+ <h2>ประเด็นเด่น: Migration เมืองสมุทร (HosXP 3 เวอร์ชัน)</h2>
+ <p class="legend">สภาพจริง = 3 ฐานข้อมูลแยกกัน ต้องรวมเป็น HA.OS เดียว — นี่คือกลุ่มเสี่ยงหนักสุดของโครงการ</p>
+ <table class="rtbl"><thead><tr><th>เวอร์ชัน HosXP เดิม</th><th>ใช้กับ</th><th>ผลต่อ Migration</th></tr></thead>
+ <tbody>
+  <tr><td class="c"><b>v.4</b></td><td class="c">IPD (ผู้ป่วยใน)</td><td>schema เฉพาะ IPD · ต้อง map แยก</td></tr>
+  <tr><td class="c"><b>v.3</b></td><td class="c">OPD (ผู้ป่วยนอก)</td><td>schema ต่างจาก v.4 · คนไข้อาจซ้ำกับ v.4</td></tr>
+  <tr><td class="c"><b>v.PCU</b></td><td class="c">คลินิกย่อย</td><td>ฐานที่ 3 · ต้อง dedup ข้าม 3 แหล่ง</td></tr>
+ </tbody></table>
+ <div class="warn"><b>⚠️ จุดวิกฤต:</b> ประวัติผู้ป่วย (แพ้ยา/ยาต่อเนื่อง/Lab/นัดหมาย) คร่อม OPD (v3) + IPD (v4) — ถ้า cutover ไม่ครบ คนไข้วัน Go-live แรกอาจไม่เห็นประวัติ (เสี่ยงความปลอดภัยผู้ป่วย) · ปัจจุบันซ้อมแค่ 2 รอบ และ migration จริงก่อน Go-live เพียง ~6 วัน หลังหยุดปีใหม่</div>
+ <div class="note"><b>ข้อเสนอ:</b> แตก M43 เป็น 3 workstream (v4/v3/vPCU) · เพิ่มขั้น Data Cleansing &amp; Dedup · ทำ Data Profiling ทั้ง 3 ฐานทันทีใน ก.ค. · เพิ่มรอบซ้อมเป็น ≥3 · ทำ Cutover Runbook + เกณฑ์ Go/No-go</div>
+</section>
+
+<section>
+ <h2>ตารางความเสี่ยงทั้งหมด (15 ข้อ)</h2>
+ <div class="tblscroll">
+ <table class="rtbl"><thead><tr>
+   <th>ID</th><th>ด้าน</th><th>ความเสี่ยง / สาเหตุ</th><th>โอกาส</th><th>ผลกระทบ</th><th>ระดับ</th><th>มาตรการรับมือ</th><th>เจ้าของ</th>
+ </tr></thead>
+ <tbody>
+<tr><td class="c">R01</td><td>ทรัพยากร/ทีม</td><td><b>ทีม Fit Gap คนเดียวกัน (PO จูน + BA ชมพู่ + PO มีน) รับผิดชอบ Workshop ทั้ง 2 Site พร้อมกัน</b><div class="cause">Fit Gap Workshop: DTWU 21 รอบ + เมืองสมุทร 18 รอบ = 39 รอบ &quot;ผู้เก็บ Req&quot; เป็น จูน+ชมพู่ ทุกรอบ และตารางวางชนสัปดาห์เดียวกัน (เช่น S2 13-17 ก.ค. DTWU W4-5 ทับ สมุทร W1-2)</div></td><td class="c">สูง</td><td class="c">สูง</td><td class="c"><span class="lv lv-r">🔴 สูงมาก</span></td><td>แยกทีม Fit Gap เป็น 2 สาย (DTWU/สมุทร) ไม่ใช้คนซ้ำ หรือเหลื่อมตารางไม่ให้ Workshop 2 Site ทับสัปดาห์ · เพิ่ม BA/PO สำรอง</td><td class="c">PM มีน / อาร์ต</td></tr>
+<tr><td class="c">R02</td><td>Migration</td><td><b>เมืองสมุทรใช้ HosXP 3 เวอร์ชันแยกกัน (v4=IPD, v3=OPD, vPCU=คลินิกย่อย) ต้องรวมเป็น HA.OS เดียว</b><div class="cause">3 ฐานข้อมูล schema ต่างเวอร์ชัน = งาน mapping x3 · คนไข้ซ้ำข้าม v3/v4/vPCU ต้อง match HN/CID · แผน M43 เขียนเป็น workstream เดียวซ่อนความซับซ้อน</div></td><td class="c">สูง</td><td class="c">สูงมาก</td><td class="c"><span class="lv lv-r">🔴 สูงมาก</span></td><td>แตก M43 เป็น 3 workstream (v4/v3/vPCU) · เพิ่มขั้น Data Cleansing &amp; Dedup ก่อนซ้อม · ทำ Data Profiling ทั้ง 3 ฐานทันทีใน ก.ค.</td><td class="c">Imp เตทีม / Dev</td></tr>
+<tr><td class="c">R03</td><td>Migration</td><td><b>ซ้อม Migration แค่ 2 รอบ และ Production migration จริง (14 ม.ค.) ก่อน Go-live (~20 ม.ค.) แค่ ~6 วัน — ไม่มี buffer</b><div class="cause">Dress Rehearsal S7-8 + S9 เท่านั้น · migration จริงชนทันทีหลังหยุดปีใหม่ (21 ธ.ค.-3 ม.ค.) ถ้าเจอปัญหาไม่มีเวลาหนี</div></td><td class="c">สูง</td><td class="c">สูงมาก</td><td class="c"><span class="lv lv-r">🔴 สูงมาก</span></td><td>เพิ่มรอบซ้อมเป็น ≥3 (ซ้อมแยกทีละแหล่งก่อนรวม) · กำหนดเกณฑ์ Go/No-go ล่วงหน้า · เผื่อ buffer ≥2 สัปดาห์ก่อน Go-live</td><td class="c">Imp เตทีม / PM อาร์ต</td></tr>
+<tr><td class="c">R04</td><td>Migration</td><td><b>ประวัติผู้ป่วยข้ามฐานขาดตอนตอน Go-live (แพ้ยา/ยาต่อเนื่อง/Lab/นัดหมาย คร่อม OPD v3 + IPD v4)</b><div class="cause">ถ้า cutover ไม่ครบทั้ง 3 แหล่ง คนไข้วันแรกอาจไม่เห็นประวัติ — เป็นความเสี่ยงความปลอดภัยผู้ป่วย ไม่ใช่แค่ IT</div></td><td class="c">กลาง</td><td class="c">สูงมาก</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>ทำ reconciliation ข้อมูลวิกฤต (แพ้ยา/ยา active) เป็นลำดับแรก · มี fallback ดู HosXP เดิมช่วง Hypercare</td><td class="c">Imp เตทีม / Key User</td></tr>
+<tr><td class="c">R05</td><td>Dependency</td><td><b>13 โมดูล 2 Site ผูกกับ DTMU Phase 2 (เริ่ม Dev 16 ก.ย. เสร็จ ~15 พ.ย.) — ถ้า DTMU ช้า กระทบทั้ง 2 Site</b><div class="cause">โมดูล P2-DTMU: M9-14,19-23,33,34 · DTMU Go-live เอง ~ต.ค. ถ้าเลื่อนดัน P.2 เลื่อน กระทบ Go-live เมืองสมุทร ม.ค. 70 ทันที</div></td><td class="c">กลาง</td><td class="c">สูงมาก</td><td class="c"><span class="lv lv-r">🔴 สูงมาก</span></td><td>ทำ Dependency Map DTMU→2 Site · ขอ commit วันเสร็จ P.2 เป็นลายลักษณ์อักษร · เตรียมแผนสำรองถ้า P.2 ไม่ทัน</td><td class="c">PM มีน / DTMU</td></tr>
+<tr><td class="c">R06</td><td>ตารางเวลา</td><td><b>เมืองสมุทร: เต็มระบบ + Migration 3 แหล่ง + Dev ใหม่ 6 โมดูล ในเวลา ~6.5 เดือน (เริ่มจริง 6 ก.ค. → Go-live 20 ม.ค.)</b><div class="cause">ขอบงานเทียบเวลาแน่นมาก และ Go-live ชนหลังหยุดปีใหม่</div></td><td class="c">สูง</td><td class="c">สูง</td><td class="c"><span class="lv lv-r">🔴 สูงมาก</span></td><td>จัดลำดับ Go-live แบบเฟส (รพ.หลักก่อน) · ล็อก scope งวดให้ชัด · เตรียมเลื่อน rollout ส่วนย่อยได้</td><td class="c">PM อาร์ต</td></tr>
+<tr><td class="c">R07</td><td>ขอบเขต</td><td><b>แนบ1 เมืองสมุทร 1,358 ข้อกำหนด (36 โมดูล) ยังไม่ทำ Fit Gap เลย — Effort จริงยังไม่รู้</b><div class="cause">ชีต Fit Gap Summary ยังว่างทุกช่อง สถานะ &quot;รอ Workshop&quot; ทั้งหมด → ประเมินงาน Dev/Config ไม่ได้จนกว่าจะเสร็จ</div></td><td class="c">สูง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>เร่ง Fit Gap + กรอก Effort ทันทีหลังแต่ละ Workshop · ตั้ง threshold ถ้า Gap เกิน X% ให้ทบทวน scope/งวด</td><td class="c">PO จูน / BA ชมพู่</td></tr>
+<tr><td class="c">R08</td><td>ทรัพยากร/ทีม</td><td><b>Dev pool ถูก DTMU P.2 ดึงไป (16 ก.ย.) ชนช่วง Config &amp; Custom ของ DTWU + เมืองสมุทร</b><div class="cause">Key Dates ระบุ &quot;Dev Pool บางส่วนถูกดึง&quot; ช่วง ก.ย.-พ.ย. ซึ่งเป็นช่วงพีคของ 2 Site</div></td><td class="c">สูง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>กันกำลัง Dev ขั้นต่ำต่อ Site เป็นลายลักษณ์อักษร · จัดคิว Dev ตาม critical path · พิจารณาจ้างเสริมช่วงพีค</td><td class="c">PM มีน / Dev Lead</td></tr>
+<tr><td class="c">R09</td><td>ขอบเขต</td><td><b>โมดูลพัฒนาใหม่ 7 ตัว: DTWU (M28 คลังผู้ป่วย, M32 การเรียนการสอน) + เมืองสมุทร (M37,38,40,41,42)</b><div class="cause">งาน Gap = พัฒนาใหม่ ใช้เวลา/เสี่ยงเปลี่ยน requirement สูง และบางตัวรอ DTMU (IC/KPI)</div></td><td class="c">กลาง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>เก็บ Deep Requirement + ตรึง scope โมดูลใหม่เร็ว · แยก Sprint Dev เฉพาะ · มี buffer สำหรับ change</td><td class="c">BA สาม / SA ก้อง / Dev</td></tr>
+<tr><td class="c">R10</td><td>Integration</td><td><b>อินเทอร์เฟซภายนอก (SAP, WU-HRMS, PACS, สปสช./HL7, SSO/ADFS) พึ่ง 3rd-party และ API Spec เพิ่งร่างปลาย ก.ย.</b><div class="cause">API Spec ที่ S8 (28 ก.ย.-9 ต.ค.) · Integration Test S12 (ปลาย พ.ย.) เวลาแก้ปัญหากับภายนอกน้อย</div></td><td class="c">กลาง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>เริ่มประสาน WU IT + เจ้าของระบบภายนอกตั้งแต่ ก.ค. · ยืนยัน spec/ผู้ประสานงานเป็นลายลักษณ์อักษร</td><td class="c">BA ชมพู่ / SA ก้อง</td></tr>
+<tr><td class="c">R11</td><td>บุคลากร</td><td><b>งาน Migration ทั้งก้อนพึ่ง &quot;Imp เตทีม HosXP&quot; ทีมเดียว (จ้างเสริม เริ่ม 1 ก.ค.) — Key-person risk</b><div class="cause">ถ้าคนนำ Migration ช้า/ลาออก งานหยุดทันที ไม่มีตัวสำรองที่รู้ HosXP 3 เวอร์ชัน</div></td><td class="c">กลาง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>ทำเอกสาร Data Mapping/ขั้นตอนให้ทีมภายในตามได้ · จับคู่คนภายในเรียนรู้ควบคู่ · มีสัญญา backup</td><td class="c">PM อาร์ต</td></tr>
+<tr><td class="c">R12</td><td>สัญญา</td><td><b>งวด/Milestone TOR เมืองสมุทรยังไม่ล็อกชัด (แผนมาร์ก [ด่วน!])</b><div class="cause">Checklist สมุทร S1 1.6 &quot;Confirm งวดและ Milestone TOR [ด่วน!]&quot; ยังค้าง</div></td><td class="c">กลาง</td><td class="c">กลาง</td><td class="c"><span class="lv lv-y">🟡 กลาง</span></td><td>ยืนยัน Milestone Matrix + เงื่อนไขตรวจรับกับลูกค้าให้จบใน S1-S2</td><td class="c">PM อาร์ต</td></tr>
+<tr><td class="c">R13</td><td>ตารางเวลา</td><td><b>DTWU งวด 1 ส่ง 10 ก.ค. (Day 30) เร็วมาก และ Kick-off เพิ่งต้น ก.ค.</b><div class="cause">เป็นเอกสาร (แผนพัฒนา + โครงสร้าง + MOM) เสี่ยงต่ำเชิงเทคนิค แต่ต้องเร่งจัดทำคู่ Kick-off</div></td><td class="c">กลาง</td><td class="c">กลาง</td><td class="c"><span class="lv lv-y">🟡 กลาง</span></td><td>เตรียม draft งวด 1 ล่วงหน้าใน S1 (กำลังทำอยู่) · ยืนยันวัน Kick-off เร็ว</td><td class="c">PM มีน</td></tr>
+<tr><td class="c">R14</td><td>คุณภาพ</td><td><b>หน้าต่าง SIT/UAT สั้นเทียบขอบเขต และ Bug Fix พึ่ง Dev pool ที่แชร์</b><div class="cause">SIT S11-13 + UAT S14 · ถ้าเจอ bug มากช่วงเดียวกับ DTMU P.2 อาจแก้ไม่ทัน</div></td><td class="c">กลาง</td><td class="c">กลาง</td><td class="c"><span class="lv lv-y">🟡 กลาง</span></td><td>ทำ Test Case ล่วงหน้า · จัดลำดับ bug ตามความเสี่ยง · เผื่อ regression buffer</td><td class="c">นนท์ / ชมพู่</td></tr>
+<tr><td class="c">R15</td><td>Migration</td><td><b>ยังไม่มี Rollback/Failover plan ที่มีเกณฑ์ Go/No-go ชัดสำหรับวัน Cut-over</b><div class="cause">แผนมี Cut-over/Failover ที่ S13/S19 แต่ยังไม่ระบุเกณฑ์ตัดสินใจและจุดถอย</div></td><td class="c">กลาง</td><td class="c">สูง</td><td class="c"><span class="lv lv-o">🟠 สูง</span></td><td>จัดทำ Cutover Runbook + เกณฑ์ Go/No-go + จุด Rollback ก่อนซ้อมรอบสุดท้าย</td><td class="c">PM / Dev / Imp เตทีม</td></tr>
+ </tbody></table>
+ </div>
+</section>
+
+<section>
+ <h2>ข้อเสนอเร่งด่วน (2–3 สัปดาห์นี้)</h2>
+ <ol style="margin:6px 0 0;padding-left:22px;font-size:14px;line-height:1.9">
+  <li><b>แก้ตาราง Fit Gap ไม่ให้ 2 Site ทับสัปดาห์</b> หรือเพิ่มทีม BA/PO อีกสาย — blocker อันดับ 1 (R01)</li>
+  <li><b>เริ่ม Data Profiling HosXP v3/v4/vPCU ทันที</b> ไม่รอ S2 เพื่อรู้ปริมาณ+คุณภาพ+จำนวนตารางจริง (R02–R04)</li>
+  <li><b>ล็อก Milestone/งวด TOR เมืองสมุทรให้เสร็จ</b> (R12)</li>
+  <li><b>ทำ Dependency Map DTMU→2 Site + ขอ commit วันเสร็จ P.2 เป็นลายลักษณ์อักษร</b> (R05, R08)</li>
+  <li><b>เพิ่ม Migration Dress Rehearsal เป็น 3 รอบ + Cutover Runbook + เกณฑ์ Go/No-go</b> (R03, R15)</li>
+ </ol>
+</section>
+
+<footer>Risk Register · โครงการ HIS 3 Site · ประเมิน 29 มิ.ย. 2569 · เอกสารวางแผนภายใน — ทาน TOR/สัญญาตัวจริงก่อนใช้</footer>
+</div></body></html>

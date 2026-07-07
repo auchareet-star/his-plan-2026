@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>กระทบยอดโมดูล — เมืองสมุทร (สัญญาแนบ 1 ↔ MasterPlan)</title>
+<style>
+  :root{--primary:#0d6e6e;--primary-dark:#0a5252;--accent:#e8743b;--bg:#f4f6f8;--card:#fff;
+    --line:#dfe4e8;--ink:#1f2d3d;--muted:#5b6b7b;--ok:#2e9e5b;--fold:#e0a800;--warn:#d6453d;--add:#3b82c4;}
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+    background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 20px 80px}
+  header.cover{background:linear-gradient(135deg,#4e8a30,#70ad47);color:#fff;border-radius:16px;
+    padding:30px 32px;box-shadow:0 10px 30px rgba(78,138,48,.25)}
+  header.cover h1{margin:0 0 6px;font-size:23px}
+  header.cover .sub{font-size:14px;opacity:.95}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;
+    margin-top:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 12px;color:var(--primary-dark);padding-bottom:6px;border-bottom:2px solid var(--line)}
+  h3{font-size:15px;color:var(--primary-dark);margin:16px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:var(--primary);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:#f7fafa}
+  td.c{text-align:center;white-space:nowrap}
+  td.code{font-family:"Cascadia Code","Consolas",monospace;font-weight:700;color:var(--primary-dark);text-align:center}
+  .bdg{display:inline-block;color:#fff;border-radius:5px;padding:1px 8px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .b-ok{background:var(--ok)}.b-fold{background:var(--fold)}.b-warn{background:var(--warn)}.b-add{background:var(--add)}
+  .stats{display:flex;flex-wrap:wrap;gap:14px;margin:4px 0 6px}
+  .stat{flex:1;min-width:130px;background:#f7fafa;border:1px solid var(--line);border-radius:11px;padding:12px 14px;text-align:center}
+  .stat .n{font-size:26px;font-weight:800;line-height:1.1}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:3px}
+  .stat.miss .n{color:var(--warn)} .stat.conf .n{color:var(--fold)} .stat.add .n{color:var(--add)} .stat.ok2 .n{color:var(--ok)}
+  .rootbox{background:#fff4e5;border-left:4px solid #f0a14b;border-radius:9px;padding:12px 16px;font-size:13.5px;margin:6px 0 10px}
+  .rootbox b{color:#b4651b}
+  .legend{font-size:12.5px;color:var(--muted);margin:8px 0 0;display:flex;gap:14px;flex-wrap:wrap}
+  .miss-row{background:#fdecec!important}
+  .fix{background:#eef7f7;border-left:4px solid var(--primary);border-radius:9px;padding:12px 16px;font-size:13.5px;margin:8px 0 0}
+  ol{margin:6px 0;padding-left:20px} li{margin:4px 0}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:22px;padding-top:12px;border-top:1px solid var(--line)}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:11.5px}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="bc" style="font-size:13px;color:#5b6b7b;margin-bottom:14px"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <b>กระทบยอดโมดูล</b></div>
+
+<header class="cover">
+  <h1>🔍 กระทบยอดโมดูล — เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ)</h1>
+  <div class="sub">เทียบ <b>สัญญาแนบท้าย 1 (36 โมดูล / 1,358 ข้อกำหนด)</b> ↔ ชีตต่าง ๆ ใน <b>DTWU-MasterPlan.xlsx</b><br>
+  จัดทำเพื่อทาน ก่อนตัดสินใจแก้ไฟล์ · <a href="../deliverables/index.html" style="color:#e6f5d8">กลับหน้ารวม deliverables</a></div>
+</header>
+
+<section>
+  <h2>สรุปผล</h2>
+  <div class="stats">
+    <div class="stat ok2"><div class="n">36</div><div class="l">โมดูลตามสัญญา (แนบ 1)</div></div>
+    <div class="stat miss"><div class="n">6</div><div class="l">ขาดหายชัดเจน (❌)</div></div>
+    <div class="stat conf"><div class="n">3</div><div class="l">ต้องยืนยัน (⚠)</div></div>
+    <div class="stat add"><div class="n">1</div><div class="l">โมดูลเกิน (ธนาคารเลือด)</div></div>
+  </div>
+  <div class="rootbox"><b>🎯 ต้นเหตุ:</b> ไฟล์มี “ระบบเลขโมดูล 2 ชุด” ที่ชนกัน —
+  <b>(A) ชีต “Fit Gap แนบ1 สมุทร”</b> = ถูกต้องตามสัญญา (36 โมดูล, รวม 1,358 ข้อ พอดี) ·
+  <b>(B) ชีต “Module Fit Gap / Fit Gap Summary / Timeline / Gantt เมืองสมุทร”</b> = ใช้ taxonomy เก่า (43 แถวรวม DTWU+สมุทร)
+  ซึ่ง<b>ไม่มีกลุ่มโมดูล Smart IPD / ห้องฉุกเฉิน / เวชศาสตร์ฟื้นฟู</b> และมี “ธนาคารเลือด” ที่<b>ไม่มีในสัญญา</b> ·
+  Timeline/Gantt อ้าง “M1–M36” แต่หมายถึงเลขของชุด (B) ไม่ใช่เลขโมดูลสัญญา — จึงพลาดโมดูลกลุ่มนี้ทั้งชุด</div>
+</section>
+
+<section>
+  <h2>⛔ โมดูลที่ขาด/ต้องยืนยัน (จุดที่ต้องแก้)</h2>
+  <table>
+    <thead><tr><th>#สัญญา</th><th>โมดูล (สัญญาแนบ 1)</th><th class="c">ข้อ</th><th>สถานะในแผน (ชุด B)</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr class="miss-row"><td class="code">7</td><td>ระบบงานพยาบาล</td><td class="c">39</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>ไม่มีแถว “พยาบาล” ในทุกชีตชุด B</td></tr>
+      <tr class="miss-row"><td class="code">28</td><td>ระบบสำหรับแพทย์ (Doctor Module)</td><td class="c">91</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>กลุ่ม Smart IPD</td></tr>
+      <tr class="miss-row"><td class="code">29</td><td>ระบบสำหรับพยาบาล (Nurse Module)</td><td class="c">84</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>กลุ่ม Smart IPD</td></tr>
+      <tr class="miss-row"><td class="code">30</td><td>ระบบสำหรับเภสัช (Pharmacist Module)</td><td class="c">32</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>กลุ่ม Smart IPD</td></tr>
+      <tr class="miss-row"><td class="code">31</td><td>การจัดการ Master Data สำหรับ Smart IPD</td><td class="c">32</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>กลุ่ม Smart IPD</td></tr>
+      <tr class="miss-row"><td class="code">32</td><td>ระบบงานห้องฉุกเฉิน (ER)</td><td class="c">48</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>เฉพาะทาง</td></tr>
+      <tr class="miss-row"><td class="code">34</td><td>ระบบงานเวชศาสตร์ฟื้นฟู</td><td class="c">17</td><td><span class="bdg b-warn">❌ ขาด</span></td><td>เฉพาะทาง</td></tr>
+      <tr><td class="code">12</td><td>ระบบงานห้องปฏิบัติการ (LAB)</td><td class="c">49</td><td><span class="bdg b-warn">⚠ ต้องยืนยัน</span></td><td>ชุด B มีแต่ จุล/พยาธิ/Dental Lab ที่ mark เป็น DTWU-only (“-” สมุทร)</td></tr>
+      <tr><td class="code">15</td><td>ห้องยาผู้ป่วยใน</td><td class="c">40</td><td><span class="bdg b-warn">⚠ ต้องยืนยัน</span></td><td>อาจถูกรวมในแถว “ห้องจ่ายยา” (ผู้ป่วยนอก) — IPD แยกจริงหรือไม่</td></tr>
+      <tr><td class="code">27</td><td>Queue &amp; Patient Self Visit</td><td class="c">74</td><td><span class="bdg b-warn">⚠ ต้องยืนยัน</span></td><td>แถว “จัดการการคิว” ครอบคลุมคิว แต่ส่วน Patient Self Visit อาจขาด</td></tr>
+    </tbody>
+  </table>
+  <p class="legend">รวมข้อกำหนดที่ขาดชัดเจน (6 โมดูล Smart IPD/เฉพาะทาง): <b>304 ข้อ</b> · + ระบบงานพยาบาล 39 = <b>343 ข้อ</b> · + กลุ่มต้องยืนยัน (LAB/IPD ยา/Self Visit) อีก ~163 ข้อ</p>
+</section>
+
+<section>
+  <h2>➕ โมดูลเกิน — มีในแผน แต่ไม่มีในสัญญาแนบ 1</h2>
+  <table>
+    <thead><tr><th>ในชีต</th><th>รายการ</th><th>สถานะ</th><th>ควรทำ</th></tr></thead>
+    <tbody>
+      <tr><td>Module Fit Gap #42 · Gantt (Custom &amp; Dev) · Summary</td><td><b>ธนาคารเลือด</b> (Blood Bank)</td><td class="c"><span class="bdg b-add">เกิน</span></td><td>ยืนยันที่มา — สัญญาแนบ 1 (36 โมดูล) ไม่มี · เอาออกหรืออธิบายเหตุผล</td></tr>
+      <tr><td>Module Fit Gap #19,20,22,24,25,29,31</td><td>เวชภัณฑ์ปลอดเชื้อ, IC, KPI, ขออนุมัติ, การแจ้งเตือน, DF, IAM</td><td class="c"><span class="bdg b-fold">ตรวจ</span></td><td>บางส่วนเป็นของ DTWU/DTMU หรือฝังในโมดูลอื่นของสัญญา — ทานว่าตรงกับ 36 โมดูลสมุทรหรือไม่</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>📋 ตารางกระทบยอดเต็ม — 36 โมดูลสัญญา ↔ ชุด B</h2>
+  <p class="legend">
+    <span><span class="bdg b-ok">✔ มี</span> แมปตรงกับแถวในชุด B</span>
+    <span><span class="bdg b-fold">🔶 รวม</span> ถูกรวมในแถวโมดูลอื่น</span>
+    <span><span class="bdg b-warn">⚠/❌</span> ต้องยืนยัน / ขาด</span>
+  </p>
+  <table>
+    <thead><tr><th class="c">#</th><th>โมดูล (สัญญาแนบ 1)</th><th class="c">ข้อ</th><th>แมปกับ Module Fit Gap (ชุด B)</th><th class="c">สถานะ</th></tr></thead>
+    <tbody>
+      <tr><td class="code">1</td><td>ประชาสัมพันธ์</td><td class="c">8</td><td>#23 แจ้งข่าวสาร/ประชาสัมพันธ์</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">2</td><td>เวชระเบียน</td><td class="c">54</td><td>#1 เวชระเบียน+เวชสถิติ</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">3</td><td>ระบบตรวจสอบสิทธิ</td><td class="c">20</td><td>#2 ศูนย์สิทธิประโยชน์</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">4</td><td>ศูนย์รับผู้ป่วยใน</td><td class="c">21</td><td>#12 หอผู้ป่วยใน/รับผู้ป่วยใน</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">5</td><td>ระบบรับ-ส่งต่อผู้ป่วย</td><td class="c">10</td><td>#3 ศูนย์รับ-ส่งต่อผู้ป่วย</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">6</td><td>เวชสถิติ</td><td class="c">26</td><td>#1 (รวมกับเวชระเบียน)</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr class="miss-row"><td class="code">7</td><td>ระบบงานพยาบาล</td><td class="c">39</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr><td class="code">8</td><td>ระบบงานนัดหมาย</td><td class="c">20</td><td>#6 นัดหมาย</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">9</td><td>ห้องตรวจทันตกรรม</td><td class="c">52</td><td>#4 คลินิกทันตกรรม</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">10</td><td>ห้องตรวจแพทย์</td><td class="c">32</td><td>#37 ห้องตรวจแพทย์ [ใหม่]</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">11</td><td>หอผู้ป่วย (Ward)</td><td class="c">39</td><td>#12 หอผู้ป่วยใน</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">12</td><td>ห้องปฏิบัติการ (LAB)</td><td class="c">49</td><td>#9–11 จุล/พยาธิ/Dental Lab (DTWU-only?)</td><td class="c"><span class="bdg b-warn">⚠</span></td></tr>
+      <tr><td class="code">13</td><td>เอ็กซเรย์ (X-ray)</td><td class="c">29</td><td>#8 งานรังสีวิทยา</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">14</td><td>เภสัชกรรมผู้ป่วยนอก</td><td class="c">42</td><td>#15 ห้องจ่ายยา/ทะเบียน/แพ้ยา</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">15</td><td>ห้องยาผู้ป่วยใน</td><td class="c">40</td><td>#15 (รวม? IPD แยกจริงหรือไม่)</td><td class="c"><span class="bdg b-warn">⚠</span></td></tr>
+      <tr><td class="code">16</td><td>งานทะเบียนยา</td><td class="c">53</td><td>#15 (รวม)</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">17</td><td>งานแพ้ยา</td><td class="c">16</td><td>#15 (รวม)</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">18</td><td>งานผ่าตัด/หัตถการ</td><td class="c">14</td><td>#13 ห้องผ่าตัด</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">19</td><td>งานโภชนาการ</td><td class="c">6</td><td>#38 โภชนาการ [ใหม่]</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">20</td><td>การเงินผู้ป่วยนอก</td><td class="c">49</td><td>#16 การเงิน นอก/ใน</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">21</td><td>การเงินผู้ป่วยใน</td><td class="c">53</td><td>#16 (รวม)</td><td class="c"><span class="bdg b-fold">🔶</span></td></tr>
+      <tr><td class="code">22</td><td>งานเรียกเก็บ</td><td class="c">81</td><td>#17 บัญชีลูกหนี้/เรียกเก็บ</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">23</td><td>สังคมสงเคราะห์</td><td class="c">4</td><td>#39 สังคมสงเคราะห์</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">24</td><td>งานผู้ดูแลระบบ</td><td class="c">27</td><td>#30 งานผู้ดูแลระบบ</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">25</td><td>เวชกรรมสังคม</td><td class="c">21</td><td>#40 เวชกรรมสังคม [ใหม่]</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">26</td><td>คลังยาและวัสดุ</td><td class="c">101</td><td>#18 คลังสินค้า+พัสดุ</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">27</td><td>Queue &amp; Patient Self Visit</td><td class="c">74</td><td>#5 จัดการการคิว (Self Visit?)</td><td class="c"><span class="bdg b-warn">⚠</span></td></tr>
+      <tr class="miss-row"><td class="code">28</td><td>Doctor Module</td><td class="c">91</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr class="miss-row"><td class="code">29</td><td>Nurse Module</td><td class="c">84</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr class="miss-row"><td class="code">30</td><td>Pharmacist Module</td><td class="c">32</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr class="miss-row"><td class="code">31</td><td>Master Data สำหรับ Smart IPD</td><td class="c">32</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr class="miss-row"><td class="code">32</td><td>ระบบงานห้องฉุกเฉิน (ER)</td><td class="c">48</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr><td class="code">33</td><td>ห้องตรวจสุขภาพ</td><td class="c">24</td><td>#41 ห้องตรวจสุขภาพ</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr class="miss-row"><td class="code">34</td><td>ระบบงานเวชศาสตร์ฟื้นฟู</td><td class="c">17</td><td>— ไม่มี</td><td class="c"><span class="bdg b-warn">❌</span></td></tr>
+      <tr><td class="code">35</td><td>ระบบข้อมูลเพื่อการจัดการ (MIS)</td><td class="c">23</td><td>#21 MIS</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+      <tr><td class="code">36</td><td>วิสัญญีพยาบาล</td><td class="c">27</td><td>#14 วิสัญญี</td><td class="c"><span class="bdg b-ok">✔</span></td></tr>
+    </tbody>
+  </table>
+  <p class="legend">รวม 36 โมดูล = 1,358 ข้อ (ตรงสัญญา) · ✔/🔶 มีที่อยู่ในแผน 27 · ⚠ ต้องยืนยัน 3 · ❌ ขาด 6</p>
+</section>
+
+<section>
+  <h2>✅ สิ่งที่ควรทำต่อ (ก่อนแก้ไฟล์)</h2>
+  <div class="fix">
+    <ol>
+      <li><b>ยืนยัน 6 โมดูลที่ขาด</b> (Doctor/Nurse/Pharmacist Module, Master Data Smart IPD, ER, เวชศาสตร์ฟื้นฟู) + ระบบงานพยาบาล — ว่าจะเพิ่มเข้า Gantt เมืองสมุทร / Timeline / Module Fit Gap / Fit Gap Summary</li>
+      <li><b>ตัดสินใจ 3 รายการต้องยืนยัน</b> — LAB (#12), ห้องยาผู้ป่วยใน (#15), Patient Self Visit (#27) ว่ารวมในโมดูลอื่นแล้ว หรือต้องแยกแถว</li>
+      <li><b>จัดการ “ธนาคารเลือด”</b> — เอาออก หรือระบุเหตุผลว่าทำไมมีเกินจากสัญญา</li>
+      <li><b>รวมเลขโมดูลให้เป็นชุดเดียว</b> — ให้ Timeline/Gantt อ้างเลข M ตามสัญญาแนบ 1 (M1–M36) แทน taxonomy เก่า เพื่อไม่ให้ M-number ชนกัน</li>
+    </ol>
+    เมื่อยืนยันแล้ว บอกได้เลยครับ ผมจะแก้ชีตที่เกี่ยวข้องใน DTWU-MasterPlan.xlsx ให้ตรงสัญญา (มี backup ไฟล์เดิมก่อนแก้)
+  </div>
+</section>
+
+<footer>กระทบยอดโมดูล เมืองสมุทร (ปู่เจ้าฯ+ปากน้ำ) · อ้างอิง DTWU-MasterPlan.xlsx (ชีต Fit Gap แนบ1 สมุทร) ↔ สัญญาแนบท้าย 1 · เอกสารทานภายใน</footer>
+</div>
+</body>
+</html>
