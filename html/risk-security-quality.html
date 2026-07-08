@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ความเสี่ยง Security + Quality — สไลด์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page{ size:A4 landscape; margin:0; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#2a2f3a;
+        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
+  .slide{ width:min(1120px,96vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
+          padding:34px 44px 30px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
+          position:relative; display:flex; flex-direction:column; }
+  /* header */
+  .head{ position:relative; margin-bottom:22px; }
+  .head h1{ font-size:26px; font-weight:700; color:#1f2430; letter-spacing:.2px; }
+  .head .u{ margin-top:7px; height:5px; width:190px; border-radius:3px;
+            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#e63535 32%,#e63535 100%); }
+  .logo{ position:absolute; top:2px; right:0; display:flex; align-items:center; gap:8px;
+         font-weight:700; color:#c9ccd2; font-size:13px; letter-spacing:1px; }
+  .logo .m{ width:26px; height:26px; border-radius:6px; background:#eef1f5;
+            display:flex; align-items:center; justify-content:center; font-size:15px; }
+  /* table */
+  table{ width:100%; border-collapse:collapse; font-size:15px; flex:1; }
+  th,td{ border:1px solid #d7dce3; padding:12px 16px; text-align:left; vertical-align:top; }
+  thead th{ background:#fff; color:#e63535; font-weight:700; font-size:16px; text-align:center;
+            border-bottom:1.5px solid #d7dce3; }
+  th.risk{ width:42%; }
+  td.risk{ color:#2f3644; font-weight:500; line-height:1.5; }
+  td.mit{ color:#3a4150; line-height:1.55; }
+  td.mit ul{ margin:0; padding-left:20px; }
+  td.mit li{ margin:3px 0; }
+  tbody tr:nth-child(even){ background:#fafbfc; }
+  .en{ color:#5b6675; font-weight:600; }
+  @media print{ body{ background:#fff; } .slide{ box-shadow:none; margin:0; width:100%;
+    border-radius:0; page-break-after:always; }
+    thead th,tbody tr:nth-child(even){ -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+</style>
+</head>
+<body>
+
+<!-- ===== Slide 5 : Security Risk ===== -->
+<section class="slide">
+  <div class="head">
+    <h1>ความเสี่ยงด้านความปลอดภัย <span class="en">(Security Risk)</span></h1>
+    <div class="u"></div>
+    <div class="logo"><span class="m">🏥</span> AYODIA</div>
+  </div>
+  <table>
+    <thead><tr><th class="risk">ความเสี่ยง</th><th>แนวทางการจัดการความเสี่ยง</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="risk">ข้อมูลผู้ป่วยและข้อมูลด้านสุขภาพรั่วไหล หรือถูกเข้าถึงโดยไม่ได้รับอนุญาต</td>
+        <td class="mit"><ul>
+          <li>ควบคุมสิทธิ์การเข้าถึงข้อมูลตามบทบาทผู้ใช้ (Role-based Access Control)</li>
+          <li>ดำเนินการตาม พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล (PDPA) ในฐานะผู้ประมวลผลข้อมูล</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ข้อมูลระหว่างจัดเก็บและรับส่งไม่ได้เข้ารหัส เสี่ยงต่อการถูกดักจับ</td>
+        <td class="mit"><ul>
+          <li>เข้ารหัสข้อมูล (Encryption) ทั้งขณะจัดเก็บและขณะรับส่ง</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ระบบมีช่องโหว่ หรือถูกโจมตีทางไซเบอร์ (Ransomware / SQL Injection)</td>
+        <td class="mit"><ul>
+          <li>ทำ Vulnerability Assessment / Penetration Test ก่อน Go-live</li>
+          <li>อัปเดตแพตช์และเฝ้าระวังความมั่นคงปลอดภัยอย่างต่อเนื่อง</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ไม่สามารถสืบย้อนการเข้าถึงหรือแก้ไขข้อมูลได้ เมื่อเกิดเหตุ</td>
+        <td class="mit"><ul>
+          <li>จัดเก็บบันทึกการใช้งานระบบ (Audit Log) ครบถ้วนและตรวจสอบย้อนหลังได้</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ข้อมูลรั่วไหลระหว่างการโอนย้ายข้อมูล (Data Migration)</td>
+        <td class="mit"><ul>
+          <li>โอนย้ายข้อมูลแบบเข้ารหัส และลบไฟล์ข้อมูลชั่วคราวหลังใช้งาน</li>
+          <li>มีขั้นตอนแจ้งเหตุละเมิดข้อมูลส่วนบุคคล (Data Breach Notification)</li>
+        </ul></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== Slide 6 : Quality Risk ===== -->
+<section class="slide">
+  <div class="head">
+    <h1>ความเสี่ยงด้านคุณภาพ <span class="en">(Quality Risk)</span></h1>
+    <div class="u"></div>
+    <div class="logo"><span class="m">🏥</span> AYODIA</div>
+  </div>
+  <table>
+    <thead><tr><th class="risk">ความเสี่ยง</th><th>แนวทางการจัดการความเสี่ยง</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="risk">ข้อบกพร่องระดับร้ายแรง (Critical/High) หลุดขึ้นใช้งานจริง</td>
+        <td class="mit"><ul>
+          <li>กำหนดเกณฑ์ตรวจรับ: ต้องไม่มีข้อบกพร่อง Critical/High ค้างในกระบวนการหลัก</li>
+          <li>ทำ Regression Test ทุกครั้งก่อน Deploy ขึ้นระบบ</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">การทดสอบไม่ครอบคลุม โดยเฉพาะโมดูลเฉพาะทาง (Smart IPD / เฉพาะทาง)</td>
+        <td class="mit"><ul>
+          <li>จัดทำ Requirement Traceability Matrix โยงข้อกำหนด → Test Case ให้ครบทุกข้อ</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ข้อมูลหลังการโอนย้ายไม่ถูกต้องหรือไม่ครบถ้วน กระทบการรักษา</td>
+        <td class="mit"><ul>
+          <li>ทำ Data Reconciliation 100% สำหรับข้อมูลวิกฤต (ประวัติแพ้ยา / ยา active)</li>
+          <li>ซ้อมโอนย้าย (Mock Migration) ก่อน Go-live เพื่อยืนยันความถูกต้อง</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ประสิทธิภาพระบบช้าเมื่อใช้งานจริง (ผู้ใช้พร้อมกันจำนวนมาก / ข้อมูลปริมาณมาก)</td>
+        <td class="mit"><ul>
+          <li>ทำ Performance / Load Test ตามเกณฑ์เวลาตอบสนองที่กำหนดในแผนการทดสอบ</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td class="risk">ผลการทดสอบยอมรับ (UAT) ไม่สะท้อนการใช้งานจริง</td>
+        <td class="mit"><ul>
+          <li>UAT ต้องลงนามรับรองผลโดย Business Process Owner รายโมดูล</li>
+          <li>ใช้ชุดข้อมูลและสถานการณ์ทดสอบที่ใกล้เคียงการใช้งานจริง</li>
+        </ul></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>
