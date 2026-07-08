@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนการโอนย้ายข้อมูล (Data Migration) — เมืองสมุทร</title>
+<style>
+  :root{
+    --pri:#2f7cc4; --pri-dk:#1d5490; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eaf3fb; --ok:#2e9e5b;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(29,84,144,.25)}
+  header.cover h1{margin:0 0 6px;font-size:25px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  h3{color:var(--pri-dk);font-size:16px;margin:16px 0 7px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:#f6faff}
+  ul,ol{margin:6px 0;padding-left:22px}li{margin:3px 0}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:14px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;color:#fff}
+  .t-src{background:#7a5aa8}.t-tgt{background:var(--pri)}.t-crit{background:var(--crit)}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0;font-size:13.5px}
+  .flow .step{background:#eaf3fb;border:1px solid #bcd8ef;border-radius:8px;padding:6px 12px;font-weight:600;color:var(--pri-dk)}
+  .flow .ar{color:var(--muted);font-weight:800}
+  .toc{background:#f6faff;border:1px dashed var(--line);border-radius:10px;padding:14px 18px;font-size:13.5px}
+  .toc a{color:var(--pri-dk);text-decoration:none}.toc a:hover{text-decoration:underline}
+  code{background:#eef3f7;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12.5px;color:#1d5490}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>แผนการโอนย้ายข้อมูล (Data Migration Plan)</h1>
+  <div class="sub">โรงพยาบาลเมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · <b>HosXP → HA.OS</b> · ผู้รับจ้าง บริษัท อโยเดีย จำกัด<br>
+  <a href="msm.html" style="color:#dcecfb">🏠 กลับหน้าเมืองสมุทร</a> · <a href="data-migration-slide-msm.html" style="color:#dcecfb">📊 เวอร์ชันสไลด์</a> · <a href="timeline-msm.html" style="color:#dcecfb">📅 Timeline</a> · <a href="risk.html" style="color:#dcecfb">⚠️ ความเสี่ยง</a></div>
+  <div class="pills">
+    <span class="pill">🗄️ 3 แหล่งต้นทาง (v4 / v3 / vPCU)</span>
+    <span class="pill">🏥 9 จุดบริการ</span>
+    <span class="pill">🔁 ซ้อม ≥ 3 รอบ</span>
+    <span class="pill">✅ Reconciliation 100% (ข้อมูลวิกฤต)</span>
+    <span class="pill">🔴 ความเสี่ยงอันดับ 1 ของโครงการ</span>
+  </div>
+</header>
+
+<section>
+  <div class="toc"><strong>สารบัญ</strong> ·
+    <a href="#s1">① ภาพรวม</a> · <a href="#s2">② แหล่งต้นทาง 3 แหล่ง</a> · <a href="#s3">③ ปลายทาง HA.OS</a> ·
+    <a href="#s4">④ ขอบเขตข้อมูล + Mapping</a> · <a href="#s5">⑤ วิธีการ ETL</a> · <a href="#s6">⑥ Cleansing &amp; Dedup</a> ·
+    <a href="#s7">⑦ รอบซ้อม (Dress Rehearsal)</a> · <a href="#s8">⑧ Reconciliation</a> · <a href="#s9">⑨ e-Claim/CSOP</a> ·
+    <a href="#s10">⑩ Cut-over &amp; Rollback</a> · <a href="#s11">⑪ ตารางเวลา</a> · <a href="#s12">⑫ บทบาท</a> · <a href="#s13">⑬ ความเสี่ยง</a>
+  </div>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+  <h2><span class="n">1</span>ภาพรวมและความสำคัญ</h2>
+  <p>การโอนย้ายข้อมูลจาก <strong>HosXP</strong> (ระบบเดิม) มายัง <strong>HA.OS</strong> (ระบบใหม่) เป็น<strong>ความเสี่ยงสูงสุดของโครงการ</strong>
+  เพราะข้อมูลกระจายอยู่ <strong>3 แหล่ง/3 เวอร์ชัน</strong> ที่ schema ต่างกัน มีผู้ป่วยซ้ำข้ามแหล่ง และมีข้อมูลที่กระทบการรักษาโดยตรง
+  (ประวัติแพ้ยา, ยาที่ใช้ต่อเนื่อง) หากผิดพลาดอาจเป็นอันตรายต่อผู้ป่วย</p>
+  <div class="crit"><b>🔴 หลักการสำคัญ:</b> "ถูกต้อง 100% สำหรับข้อมูลวิกฤต" มาก่อน "ครบทุกข้อมูล" · ทำ <b>Data Profiling → Cleansing → Dedup</b> ก่อนซ้อม ·
+  ซ้อม <b>≥ 3 รอบ</b> (แยกทีละแหล่งก่อนรวม) · มี <b>Cutover Runbook + เกณฑ์ Go/No-Go + จุด Rollback</b> ก่อนรอบจริง</div>
+  <table>
+    <tr><th style="width:26%">ประเด็น</th><th>รายละเอียด</th></tr>
+    <tr><td><strong>ระบบต้นทาง</strong></td><td>HosXP — 3 เวอร์ชัน/แหล่ง (<code>v4</code> หลัก, <code>v3</code> OPD, <code>vPCU</code> คลินิกย่อย)</td></tr>
+    <tr><td><strong>ระบบปลายทาง</strong></td><td>HA.OS (ตาราง <code>TB_*</code> ธุรกรรม / <code>TBM_*</code> master)</td></tr>
+    <tr><td><strong>ขอบเขตสถานที่</strong></td><td>9 จุดบริการ (ปากน้ำ 3 + ปู่เจ้าฯ 6) — ข้อมูลรวมมาที่ฐานเดียว</td></tr>
+    <tr><td><strong>ผู้นำงาน</strong></td><td>Senior Imp เตทีม (เชี่ยวชาญ HosXP) + Dev + Key User (รพ.)</td></tr>
+    <tr><td><strong>เป้าหมายเวลา</strong></td><td>Migration จริง (Production) ก่อน <strong>Go-live รพ.หลัก ~20 ม.ค. 70</strong></td></tr>
+  </table>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <h2><span class="n">2</span>แหล่งข้อมูลต้นทาง — 3 แหล่ง <span class="tag t-src">SOURCE</span></h2>
+  <p class="muted small">ต้อง <b>dedup ข้าม 3 แหล่ง</b> เพราะผู้ป่วยรายเดียวอาจมีในหลายเวอร์ชัน (โดยเฉพาะ v4 ↔ v3)</p>
+  <table>
+    <thead><tr><th style="width:12%">แหล่ง</th><th style="width:26%">ครอบคลุม</th><th>ลักษณะ / ความท้าทาย</th></tr></thead>
+    <tbody>
+      <tr><td><code>v4</code> (หลัก)</td><td>IPD + OPD รพ.หลัก</td><td>ฐานหลัก · schema เฉพาะ IPD ต้อง map แยก · ข้อมูลปริมาณมากสุด</td></tr>
+      <tr><td><code>v3</code> (OPD)</td><td>ผู้ป่วยนอก (เวอร์ชันเก่า)</td><td>schema <b>ต่างจาก v4</b> · <b>คนไข้อาจซ้ำกับ v4</b> → ต้อง match/merge</td></tr>
+      <tr><td><code>vPCU</code></td><td>คลินิกย่อย / PCU</td><td>ฐานที่ 3 · ต้อง <b>dedup ข้าม 3 แหล่ง</b> · รหัส/มาตรฐานอาจต่าง</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 แตกงานเป็น <strong>3 workstream แยก (v4 / v3 / vPCU)</strong> เพื่อ Extract + Profiling + Cleansing ขนานกัน แล้วจึงรวม (merge) ในขั้น Dedup</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <h2><span class="n">3</span>ระบบปลายทาง HA.OS <span class="tag t-tgt">TARGET</span></h2>
+  <p>โครงสร้าง HA.OS แบ่งเป็นตาราง <strong>master</strong> (<code>TBM_*</code> เช่น ICD10, กลุ่มแพ้ยา, รายการค่าใช้จ่าย) และตาราง <strong>ธุรกรรม</strong> (<code>TB_*</code> เช่น ผู้ป่วย, การรับบริการ, คำสั่ง, ใบเสร็จ)</p>
+  <div class="warn"><b>⚠️ ข้อควรระวัง:</b> ต้อง <b>ตั้งค่า Master Data / Lookup ปลายทางให้ครบก่อน</b> (สิทธิการรักษา, รหัสยา, ICD10, รายการค่าบริการ) ไม่งั้น Load ธุรกรรมจะ orphan / อ้างอิงไม่เจอ</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <h2><span class="n">4</span>ขอบเขตข้อมูล + Data Mapping (HosXP → HA.OS)</h2>
+  <p class="muted small">อ้างอิงจากไฟล์ mapping จริง (<code>migration_mapping.xlsx</code>) — จับคู่ตารางต้นทาง → ปลายทาง รายโดเมน</p>
+  <table>
+    <thead><tr><th style="width:5%">#</th><th style="width:28%">โดเมนข้อมูล (ต้นทาง)</th><th style="width:30%">ปลายทาง HA.OS</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>ผู้ป่วย / เวชระเบียน (Customers)</td><td><code>TB_PATIENTS</code></td><td>กุญแจ dedup: HN / เลขบัตรปชช. / ชื่อ-สกุล-วันเกิด</td></tr>
+      <tr><td>2</td><td>บุคลากร (Staffs)</td><td><code>TB_EMPLOYEES</code></td><td>ผูกสิทธิ์/บทบาทผู้ใช้ระบบ</td></tr>
+      <tr><td>3</td><td>การมารับบริการ OPD (Visitors)</td><td><code>TB_OPD_SERVICES</code></td><td>Visit/VN · ผูกกับผู้ป่วย</td></tr>
+      <tr><td>4</td><td>รายการสั่ง/รักษา (VisitTreat)</td><td><code>ORDERS</code></td><td>คำสั่งยา/หัตถการ/Lab ต่อ visit</td></tr>
+      <tr><td>5</td><td>รายการค่าใช้จ่าย (Treatments)</td><td><code>TBM_EXPENSES</code></td><td>map รหัสค่าบริการ + ICD/หัตถการ</td></tr>
+      <tr><td>6</td><td>ราคา (TreatPrice)</td><td><code>PRICE_SET_ITEMS</code></td><td>ชุดราคาตามสิทธิ</td></tr>
+      <tr><td>7</td><td>ใบเสร็จ (Receipts)</td><td><code>TB_RECEIPTS</code></td><td>ตรวจ balance การเงินให้ตรง</td></tr>
+      <tr><td>8</td><td>ใบแจ้งหนี้/บิล (Invoices)</td><td><code>TB_BILLS</code> (บางส่วน)</td><td>ลูกหนี้/เรียกเก็บ</td></tr>
+      <tr><td>9</td><td>Lookup / Master (ICD10, ยา, สิทธิ)</td><td><code>TBM_*</code></td><td>ต้องพร้อม<b>ก่อน</b> Load ธุรกรรม</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 ข้อมูลวิกฤต (ทำก่อน + Reconcile 100%):</b>
+    <span class="tag t-crit">แพ้ยา (Allergy)</span> <span class="tag t-crit">ยาที่ใช้ต่อเนื่อง (Active Med)</span>
+    <span class="tag t-crit">ผล Lab</span> <span class="tag t-crit">นัดหมาย</span> — คร่อมทุกแหล่ง · ผิดพลาดกระทบการรักษาทันที</div>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <h2><span class="n">5</span>วิธีการโอนย้าย (ETL)</h2>
+  <div class="flow">
+    <span class="step">Extract</span><span class="ar">→</span>
+    <span class="step">Data Profiling</span><span class="ar">→</span>
+    <span class="step">Cleansing</span><span class="ar">→</span>
+    <span class="step">Dedup / Merge</span><span class="ar">→</span>
+    <span class="step">Transform + Map</span><span class="ar">→</span>
+    <span class="step">Load (HA.OS)</span><span class="ar">→</span>
+    <span class="step">Verify / Reconcile</span>
+  </div>
+  <table>
+    <thead><tr><th style="width:18%">ขั้น</th><th>สาระสำคัญ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Extract</strong></td><td>ดึงข้อมูลจาก v4 / v3 / vPCU แยกกัน · snapshot วันที่ตัดยอดชัดเจน · เก็บใน staging area</td></tr>
+      <tr><td><strong>Data Profiling</strong></td><td>วิเคราะห์คุณภาพข้อมูลต้นทาง (null, รูปแบบผิด, ค่าซ้ำ, รหัสไม่อยู่ใน master) → สรุป <code>Data Quality Issues</code></td></tr>
+      <tr><td><strong>Cleansing</strong></td><td>แก้/เติมข้อมูลตามกฎ (format บัตรปชช./ชื่อ, รหัสสิทธิ, หน่วยยา) · บันทึกกฎการแปลงทุกข้อ</td></tr>
+      <tr><td><strong>Dedup / Merge</strong></td><td>จับคู่ผู้ป่วยข้าม 3 แหล่ง → สร้าง <b>Golden Record</b> (ดูข้อ 6)</td></tr>
+      <tr><td><strong>Transform + Map</strong></td><td>แปลง schema HosXP → HA.OS ตาม Data Mapping (ข้อ 4) · map lookup/รหัสมาตรฐาน</td></tr>
+      <tr><td><strong>Load</strong></td><td>Load ตามลำดับ: Master/Lookup → ผู้ป่วย → visit → orders → การเงิน (ตาม dependency)</td></tr>
+      <tr><td><strong>Verify</strong></td><td>Reconciliation (ข้อ 8) · Key User sampling · เทียบยอด/จำนวน</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <h2><span class="n">6</span>Data Cleansing &amp; Deduplication (หัวใจของงาน)</h2>
+  <h3>กลยุทธ์จับคู่ผู้ป่วย (Patient Matching)</h3>
+  <ul>
+    <li><b>Exact match:</b> เลขบัตรประชาชน (ตัวหลัก) · HN เดิม</li>
+    <li><b>Fuzzy match:</b> ชื่อ-สกุล + วันเกิด + เพศ (กรณีบัตรปชช.ว่าง/ผิด) → ตั้ง threshold + คนตรวจยืนยัน</li>
+    <li><b>Golden Record:</b> เลือกข้อมูลล่าสุด/สมบูรณ์สุดเป็นหลัก · รวมประวัติจากทุกแหล่ง · <b>ประวัติแพ้ยาให้รวมทุกแหล่ง (union) ห้ามตกหล่น</b></li>
+  </ul>
+  <div class="warn"><b>⚠️ กรณีกำกวม</b> (match ไม่ชัด) ให้เข้าคิว <b>manual review โดย Key User เวชระเบียน</b> ห้าม auto-merge ข้อมูลการแพทย์ที่เสี่ยง</div>
+  <h3>ตัวอย่างกฎ Cleansing</h3>
+  <ul>
+    <li>รหัสสิทธิการรักษา → map เป็นรหัสมาตรฐาน สปสช. ปลายทาง</li>
+    <li>รหัสยา/หน่วย → map เข้า drug master HA.OS (ATC/รหัสโรงพยาบาล)</li>
+    <li>ICD10 → ตรวจกับ master ICD10 (มีไฟล์เทียบ <code>icd_compare</code>) · รหัสไม่ผ่านให้ flag</li>
+  </ul>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <h2><span class="n">7</span>รอบซ้อมโอนย้าย (Dress Rehearsal ≥ 3 รอบ)</h2>
+  <table>
+    <thead><tr><th style="width:14%">รอบ</th><th style="width:30%">ขอบเขต</th><th>เป้าหมาย / เกณฑ์ผ่าน</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ซ้อม 1</strong><br><span class="muted small">แยกทีละแหล่ง</span></td><td>Migrate v4 / v3 / vPCU แยกกัน</td><td>ยืนยัน mapping รายแหล่งถูก · เก็บ Data Quality Issues</td></tr>
+      <tr><td><strong>ซ้อม 2</strong><br><span class="muted small">รวม + dedup</span></td><td>รวม 3 แหล่ง + Dedup/Merge</td><td>Golden Record ถูก · ไม่มีผู้ป่วยซ้ำ · แพ้ยารวมครบ</td></tr>
+      <tr><td><strong>ซ้อม 3</strong><br><span class="muted small">เต็มรูปแบบ</span></td><td>Full load + Reconciliation + จับเวลา</td><td><b>Reconciliation 100% ข้อมูลวิกฤต</b> · วัด downtime จริง · ซ้อม Rollback</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 แต่ละรอบต้องมี <b>รายงานผล + รายการแก้ไข (issue log)</b> และเกณฑ์ "พร้อมไปรอบถัดไป" ชัดเจน · ซ้อมรอบสุดท้ายให้ใกล้เคียง Production มากที่สุด (ข้อมูลจริง/ปริมาณจริง)</div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <h2><span class="n">8</span>เกณฑ์ตรวจสอบความถูกต้อง (Reconciliation)</h2>
+  <table>
+    <thead><tr><th style="width:26%">ระดับ</th><th>วิธีตรวจ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ข้อมูลวิกฤต — 100%</strong><br><span class="tag t-crit">แพ้ยา / ยา active / Lab / นัดหมาย</span></td><td>เทียบรายรายการ (record-by-record) ต้นทาง↔ปลายทาง · ห้ามตกหล่นแม้รายเดียว</td></tr>
+      <tr><td><strong>จำนวน (Count)</strong></td><td>นับ row ต่อโดเมน/ต่อแหล่ง ให้ตรง (หักรายการที่ตั้งใจไม่ย้าย พร้อมเหตุผล)</td></tr>
+      <tr><td><strong>การเงิน (Balance)</strong></td><td>ยอดใบเสร็จ/ลูกหนี้ ต้นทาง = ปลายทาง · ตรวจ e-Claim (ข้อ 9)</td></tr>
+      <tr><td><strong>Sampling โดย Key User</strong></td><td>สุ่มเวชระเบียนจริงเปิดเทียบทีละเคส · ลงนามรับรองรายโดเมน</td></tr>
+      <tr><td><strong>Checksum / Referential</strong></td><td>ตรวจ orphan (visit ไม่มีผู้ป่วย, order ไม่มี visit) = 0</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 <b>Fallback:</b> ในช่วงแรกหลัง Go-live ให้ยังเปิดดู HosXP เดิมได้ (read-only) เพื่อตรวจสอบข้อมูลกรณีสงสัย</div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <h2><span class="n">9</span>ข้อมูลเบิกจ่าย e-Claim / CSOP</h2>
+  <ul>
+    <li>ตรวจ mapping <strong>CSOP/SSOP</strong> (มีไฟล์ <code>csop_ssop_mapping.xlsx</code>) และการส่งออก <strong>42/43 แฟ้ม</strong></li>
+    <li>เทียบ <strong>ICD10</strong> ต้นทางกับ master (ไฟล์ <code>icd_compare_pdf_vs_tbm_icds</code>) · รหัสไม่ผ่าน flag แก้ก่อน Go-live</li>
+    <li>ทดสอบ <strong>ส่งเบิก e-Claim จริง (CSOPBIL)</strong> จากข้อมูลที่ย้ายแล้ว → ยืนยันไฟล์ผ่านการตรวจของ สปสช. (ดูตัวอย่างใน <code>check-claim/</code>)</li>
+    <li>เกณฑ์: การเบิกจ่าย/รายได้หลัง Go-live ต้องไม่สะดุด</li>
+  </ul>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <h2><span class="n">10</span>Cut-over (รอบจริง) &amp; Rollback</h2>
+  <h3>Cutover Runbook + Go/No-Go</h3>
+  <ol>
+    <li><b>Freeze / ตัดยอด</b> HosXP เดิม (แจ้งล่วงหน้า · กำหนดหน้าต่าง downtime นอกเวลาให้บริการหลัก)</li>
+    <li>Extract snapshot สุดท้าย → รัน pipeline ที่ผ่านการซ้อมรอบ 3</li>
+    <li>Load + <b>Reconciliation ข้อมูลวิกฤต 100%</b></li>
+    <li><b>ประชุม Go/No-Go</b> ตามเกณฑ์ที่ตั้งไว้ล่วงหน้า (ไม่มี issue Critical/High ค้าง)</li>
+    <li>เปิดใช้ HA.OS · เฝ้าระวังใกล้ชิด (Hypercare)</li>
+  </ol>
+  <div class="crit"><b>🔴 Rollback plan:</b> กำหนด<b>จุดถอยกลับ</b>และ<b>เกณฑ์ตัดสินใจ Rollback</b> ล่วงหน้า · หากพบปัญหาวิกฤตในหน้าต่าง cut-over → กลับไปใช้ HosXP เดิม (ยัง read/write ได้) โดยไม่สูญข้อมูล · ทดสอบ Rollback ในซ้อมรอบ 3</div>
+  <div class="warn"><b>⚠️ หน้าต่าง Downtime:</b> เลือกช่วงผู้ป่วยน้อย · เตรียมแบบฟอร์มสำรอง (manual) ระหว่าง downtime · สื่อสารทุกจุดบริการล่วงหน้า</div>
+</section>
+
+<!-- 11 -->
+<section id="s11">
+  <h2><span class="n">11</span>ตารางเวลา (สอดคล้อง Gantt เมืองสมุทร)</h2>
+  <table>
+    <thead><tr><th style="width:20%">ช่วง</th><th style="width:34%">กิจกรรม</th><th>ผลลัพธ์</th></tr></thead>
+    <tbody>
+      <tr><td>ก.ค. 69 (งวด 1)</td><td>ร่างขอบเขตการย้ายข้อมูลเบื้องต้น · Onboard Senior Imp เตทีม</td><td>Migration Scope draft</td></tr>
+      <tr><td>ส.ค. 69</td><td>เก็บ Migration Requirement · สำรวจ HosXP (Gap Survey)</td><td>Data Mapping v1</td></tr>
+      <tr><td>ต.ค. 69</td><td>Data Mapping + Data Dictionary · <b>ซ้อม 1–2</b> (แยกแหล่ง → รวม)</td><td>ผลซ้อม + issue log</td></tr>
+      <tr><td>ต.ค.–พ.ย. 69</td><td>SIT + แก้ Bug · Cleansing/Dedup · <b>ซ้อม 3</b> (เต็มรูปแบบ + จับเวลา)</td><td>Reconciliation ผ่าน · Runbook</td></tr>
+      <tr><td>~ต้น ม.ค. 70</td><td><b>Migration จริง (Production)</b> + Reconciliation 100%</td><td>ข้อมูลพร้อมบน HA.OS</td></tr>
+      <tr><td>~20 ม.ค. 70</td><td><b>Go-live รพ.หลัก</b> → Hypercare (~30 วัน)</td><td>เปิดใช้จริง</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 โมดูล/ข้อมูลบางส่วนพึ่ง <b>DTMU Phase 2 (~พ.ย. 69)</b> · มี <b>Contingency Reserve</b> ถึง 2 ก.ค. 70 รองรับหากสลิป</div>
+</section>
+
+<!-- 12 -->
+<section id="s12">
+  <h2><span class="n">12</span>บทบาทและความรับผิดชอบ</h2>
+  <table>
+    <thead><tr><th style="width:26%">บทบาท</th><th>ความรับผิดชอบ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Senior Imp เตทีม (HosXP)</strong> <span class="tag t-crit">นำ</span></td><td>นำการ Extract/Mapping/Dedup · เชี่ยวชาญ schema HosXP 3 เวอร์ชัน · จัดทำ Runbook</td></tr>
+      <tr><td><strong>Dev</strong></td><td>พัฒนา ETL script/pipeline · แปลง schema · ระบบ reconciliation</td></tr>
+      <tr><td><strong>Key User (รพ.) — เวชระเบียน/การเงิน/เภสัช</strong></td><td>ยืนยัน Golden Record · manual review เคสกำกวม · Sampling + ลงนามรับรอง</td></tr>
+      <tr><td><strong>PM (อาร์ต)</strong></td><td>คุมตารางซ้อม · ตัดสิน Go/No-Go · ประสาน downtime กับ รพ.</td></tr>
+      <tr><td><strong>PO มีน (DTMU)</strong></td><td>ที่ปรึกษาโครงสร้าง HA.OS ปลายทาง · dependency Phase 2</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 13 -->
+<section id="s13">
+  <h2><span class="n">13</span>ความเสี่ยงและการจัดการ</h2>
+  <table>
+    <thead><tr><th style="width:38%">ความเสี่ยง</th><th style="width:12%">ระดับ</th><th>แนวทางจัดการ</th></tr></thead>
+    <tbody>
+      <tr><td>Schema ต่างกัน 3 เวอร์ชัน (v4/v3/vPCU) map ผิด/ตกหล่น</td><td style="color:var(--crit);font-weight:700">สูงมาก</td><td>แตก 3 workstream · Data Profiling ก่อนซ้อม · Data Dictionary ครบ</td></tr>
+      <tr><td>ผู้ป่วยซ้ำข้ามแหล่ง (v4↔v3) → เวชระเบียนซ้ำ/แพ้ยาตกหล่น</td><td style="color:var(--crit);font-weight:700">สูงมาก</td><td>Dedup + Golden Record · แพ้ยารวม union · manual review เคสกำกวม</td></tr>
+      <tr><td>ซ้อมน้อยเกินไป / Production ก่อน Go-live เจอปัญหา</td><td style="color:var(--crit);font-weight:700">สูงมาก</td><td>ซ้อม ≥ 3 (แยกแหล่งก่อนรวม) · เกณฑ์ Go/No-Go · เผื่อ buffer</td></tr>
+      <tr><td>ข้อมูลวิกฤต (แพ้ยา/ยา active) ผิด → กระทบการรักษา</td><td style="color:var(--crit);font-weight:700">สูงมาก</td><td>Reconciliation 100% ทำเป็นลำดับแรก · Fallback ดู HosXP เดิม</td></tr>
+      <tr><td>e-Claim/การเบิกจ่ายสะดุดหลัง Go-live</td><td style="color:var(--accent);font-weight:700">สูง</td><td>ทดสอบส่งเบิกจริง (CSOPBIL) + เทียบ ICD10/CSOP ก่อน Go-live</td></tr>
+      <tr><td>Downtime cut-over กระทบบริการ</td><td style="color:var(--accent);font-weight:700">สูง</td><td>เลือกช่วงผู้ป่วยน้อย · แบบฟอร์มสำรอง · Rollback plan</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>แผนการโอนย้ายข้อมูล · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · HosXP → HA.OS · ผู้รับจ้าง บริษัท อโยเดีย จำกัด · อ้างอิง S1-03 / migration_mapping / risk register</footer>
+</div>
+</body>
+</html>

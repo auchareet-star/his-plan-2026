@@ -46,7 +46,7 @@
       <span class="chip who">เจ้าของ: Senior Imp เตทีม (HosXP) — นำการ Migration</span>
       <span class="chip iso">ISO 29110: SI.4 Construction</span>
     </div>
-    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดขอบเขต วิธีการ และเกณฑ์การตรวจสอบความถูกต้องของการโอนย้ายข้อมูลจากระบบเดิม <strong>HosXP</strong> มายังระบบ <strong>HA.OS</strong> ให้ครบถ้วน ถูกต้อง และตรวจสอบย้อนกลับได้ พร้อมแผน Dress Rehearsal, Cut-over และ Rollback · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
+    <div class="note"><b>วัตถุประสงค์ของเอกสาร:</b> กำหนดขอบเขต วิธีการ และเกณฑ์การตรวจสอบความถูกต้องของการโอนย้ายข้อมูลจากระบบเดิม <strong>HosXP</strong> มายังระบบ <strong>HA.OS</strong> ให้ครบถ้วน ถูกต้อง และตรวจสอบย้อนกลับได้ พร้อมแผน Dress Rehearsal, Cut-over และ Rollback · ดูแผนฉบับละเอียดที่ <a href="../../html/data-migration-plan-msm.html">หน้าแผน Data Migration (ละเอียด)</a> · <span class="hint">ข้อความสีเหลืองคือช่องที่ต้องกรอก/ปรับ</span></div>
 
     <!-- 0 ประวัติการแก้ไข -->
     <h2 class="sec"><span class="n">0</span>ประวัติการแก้ไขเอกสาร (Revision History)</h2>
@@ -74,13 +74,15 @@
       </tbody>
     </table>
     <p class="eg">Patient Master รวม 9 จุดบริการ ~ <span class="blank">&nbsp;</span> ราย, Visit OPD/IPD ย้อนหลัง 5 ปี ~ <span class="blank">&nbsp;</span> records — ใช้กำหนดขนาด Dress Rehearsal และเวลาประมวลผล</p>
+    <div class="warn"><b>⚠️ 3 แหล่งต้นทาง (ต้อง dedup ข้ามแหล่ง):</b> ข้อมูลอยู่ 3 เวอร์ชัน — <b>v4</b> (หลัก IPD+OPD), <b>v3</b> (OPD, schema ต่างจาก v4), <b>vPCU</b> (คลินิกย่อย) · ผู้ป่วยรายเดียวอาจมีในหลายแหล่ง (โดยเฉพาะ v4↔v3) → ต้อง match/merge (ดูข้อ 3.2)</div>
+    <div class="crit" style="background:#fdeceb;border-left:4px solid #d6453d;border-radius:10px;padding:11px 15px;margin:11px 0"><b style="color:#d6453d">🔴 ข้อมูลวิกฤต (ทำก่อน + Reconcile 100%):</b> ประวัติแพ้ยา · ยาที่ใช้ต่อเนื่อง (Active Med) · ผล Lab · นัดหมาย — คร่อมทุกแหล่ง หากผิดพลาดกระทบการรักษาผู้ป่วยโดยตรง</div>
 
     <!-- 2 ระบบต้นทาง/ปลายทาง -->
     <h2 class="sec"><span class="n">2</span>ระบบต้นทางและปลายทาง</h2>
     <table class="alt">
       <thead><tr><th style="width:22%">รายการ</th><th>ต้นทาง (Source)</th><th>ปลายทาง (Target)</th></tr></thead>
       <tbody>
-        <tr><td>ระบบ</td><td>HosXP (ระบบเดิม)</td><td>HA.OS</td></tr>
+        <tr><td>ระบบ</td><td>HosXP (ระบบเดิม) — <b>3 แหล่ง: v4 / v3 / vPCU</b></td><td>HA.OS (<code>TB_*</code> ธุรกรรม / <code>TBM_*</code> master)</td></tr>
         <tr class="fillrow"><td>ฐานข้อมูล</td><td><span class="blank">&nbsp;</span> (MySQL/MariaDB — HosXP)</td><td><span class="blank">&nbsp;</span> (HA.OS DB)</td></tr>
         <tr class="fillrow"><td>วิธีดึงข้อมูล</td><td><span class="blank">&nbsp;</span> (DB dump / replica / export)</td><td>Staging schema</td></tr>
         <tr class="fillrow"><td>สิทธิ์เข้าถึง</td><td><span class="blank">&nbsp;</span> (read-only โดย Senior Imp เตทีม HosXP)</td><td>DBA โครงการ</td></tr>
@@ -96,7 +98,10 @@
     <ul>
       <li>Mapping ฟิลด์ต้นทาง HosXP → ปลายทาง HA.OS (ตาราง mapping แยกไฟล์)</li>
       <li>แปลงรูปแบบ: ปี <strong>พ.ศ. → ค.ศ.</strong>, รหัสยา/วินิจฉัย (ICD/TMT), encoding ภาษาไทย</li>
+      <li><b>Data Profiling</b> — วิเคราะห์คุณภาพข้อมูลต้นทางแต่ละแหล่งก่อน (null/รูปแบบผิด/รหัสไม่อยู่ใน master)</li>
       <li>ทำความสะอาดข้อมูล (Data Cleansing) — ค่าซ้ำ/ว่าง/ไม่ valid, HN ซ้ำข้ามจุดบริการ</li>
+      <li><b>Deduplication ข้าม 3 แหล่ง (v4/v3/vPCU)</b> → สร้าง <b>Golden Record</b> ต่อผู้ป่วย (จับคู่ด้วยเลขบัตรปชช. / HN / ชื่อ-สกุล-วันเกิด) · <b>ประวัติแพ้ยารวมทุกแหล่ง (union) ห้ามตกหล่น</b> · เคสกำกวมให้ Key User เวชระเบียน review (ห้าม auto-merge)</li>
+      <li>Mapping ข้อมูลเบิกจ่าย: <b>CSOP/SSOP · ICD10 · 42/43 แฟ้ม</b> — ทดสอบส่งเบิก e-Claim จริงก่อน Go-live</li>
       <li>ตรวจ Referential Integrity ก่อน Load</li>
     </ul>
     <h3 class="sub">3.3 Load</h3>
@@ -110,18 +115,20 @@
     <table>
       <thead><tr><th style="width:18%">รอบ</th><th style="width:20%">วันที่</th><th>วัตถุประสงค์ / เกณฑ์ผ่าน</th></tr></thead>
       <tbody>
-        <tr class="fillrow"><td>Dress Rehearsal #1</td><td>__/__/2026</td><td>ทดสอบ pipeline + จับ error mapping เบื้องต้น</td></tr>
-        <tr class="fillrow"><td>Dress Rehearsal #2</td><td>__/__/2027</td><td>ทดสอบเต็มชุด + วัดเวลาประมวลผล + reconciliation 100%</td></tr>
-        <tr class="fillrow"><td>Dress Rehearsal #3 (สำรอง)</td><td>__/__/2027</td><td>ยืนยันแก้ไขข้อบกพร่องครบ (ถ้าจำเป็น)</td></tr>
-        <tr class="fillrow"><td><b>Cut-over (รอบจริง)</b></td><td>__/__/2027</td><td>โอนจริงก่อน Go-live รพ.หลัก, reconciliation 100%</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal #1<br><span class="small muted">แยกทีละแหล่ง</span></td><td>__/__/2026</td><td>ซ้อม Migrate v4 / v3 / vPCU แยกกัน — ยืนยัน mapping รายแหล่ง + เก็บ Data Quality Issues</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal #2<br><span class="small muted">รวม + dedup</span></td><td>__/__/2026</td><td>รวม 3 แหล่ง + Dedup/Merge — Golden Record ถูก, ไม่มีผู้ป่วยซ้ำ, แพ้ยารวมครบ</td></tr>
+        <tr class="fillrow"><td>Dress Rehearsal #3<br><span class="small muted">เต็มรูปแบบ</span></td><td>__/__/2027</td><td>Full load + <b>Reconciliation 100% ข้อมูลวิกฤต</b> + วัด downtime จริง + ซ้อม Rollback</td></tr>
+        <tr class="fillrow"><td><b>Cut-over (รอบจริง)</b></td><td>~__/01/2027</td><td>โอนจริงก่อน Go-live รพ.หลัก, reconciliation 100%, Go/No-Go</td></tr>
       </tbody>
     </table>
-    <div class="note"><b>เกณฑ์:</b> ต้องทำ Dress Rehearsal อย่างน้อย 1–2 รอบ และผ่าน reconciliation 100% ก่อนจึงจะอนุมัติ Cut-over รอบจริง</div>
+    <div class="note"><b>เกณฑ์:</b> ต้องทำ Dress Rehearsal <b>อย่างน้อย 3 รอบ (แยกทีละแหล่งก่อนรวม)</b> และผ่าน reconciliation 100% ข้อมูลวิกฤต ก่อนจึงจะอนุมัติ Cut-over รอบจริง · แต่ละรอบมีรายงานผล + issue log</div>
 
     <!-- 5 เกณฑ์ Reconciliation -->
     <h2 class="sec"><span class="n">5</span>เกณฑ์การตรวจสอบความถูกต้อง (Reconciliation 100%)</h2>
     <ul class="chk">
+      <li class="star"><b>ข้อมูลวิกฤต 100% (ทำก่อน):</b> เทียบรายรายการ (record-by-record) — แพ้ยา / ยา active / ผล Lab / นัดหมาย ต้องครบทุกราย ห้ามตกหล่น</li>
       <li class="star">นับจำนวน record ต้นทาง = ปลายทาง ทุก dataset (Record Count = 100%)</li>
+      <li>ทดสอบส่งเบิก e-Claim จริง (CSOPBIL) + เทียบ ICD10/CSOP ผ่านการตรวจ สปสช.</li>
       <li>ตรวจยอดรวมเชิงตัวเลข (Control Total) เช่น ยอดลูกหนี้/เคลม สปสช. รวม</li>
       <li>สุ่มตรวจรายตัว (Sampling) อย่างน้อย <span class="fill">__</span>% หรือ <span class="fill">__</span> records/dataset</li>
       <li>ตรวจ Referential Integrity (ไม่มี orphan record)</li>
@@ -164,6 +171,8 @@
         <tr><td>คุณภาพข้อมูลต้นทาง HosXP ต่ำ (ซ้ำ/ว่าง/ผิด)</td><td>สูง</td><td>สูง</td><td>Data profiling/cleansing ก่อน, error report, ให้เจ้าของงานตัดสิน</td></tr>
         <tr><td>แปลงปี พ.ศ.→ค.ศ. / รหัสยา (TMT) ผิด</td><td>กลาง</td><td>สูง</td><td>กฎแปลงรวมศูนย์, unit test, สุ่มตรวจวันเกิด/วันนัด</td></tr>
         <tr><td>Cut-over เกินหน้าต่างเวลา</td><td>กลาง</td><td>สูง</td><td>วัดเวลาใน Dress Rehearsal, แบ่ง batch, Go/No-Go gate</td></tr>
+        <tr><td>Schema ต่างกัน 3 เวอร์ชัน (v4/v3/vPCU) map ผิด/ตกหล่น</td><td>สูงมาก</td><td>สูงมาก</td><td>แตก 3 workstream, Data Profiling ก่อนซ้อม, Data Dictionary ครบ</td></tr>
+        <tr><td>ผู้ป่วยซ้ำข้ามแหล่ง → เวชระเบียนซ้ำ/แพ้ยาตกหล่น</td><td>สูงมาก</td><td>สูงมาก</td><td>Dedup + Golden Record, แพ้ยารวม union, manual review เคสกำกวม, Fallback ดู HosXP เดิม</td></tr>
         <tr class="fillrow"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
       </tbody>
     </table>
