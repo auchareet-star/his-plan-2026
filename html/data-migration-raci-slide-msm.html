@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Migration — บริษัททำอะไร / รพ.ต้องช่วยอะไร (สไลด์)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page{ size:A4 landscape; margin:0; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
+        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
+  .slide{ width:min(1220px,97vw); aspect-ratio:16/9.4; margin:22px auto; background:#fff;
+          padding:26px 34px 18px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
+          display:flex; flex-direction:column; position:relative; }
+  .head{ margin-bottom:10px; }
+  .head h1{ font-size:22px; font-weight:700; color:#1d5490; }
+  .head h1 .en{ color:#5b6675; font-weight:600; font-size:17px; }
+  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
+            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
+  .logo{ position:absolute; top:24px; right:34px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+  table{ width:100%; border-collapse:collapse; flex:1; table-layout:fixed; }
+  th,td{ border:1px solid #dfe4e8; padding:6px 10px; vertical-align:top; text-align:left; }
+  th{ background:#2f7cc4; color:#fff; font-size:12.5px; font-weight:700; }
+  th.co{ background:#2f7cc4; } th.hos{ background:#e8743b; }
+  td.ph{ background:#f6faff; font-weight:700; color:#1d5490; font-size:12.5px; white-space:nowrap; }
+  td.co{ font-size:11.8px; line-height:1.38; border-left:3px solid #bcd8ef; }
+  td.hos{ font-size:11.8px; line-height:1.38; border-left:3px solid #f3c79a; background:#fffaf4; }
+  tbody tr:nth-child(even) td:not(.ph){ background:#f8fafc; }
+  tbody tr:nth-child(even) td.hos{ background:#fdf5ec; }
+  li{ margin:1px 0 1px 14px; }
+  .foot{ margin-top:8px; font-size:11px; color:#5b6675; text-align:center; }
+  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
+    th,td.ph{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>Data Migration <span class="en">— บริษัททำอะไร / รพ.ต้องช่วยอะไร</span></h1>
+    <div class="u"></div>
+  </div>
+
+  <table>
+    <colgroup><col style="width:13%"><col style="width:43%"><col style="width:44%"></colgroup>
+    <tr><th>ช่วงเวลา</th><th class="co">🏢 บริษัท อโยเดีย ทำอะไร</th><th class="hos">🏥 รพ. ต้องช่วยอะไร / ให้ข้อมูลอะไร</th></tr>
+
+    <tr>
+      <td class="ph">เตรียมการ +<br>สำรวจ<br><span style="font-weight:400;color:#5b6675">ส.ค.-ก.ย. 69</span></td>
+      <td class="co"><ul>
+        <li>สำรวจฐานข้อมูล HosXP ครบ 3 แหล่ง (v4/v3/vPCU)</li>
+        <li>Data Profiling วิเคราะห์คุณภาพข้อมูลต้นทาง</li>
+        <li>จัดทำแผน Data Migration Plan (S1-03)</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>ให้สิทธิ์เข้าถึงฐานข้อมูล HosXP ทั้ง 3 แหล่ง</li>
+        <li>มอบหมาย Key User (เวชระเบียน/การเงิน/เภสัช) ประจำโครงการ</li>
+        <li>ให้ข้อมูลปัญหา/ข้อจำกัดของระบบเดิมที่ทีมงานควรรู้</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td class="ph">Mapping +<br>Dictionary<br><span style="font-weight:400;color:#5b6675">ก.ย. 69</span></td>
+      <td class="co"><ul>
+        <li>จัดทำ Data Mapping HosXP → HA.OS (S2-05)</li>
+        <li>จัดทำ Data Dictionary (S2-06)</li>
+        <li>Mapping ข้อมูลเบิกจ่าย CSOP/SSOP/ICD10/42-43 แฟ้ม</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>ยืนยันรหัส master data ที่ใช้จริง (แผนก/รหัสยา/ICD10)</li>
+        <li>ให้ข้อมูล business rule ที่ไม่มีบันทึกในระบบเดิม</li>
+        <li>Key User ตรวจทาน Mapping ก่อนอนุมัติ</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td class="ph">Cleansing +<br>Dedup<br><span style="font-weight:400;color:#5b6675">ก.ย.-ต.ค. 69</span></td>
+      <td class="co"><ul>
+        <li>Data Cleansing ข้อมูลต้นทางแต่ละแหล่ง</li>
+        <li>Deduplication ข้าม 3 แหล่ง → สร้าง Golden Record ต่อผู้ป่วย</li>
+        <li>รวมประวัติแพ้ยาทุกแหล่ง (union) ไม่ให้ตกหล่น</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>Key User เวชระเบียน <b>review เคสกำกวม</b> (ผู้ป่วยซ้ำข้ามแหล่ง) ทุกเคส</li>
+        <li>ยืนยันความถูกต้องของ Golden Record ก่อนใช้จริง</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td class="ph">ซ้อมโอนย้าย<br>≥ 3 รอบ<br><span style="font-weight:400;color:#5b6675">ต.ค.-พ.ย. 69</span></td>
+      <td class="co"><ul>
+        <li>รัน Dress Rehearsal 3 รอบ (แยกแหล่ง → รวม → เต็มรูปแบบ)</li>
+        <li>จัดทำรายงาน Reconciliation ทุกรอบ</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>Key User สุ่มตรวจ (sample audit) ข้อมูลหลังซ้อมแต่ละรอบ</li>
+        <li>แจ้งปัญหาที่พบจากมุมมองผู้ใช้งานจริงทันที (ไม่รอสรุปรวม)</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td class="ph">Cut-over<br>จริง<br><span style="font-weight:400;color:#5b6675">~ต้น ม.ค. 70</span></td>
+      <td class="co"><ul>
+        <li>Migration Production จริง [Senior Imp เตทีม นำ]</li>
+        <li>ทำตาม Cut-over Runbook + เกณฑ์ Go/No-Go</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>อนุมัติ <b>Freeze Window</b> (หยุดบันทึกข้อมูลใน HosXP ชั่วคราว)</li>
+        <li>จัดเจ้าหน้าที่ stand-by วัน Cut-over จริง</li>
+      </ul></td>
+    </tr>
+
+    <tr>
+      <td class="ph">Go-live +<br>Hypercare<br><span style="font-weight:400;color:#5b6675">~20 ม.ค. 70 (30 วัน)</span></td>
+      <td class="co"><ul>
+        <li>Monitor ระบบ + Daily Report ช่วง Hypercare</li>
+        <li>แก้ไขปัญหาข้อมูลที่พบระหว่างใช้งานจริง</li>
+      </ul></td>
+      <td class="hos"><ul>
+        <li>แจ้งปัญหาที่พบระหว่างใช้งานจริงทันที (ไม่สะสมไว้)</li>
+        <li>Key User ช่วยตรวจสอบข้อมูลผู้ป่วยเทียบกับระบบเดิม</li>
+      </ul></td>
+    </tr>
+  </table>
+
+  <div class="foot">เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) 9 จุดบริการ · ดูรายละเอียดเต็มที่ <b>แผน Data Migration (ละเอียด)</b> และ <b>Checklist Data Migration</b></div>
+</div>
+</body>
+</html>

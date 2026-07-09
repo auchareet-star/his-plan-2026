@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Fit Gap → UX/UI → Dev — สไลด์ (เมืองสมุทร)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page{ size:A4 landscape; margin:0; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
+        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
+  .slide{ width:min(1160px,97vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
+          padding:28px 38px 20px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
+          display:flex; flex-direction:column; position:relative; }
+  .head{ margin-bottom:12px; }
+  .head h1{ font-size:22px; font-weight:700; color:#1d5490; }
+  .head h1 .en{ color:#5b6675; font-weight:600; font-size:16px; }
+  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
+            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
+  .logo{ position:absolute; top:26px; right:38px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+  .pageno{ position:absolute; bottom:12px; right:20px; font-size:11px; color:#aab0bb; }
+  /* flow */
+  .flow{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0; }
+  .flow .s{ background:#eaf3fb; border:1px solid #bcd8ef; border-radius:8px; padding:7px 12px;
+            font-weight:600; color:#1d5490; font-size:12.5px; }
+  .flow .s.cfg{ background:#e9f7ee; border-color:#a9dabd; color:#1e7a45; }
+  .flow .s.gap{ background:#fff4e0; border-color:#f0c089; color:#8a5b10; }
+  .flow .ar{ color:#9aa3b2; font-weight:800; font-size:12.5px; }
+  .flow .fork{ width:100%; text-align:center; color:#5b6675; font-weight:700; font-size:11.5px; margin:2px 0; }
+  .note{ background:#eaf3fb; border-left:4px solid #2f7cc4; border-radius:9px; padding:9px 12px; font-size:12.5px; color:#1d5490; margin:8px 0; }
+  .warn{ background:#fff4e5; border-left:4px solid #f0a14b; border-radius:9px; padding:9px 12px; font-size:12px; color:#8a5b10; margin:8px 0; }
+  .crit{ background:#fdeceb; border-left:4px solid #d6453d; border-radius:9px; padding:9px 12px; font-size:12px; color:#c0392b; margin:8px 0; }
+  /* table */
+  table{ width:100%; border-collapse:collapse; font-size:11.8px; flex:1; }
+  th,td{ border:1px solid #dfe4e8; padding:6px 8px; vertical-align:top; text-align:left; }
+  th{ background:#2f7cc4; color:#fff; font-size:11.5px; }
+  td.grp{ background:#f6faff; font-weight:700; color:#1d5490; white-space:nowrap; }
+  tbody tr:nth-child(even) td{ background:#f8fafc; }
+  .badge{ display:inline-block; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:5px; color:#fff; }
+  .b-cfg{ background:#2e9e5b; } .b-gap{ background:#e0a800; }
+  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
+    th,td.grp,.flow .s,.badge{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 : ภาพรวม + จุดบรรจบ -->
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>Timeline Fit Gap → UX/UI → Dev <span class="en">— ภาพรวม</span></h1>
+    <div class="u"></div>
+  </div>
+
+  <div class="flow">
+    <span class="s">① เก็บ Requirement</span><span class="ar">→</span>
+    <span class="s">② Fit Gap ร่วมกับทีม Consult</span><span class="ar">→</span>
+    <span class="s">③ สรุปผล + Approve Matrix</span>
+    <div class="fork">▼ แยกเส้นทางตามผล Fit Gap ▼</div>
+    <span class="s cfg">Fit/Config → เริ่ม Config ทันที</span>
+    <span class="ar" style="width:100%;text-align:center">— หรือ —</span>
+    <span class="s gap">④ วิเคราะห์ Gap</span><span class="ar">→</span>
+    <span class="s gap">⑤ UX/UI ออกแบบ</span><span class="ar">→</span>
+    <span class="s gap">⑥ Review</span><span class="ar">→</span>
+    <span class="s gap">เริ่ม Dev</span>
+  </div>
+  <div class="note"><b>หลักการ:</b> <span class="badge b-cfg">Fit/Config</span> ข้ามขั้น UX/UI ไปเริ่ม Config ได้ทันที · เฉพาะ <span class="badge b-gap">Partial/Gap</span> เท่านั้นที่ต้องผ่าน ④⑤⑥ ก่อนเริ่ม Dev</div>
+
+  <table style="flex:none;margin-top:6px">
+    <tr><th style="width:22%">เหตุการณ์รวม (ทุกโมดูล)</th><th style="width:18%">วันที่</th><th>รายละเอียด</th></tr>
+    <tr><td class="grp">③ สรุปผล + Approve Fit Gap Matrix</td><td><b>11 ก.ย. 69</b></td><td>รวมผล Fit Gap ทั้ง 21 รอบ → ยืนยัน Fit/Config/Partial/Gap รายโมดูล + ระบุผู้ตัดสินใจ</td></tr>
+    <tr><td class="grp">Fit/Config → เริ่ม Config</td><td><b>14 ก.ย. 69</b></td><td>ตรงกับแผนเดิม Sprint S6 "Config Module No-need เริ่ม"</td></tr>
+    <tr><td class="grp">Partial/Gap → ④ วิเคราะห์ Gap</td><td>14-15 ก.ย. 69</td><td>วิเคราะห์รายละเอียดจุดที่ไม่ Fit ตรง</td></tr>
+    <tr><td class="grp">⑤ UX/UI ออกแบบ (มิ้น)</td><td>16-29 ก.ย. 69</td><td>~2 สัปดาห์ รวมทุกโมดูล Partial/Gap</td></tr>
+    <tr><td class="grp">⑥ Review → เริ่ม Dev</td><td>30 ก.ย. – 2 ต.ค. 69</td><td>ก่อน Sprint S8 (Dev เริ่มจริงตามแผนเดิม ~9 ต.ค.) เหลือ buffer ~1 สัปดาห์</td></tr>
+  </table>
+  <div class="warn">⚠️ UX/UI Designer มีคนเดียว (มิ้น) — ถ้าโมดูล Partial/Gap เยอะกว่าที่กะไว้ ต้องจัด priority โมดูลกระทบ Go-live ก่อน (เวชระเบียน/การเงิน)</div>
+  <div class="pageno">1 / 4</div>
+</div>
+
+<!-- SLIDE 2 : รายรอบ (จัดกลุ่มตามวันที่ ② ร่วมกัน) -->
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>Timeline Fit Gap → UX/UI → Dev <span class="en">— รายรอบ (W1-W7)</span></h1>
+    <div class="u"></div>
+  </div>
+
+  <table>
+    <tr><th style="width:6%">รอบ</th><th style="width:6%">Sprint</th><th style="width:26%">โมดูล (อ้าง TOR)</th><th style="width:11%">① เก็บ Req</th><th style="width:9%">② Fit Gap</th><th style="width:9%">วิเคราะห์</th><th style="width:10%">Flow</th><th style="width:13%">Designer</th><th style="width:10%">Final</th></tr>
+    <tr><td><b>W1</b></td><td>S2</td><td>M1-3 เวชระเบียน + ศูนย์สิทธิ + รับ-ส่งต่อ</td><td>13-17 ก.ค.</td><td>17 ก.ค.</td><td>20 ก.ค.</td><td>21-22 ก.ค.</td><td>23-27 ก.ค.</td><td><b>28 ก.ค.</b></td></tr>
+    <tr><td><b>W2</b></td><td>S2</td><td>M4-7 คลินิก + คิว + นัดหมาย + ตาราง</td><td>13-17 ก.ค.</td><td>17 ก.ค.</td><td>20 ก.ค.</td><td>21-22 ก.ค.</td><td>23-27 ก.ค.</td><td><b>28 ก.ค.</b></td></tr>
+    <tr><td><b>W3</b></td><td>S3</td><td>M8 งานรังสีวิทยา + PACS</td><td>20-24 ก.ค.</td><td>24 ก.ค.</td><td>27 ก.ค.</td><td>28-29 ก.ค.</td><td>30 ก.ค.-3 ส.ค.</td><td><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W4</b></td><td>S3</td><td>M12 หอผู้ป่วยใน</td><td>20-24 ก.ค.</td><td>24 ก.ค.</td><td>27 ก.ค.</td><td>28-29 ก.ค.</td><td>30 ก.ค.-3 ส.ค.</td><td><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W5</b></td><td>S3</td><td>M13-14 ห้องผ่าตัด + วิสัญญี</td><td>27-31 ก.ค.</td><td>31 ก.ค.</td><td>3 ส.ค.</td><td>4-5 ส.ค.</td><td>6-10 ส.ค.</td><td><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W6</b></td><td>S3</td><td>M15 ห้องจ่ายยา</td><td>27-31 ก.ค.</td><td>31 ก.ค.</td><td>3 ส.ค.</td><td>4-5 ส.ค.</td><td>6-10 ส.ค.</td><td><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W7</b></td><td>S3</td><td>M37 ห้องตรวจแพทย์ [ใหม่]</td><td>27-31 ก.ค.</td><td>31 ก.ค.</td><td>3 ส.ค.</td><td>4-5 ส.ค.</td><td>6-10 ส.ค.</td><td><b>11 ส.ค.</b></td></tr>
+  </table>
+  <div class="pageno">2 / 4</div>
+</div>
+
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>Timeline Fit Gap → UX/UI → Dev <span class="en">— รายรอบ (W8-W14)</span></h1>
+    <div class="u"></div>
+  </div>
+
+  <table>
+    <tr><th style="width:6%">รอบ</th><th style="width:6%">Sprint</th><th style="width:26%">โมดูล (อ้าง TOR)</th><th style="width:11%">① เก็บ Req</th><th style="width:9%">② Fit Gap</th><th style="width:9%">วิเคราะห์</th><th style="width:10%">Flow</th><th style="width:13%">Designer</th><th style="width:10%">Final</th></tr>
+    <tr><td><b>W8</b></td><td>S3</td><td>HosXP Gap Analysis (เทียบ Flow เดิม)</td><td>27-31 ก.ค.</td><td>31 ก.ค.</td><td>–</td><td>–</td><td>–</td><td><b>–</b></td></tr>
+    <tr><td><b>W9</b></td><td>S4</td><td>M16-17 การเงิน + ลูกหนี้</td><td>3-7 ส.ค.</td><td>7 ส.ค.</td><td>10 ส.ค.</td><td>11-12 ส.ค.</td><td>13-17 ส.ค.</td><td><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W10</b></td><td>S4</td><td>M18 คลัง + พัสดุ</td><td>3-7 ส.ค.</td><td>7 ส.ค.</td><td>10 ส.ค.</td><td>11-12 ส.ค.</td><td>13-17 ส.ค.</td><td><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W11</b></td><td>S4</td><td>M19-20 เวชภัณฑ์ปลอดเชื้อ + IC</td><td>3-7 ส.ค.</td><td>7 ส.ค.</td><td>10 ส.ค.</td><td>11-12 ส.ค.</td><td>13-17 ส.ค.</td><td><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W12</b></td><td>S4</td><td>M38 โภชนาการ [Need-ใหม่]</td><td>10-14 ส.ค.</td><td>14 ส.ค.</td><td>17 ส.ค.</td><td>18-19 ส.ค.</td><td>20-24 ส.ค.</td><td><b>25 ส.ค.</b></td></tr>
+    <tr><td><b>W13</b></td><td>S4</td><td>M40 เวชกรรมสังคม [ใหม่]</td><td>10-14 ส.ค.</td><td>14 ส.ค.</td><td>17 ส.ค.</td><td>18-19 ส.ค.</td><td>20-24 ส.ค.</td><td><b>25 ส.ค.</b></td></tr>
+    <tr><td><b>W14</b></td><td>S5</td><td>M21-23 MIS + KPI + ข่าวสาร</td><td>17-21 ส.ค.</td><td>21 ส.ค.</td><td>24 ส.ค.</td><td>25-26 ส.ค.</td><td>27-31 ส.ค.</td><td><b>1 ก.ย.</b></td></tr>
+  </table>
+  <div class="note" style="margin-top:8px">💡 W8 (HosXP Gap Analysis) ไม่มีขั้น UX/UI — ป้อนเข้าแผน Data Migration แทน</div>
+  <div class="pageno">3 / 4</div>
+</div>
+
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>Timeline Fit Gap → UX/UI → Dev <span class="en">— รายรอบ (W15-W21)</span></h1>
+    <div class="u"></div>
+  </div>
+
+  <table>
+    <tr><th style="width:6%">รอบ</th><th style="width:6%">Sprint</th><th style="width:26%">โมดูล (อ้าง TOR)</th><th style="width:11%">① เก็บ Req</th><th style="width:9%">② Fit Gap</th><th style="width:9%">วิเคราะห์</th><th style="width:10%">Flow</th><th style="width:13%">Designer</th><th style="width:10%">Final</th></tr>
+    <tr><td><b>W15</b></td><td>S5</td><td>M24-25 ขออนุมัติ + แจ้งเตือน</td><td>17-21 ส.ค.</td><td>21 ส.ค.</td><td>24 ส.ค.</td><td>25-26 ส.ค.</td><td>27-31 ส.ค.</td><td><b>1 ก.ย.</b></td></tr>
+    <tr><td><b>W16</b></td><td>S5</td><td>M29-31 DF + Admin + IAM</td><td>24-28 ส.ค.</td><td>28 ส.ค.</td><td>31 ส.ค.</td><td>1-2 ก.ย.</td><td>3-7 ก.ย.</td><td><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W17</b></td><td>S5</td><td>M34 Patient Mobile App</td><td>24-28 ส.ค.</td><td>28 ส.ค.</td><td>31 ส.ค.</td><td>1-2 ก.ย.</td><td>3-7 ก.ย.</td><td><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W18</b></td><td>S5</td><td>M39 สังคมสงเคราะห์ + M41-42 ตรวจสุขภาพ/ธนาคารเลือด</td><td>24-28 ส.ค.</td><td>28 ส.ค.</td><td>31 ส.ค.</td><td>1-2 ก.ย.</td><td>3-7 ก.ย.</td><td><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W19</b></td><td>S3</td><td>M33 ห้องปฏิบัติการ (LAB) + M36 งานพยาบาล [TOR]</td><td>20-24 ก.ค.</td><td>24 ก.ค.</td><td>27 ก.ค.</td><td>28-29 ก.ค.</td><td>30 ก.ค.-3 ส.ค.</td><td><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W20</b></td><td>S3</td><td>M34 ห้องฉุกเฉิน (ER) + M37 Smart IPD — Doctor [TOR]</td><td>27-31 ก.ค.</td><td>31 ก.ค.</td><td>3 ส.ค.</td><td>4-5 ส.ค.</td><td>6-10 ส.ค.</td><td><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W21</b></td><td>S4</td><td>M35 เวชศาสตร์ฟื้นฟู + M38-39 Smart IPD — Nurse/Pharmacist [TOR]</td><td>3-14 ส.ค.</td><td>14 ส.ค.</td><td>17 ส.ค.</td><td>18-19 ส.ค.</td><td>20-24 ส.ค.</td><td><b>25 ส.ค.</b></td></tr>
+  </table>
+  <div class="note" style="margin-top:8px">💡 วันที่คือ "เร็วที่สุดที่เป็นไปได้" ต่อรอบ ถ้าเป็น Partial/Gap — ตัวเลขที่ยึดจริงคือสไลด์ 1 (รวมทุกโมดูล)</div>
+  <div class="pageno">4 / 4</div>
+</div>
+
+</body>
+</html>

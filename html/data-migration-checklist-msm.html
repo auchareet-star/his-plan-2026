@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist — Data Migration (เมืองสมุทร)</title>
+<style>
+  :root{
+    --pri:#2f7cc4; --pri-dk:#1d5490; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eaf3fb; --ok:#2e9e5b;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(29,84,144,.25)}
+  header.cover h1{margin:0 0 6px;font-size:25px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  h2 .cnt{float:right;font-size:12.5px;font-weight:700;color:var(--muted);background:#eef3f7;border-radius:999px;padding:3px 12px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:#f6faff}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:14px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;color:#fff;white-space:nowrap}
+  .t-doc{background:var(--pri)}.t-crit{background:var(--crit)}.t-ok{background:var(--ok)}
+  .doc a{color:#fff;text-decoration:none}.doc a:hover{text-decoration:underline}
+  .cb{width:16px;height:16px}
+  td.chk{text-align:center;width:34px}
+  td.own{white-space:nowrap;font-size:13px}
+  td.sp{white-space:nowrap;font-size:12.5px;color:var(--muted)}
+  .toc{background:#f6faff;border:1px dashed var(--line);border-radius:10px;padding:14px 18px;font-size:13.5px}
+  .toc a{color:var(--pri-dk);text-decoration:none}.toc a:hover{text-decoration:underline}
+  code{background:#eef3f7;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12.5px;color:#1d5490}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>Checklist — แผนการโอนย้ายข้อมูล (Data Migration)</h1>
+  <div class="sub">โรงพยาบาลเมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · <b>HosXP → HA.OS</b> · ผู้รับจ้าง บริษัท อโยเดีย จำกัด<br>
+  <a href="msm.html" style="color:#dcecfb">🏠 กลับหน้าเมืองสมุทร</a> · <a href="data-migration-plan-msm.html" style="color:#dcecfb">📄 แผนฉบับละเอียด</a> · <a href="data-migration-slide-msm.html" style="color:#dcecfb">📊 สไลด์</a> · <a href="checklist-msm.html" style="color:#dcecfb">📋 Checklist ทั้งโครงการ</a> · <a href="../deliverables/samut/deliverables-by-milestone.html" style="color:#dcecfb">📦 เอกสารส่งมอบทั้งหมด</a> · <a href="data-migration-raci-slide-msm.html" style="color:#dcecfb">🤝 บริษัท/รพ. (สไลด์)</a></div>
+  <div class="pills">
+    <span class="pill">✅ 8 หมวด · 40 รายการตรวจสอบ</span>
+    <span class="pill">📄 อ้างอิง 5 เอกสารส่งมอบ (S1-03/S2-05/S2-06/S2-14/S2-17)</span>
+    <span class="pill">🔴 ความเสี่ยงอันดับ 1 ของโครงการ</span>
+  </div>
+</header>
+
+<section>
+  <div class="toc"><strong>สารบัญ</strong> ·
+    <a href="#docs">📄 เอกสารที่เกี่ยวข้อง</a> ·
+    <a href="#c1">① เตรียมการ + Profiling</a> · <a href="#c2">② Data Mapping + Dictionary</a> ·
+    <a href="#c3">③ Cleansing + Dedup</a> · <a href="#c4">④ ซ้อมโอนย้าย ≥3 รอบ</a> ·
+    <a href="#c5">⑤ Reconciliation (กระทบยอด)</a> · <a href="#c6">⑥ Cut-over จริง</a> ·
+    <a href="#c7">⑦ Go-live + Hypercare</a> · <a href="#c8">⑧ ปิดงาน Migration</a>
+  </div>
+  <div class="note">ใช้เป็น <strong>tracker ระดับปฏิบัติงาน</strong> คู่กับแผนฉบับละเอียด — แต่ละรายการผูกกับ <strong>เอกสารส่งมอบจริง</strong> ที่ต้องผลิต/อัปเดต ไม่ใช่แค่ทำงานแล้วไม่มีหลักฐาน ·ติ๊ก ✓ เมื่อรายการเสร็จและเอกสารอัปเดตแล้วเท่านั้น</div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="docs">
+  <h2><span class="n">📄</span>เอกสารที่เกี่ยวข้องกับ Data Migration</h2>
+  <table>
+    <tr><th style="width:10%">รหัส</th><th style="width:32%">ชื่อเอกสาร</th><th style="width:10%">งวด</th><th>ใช้ตรวจสอบ/อ้างอิงตอนไหน</th></tr>
+    <tr><td><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td>แผนการโอนย้ายข้อมูล (Data Migration Plan)</td><td>งวด 1</td><td>เอกสารหลัก — ต้องอนุมัติก่อนเริ่ม Extract/Profiling จริง</td></tr>
+    <tr><td><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></span></td><td>การจับคู่ข้อมูล (Data Mapping)</td><td>งวด 2</td><td>ก่อน Transform — ยืนยัน mapping ทุก field/ตาราง 3 แหล่ง</td></tr>
+    <tr><td><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-06.html">S2-06</a></span></td><td>พจนานุกรมข้อมูล (Data Dictionary)</td><td>งวด 2</td><td>คู่กับ Mapping — นิยาม field/ประเภทข้อมูล/master code</td></tr>
+    <tr><td><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>การกระทบยอดการโอนย้ายข้อมูล (Reconciliation)</td><td>งวด 2</td><td>หลังซ้อมทุกรอบ + หลัง Migration จริง — เกณฑ์อนุมัติ Cut-over</td></tr>
+    <tr><td><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td>รายการตรวจสอบ Go-Live / Cutover</td><td>งวด 2</td><td>วัน Cut-over จริง — เกณฑ์ Go/No-Go + Rollback</td></tr>
+  </table>
+  <div class="note">ดูรายชื่อเอกสารส่งมอบทั้ง 36 ฉบับ (ทุกงวด) ที่ <a href="../deliverables/samut/deliverables-by-milestone.html">เอกสารส่งมอบ — เมืองสมุทร</a></div>
+</section>
+
+<!-- 1 -->
+<section id="c1">
+  <h2><span class="n">1</span>เตรียมการ + Data Profiling<span class="cnt">6 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Draft ขอบเขต Data Migration เบื้องต้น</td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td class="sp">Sprint S1</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>สำรวจ HosXP Database ครบ 3 แหล่ง (v4 / v3 / vPCU)</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §1</a></span></td><td class="sp">Sprint S2</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Data Profiling แต่ละแหล่ง (null / รูปแบบผิด / รหัสไม่อยู่ใน master)</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §3.2</a></span></td><td>ทำก่อน Cleansing เสมอ ห้ามข้าม</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>จัดทำ Migration Requirement (ขอบเขต + non-scope ชัดเจน)</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td class="sp">Sprint S4</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>Data Migration Plan (S1-03) อนุมัติอย่างเป็นทางการ</strong></td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td>ลงนามรับรอง — งวด 1</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ระบุรายการ "ข้อมูลวิกฤต" ที่ต้อง Reconcile 100% (แพ้ยา/ยา active/Lab/นัดหมาย)</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td>ใช้เป็น baseline ของทุกรอบซ้อม</td></tr>
+  </table>
+</section>
+
+<!-- 2 -->
+<section id="c2">
+  <h2><span class="n">2</span>Data Mapping + Dictionary<span class="cnt">5 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Data Mapping HosXP → HA.OS (draft) ครบ 3 แหล่ง</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></span></td><td class="sp">Sprint S5</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Mapping ตารางหลัก: Customers→TB_PATIENTS, Staffs→TB_EMPLOYEES, Treatments→TBM_EXPENSES ฯลฯ</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></span></td><td>ตาม migration_mapping.xlsx</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Mapping ข้อมูลเบิกจ่าย: CSOP/SSOP · ICD10 · 42/43 แฟ้ม</td><td class="own">Dev, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></span></td><td>ทดสอบส่งเบิก e-Claim จริงก่อน Go-live</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>จัดทำ Data Dictionary (นิยาม field / ประเภท / master code)</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-06.html">S2-06</a></span></td><td class="sp">Sprint S5-S6</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>Final Mapping ยืนยัน (sign-off)</strong> ก่อนใช้ในรอบซ้อมจริง</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></span></td><td class="sp">Sprint S13</td></tr>
+  </table>
+</section>
+
+<!-- 3 -->
+<section id="c3">
+  <h2><span class="n">3</span>Cleansing + Deduplication (ข้าม 3 แหล่ง)<span class="cnt">5 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Data Cleansing ต้นทางแต่ละแหล่ง (ค่าซ้ำ/ว่าง/ไม่ valid, HN ซ้ำข้ามจุดบริการ)</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §3.2</a></span></td><td>ก่อนเริ่ม Dedup</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Deduplication ข้าม 3 แหล่ง (v4/v3/vPCU) — จับคู่ด้วยเลขบัตร ปชช. / HN / ชื่อ-สกุล-วันเกิด</td><td class="own">Dev, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §3.2</a></span></td><td class="tag t-crit doc" style="margin-left:4px">วิกฤต</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>สร้าง Golden Record ต่อผู้ป่วย — <strong>ประวัติแพ้ยารวมทุกแหล่ง (union) ห้ามตกหล่น</strong></td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §3.2</a></span></td><td class="tag t-crit doc" style="margin-left:4px">วิกฤต</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>เคสกำกวม (ผู้ป่วยจับคู่ไม่ชัดเจน) ให้ Key User เวชระเบียน review ทุกเคส — ห้าม auto-merge</td><td class="own">Key User เวชระเบียน</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03 §3.2</a></span></td><td>บันทึกผล review เป็นหลักฐาน</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ตรวจ Referential Integrity ก่อน Load</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></span></td><td>-</td></tr>
+  </table>
+</section>
+
+<!-- 4 -->
+<section id="c4">
+  <h2><span class="n">4</span>ซ้อมโอนย้าย (Dress Rehearsal) — อย่างน้อย 3 รอบ<span class="cnt">6 รายการ</span></h2>
+  <div class="warn"><b>⚠️ เกณฑ์บังคับ:</b> ต้องทำครบ <strong>≥ 3 รอบ (แยกทีละแหล่งก่อนรวม)</strong> และผ่าน reconciliation 100% ข้อมูลวิกฤตทุกรอบ ก่อนจึงอนุมัติ Cut-over จริงได้</div>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>รอบ 1</strong> — ซ้อมแยกทีละแหล่ง (v4 / v3 / vPCU) พร้อมรายงานผล + issue log</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td class="sp">Sprint S8</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>รอบ 2</strong> — ซ้อมรวม 3 แหล่ง + dedup พร้อมรายงานผล + issue log</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td class="sp">Sprint S10</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>รอบ 3</strong> — ซ้อมเต็มรูปแบบ + จับเวลาจริง (timed) พร้อมรายงานผล + issue log</td><td class="own">Imp เตทีม, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td class="sp">ก่อน Sprint S13</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>แก้ไข issue จากแต่ละรอบก่อนเริ่มรอบถัดไป (ปิด issue log)</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ทดสอบส่งเบิก e-Claim จริง (CSOPBIL) ระหว่างซ้อม + เทียบ ICD10/CSOP</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>ก่อนรอบ 3</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>สรุปผลซ้อมทั้ง 3 รอบ + อนุมัติเดินหน้า Cut-over จริง</strong></td><td class="own">PM อาร์ต, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>Go/No-Go ตัดสินใจที่นี่</td></tr>
+  </table>
+</section>
+
+<!-- 5 -->
+<section id="c5">
+  <h2><span class="n">5</span>Reconciliation (กระทบยอด)<span class="cnt">5 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>ข้อมูลวิกฤต 100%</strong> — เทียบรายรายการ: แพ้ยา / ยา active / ผล Lab / นัดหมาย</td><td class="own">Imp เตทีม, Key User</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td class="tag t-crit doc" style="margin-left:4px">วิกฤต — ห้ามตกหล่น</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>นับจำนวน record ต้นทาง = ปลายทาง ทุก dataset (Record Count 100%)</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ทดสอบส่งเบิก e-Claim จริงผ่านการตรวจ สปสช. (CSOPBIL/ICD10/CSOP)</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>สุ่มตรวจ (sample audit) ข้อมูลไม่วิกฤตร่วมกับ Key User แต่ละแผนก</td><td class="own">Key User</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>Reconciliation Report (S2-14) ลงนามอนุมัติ</strong> — เกณฑ์บังคับก่อน Cut-over จริง</td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>งวด 2</td></tr>
+  </table>
+</section>
+
+<!-- 6 -->
+<section id="c6">
+  <h2><span class="n">6</span>Cut-over จริง (Production Migration)<span class="cnt">6 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>จัดทำ Cut-over Runbook (ขั้นตอน + เวลา + ผู้รับผิดชอบแต่ละขั้น)</td><td class="own">PM อาร์ต, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td class="sp">Sprint S13</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>กำหนดเกณฑ์ <strong>Go/No-Go</strong> ให้ชัดเจนก่อนวันจริง</td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td>ผูกกับผล Reconciliation (S2-14)</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>จัดทำ Rollback Plan + จุดตัดสินใจ (decision point) ชัดเจน</td><td class="own">Dev, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>แจ้ง Freeze Window ให้ผู้ใช้งานล่วงหน้า (หยุดบันทึกข้อมูลใน HosXP ชั่วคราว)</td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>Data Migration Production จริง</strong> [Senior Imp เตทีม นำ]</td><td class="own">Dev, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td class="sp">Sprint S14 · ~ต้น ม.ค. 70</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Reconciliation รอบจริงหลัง Migration Production + อนุมัติ Go-live</td><td class="own">Imp เตทีม, PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>เกณฑ์เดียวกับข้อ ⑤</td></tr>
+  </table>
+</section>
+
+<!-- 7 -->
+<section id="c7">
+  <h2><span class="n">7</span>Go-live + Hypercare<span class="cnt">4 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>เปิด Fallback ดู HosXP เดิม (read-only) ช่วงแรกหลัง Go-live</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td class="sp">Sprint S15</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>Monitor ระบบ + Daily Report ช่วง Hypercare (30 วัน)</td><td class="own">Dev, Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td class="sp">Sprint S15</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ตรวจสอบ e-Claim จริง (batch แรกหลัง Go-live) ผ่านการตรวจ สปสช.</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ติดตามและแก้ไขปัญหาข้อมูลที่ผู้ใช้งานแจ้งระหว่าง Hypercare</td><td class="own">Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></span></td><td>-</td></tr>
+  </table>
+</section>
+
+<!-- 8 -->
+<section id="c8">
+  <h2><span class="n">8</span>ปิดงาน Migration<span class="cnt">3 รายการ</span></h2>
+  <table>
+    <tr><th class="chk">✓</th><th style="width:34%">รายการตรวจสอบ</th><th style="width:12%">เจ้าของ</th><th style="width:11%">เอกสารอ้างอิง</th><th>หมายเหตุ / เกณฑ์ผ่าน</th></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>สรุป Final Reconciliation Report (ครบทุกแหล่ง ทุก dataset)</td><td class="own">Imp เตทีม</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td class="sp">Sprint S18</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td>ปิด issue log คงค้างทั้งหมด (หรือย้ายเข้า MA/Warranty ถ้าเป็นเรื่องเล็กน้อย)</td><td class="own">PM อาร์ต, Dev</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></span></td><td>-</td></tr>
+    <tr><td class="chk"><input class="cb" disabled="" type="checkbox"></td><td><strong>ลงนามปิดงาน Data Migration</strong> ผูกกับ Final Acceptance (9 sites)</td><td class="own">PM อาร์ต</td><td class="own"><span class="tag t-doc doc"><a href="../deliverables/samut/templates/S3-07.html">S3-07</a></span></td><td>งวด 3</td></tr>
+  </table>
+</section>
+
+<footer>เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · Checklist Data Migration · อ้างอิงเอกสารส่งมอบตาม TOR · เอกสารวางแผนภายใน</footer>
+</div>
+</body>
+</html>

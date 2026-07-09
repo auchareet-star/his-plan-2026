@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Fit Gap → UX/UI → Dev (ลงวันที่) — เมืองสมุทร</title>
+<style>
+  :root{
+    --pri:#2f7cc4; --pri-dk:#1d5490; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eaf3fb; --ok:#2e9e5b; --par:#e0a800;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(29,84,144,.25)}
+  header.cover h1{margin:0 0 6px;font-size:24px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600;font-size:12.5px}
+  tbody tr:nth-child(even){background:#f6faff}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:13.5px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0;font-size:13px}
+  .flow .step{background:#eaf3fb;border:1px solid #bcd8ef;border-radius:8px;padding:7px 12px;font-weight:600;color:var(--pri-dk)}
+  .flow .step.cfg{background:#e9f7ee;border-color:#a9dabd;color:#1e7a45}
+  .flow .step.gap{background:#fff4e0;border-color:#f0c089;color:#8a5b10}
+  .flow .ar{color:var(--muted);font-weight:800}
+  .flow .fork{width:100%;display:flex;justify-content:center;color:var(--muted);font-weight:700;font-size:12px;margin:2px 0}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;white-space:nowrap}
+  .b-cfg{background:var(--ok)}.b-gap{background:var(--par)}
+  .sw{display:inline-block;width:12px;height:12px;border:1px solid;border-radius:3px;vertical-align:-1px;margin-right:3px}
+  .small{font-size:12px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>Timeline Fit Gap → UX/UI → Dev (ลงวันที่จริง)</h1>
+  <div class="sub">เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · ลำดับงานตั้งแต่เก็บ Requirement จนถึงเริ่ม Dev พร้อมวันที่จริงทุกขั้น<br>
+  <a href="msm.html" style="color:#dcecfb">🏠 กลับหน้าเมืองสมุทร</a> · <a href="fitgap-timeline-slide-msm.html" style="color:#dcecfb">📊 เวอร์ชันสไลด์</a> · <a href="fitgap-sitewalk-slide-msm.html" style="color:#dcecfb">🚶 เดินดูหน้างานจริง (สไลด์)</a> · <a href="fitgap-timeline.html" style="color:#dcecfb">🔗 เวอร์ชันรวม DTWU+เมืองสมุทร</a> · <a href="fitgap-workshop-msm.html" style="color:#dcecfb">🗓️ Fit Gap Workshop (RACI เต็ม)</a> · <a href="module-fitgap-msm.html" style="color:#dcecfb">🧩 Module Fit Gap</a> · <a href="checklist-msm.html" style="color:#dcecfb">📋 Checklist</a></div>
+  <div class="pills">
+    <span class="pill">🗓️ 21 รอบ Workshop (13 ก.ค. – 28 ส.ค. 69)</span>
+    <span class="pill">🔀 แยก 2 เส้นทางหลังสรุปผล: Fit/Config vs Partial/Gap</span>
+    <span class="pill">🎨 UX/UI (มิ้น) ก่อน Dev เฉพาะ Partial/Gap</span>
+  </div>
+</header>
+
+<!-- 1 -->
+<section>
+  <h2><span class="n">1</span>ภาพรวม Pipeline (6 ขั้น)</h2>
+  <div class="flow">
+    <span class="step">① เก็บ Requirement</span><span class="ar">→</span>
+    <span class="step">② Fit Gap ร่วม DTMU/Consult</span><span class="ar">→</span>
+    <span class="step">③ สรุปผล + Approve Matrix</span>
+    <div class="fork">▼ แยกเส้นทางตามผล Fit Gap ▼</div>
+    <span class="step cfg">Fit/Config → เริ่ม Config ทันที</span>
+    <span class="ar" style="width:100%;text-align:center">— หรือ —</span>
+    <span class="step gap">④ วิเคราะห์ Gap เพิ่มเติม</span><span class="ar">→</span>
+    <span class="step gap">⑤ UX/UI ออกแบบ</span><span class="ar">→</span>
+    <span class="step gap">⑥ Review UX/UI</span><span class="ar">→</span>
+    <span class="step gap">เริ่ม Dev</span>
+  </div>
+  <div class="note"><b>หลักการ:</b> โมดูลที่ผล Fit Gap เป็น <span class="badge b-cfg">Fit / Config</span> ใช้ระบบเดิม/Config ได้เลย → <b>ข้ามขั้น UX/UI ไปเริ่ม Config ได้ทันที</b> · เฉพาะโมดูลที่เป็น <span class="badge b-gap">Partial / Gap</span> เท่านั้นที่ต้องผ่าน ④ วิเคราะห์ Gap → ⑤ UX/UI ออกแบบหน้าจอ → ⑥ Review ก่อนเริ่ม Dev</div>
+  <div class="warn"><b>⚠️ ระยะเวลาที่ใช้ประมาณการ (กะจากลักษณะงาน):</b> ③→④ วิเคราะห์ Gap ~2 วันทำการ · ⑤ UX/UI ออกแบบ ~2 สัปดาห์ (รวมหลายโมดูล) · ⑥ Review ~2 วันทำการ · ปรับได้ตามจำนวนโมดูล Partial/Gap จริงหลังสรุปผล</div>
+</section>
+
+<!-- 2 -->
+<section id="rounds">
+  <h2><span class="n">2</span>① เก็บ Req → ② Fit Gap → วิเคราะห์ → Flow → Designer → Final — 21 รอบ</h2>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">รายละเอียดผู้เก็บ Req / RACI เต็มดูที่ <a href="fitgap-workshop-msm.html">Fit Gap Workshop</a> · เวอร์ชันรวม DTWU ดูที่ <a href="fitgap-timeline.html">Timeline Fit Gap (รวม)</a></p>
+  <div class="note"><b>ความหมายคอลัมน์ (ถ้าเป็น Partial/Gap):</b> <b>วิเคราะห์</b> Gap เพิ่มเติม 1 วัน · <b>Flow</b> เขียน Workflow Diagram ใหม่ 2 วัน · <b>Designer</b> UX/UI ออกแบบหน้าจอ 3 วัน · <b>Final</b> Review/สรุปผล พร้อมเริ่ม Dev · ถ้า Fit/Config ข้ามไปเริ่ม Config ได้ทันทีหลัง ②</div>
+  <div class="tblwrap" style="overflow-x:auto"><table>
+    <tr><th style="width:5%">รอบ</th><th style="width:6%">Sprint</th><th style="width:24%">โมดูล (อ้าง TOR)</th><th>① เก็บ Req</th><th>② Fit Gap</th><th>วิเคราะห์</th><th>Flow</th><th>Designer</th><th>Final</th></tr>
+    <tr><td><b>W1</b></td><td>S2</td><td>M1-3 เวชระเบียน + ศูนย์สิทธิ + รับ-ส่งต่อ</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+    <tr><td><b>W2</b></td><td>S2</td><td>M4-7 คลินิก + คิว + นัดหมาย + ตาราง</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+    <tr><td><b>W3</b></td><td>S3</td><td>M8 งานรังสีวิทยา + PACS</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W4</b></td><td>S3</td><td>M12 หอผู้ป่วยใน <span class="small" style="color:var(--muted)">(รอ DTMU P.2)</span></td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W5</b></td><td>S3</td><td>M13-14 ห้องผ่าตัด + วิสัญญี <span class="small" style="color:var(--muted)">(รอ DTMU P.2)</span></td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W6</b></td><td>S3</td><td>M15 ห้องจ่ายยา</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W7</b></td><td>S3</td><td>M37 ห้องตรวจแพทย์ [ใหม่]</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W8</b></td><td>S3</td><td>HosXP Gap Analysis (เทียบ Flow เดิม)</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">–</td><td class="small">–</td><td class="small">–</td><td class="small"><b>–</b></td></tr>
+    <tr><td><b>W9</b></td><td>S4</td><td>M16-17 การเงิน + ลูกหนี้</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W10</b></td><td>S4</td><td>M18 คลัง + พัสดุ</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W11</b></td><td>S4</td><td>M19-20 เวชภัณฑ์ปลอดเชื้อ + IC <span class="small" style="color:var(--muted)">(รอ DTMU P.2)</span></td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+    <tr><td><b>W12</b></td><td>S4</td><td>M38 โภชนาการ [Need-ใหม่]</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+    <tr><td><b>W13</b></td><td>S4</td><td>M40 เวชกรรมสังคม [ใหม่]</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+    <tr><td><b>W14</b></td><td>S5</td><td>M21-23 MIS + KPI + ข่าวสาร <span class="small" style="color:var(--muted)">(รอ DTMU P.2)</span></td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+    <tr><td><b>W15</b></td><td>S5</td><td>M24-25 ขออนุมัติ + แจ้งเตือน</td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+    <tr><td><b>W16</b></td><td>S5</td><td>M29-31 DF + Admin + IAM</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W17</b></td><td>S5</td><td>M34 Patient Mobile App <span class="small" style="color:var(--muted)">(รอ DTMU P.2)</span></td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W18</b></td><td>S5</td><td>M39 สังคมสงเคราะห์ + M41-42 ตรวจสุขภาพ/ธนาคารเลือด</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+    <tr><td><b>W19</b></td><td>S3</td><td>M33 ห้องปฏิบัติการ (LAB) + M36 งานพยาบาล [TOR]</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+    <tr><td><b>W20</b></td><td>S3</td><td>M34 ห้องฉุกเฉิน (ER) + M37 Smart IPD — Doctor [TOR]</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+    <tr><td><b>W21</b></td><td>S4</td><td>M35 เวชศาสตร์ฟื้นฟู + M38-39 Smart IPD — Nurse/Pharmacist [TOR]</td><td class="small">3-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+  </table></div>
+  <div class="warn"><b>⚠️ หมายเหตุ:</b> คอลัมน์ วิเคราะห์→Final คือ "เร็วที่สุดที่เป็นไปได้" ถ้ารอบนั้นเป็น Partial/Gap และเริ่มทำทันที — หลายรอบจบสัปดาห์เดียวกัน (เช่น W1-W2, W3/W4/W19) ต้องแย่งคิว UX/UI คนเดียว (มิ้น) จึงเป็น <b>เพดานเวลาต่อโมดูล</b> ไม่ใช่ทำขนานกันได้จริงทุกรอบ — ตัวเลขที่ยึดจริงคือ ③④⑤⑥ แบบรวมในข้อ 3-4 ด้านล่าง</div>
+</section>
+
+<!-- 3 -->
+<section id="summary">
+  <h2><span class="n">3</span>③ สรุปผล + Approve Fit Gap Matrix (ทุกโมดูลรวมกัน)</h2>
+  <table>
+    <tr><th style="width:14%">Sprint</th><th style="width:22%">วันที่</th><th>รายละเอียด</th></tr>
+    <tr><td>S5-S6</td><td><b>24 ส.ค. – 11 ก.ย. 69</b></td><td>รวมผล Fit Gap ทั้ง 21 รอบ → ยืนยันสถานะ <span class="badge b-cfg">Fit/Config</span> หรือ <span class="badge b-gap">Partial/Gap</span> รายโมดูล + ระบุผู้ตัดสินใจ + Approve Fit Gap Matrix ฉบับสมบูรณ์</td></tr>
+  </table>
+  <div class="note">จุดนี้คือ <b>จุดแยกเส้นทาง (fork point)</b> ของทุกโมดูล — ดูเส้นทางถัดไปในข้อ ④</div>
+</section>
+
+<!-- 4 -->
+<section id="fork">
+  <h2><span class="n">4</span>เส้นทางหลัง Approve Matrix (11 ก.ย. 69)</h2>
+  <table>
+    <tr><th style="width:20%">เส้นทาง</th><th style="width:16%">ขั้นตอน</th><th style="width:20%">วันที่</th><th>รายละเอียด</th></tr>
+    <tr><td rowspan="1"><span class="badge b-cfg">Fit / Config</span></td><td><b>เริ่ม Config ทันที</b></td><td><b>14 ก.ย. 69</b></td><td>ไม่ต้องผ่าน UX/UI — ตรงกับแผนเดิม Sprint S6 "Config Module No-need เริ่ม" (~11 ก.ย.)</td></tr>
+    <tr><td rowspan="4"><span class="badge b-gap">Partial / Gap</span></td><td><b>④ วิเคราะห์ Gap เพิ่มเติม</b></td><td>14-15 ก.ย. 69</td><td>วิเคราะห์รายละเอียดจุดที่ไม่ Fit ตรง (ประกอบ HosXP Gap Analysis จาก W8)</td></tr>
+    <tr><td><b>⑤ UX/UI ออกแบบ</b> (มิ้น)</td><td>16-29 ก.ย. 69</td><td>ออกแบบหน้าจอ/flow ตามผลวิเคราะห์ Gap ~2 สัปดาห์ (รวมทุกโมดูล Partial/Gap)</td></tr>
+    <tr><td><b>⑥ Review UX/UI</b></td><td>30 ก.ย. – 1 ต.ค. 69</td><td>PO จูน / BA ชมพู่ / SA รีวิวงานออกแบบ — ผ่านแล้วจึงเริ่ม Dev</td></tr>
+    <tr><td><b>เริ่ม Dev</b></td><td><b>2 ต.ค. 69</b></td><td>ก่อน Sprint S8 (Dev เริ่มจริงตามแผนเดิม ~9 ต.ค. 69) — เหลือ buffer ~1 สัปดาห์</td></tr>
+  </table>
+  <div class="warn"><b>⚠️ ความเสี่ยงด้านกำลังคน:</b> UX/UI Designer มีเพียงคนเดียว (มิ้น) หากจำนวนโมดูล Partial/Gap มากกว่าที่ประมาณ อาจต้องเรียงคิวและทำให้ช่วง ⑤ ยาวเกิน 2 สัปดาห์ที่กันไว้ — ควรจัด priority โมดูลที่กระทบ Go-live ก่อน (เช่น เวชระเบียน, การเงิน) และติดตามหลังทราบจำนวน Partial/Gap จริงจาก Approve Matrix (11 ก.ย.)</div>
+</section>
+
+<footer>เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · Timeline Fit Gap → UX/UI → Dev · วันที่ประมาณการจากแผน Sprint ที่มีอยู่ · เอกสารวางแผนภายใน</footer>
+</div>
+</body>
+</html>

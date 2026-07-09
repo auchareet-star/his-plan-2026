@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Fit Gap → UX/UI → Dev (รวม DTWU + เมืองสมุทร)</title>
+<style>
+  :root{
+    --pri:#0d6e6e; --pri-dk:#0a5252; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eef7f7; --ok:#2e9e5b; --par:#e0a800; --dtwu:#9560b8; --msm:#2f7cc4;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(10,82,82,.25)}
+  header.cover h1{margin:0 0 6px;font-size:23px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600;font-size:12.5px}
+  tbody tr:nth-child(even){background:#f6faff}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:13.5px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0;font-size:13px}
+  .flow .step{background:#eaf3fb;border:1px solid #bcd8ef;border-radius:8px;padding:7px 12px;font-weight:600;color:var(--pri-dk)}
+  .flow .step.cfg{background:#e9f7ee;border-color:#a9dabd;color:#1e7a45}
+  .flow .step.gap{background:#fff4e0;border-color:#f0c089;color:#8a5b10}
+  .flow .ar{color:var(--muted);font-weight:800}
+  .flow .fork{width:100%;display:flex;justify-content:center;color:var(--muted);font-weight:700;font-size:12px;margin:2px 0}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;white-space:nowrap}
+  .b-cfg{background:var(--ok)}.b-gap{background:var(--par)}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:6px;color:#fff}
+  .t-dtwu{background:var(--dtwu)}.t-msm{background:var(--msm)}
+  .converge{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}
+  .track{flex:1;min-width:240px;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px}
+  .track.dtwu{border-color:#d9c8ea;background:#faf7fd}
+  .track.msm{border-color:#c9dcee;background:#f4f9fd}
+  .track h3{margin:0 0 6px;font-size:14.5px}
+  .meet{text-align:center;font-weight:800;color:var(--pri-dk);margin:10px 0;font-size:13.5px}
+  details.fg-site{margin:12px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  details.fg-site summary{cursor:pointer;padding:10px 14px;background:#f6faff;font-weight:700;color:var(--pri-dk);list-style:revert}
+  details.fg-site .tblwrap{overflow-x:auto;padding:0 2px 6px}
+  details.fg-site table{font-size:12px}
+  details.fg-site th{font-size:11px}
+  .small{font-size:12px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>Timeline Fit Gap → UX/UI → Dev — รวม DTWU + เมืองสมุทร</h1>
+  <div class="sub">Product เดียวกัน (HA.OS) — ไม่ว่า Requirement จะมาจาก DTWU หรือ เมืองสมุทร ก็ต้องวิเคราะห์ร่วมกัน ให้ผลลัพธ์ใช้งานได้ทั้ง <b>DTMU / DTWU / เมืองสมุทร</b><br>
+  <a href="index.html" style="color:#dcf5f2">🏠 หน้ารวมทุก Site</a> · <a href="fitgap-timeline-msm.html" style="color:#dcf5f2">🗄️ เวอร์ชันเฉพาะเมืองสมุทร</a> · <a href="fitgap-workshop.html" style="color:#dcf5f2">🗓️ Fit Gap Workshop (รวม)</a> · <a href="module-fitgap.html" style="color:#dcf5f2">🧩 Module Fit Gap (รวม)</a></div>
+  <div class="pills">
+    <span class="pill">🔀 2 Site เก็บ Req แยกจังหวะ → มาบรรจบที่จุดเดียว</span>
+    <span class="pill">🗓️ บรรจบ 11 ก.ย. 69 (ทั้ง 2 Site จบพร้อมกัน)</span>
+    <span class="pill">🎨 UX/UI ชุดเดียว ใช้ได้ทั้ง 2 Site (โมดูลร่วม)</span>
+  </div>
+</header>
+
+<!-- 1 -->
+<section>
+  <h2><span class="n">1</span>หลักการ: ทำไมต้องรวมกัน</h2>
+  <p>DTWU และ เมืองสมุทร เก็บ Requirement แยกกันตามจังหวะของแต่ละโรงพยาบาล (เริ่มไม่พร้อมกัน) แต่ทั้งคู่ใช้ <strong>Product เดียวกัน (HA.OS)</strong> — โมดูลที่เป็นแกนร่วม (เช่น เวชระเบียน, การเงิน, คลังพัสดุ, DF/Admin/IAM, งานรังสีวิทยา ฯลฯ) <strong>ต้องได้ข้อสรุป Fit Gap เดียวกัน</strong> ไม่ใช่วิเคราะห์/ออกแบบซ้ำ 2 รอบ</p>
+  <div class="note"><b>ประโยชน์:</b> ① ไม่ออกแบบ UX/UI ซ้ำสำหรับโมดูลเดียวกัน (ประหยัดเวลาทีม 1 คน) · ② ผล Fit Gap สอดคล้องกันทั้ง 2 Site (ผู้ใช้ไม่งงว่าทำไมหน้าจอต่างกัน) · ③ Dev สร้างครั้งเดียว Rollout ได้ทั้ง 2 Site</div>
+  <div class="flow">
+    <span class="step">① เก็บ Req <span class="tag t-dtwu">DTWU</span> + <span class="tag t-msm">เมืองสมุทร</span> (แยกจังหวะ)</span><span class="ar">→</span>
+    <span class="step">② Fit Gap ร่วม DTMU (แยก Site)</span><span class="ar">→</span>
+    <span class="step">③ สรุปผล + Approve Matrix <u>รวม</u> (จุดบรรจบ)</span>
+    <div class="fork">▼ แยกเส้นทางตามผล Fit Gap ▼</div>
+    <span class="step cfg">Fit/Config → เริ่ม Config ทันที</span>
+    <span class="ar" style="width:100%;text-align:center">— หรือ —</span>
+    <span class="step gap">④ วิเคราะห์ Gap</span><span class="ar">→</span>
+    <span class="step gap">⑤ UX/UI ออกแบบ (ชุดเดียว ใช้ 2 Site)</span><span class="ar">→</span>
+    <span class="step gap">⑥ Review</span><span class="ar">→</span>
+    <span class="step gap">เริ่ม Dev</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><span class="n">2</span>① เก็บ Req → ② Fit Gap → วิเคราะห์ → Flow → Designer → Final (รายรอบ ทั้ง 2 Site)</h2>
+  <div class="note"><b>ความหมายคอลัมน์ (ต่อรอบ ถ้าเป็น Partial/Gap):</b> <b>① เก็บ Req</b> ช่วงสัปดาห์เก็บความต้องการ · <b>② Fit Gap</b> วันตัดสินผลร่วม DTMU/Consult (วันสุดท้ายของสัปดาห์) · <b>วิเคราะห์</b> วิเคราะห์ Gap ต่อ 1 วัน · <b>Flow</b> เขียน Workflow Diagram ใหม่ 2 วัน · <b>Designer</b> UX/UI ออกแบบหน้าจอ 3 วัน · <b>Final</b> Review/สรุปผล พร้อมเริ่ม Dev · ถ้าผลเป็น Fit/Config ข้ามคอลัมน์ วิเคราะห์-Final ไปเริ่ม Config ได้ทันทีหลัง ②</div>
+
+  <details class="fg-site" open>
+    <summary><span class="tag t-dtwu">DTWU</span> วลัยลักษณ์ — 21 รอบ</summary>
+    <div class="tblwrap"><table>
+      <tr><th>รอบ</th><th>Sprint</th><th style="width:22%">โมดูล (อ้าง TOR)</th><th>① เก็บ Req</th><th>② Fit Gap</th><th>วิเคราะห์</th><th>Flow</th><th>Designer</th><th>Final</th></tr>
+<tr><td><b>W1</b></td><td>S2</td><td>M1 เวชระเบียน + เวชสถิติ</td><td class="small">6-10 ก.ค.</td><td class="small">10 ก.ค.</td><td class="small">13 ก.ค.</td><td class="small">14-15 ก.ค.</td><td class="small">16-20 ก.ค.</td><td class="small"><b>21 ก.ค.</b></td></tr>
+<tr><td><b>W2</b></td><td>S2</td><td>M2 ศูนย์สิทธิประโยชน์</td><td class="small">6-10 ก.ค.</td><td class="small">10 ก.ค.</td><td class="small">13 ก.ค.</td><td class="small">14-15 ก.ค.</td><td class="small">16-20 ก.ค.</td><td class="small"><b>21 ก.ค.</b></td></tr>
+<tr><td><b>W3</b></td><td>S2</td><td>M3 ศูนย์รับ-ส่งต่อผู้ป่วย</td><td class="small">6-10 ก.ค.</td><td class="small">10 ก.ค.</td><td class="small">13 ก.ค.</td><td class="small">14-15 ก.ค.</td><td class="small">16-20 ก.ค.</td><td class="small"><b>21 ก.ค.</b></td></tr>
+<tr><td><b>W4</b></td><td>S2</td><td>M4 คลินิกทันตกรรม</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+<tr><td><b>W5</b></td><td>S2</td><td>M5-7 คิว + นัดหมาย + ตารางทันตแพทย์</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+<tr><td><b>W6</b></td><td>S3</td><td>M8 งานรังสีวิทยา + PACS</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+<tr><td><b>W7</b></td><td>S3</td><td>M11 Dental Lab</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+<tr><td><b>W8</b></td><td>S3</td><td>M12 หอผู้ป่วยใน / รับผู้ป่วยใน</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W9</b></td><td>S3</td><td>M15 ห้องจ่ายยา + ทะเบียนยา + แพ้ยา</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W10</b></td><td>S4</td><td>M16-17 การเงิน + ลูกหนี้ (+ SAP Req)</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W11</b></td><td>S4</td><td>M18 คลังสินค้า + พัสดุ</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W12</b></td><td>S4</td><td>M24-25 ขออนุมัติ + การแจ้งเตือน</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W13</b></td><td>S4</td><td>M28 คลังผู้ป่วย [Need]</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+<tr><td><b>W14</b></td><td>S4</td><td>M29-31 DF + Admin + IAM (SSO/ADFS)</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+<tr><td><b>W15</b></td><td>S5</td><td>M26 เวชระเบียนทันตกรรมอิเล็กทรอนิกส์</td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+<tr><td><b>W16</b></td><td>S5</td><td>M27 บริหารจัดการบุคลากร (+ WU-HRMS)</td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+<tr><td><b>W17</b></td><td>S5</td><td>M32 สารสนเทศการเรียนการสอน [Need]</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+<tr><td><b>W18</b></td><td>S6</td><td>M9-10 จุลชีววิทยา + พยาธิวิทยา</td><td class="small">31 ส.ค.-4 ก.ย.</td><td class="small">4 ก.ย.</td><td class="small">7 ก.ย.</td><td class="small">8-9 ก.ย.</td><td class="small">10-14 ก.ย.</td><td class="small"><b>15 ก.ย.</b></td></tr>
+<tr><td><b>W19</b></td><td>S6</td><td>M13-14 ห้องผ่าตัด + วิสัญญี</td><td class="small">31 ส.ค.-4 ก.ย.</td><td class="small">4 ก.ย.</td><td class="small">7 ก.ย.</td><td class="small">8-9 ก.ย.</td><td class="small">10-14 ก.ย.</td><td class="small"><b>15 ก.ย.</b></td></tr>
+<tr><td><b>W20</b></td><td>S6</td><td>M19-23 เวชภัณฑ์ปลอดเชื้อ/IC/MIS/KPI/ข่าวสาร</td><td class="small">7-11 ก.ย.</td><td class="small">11 ก.ย.</td><td class="small">14 ก.ย.</td><td class="small">15-16 ก.ย.</td><td class="small">17-21 ก.ย.</td><td class="small"><b>22 ก.ย.</b></td></tr>
+<tr><td><b>W21</b></td><td>S7</td><td>M33-36 Mobile (Patient/Student/Staff/Dentist)</td><td class="small">14-18 ก.ย.</td><td class="small">18 ก.ย.</td><td class="small">21 ก.ย.</td><td class="small">22-23 ก.ย.</td><td class="small">24-28 ก.ย.</td><td class="small"><b>29 ก.ย.</b></td></tr>
+    </table></div>
+  </details>
+
+  <details class="fg-site">
+    <summary><span class="tag t-msm">เมืองสมุทร</span> (ปู่เจ้าฯ + ปากน้ำ) — 21 รอบ</summary>
+    <div class="tblwrap"><table>
+      <tr><th>รอบ</th><th>Sprint</th><th style="width:22%">โมดูล (อ้าง TOR)</th><th>① เก็บ Req</th><th>② Fit Gap</th><th>วิเคราะห์</th><th>Flow</th><th>Designer</th><th>Final</th></tr>
+<tr><td><b>W1</b></td><td>S2</td><td>M1-3 เวชระเบียน + ศูนย์สิทธิ + รับ-ส่งต่อ</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+<tr><td><b>W2</b></td><td>S2</td><td>M4-7 คลินิก + คิว + นัดหมาย + ตาราง</td><td class="small">13-17 ก.ค.</td><td class="small">17 ก.ค.</td><td class="small">20 ก.ค.</td><td class="small">21-22 ก.ค.</td><td class="small">23-27 ก.ค.</td><td class="small"><b>28 ก.ค.</b></td></tr>
+<tr><td><b>W3</b></td><td>S3</td><td>M8 งานรังสีวิทยา + PACS</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+<tr><td><b>W4</b></td><td>S3</td><td>M12 หอผู้ป่วยใน</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+<tr><td><b>W5</b></td><td>S3</td><td>M13-14 ห้องผ่าตัด + วิสัญญี</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W6</b></td><td>S3</td><td>M15 ห้องจ่ายยา</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W7</b></td><td>S3</td><td>M37 ห้องตรวจแพทย์ [ใหม่]</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W8</b></td><td>S3</td><td>HosXP Gap Analysis (เทียบ Flow เดิม)</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">–</td><td class="small">–</td><td class="small">–</td><td class="small"><b>–</b></td></tr>
+<tr><td><b>W9</b></td><td>S4</td><td>M16-17 การเงิน + ลูกหนี้</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W10</b></td><td>S4</td><td>M18 คลัง + พัสดุ</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W11</b></td><td>S4</td><td>M19-20 เวชภัณฑ์ปลอดเชื้อ + IC</td><td class="small">3-7 ส.ค.</td><td class="small">7 ส.ค.</td><td class="small">10 ส.ค.</td><td class="small">11-12 ส.ค.</td><td class="small">13-17 ส.ค.</td><td class="small"><b>18 ส.ค.</b></td></tr>
+<tr><td><b>W12</b></td><td>S4</td><td>M38 โภชนาการ [Need-ใหม่]</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+<tr><td><b>W13</b></td><td>S4</td><td>M40 เวชกรรมสังคม [ใหม่]</td><td class="small">10-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+<tr><td><b>W14</b></td><td>S5</td><td>M21-23 MIS + KPI + ข่าวสาร</td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+<tr><td><b>W15</b></td><td>S5</td><td>M24-25 ขออนุมัติ + แจ้งเตือน</td><td class="small">17-21 ส.ค.</td><td class="small">21 ส.ค.</td><td class="small">24 ส.ค.</td><td class="small">25-26 ส.ค.</td><td class="small">27-31 ส.ค.</td><td class="small"><b>1 ก.ย.</b></td></tr>
+<tr><td><b>W16</b></td><td>S5</td><td>M29-31 DF + Admin + IAM</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+<tr><td><b>W17</b></td><td>S5</td><td>M34 Patient Mobile App</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+<tr><td><b>W18</b></td><td>S5</td><td>M39 สังคมสงเคราะห์ + M41-42 ตรวจสุขภาพ/ธนาคารเลือด</td><td class="small">24-28 ส.ค.</td><td class="small">28 ส.ค.</td><td class="small">31 ส.ค.</td><td class="small">1-2 ก.ย.</td><td class="small">3-7 ก.ย.</td><td class="small"><b>8 ก.ย.</b></td></tr>
+<tr><td><b>W19</b></td><td>S3</td><td>M33 ห้องปฏิบัติการ (LAB) + M36 งานพยาบาล [TOR]</td><td class="small">20-24 ก.ค.</td><td class="small">24 ก.ค.</td><td class="small">27 ก.ค.</td><td class="small">28-29 ก.ค.</td><td class="small">30 ก.ค.-3 ส.ค.</td><td class="small"><b>4 ส.ค.</b></td></tr>
+<tr><td><b>W20</b></td><td>S3</td><td>M34 ห้องฉุกเฉิน (ER) + M37 Smart IPD — Doctor [TOR]</td><td class="small">27-31 ก.ค.</td><td class="small">31 ก.ค.</td><td class="small">3 ส.ค.</td><td class="small">4-5 ส.ค.</td><td class="small">6-10 ส.ค.</td><td class="small"><b>11 ส.ค.</b></td></tr>
+<tr><td><b>W21</b></td><td>S4</td><td>M35 เวชศาสตร์ฟื้นฟู + M38-39 Smart IPD — Nurse/Pharmacist [TOR]</td><td class="small">3-14 ส.ค.</td><td class="small">14 ส.ค.</td><td class="small">17 ส.ค.</td><td class="small">18-19 ส.ค.</td><td class="small">20-24 ส.ค.</td><td class="small"><b>25 ส.ค.</b></td></tr>
+    </table></div>
+  </details>
+
+  <div class="meet">🔻 ทั้ง 2 Site จบรอบเก็บ Req + Fit Gap ราย Site ภายในวันเดียวกัน: <b>11 ก.ย. 2569</b> 🔻</div>
+  <div class="warn"><b>⚠️ หมายเหตุ:</b> วันที่คอลัมน์ วิเคราะห์→Final คือ "เร็วที่สุดที่เป็นไปได้" หากรอบนั้นตัดสินเป็น Partial/Gap และเริ่มทำทันที — ในทางปฏิบัติหลายรอบจบสัปดาห์เดียวกัน (เช่น DTWU W1-W3, เมืองสมุทร W1-W2) ต้องแย่งคิว UX/UI คนเดียวกัน (มิ้น) จึงควรใช้ตารางนี้เป็น <b>เพดานเวลาต่อโมดูล</b> แล้วจัด priority ทำจริงตามความเสี่ยง ไม่ใช่ทำขนานกันทุกรอบ</div>
+  <div class="note">รายละเอียดผู้เก็บ Req / RACI ดูที่ตารางเต็มของแต่ละ Site: <a href="fitgap-workshop-dtwu.html">DTWU</a> · <a href="fitgap-workshop-msm.html">เมืองสมุทร</a></div>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><span class="n">3</span>③ สรุปผล + Approve Fit Gap Matrix (รวม DTWU + เมืองสมุทร + ฐาน DTMU)</h2>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 10px">ข้อ 2 ด้านบนคือ <b>ประมาณการต่อรอบ</b> (เร็วสุดถ้าเริ่มทันที) — ส่วนข้อ 3-4 นี้คือ <b>จุดอนุมัติทางการ (official)</b> ที่แผน Sprint หลักใช้อ้างอิงจริง (Config เริ่ม S6 / Dev เริ่ม S8)</p>
+  <table>
+    <tr><th style="width:16%">วันที่</th><th>รายละเอียด</th></tr>
+    <tr><td><b>11 ก.ย. 2569</b></td><td>รวมผล Fit Gap จากทั้ง 2 Site (+ โมดูลฐาน DTMU) เป็น <strong>Matrix เดียว</strong> — โมดูลร่วมได้ข้อสรุป Fit/Config/Partial/Gap ที่ตรงกันทั้ง 2 Site + ระบุผู้ตัดสินใจ (รวม PM ทั้ง 2 ฝั่ง)</td></tr>
+  </table>
+  <div class="note">จุดนี้คือ <b>จุดบรรจบ (single fork point)</b> ของทั้งโครงการ — โมดูลร่วมวิเคราะห์ครั้งเดียว จบแล้วแยกเส้นทางในข้อ ④</div>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2><span class="n">4</span>เส้นทางหลัง Approve Matrix รวม (11 ก.ย. 69)</h2>
+  <table>
+    <tr><th style="width:20%">เส้นทาง</th><th style="width:16%">ขั้นตอน</th><th style="width:20%">วันที่</th><th>รายละเอียด</th></tr>
+    <tr><td><span class="badge b-cfg">Fit / Config</span></td><td><b>เริ่ม Config ทันที</b></td><td><b>14 ก.ย. 69</b></td><td>ไม่ต้องผ่าน UX/UI — แต่ละ Site เริ่ม Config โมดูลของตัวเองได้เลย</td></tr>
+    <tr><td rowspan="4"><span class="badge b-gap">Partial / Gap</span></td><td><b>④ วิเคราะห์ Gap</b></td><td>14-16 ก.ย. 69</td><td>วิเคราะห์รวม — ถ้าโมดูลร่วมทั้ง 2 Site วิเคราะห์ครั้งเดียว</td></tr>
+    <tr><td><b>⑤ UX/UI ออกแบบ</b> (มิ้น)</td><td>17 ก.ย. – 7 ต.ค. 69</td><td>~3 สัปดาห์ — ออกแบบ 1 ชุด ใช้ได้ทั้ง DTWU + เมืองสมุทร สำหรับโมดูลร่วม (งานเพิ่มจากเดิม 2 สัปดาห์ เพราะรวม 2 Site)</td></tr>
+    <tr><td><b>⑥ Review</b></td><td>8-9 ต.ค. 69</td><td>รีวิวร่วมตัวแทนทั้ง 2 Site (PO/BA/SA)</td></tr>
+    <tr><td><b>เริ่ม Dev</b></td><td><b>12 ต.ค. 69</b></td><td>Dev ครั้งเดียว ใช้ rollout ได้ทั้ง 2 Site (โมดูลร่วม)</td></tr>
+  </table>
+  <div class="crit"><b>🔴 ผลกระทบต่อกำหนดการเดิม:</b> เมืองสมุทรวางแผน Dev เริ่ม Sprint S8 <b>~9 ต.ค. 69</b> — ถ้ารวมวิเคราะห์กับ DTWU แล้ว UX/UI ใช้เวลานานขึ้น (~3 สัปดาห์) จะทำให้ Dev โมดูลร่วมเริ่มช้ากว่าแผนเดิม <b>~3 วันทำการ (12 ต.ค.)</b> — ควรพิจารณา: (1) เพิ่มกำลัง UX/UI ชั่วคราว หรือ (2) จัด priority โมดูลร่วมที่กระทบ Go-live ก่อน (เวชระเบียน/การเงิน) ให้ UX/UI ทำก่อน แล้วโมดูลรองค่อยตามทีหลัง</div>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="n">5</span>โมดูลที่ยังต้องแยก (เฉพาะ Site)</h2>
+  <p style="font-size:13.5px;color:var(--muted);margin:0 0 8px">ไม่ใช่ทุกโมดูลจะรวมกันได้ — โมดูลที่เฉพาะบริบทของแต่ละ รพ. ยังต้องวิเคราะห์/ออกแบบแยกกันตามปกติ</p>
+  <table>
+    <tr><th style="width:14%">Site</th><th>โมดูลเฉพาะ (ไม่รวมกับอีก Site)</th></tr>
+    <tr><td><span class="tag t-dtwu">DTWU</span></td><td>Dental Lab (M11) · เวชระเบียนทันตกรรมอิเล็กทรอนิกส์ (M26) · บริหารบุคลากร + WU-HRMS (M27) · คลังผู้ป่วย [Need] (M28) · สารสนเทศการเรียนการสอน [Need] (M32) · Mobile นักศึกษา/ทันตแพทย์ (M33-36) · SAP Integration (การเงิน)</td></tr>
+    <tr><td><span class="tag t-msm">เมืองสมุทร</span></td><td>Data Migration HosXP → HA.OS · โภชนาการ [ใหม่] · เวชกรรมสังคม [ใหม่] · ห้องตรวจแพทย์ [ใหม่] · ห้องตรวจสุขภาพ · ธนาคารเลือด</td></tr>
+  </table>
+  <div class="note">รายละเอียดจับคู่โมดูลรายตัวระหว่าง Site ดูที่ <a href="module-reconciliation.html">กระทบยอดโมดูล</a> และ <a href="module-fitgap.html">Module Fit Gap (รวม)</a></div>
+</section>
+
+<footer>โครงการ HIS 3 Site · DTMU / DTWU วลัยลักษณ์ / เมืองสมุทร · Timeline Fit Gap รวม · เอกสารวางแผนภายใน</footer>
+</div>
+</body>
+</html>

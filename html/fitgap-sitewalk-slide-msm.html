@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เดินดูหน้างานจริง (Site Walkthrough) ก่อน Fit Gap — เมืองสมุทร</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page{ size:A4 landscape; margin:0; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
+        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
+  .slide{ width:min(1160px,97vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
+          padding:28px 38px 22px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
+          display:flex; flex-direction:column; position:relative; }
+  .head{ margin-bottom:12px; }
+  .head h1{ font-size:23px; font-weight:700; color:#1d5490; }
+  .head h1 .en{ color:#5b6675; font-weight:600; font-size:18px; }
+  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
+            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
+  .logo{ position:absolute; top:26px; right:38px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+  /* schedule flow */
+  .flow{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:10px; }
+  .flow .s{ background:#eaf3fb; border:1px solid #bcd8ef; border-radius:8px; padding:6px 11px;
+            font-weight:600; color:#1d5490; font-size:12px; }
+  .flow .s.hot{ background:#fdeceb; border-color:#f0b6b1; color:#c0392b; }
+  .flow .s.ok{ background:#e9f7ee; border-color:#a9dabd; color:#1e7a45; }
+  .flow .ar{ color:#9aa3b2; font-weight:800; font-size:12px; }
+  .note{ background:#eaf3fb; border-left:4px solid #2f7cc4; border-radius:9px; padding:8px 12px; font-size:12px; color:#1d5490; margin-bottom:10px; }
+  /* body */
+  .body{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .panel{ border:1.5px solid #d7dce3; border-radius:12px; padding:12px 15px; }
+  .panel.puchao{ background:#f4f9fd; border-color:#c9dcee; }
+  .panel.paknam{ background:#faf7fd; border-color:#d9c8ea; }
+  .panel h3{ font-size:15px; margin-bottom:2px; font-weight:700; }
+  .panel h3.puchao{ color:#1d5490; }
+  .panel h3.paknam{ color:#6a3fa0; }
+  .panel .sub{ font-size:11.5px; color:#5b6675; margin-bottom:8px; }
+  ul{ padding-left:18px; } li{ margin:3.5px 0; font-size:12.5px; line-height:1.35; }
+  .who{ margin-top:8px; font-size:11.5px; background:rgba(255,255,255,.7); border-radius:7px; padding:6px 9px; }
+  .who b{ color:#1d5490; }
+  .foot{ margin-top:10px; font-size:11px; color:#5b6675; text-align:center; }
+  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
+    .panel,.flow .s{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="logo">🏥 AYODIA</div>
+  <div class="head">
+    <h1>เดินดูหน้างานจริง <span class="en">(Site Walkthrough)</span> ก่อนเริ่ม Fit Gap</h1>
+    <div class="u"></div>
+  </div>
+
+  <div class="flow">
+    <span class="s">Kick-off เช้า (9 ก.ค.)</span><span class="ar">→</span>
+    <span class="s hot">เดินดูหน้างาน ปู่เจ้าฯ (9 ก.ค. บ่าย)</span><span class="ar">→</span>
+    <span class="s hot">เดินดูหน้างาน ปากน้ำ (10 ก.ค. เต็มวัน)</span><span class="ar">→</span>
+    <span class="s ok">เริ่ม Fit Gap W1 (13 ก.ค.) — ไม่กระทบกำหนดเดิม</span>
+  </div>
+  <div class="note">💡 <b>ทำไมต้องเดินดู:</b> เมืองสมุทรมี <b>2 Site แยกกัน</b> (ปู่เจ้าฯ + ปากน้ำ) — Flow จริงหน้างานอาจต่างกันแม้เป็นโมดูลเดียวกัน การเดินดูก่อนช่วยให้ทีมเก็บ Req ถูกจุด ลดความเสี่ยง assumption ผิดตั้งแต่ต้น</div>
+
+  <div class="body">
+    <div class="panel puchao">
+      <h3 class="puchao">🏥 ปู่เจ้าฯ (6 จุดบริการ)</h3>
+      <div class="sub">เดินดู 9 ก.ค. บ่าย (ครึ่งวัน — เลือกจุดหลัก/Flagship ก่อน)</div>
+      <ul>
+        <li>จุดรับ + เวชระเบียน — Flow ลงทะเบียน/ค้นประวัติ</li>
+        <li>OPD/คลินิก — Flow คิว + นัดหมาย + ตรวจ</li>
+        <li>ห้องจ่ายยา — Flow จ่ายยา + ตรวจสอบแพ้ยา</li>
+        <li>การเงิน — Flow ชำระเงิน/เบิกสิทธิ์</li>
+        <li>IPD/หอผู้ป่วยใน (ถ้าเข้าถึงได้) — Flow รับผู้ป่วยใน</li>
+      </ul>
+      <div class="who"><b>ทีมที่ไป:</b> PO จูน, BA ชมพู่ + Process Owner ปู่เจ้าฯ นำเดิน</div>
+    </div>
+
+    <div class="panel paknam">
+      <h3 class="paknam">🏥 ปากน้ำ (3 จุดบริการ)</h3>
+      <div class="sub">เดินดู 10 ก.ค. เต็มวัน</div>
+      <ul>
+        <li>จุดรับ + เวชระเบียน — เทียบ Flow กับปู่เจ้าฯ (ต่าง/เหมือน)</li>
+        <li>OPD/คลินิก — Flow คิว + นัดหมาย + ตรวจ</li>
+        <li>ห้องจ่ายยา — Flow จ่ายยา + ตรวจสอบแพ้ยา</li>
+        <li>การเงิน — Flow ชำระเงิน/เบิกสิทธิ์</li>
+        <li>คลินิกย่อย/PCU (ถ้ามี) — เชื่อมกับข้อมูล vPCU (Migration)</li>
+      </ul>
+      <div class="who"><b>ทีมที่ไป:</b> PO จูน, BA ชมพู่ + Process Owner ปากน้ำ นำเดิน</div>
+    </div>
+  </div>
+
+  <div class="foot">Output: Observation Notes ต่อแผนก/Site → ใช้ประกอบ Fit Gap Workshop W1 เป็นต้นไป · ดู <a href="fitgap-workshop-msm.html">Fit Gap Workshop</a></div>
+</div>
+</body>
+</html>
