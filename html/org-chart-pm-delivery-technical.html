@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery PM vs Technical PM — DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า</title>
+<style>
+:root{
+  --paper:#F5F3EE;
+  --surface:#FFFFFF;
+  --ink:#22262B;
+  --muted:#5B6472;
+  --line:#DEDAD0;
+  --line-strong:#C9C3B4;
+  --delivery:#1E4B8F;
+  --delivery-soft:#E7EEF9;
+  --technical:#0E7A5F;
+  --technical-soft:#E2F2EC;
+  --shared:#8A6D3B;
+  --shared-soft:#F1E9D8;
+  --warn:#9C4221;
+  --warn-soft:#FBEBE3;
+  --radius:10px;
+}
+:root[data-theme="dark"]{
+  --paper:#12151A;
+  --surface:#1B2027;
+  --ink:#E7E7E4;
+  --muted:#9AA3AF;
+  --line:#2B323C;
+  --line-strong:#3A424D;
+  --delivery:#6FA1E8;
+  --delivery-soft:#1C2C42;
+  --technical:#4FC7A8;
+  --technical-soft:#163430;
+  --shared:#D8B078;
+  --shared-soft:#332615;
+  --warn:#E2A98A;
+  --warn-soft:#3A241A;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#12151A;
+    --surface:#1B2027;
+    --ink:#E7E7E4;
+    --muted:#9AA3AF;
+    --line:#2B323C;
+    --line-strong:#3A424D;
+    --delivery:#6FA1E8;
+    --delivery-soft:#1C2C42;
+    --technical:#4FC7A8;
+    --technical-soft:#163430;
+    --shared:#D8B078;
+    --shared-soft:#332615;
+    --warn:#E2A98A;
+    --warn-soft:#3A241A;
+  }
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  padding:48px 24px 80px;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Sarabun','Leelawadee UI','Segoe UI',sans-serif;
+  line-height:1.6;
+}
+.wrap{max-width:980px;margin:0 auto;}
+
+header.page{margin-bottom:40px;}
+.eyebrow{
+  font-size:13px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 10px;
+}
+h1{
+  font-size:clamp(26px,4vw,36px);
+  font-weight:700;
+  margin:0 0 8px;
+  text-wrap:balance;
+  letter-spacing:-.01em;
+}
+.subtitle{
+  color:var(--muted);
+  font-size:16px;
+  margin:0;
+  max-width:65ch;
+}
+
+.badge-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13.5px;
+  font-weight:600;
+  border:1px solid var(--line-strong);
+}
+.badge.delivery{background:var(--delivery-soft);color:var(--delivery);border-color:transparent;}
+.badge.technical{background:var(--technical-soft);color:var(--technical);border-color:transparent;}
+.badge.pc{background:var(--shared-soft);color:var(--shared);border-color:transparent;}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+
+section{margin-top:44px;}
+h2{
+  font-size:20px;
+  font-weight:700;
+  margin:0 0 4px;
+}
+.section-note{color:var(--muted);font-size:14.5px;margin:0 0 20px;}
+
+/* org tree */
+.tree{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:36px 28px;
+  text-align:center;
+}
+.tree-level{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.tree-node{
+  padding:14px 20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line-strong);
+  background:var(--paper);
+  font-size:14.5px;
+  min-width:190px;
+}
+.tree-node.top{
+  font-weight:600;
+  color:var(--muted);
+}
+.tree-node.pm{
+  padding:18px 26px;
+  min-width:260px;
+  font-size:15.5px;
+}
+.tree-node.pm.delivery{border-color:var(--delivery);background:var(--delivery-soft);}
+.tree-node.pm.technical{border-color:var(--technical);background:var(--technical-soft);}
+.tree-node.pm.pc{border-color:var(--shared);background:var(--shared-soft);}
+.pm-name{font-weight:700;font-size:17px;display:block;margin-bottom:3px;}
+.pm-scope{color:var(--muted);font-size:13px;font-weight:400;}
+.connector{
+  width:1px;
+  height:26px;
+  background:var(--line-strong);
+  margin:0 auto;
+}
+.connector-wide{
+  height:1px;
+  background:var(--line-strong);
+  margin:0 auto 0;
+  max-width:520px;
+}
+
+/* responsibility columns */
+.flex-cols{display:flex;gap:20px;flex-wrap:wrap;}
+.rcard{
+  flex:1;
+  min-width:340px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+.rcard .rhead{
+  padding:16px 20px;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+}
+.rcard.delivery .rhead{background:var(--delivery-soft);}
+.rcard.technical .rhead{background:var(--technical-soft);}
+.rcard.pc .rhead{background:var(--shared-soft);}
+.rcard .rhead h3{margin:0;font-size:16px;}
+.rcard.delivery .rhead h3{color:var(--delivery);}
+.rcard.technical .rhead h3{color:var(--technical);}
+.rcard.pc .rhead h3{color:var(--shared);}
+.rcard .rhead .who{font-size:13px;color:var(--muted);}
+.rcard ul{margin:0;padding:16px 22px 18px 38px;}
+.rcard li{margin:6px 0;font-size:14.5px;}
+
+/* site team panel */
+.site-cols{display:flex;gap:20px;flex-wrap:wrap;}
+.site{
+  flex:1;
+  min-width:360px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px 22px;
+}
+.site h3{margin:0 0 2px;font-size:16px;}
+.site .site-sub{color:var(--muted);font-size:13px;margin:0 0 14px;}
+.role-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 0;
+  border-top:1px solid var(--line);
+  font-size:14.5px;
+}
+.role-row:first-of-type{border-top:none;}
+.role-name{font-weight:600;}
+.role-title{color:var(--muted);text-align:right;}
+.shared-tag{
+  display:inline-block;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--shared);
+  background:var(--shared-soft);
+  border-radius:5px;
+  padding:1px 6px;
+  margin-left:6px;
+  vertical-align:middle;
+}
+
+/* RACI table */
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--surface);
+  font-size:14px;
+  min-width:760px;
+}
+th,td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  text-align:center;
+  white-space:nowrap;
+}
+th{
+  background:var(--paper);
+  color:var(--muted);
+  font-weight:600;
+  font-size:12.5px;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+td:first-child,th:first-child{
+  text-align:left;
+  white-space:normal;
+  font-weight:600;
+  color:var(--ink);
+  min-width:200px;
+}
+tr:last-child td{border-bottom:none;}
+.raci-A{color:var(--delivery);font-weight:700;}
+.raci-R{color:var(--technical);font-weight:700;}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted);}
+.legend b{color:var(--ink);}
+
+code{background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.9em;font-family:'Cascadia Code','Consolas',monospace;}
+
+/* per-document milestone breakdown */
+.site-summary{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.count-chip{
+  flex:1;
+  min-width:200px;
+  border-radius:12px;
+  padding:14px 18px;
+  border:1px solid var(--line);
+  background:var(--surface);
+}
+.count-chip .n{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;}
+.count-chip .l{font-size:13px;color:var(--muted);}
+.count-chip.delivery .n{color:var(--delivery);}
+.count-chip.technical .n{color:var(--technical);}
+
+.ms{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin-top:14px;
+  overflow:hidden;
+}
+.ms>summary{
+  list-style:none;
+  cursor:pointer;
+  padding:14px 20px;
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  flex-wrap:wrap;
+  font-weight:700;
+  font-size:15px;
+}
+.ms>summary::-webkit-details-marker{display:none}
+.ms>summary::before{content:"▸";color:var(--muted);margin-right:2px;transition:.15s;}
+.ms[open]>summary::before{transform:rotate(90deg);}
+.ms>summary .ms-due{font-weight:400;color:var(--muted);font-size:13px;}
+.ms-body{padding:0 20px 18px;}
+.doc-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.doc-table th,.doc-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.doc-table th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.02em;}
+.doc-table tr:last-child td{border-bottom:none;}
+.doc-code{font-family:'Cascadia Code','Consolas',monospace;font-size:11.5px;color:var(--muted);white-space:nowrap;}
+.owner-tag{
+  display:inline-block;
+  font-size:12px;
+  font-weight:600;
+  padding:2px 9px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.owner-tag.delivery{background:var(--delivery-soft);color:var(--delivery);}
+.owner-tag.technical{background:var(--technical-soft);color:var(--technical);}
+.owner-note{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:400;}
+.prep{color:var(--muted);font-size:12.5px;}
+
+/* impact callout */
+.callout{
+  background:var(--warn-soft);
+  border:1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+  border-radius:12px;
+  padding:20px 22px;
+}
+.callout h3{margin:0 0 8px;font-size:15px;color:var(--warn);}
+.callout p{margin:0 0 8px;font-size:14.5px;}
+.callout p:last-child{margin-bottom:0;}
+
+footer{
+  margin-top:52px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:13px;
+}
+
+@media(max-width:700px){
+  .tree-node.pm{min-width:0;width:100%;}
+  .role-title{text-align:left;}
+  .role-row{flex-direction:column;gap:2px;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<div style="max-width:1080px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <b>ผังทีมงาน (Delivery/Technical PM)</b></div>
+
+<header class="page">
+  <p class="eyebrow">โครงสร้างบริหารโครงการ — เสนอเปลี่ยนจาก 1 PM/ไซต์ เป็นแบ่งตามหน้าที่</p>
+  <h1>Project Manager (Delivery) · (Technical) · Project Coordinator</h1>
+  <p class="subtitle">ครอบคลุมทั้ง 2 โครงการ: DTWU/วลัยลักษณ์ และ เมืองสมุทร (สมุทรเวชกิจ + ปู่เจ้าฯ) — มีน ดูแลฝั่ง Delivery ทั้ง 2 ไซต์, อาร์ต ดูแลฝั่ง Technical ทั้ง 2 ไซต์, โม ดูแลฝั่งประสานงาน/ติดตามงาน (PC) ทั้ง 2 ไซต์</p>
+  <div class="badge-row">
+    <span class="badge delivery"><span class="dot"></span>Delivery PM — มีน</span>
+    <span class="badge technical"><span class="dot"></span>Technical PM — อาร์ต</span>
+    <span class="badge pc"><span class="dot"></span>PC — โม</span>
+  </div>
+</header>
+
+<section>
+  <h2>โครงสร้างองค์กร</h2>
+  <p class="section-note">มีน และ อาร์ต ขึ้นตรงต่อผู้บริหารโครงการร่วมกัน แบ่งงานตามหน้าที่ ไม่ใช่ตามไซต์ — ทีมงานเบื้องล่างยังคงประจำอยู่ที่ไซต์ของตน และรับงานจากทั้งสอง PM ตามหน้าที่ที่เกี่ยวข้อง</p>
+  <div class="tree">
+    <div class="tree-level"><div class="tree-node top">ผู้บริหารโครงการ / Steering Committee</div></div>
+    <div class="connector"></div>
+    <div class="tree-level">
+      <div class="tree-node pm delivery">
+        <span class="pm-name">มีน — Delivery PM</span>
+        <span class="pm-scope">ทั้ง 2 ไซต์ · แผนงาน / งวดส่งมอบ / ลูกค้า</span>
+      </div>
+      <div class="tree-node pm technical">
+        <span class="pm-name">อาร์ต — Technical PM</span>
+        <span class="pm-scope">ทั้ง 2 ไซต์ · Fit Gap / Design / Dev / Data</span>
+      </div>
+      <div class="tree-node pm pc">
+        <span class="pm-name">โม — PC</span>
+        <span class="pm-scope">ทั้ง 2 ไซต์ · Tracker / นัดหมาย / ติดตามสถานะ</span>
+      </div>
+    </div>
+    <div class="connector"></div>
+    <div class="tree-level">
+      <div class="tree-node">DTWU / วลัยลักษณ์ — ทีมประจำไซต์</div>
+      <div class="tree-node">เมืองสมุทร / ปู่เจ้า — ทีมประจำไซต์</div>
+      <div class="tree-node">Dev Pool 9 คน (Shared 3 Site)</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>ขอบเขตงานของแต่ละบทบาท</h2>
+  <p class="section-note">อิงจากประเภทงานจริงในแผน/Jira ของโครงการ ไม่ใช่ template ทั่วไป · Delivery PM และ Technical PM เป็นผู้รับผิดชอบ/อนุมัติ (A) ส่วน PC เป็นผู้ดำเนินการติดตาม/ประสานงานเบื้องหลัง (R เชิงปฏิบัติการ) ให้ทั้งสองฝั่ง</p>
+  <div class="flex-cols">
+    <div class="rcard delivery">
+      <div class="rhead"><h3>Delivery PM</h3><span class="who">มีน</span></div>
+      <ul>
+        <li>Project Plan / Org Chart / RACI</li>
+        <li>Timeline &amp; Sprint ทั้ง 2 ไซต์ <span class="owner-note">(PC ดูแล Tracker จริง)</span></li>
+        <li>Kick-off &amp; Weekly Status กับลูกค้า</li>
+        <li>งวดส่งมอบ (Milestone 1–4) + ขอ Sign-off</li>
+        <li>Risk &amp; Issue เชิงสัญญา/ธุรกิจ</li>
+        <li>Change Request</li>
+        <li>UAT Planning + Key User Coordination</li>
+        <li>Training Coordination</li>
+        <li>Go-live Coordination + Cut-over/Failover (ฝั่งประสาน)</li>
+        <li>Hypercare / War Room <span class="owner-note">(PC ตั้ง War Room จริง)</span></li>
+        <li>Project Closure</li>
+      </ul>
+    </div>
+    <div class="rcard technical">
+      <div class="rhead"><h3>Technical PM</h3><span class="who">อาร์ต</span></div>
+      <ul>
+        <li>Fit Gap Analysis เชิงเทคนิค (Fit/Config/Partial/Gap)</li>
+        <li>SRD / Technical Design Review</li>
+        <li>API / Interface (SAP, WU-HRMS)</li>
+        <li>Data Migration (HosXP → ระบบใหม่)</li>
+        <li>Dev Scope / Config โมดูลใหม่</li>
+        <li>Infrastructure &amp; Deployment Planning</li>
+        <li>Security Review</li>
+        <li>Technical Risk &amp; Root Cause Analysis</li>
+        <li>Production Support / Monitoring หลัง Go-live</li>
+        <li>Stabilization / ติดตาม KPI ระบบ</li>
+      </ul>
+    </div>
+    <div class="rcard pc">
+      <div class="rhead"><h3>Project Coordinator (PC)</h3><span class="who">โม</span></div>
+      <ul>
+        <li>Master Sprint Tracker ทั้ง 2 ไซต์ — ติดตามสถานะทุก Epic</li>
+        <li>จัดตารางนัด Workshop Fit Gap ร่วม Process Owner/DTMU</li>
+        <li>ประสานห้องประชุม/นัดหมายทุกฝ่าย</li>
+        <li>รวบรวม Go-live Readiness Checklist จากทุกทีม (Dev/Imp/Training/Infra)</li>
+        <li>ตั้ง War Room วัน Go-live + ติดตาม Incident แบบเรียลไทม์</li>
+        <li>ติดตาม Stabilization / Issue Tracker หลัง Go-live</li>
+        <li>สรุปรายงานสถานะประจำสัปดาห์ให้ Delivery PM + Technical PM</li>
+        <li>Consult งานวิเคราะห์/Fit Gap เพิ่มเติม (พื้นฐาน HIS ตรง + เคยทำงาน รพ.)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>ทีมประจำไซต์</h2>
+  <p class="section-note">ชื่อเล่นตรงตามฐานข้อมูลทีมปัจจุบัน — <b>มีน (PM)</b> กับ <b>มีน (PO)</b> เป็นคนละคน แยกด้วยวงเล็บเสมอ</p>
+  <div class="site-cols">
+    <div class="site">
+      <h3>DTWU / วลัยลักษณ์</h3>
+      <p class="site-sub">Dental + Education · TOR 9.6M บาท · 300 วัน</p>
+      <div class="role-row"><span class="role-name">ชมพู่</span><span class="role-title">BA — วิเคราะห์/Get Req ร่วมกับจูน<span class="shared-tag">ข้ามไซต์</span></span></div>
+      <div class="role-row"><span class="role-name">นนท์</span><span class="role-title">Imp (Implementation)</span></div>
+      <div class="role-row"><span class="role-name">สาม</span><span class="role-title">BA<span class="shared-tag">shared</span></span></div>
+      <div class="role-row"><span class="role-name">ก้อง</span><span class="role-title">SA</span></div>
+      <div class="role-row"><span class="role-name">โอ</span><span class="role-title">SA<span class="shared-tag">shared</span></span></div>
+      <div class="role-row"><span class="role-name">มีน (PO)</span><span class="role-title">Product Specialist — DTMU Consult<span class="shared-tag">2 site</span></span></div>
+      <div class="role-row"><span class="role-name">โม</span><span class="role-title">PC — Tracker/นัดหมาย + Consult วิเคราะห์<span class="shared-tag">ข้ามไซต์</span></span></div>
+    </div>
+    <div class="site">
+      <h3>เมืองสมุทร / ปู่เจ้า</h3>
+      <p class="site-sub">General Hospital + Smart IPD · 9 จุดบริการ · Data Migration จาก HosXP</p>
+      <div class="role-row"><span class="role-name">จูน</span><span class="role-title">PO — วิเคราะห์/Get Req ร่วมกับชมพู่<span class="shared-tag">ข้ามไซต์</span></span></div>
+      <div class="role-row"><span class="role-name">โม</span><span class="role-title">PC — Tracker/นัดหมาย + Consult วิเคราะห์ (พื้นฐาน HIS ตรง + เคยทำงาน รพ.)<span class="shared-tag">ข้ามไซต์</span></span></div>
+      <div class="role-row"><span class="role-name">เตทีม</span><span class="role-title">Senior Imp (HosXP) — นำ Data Migration + Consult</span></div>
+      <div class="role-row"><span class="role-name">สาม / โอ</span><span class="role-title">BA / SA<span class="shared-tag">shared</span></span></div>
+      <div class="role-row"><span class="role-name">มีน (PO)</span><span class="role-title">Product Specialist — DTMU Consult<span class="shared-tag">2 site</span></span></div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:16px;background:var(--technical-soft);border-color:color-mix(in srgb, var(--technical) 35%, transparent);">
+    <h3 style="color:var(--technical);">ทีมวิเคราะห์ / Get Requirement (ทีมเดียว ใช้ร่วมกันทั้ง DTWU และเมืองสมุทร)</h3>
+    <p><b>ทำไมต้องเป็นทีมเดียว:</b> ทั้ง DTWU/วลัยลักษณ์ และเมืองสมุทร/ปู่เจ้า เอาระบบ <b>DTMU มาพัฒนาต่อยอด</b> เป็นฐานเดียวกัน — ต้องรวบรวมความต้องการจาก 2 ไซต์มา Fit Gap ร่วมกับทีม DTMU (ผู้เชี่ยวชาญระบบเดิม) เพื่อให้ผลตัดสินใจ Fit/Config/Partial/Gap ใช้ได้กับทุกไซต์โดยไม่ชนกันเอง — ถ้าแยกทีมวิเคราะห์ตามไซต์ เสี่ยงตัดสินใจขัดแย้งกันบนระบบฐานเดียวกัน</p>
+    <p><b>R — ลงมือทำหลัก:</b> PO จูน + BA ชมพู่ ทำ Fit Gap และเก็บ Requirement ร่วมกันทั้ง 2 ไซต์ ไม่ได้แยกตามไซต์ของตัวเอง</p>
+    <p><b>C — ที่ปรึกษาเสริม:</b> เตทีม (ความรู้ HosXP/Data Migration เฉพาะทาง) และ โม (แม้ตำแหน่งหลักคือ PC แต่มีพื้นฐาน HIS ตรงและเคยทำงาน รพ. มาก่อน จึงช่วยวิเคราะห์และร่วมตัดสินใจบางเรื่องได้ ไม่ใช่แค่ Support ธุรการ)</p>
+    <p><b>C — ที่ปรึกษาระดับผลิตภัณฑ์:</b> มีน (PO) ให้ความเห็นจากฐาน DTMU/HA.OS แยกบทบาทจากทีมวิเคราะห์หน้างาน</p>
+  </div>
+</section>
+
+<section>
+  <h2>Responsibility Matrix (RACI)</h2>
+  <p class="section-note">R = ผู้ลงมือทำ · A = ผู้อนุมัติ/รับผิดชอบสุดท้าย · C = ให้คำปรึกษา · I = รับทราบ</p>
+  <div class="table-scroll">
+    <table>
+      <tr>
+        <th>กิจกรรม</th>
+        <th>Delivery PM<br>(มีน)</th>
+        <th>Technical PM<br>(อาร์ต)</th>
+        <th>PC<br>(โม)</th>
+        <th>PO / BA<br>(จูน + ชมพู่)</th>
+        <th>SA / Tech Lead<br>(ก้อง / โอ)</th>
+        <th>Dev Pool</th>
+        <th>Customer /<br>Key User</th>
+      </tr>
+      <tr><td>Fit Gap Analysis <span class="owner-note" style="display:block;">+ เตทีม = C</span></td><td>C</td><td class="raci-A">A</td><td>C</td><td class="raci-R">R</td><td>C</td><td>I</td><td>C</td></tr>
+      <tr><td>Project Plan (เอกสาร PMP)</td><td class="raci-A">A/R</td><td>C</td><td>I</td><td>I</td><td>I</td><td>I</td><td>C</td></tr>
+      <tr><td>Timeline / Sprint Tracker <span class="owner-note" style="display:block;">งานประจำ ไม่ใช่เอกสารครั้งเดียว</span></td><td class="raci-A">A</td><td>C</td><td class="raci-R">R</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+      <tr><td>Technical Design (SRD)</td><td>I</td><td class="raci-A">A</td><td>I</td><td>C</td><td class="raci-R">R</td><td>C</td><td>C</td></tr>
+      <tr><td>Data Migration</td><td>C</td><td class="raci-A">A</td><td>I</td><td>I</td><td class="raci-R">R</td><td class="raci-R">R</td><td>I</td></tr>
+      <tr><td>Dev / Config</td><td>I</td><td class="raci-A">A</td><td>I</td><td>C</td><td class="raci-R">R</td><td class="raci-R">R</td><td>I</td></tr>
+      <tr><td>UAT</td><td class="raci-A">A</td><td>C</td><td class="raci-R">R</td><td class="raci-R">R</td><td>I</td><td>C</td><td class="raci-R">R</td></tr>
+      <tr><td>งวดส่งมอบ (Sign-off)</td><td class="raci-A">A</td><td>C</td><td>C</td><td>C</td><td>I</td><td>I</td><td class="raci-R">R</td></tr>
+      <tr><td>Go-live / Cut-over</td><td class="raci-A">A</td><td class="raci-R">R</td><td class="raci-R">R</td><td>C</td><td>C</td><td>C</td><td>I</td></tr>
+      <tr><td>Production Incident (Hypercare)</td><td>C</td><td class="raci-A">A</td><td class="raci-R">R</td><td>I</td><td class="raci-R">R</td><td class="raci-R">R</td><td>I</td></tr>
+    </table>
+  </div>
+  <div class="legend"><span><b>A</b> เข้มสีน้ำเงิน = Delivery ผู้อนุมัติ</span><span><b>A</b> เข้มสีเขียว = Technical ผู้อนุมัติ</span><span>PC = R เชิงปฏิบัติการ (Tracker/นัดหมาย/War Room) ไม่ใช่ผู้อนุมัติ</span></div>
+</section>
+
+<section>
+  <h2>เอกสารส่งมอบรายงวด — DTWU / วลัยลักษณ์</h2>
+  <p class="section-note">38 ฉบับ ตาม deliverables/dtwu · เจ้าของใหม่จัดตามหลัก: งานวางแผน/สัญญา/ลูกค้า → Delivery PM (มีน) · งานออกแบบ/พัฒนา/ทดสอบ/ข้อมูล → Technical PM (อาร์ต)</p>
+  <div class="site-summary">
+    <div class="count-chip delivery"><div class="n">10</div><div class="l">ฉบับ Delivery PM (มีน) เป็นเจ้าของ</div></div>
+    <div class="count-chip technical"><div class="n">28</div><div class="l">ฉบับ Technical PM (อาร์ต) เป็นเจ้าของ</div></div>
+  </div>
+
+  <details class="ms" open>
+    <summary>งวด M1 — เตรียมความพร้อม <span class="ms-due">10 ฉบับ · ส่ง 10/07/2026 · 20%</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">M1-01</td><td>แผนดำเนินงานโครงการภาพรวม (PMP)</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">M1-02</td><td>แผนการสำรวจและออกแบบระบบ</td><td><span class="owner-tag technical">Technical · อาร์ต</span><span class="owner-note">มีน ประสานตาราง workshop</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M1-03</td><td>แผนการโอนย้ายข้อมูล (Migration)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Data Engineer</td></tr>
+        <tr><td class="doc-code">M1-04</td><td>แผนการติดตั้งระบบ</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M1-05</td><td>แผนการพัฒนาและส่งมอบระบบ</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Tech Lead</td></tr>
+        <tr><td class="doc-code">M1-06</td><td>แผนการทดสอบ (Test Plan)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA Lead</td></tr>
+        <tr><td class="doc-code">M1-07</td><td>แผนการฝึกอบรมและถ่ายทอด</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">M1-08</td><td>แผนการกู้คืนระบบ (Backup/DR)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M1-09</td><td>แผนบริหารการเปลี่ยนแปลง (Change Mgmt)</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">M1-10</td><td>โครงสร้างทีมงาน + RACI</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="ms">
+    <summary>งวด M2 — วิเคราะห์/ออกแบบ <span class="ms-due">13 ฉบับ · ส่ง 08/11/2026 · 20% · งวดหนักสุดฝั่งเทคนิค</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">M2-01</td><td>Fit/Gap Analysis Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span><span class="owner-note">R = PO จูน + BA ชมพู่ · C = เตทีม/โม</span></td><td class="prep">SA + ทีม HIS เดิม</td></tr>
+        <tr><td class="doc-code">M2-02</td><td>Requirement Traceability Matrix</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M2-03</td><td>Workflow Diagram (As-is/To-be)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">BA</td></tr>
+        <tr><td class="doc-code">M2-04</td><td>System Requirement Specification (SRS)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M2-05</td><td>Business Process Mapping</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">BA</td></tr>
+        <tr><td class="doc-code">M2-06</td><td>Data Mapping</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Analyst</td></tr>
+        <tr><td class="doc-code">M2-07</td><td>User Authorization Matrix</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA + Security</td></tr>
+        <tr><td class="doc-code">M2-08</td><td>API Specification</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M2-09</td><td>Migration Data Mapping</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Sr. Data Engineer</td></tr>
+        <tr><td class="doc-code">M2-10</td><td>Technical Specification</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M2-11</td><td>Data Dictionary</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Analyst</td></tr>
+        <tr><td class="doc-code">M2-12</td><td>System Architecture</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M2-13</td><td>Database Schema Design (ERD)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Designer</td></tr>
+      </table>
+      <p class="section-note" style="margin-top:12px;">มีน (Delivery) ยังคง Lead งานประสาน 3 การ์ด: ประชุม Verify SRD กับลูกค้า, ขอ Sign-off งวด 2, ส่งมอบงวด 2 — เนื้อหาเอกสารเป็นของ Technical แต่การส่งมอบ/เซ็นรับเป็นของ Delivery</p>
+    </div>
+  </details>
+
+  <details class="ms">
+    <summary>งวด M3 — ทดสอบ + ฝึกอบรม <span class="ms-due">8 ฉบับ · ส่ง 17/03/2027 · 40%</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">M3-01</td><td>Test Cases / Test Scripts</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA</td></tr>
+        <tr><td class="doc-code">M3-02</td><td>SIT Report (Integration)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA</td></tr>
+        <tr><td class="doc-code">M3-03</td><td>UAT Plan + ใบลงนามยอมรับ</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM + Process Owner</td></tr>
+        <tr><td class="doc-code">M3-04</td><td>Master Data Setup Document</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M3-05</td><td>Data Migration Reconciliation Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Data Engineer</td></tr>
+        <tr><td class="doc-code">M3-06</td><td>คู่มือผู้ใช้ (User Manual) รายบทบาท</td><td><span class="owner-tag delivery">Delivery · มีน</span><span class="owner-note">อาร์ต ตรวจเนื้อหาเทคนิค</span></td><td class="prep">ทีมโครงการ</td></tr>
+        <tr><td class="doc-code">M3-07</td><td>เอกสารฝึกอบรม + ทะเบียนผู้เข้าอบรม</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">M3-08</td><td>E2E Test Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA + ผู้ใช้</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="ms">
+    <summary>งวด M4 — Go-live / ส่งมอบ <span class="ms-due">7 ฉบับ · ส่ง 06/04/2027 · 20%</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">M4-01</td><td>Go-Live / Cutover Plan &amp; Checklist</td><td><span class="owner-tag delivery">Delivery · มีน</span><span class="owner-note">อาร์ต ปฏิบัติ/คุมหน้างานเทคนิค</span></td><td class="prep">PM + System Engineer</td></tr>
+        <tr><td class="doc-code">M4-02</td><td>Deployment / Installation Document</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M4-03</td><td>Source Code + เอกสารส่งมอบ</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Dev Lead</td></tr>
+        <tr><td class="doc-code">M4-04</td><td>As-built / System Documentation</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">M4-05</td><td>คู่มือผู้ดูแลระบบ (Admin Manual)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">M4-06</td><td>ใบส่งมอบงาน / ใบตรวจรับ (Acceptance)</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM + คณะกรรมการตรวจรับ</td></tr>
+        <tr><td class="doc-code">M4-07</td><td>เอกสารการรับประกัน + SLA</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+      </table>
+    </div>
+  </details>
+</section>
+
+<section>
+  <h2>เอกสารส่งมอบรายงวด — เมืองสมุทร / ปู่เจ้า</h2>
+  <p class="section-note">36 ฉบับ ตาม deliverables/samut · โครงสร้างงวดต่างจาก DTWU (3 งวด 20/30/50%, งวด 1 ไม่ผูกตรวจรับ) แต่หลักแบ่งเจ้าของเหมือนกัน</p>
+  <div class="site-summary">
+    <div class="count-chip delivery"><div class="n">12</div><div class="l">ฉบับ Delivery PM (มีน) เป็นเจ้าของ</div></div>
+    <div class="count-chip technical"><div class="n">24</div><div class="l">ฉบับ Technical PM (อาร์ต) เป็นเจ้าของ</div></div>
+  </div>
+
+  <details class="ms" open>
+    <summary>งวด 1 — แผนบริหารโครงการ <span class="ms-due">10 ฉบับ · ส่งชุดแผน ~10/07/2026 · ไม่ผูกตรวจรับตาม TOR</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">S1-01</td><td>แผนดำเนินงานโครงการภาพรวม (PMP)</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S1-02</td><td>แผนการสำรวจและออกแบบระบบ (Fit Gap 36 โมดูล)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S1-03</td><td>แผนการโอนย้ายข้อมูล (HosXP → HA.OS) ★</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">เตทีม (Sr. Imp) + Data Engineer</td></tr>
+        <tr><td class="doc-code">S1-04</td><td>แผนการติดตั้งระบบ (9 จุดบริการ)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">S1-05</td><td>แผนการพัฒนา/ส่งมอบ (Implementation)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Tech Lead</td></tr>
+        <tr><td class="doc-code">S1-06</td><td>แผนการทดสอบ (Test Plan)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA Lead</td></tr>
+        <tr><td class="doc-code">S1-07</td><td>แผนการฝึกอบรมและถ่ายทอด</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S1-08</td><td>แผนสำรองข้อมูล/กู้คืน (Backup/DR)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">S1-09</td><td>แผนการบริหารการเปลี่ยนแปลง</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S1-10</td><td>โครงสร้างทีมงาน</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="ms">
+    <summary>งวด 2 — พัฒนา · ทดสอบ · Go-live รพ.หลัก <span class="ms-due">18 ฉบับ · ตรวจรับ ~20/01/2027 · 30%</span></summary>
+    <div class="ms-body">
+      <h3 style="font-size:14px;margin:4px 0 8px;color:var(--muted);">2.1 วิเคราะห์ &amp; ออกแบบ (9 ฉบับ — ทั้งหมด Technical)</h3>
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">S2-01</td><td>Fit/Gap Analysis Report ★ (36 โมดูล/1,358 ข้อ)</td><td><span class="owner-tag technical">Technical · อาร์ต</span><span class="owner-note">R = PO จูน + BA ชมพู่ · C = เตทีม/โม</span></td><td class="prep">SA + ทีม HIS เดิม</td></tr>
+        <tr><td class="doc-code">S2-02</td><td>Requirement Traceability Matrix</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S2-03</td><td>Workflow Diagram (As-is HosXP/To-be HA.OS)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">BA</td></tr>
+        <tr><td class="doc-code">S2-04</td><td>System Requirement Specification (SRS)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S2-05</td><td>Data Mapping (HosXP → HA.OS)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Analyst</td></tr>
+        <tr><td class="doc-code">S2-06</td><td>Data Dictionary</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Analyst</td></tr>
+        <tr><td class="doc-code">S2-07</td><td>System Architecture</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S2-08</td><td>Database Schema Design</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">DB Designer</td></tr>
+        <tr><td class="doc-code">S2-09</td><td>API Specification (สปสช./HL7/Smart IPD)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+      </table>
+      <h3 style="font-size:14px;margin:16px 0 8px;color:var(--muted);">2.2 ทดสอบ · Migration · ฝึกอบรม · Go-live (9 ฉบับ)</h3>
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">S2-10</td><td>Test Cases / Test Scripts</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA</td></tr>
+        <tr><td class="doc-code">S2-11</td><td>SIT Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA</td></tr>
+        <tr><td class="doc-code">S2-12</td><td>UAT Plan + Sign-off (รพ.หลัก)</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM + Process Owner</td></tr>
+        <tr><td class="doc-code">S2-13</td><td>Master Data Setup Document</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S2-14</td><td>Data Migration Reconciliation ★</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">เตทีม + Data Engineer</td></tr>
+        <tr><td class="doc-code">S2-15</td><td>คู่มือผู้ใช้ (User Manual)</td><td><span class="owner-tag delivery">Delivery · มีน</span><span class="owner-note">อาร์ต ตรวจเนื้อหาเทคนิค</span></td><td class="prep">ทีมโครงการ</td></tr>
+        <tr><td class="doc-code">S2-16</td><td>เอกสารฝึกอบรม + ทะเบียนผู้เข้าอบรม</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S2-17</td><td>Go-Live / Cutover Checklist (รพ.หลัก)</td><td><span class="owner-tag delivery">Delivery · มีน</span><span class="owner-note">อาร์ต ปฏิบัติ/คุมหน้างานเทคนิค</span></td><td class="prep">PM + System Engineer</td></tr>
+        <tr><td class="doc-code">S2-18</td><td>Deployment / Installation Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="ms">
+    <summary>งวด 3 — Rollout &amp; ส่งมอบครบทุกสถานที่ <span class="ms-due">8 ฉบับ · ตรวจรับครบ 9 จุดบริการ ~24/03/2027 · 50%</span></summary>
+    <div class="ms-body">
+      <table class="doc-table">
+        <tr><th>รหัส</th><th>เอกสาร</th><th>เจ้าของ</th><th>ผู้จัดทำจริง</th></tr>
+        <tr><td class="doc-code">S3-01</td><td>แผน Rollout รายสาขา/คลินิก</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S3-02</td><td>รายงาน Rollout &amp; ตรวจรับรายจุดบริการ</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+        <tr><td class="doc-code">S3-03</td><td>As-built / System Documentation</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">SA</td></tr>
+        <tr><td class="doc-code">S3-04</td><td>Source Code Handover + Escrow</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">Dev Lead</td></tr>
+        <tr><td class="doc-code">S3-05</td><td>คู่มือผู้ดูแลระบบ (Admin Manual)</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">System Engineer</td></tr>
+        <tr><td class="doc-code">S3-06</td><td>End-to-End / Stabilize Report</td><td><span class="owner-tag technical">Technical · อาร์ต</span></td><td class="prep">QA + Imp เตทีม</td></tr>
+        <tr><td class="doc-code">S3-07</td><td>ใบส่งมอบ / ตรวจรับครบทุกสถานที่</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM + คณะกรรมการตรวจรับ</td></tr>
+        <tr><td class="doc-code">S3-08</td><td>การรับประกัน + SLA + MA</td><td><span class="owner-tag delivery">Delivery · มีน</span></td><td class="prep">PM</td></tr>
+      </table>
+    </div>
+  </details>
+</section>
+
+<section>
+  <div class="callout" style="background:var(--technical-soft);border-color:color-mix(in srgb, var(--technical) 35%, transparent);">
+    <h3 style="color:var(--technical);">สถานะ Jira: อัปเดตแล้ว (12 ก.ค. 2569)</h3>
+    <p>แก้ไฟล์ Jira จริงให้ตรงกับโครงสร้างนี้เรียบร้อย — <b>master CSV, by-person-csv (10 ไฟล์), by-person md (12 ไฟล์), xlsx</b> sync กันหมดแล้ว รวมจากเดิม 153 เป็น <b>166 Story + 12 Epic</b></p>
+    <p><b>สลับ Lead ข้ามไซต์ 12 การ์ด:</b> การ์ดเทคนิคของมีน (DTMU Consult, Review TOR, สำรวจ Interface, สรุป Fit Gap Final) → อาร์ต · การ์ด Delivery ของอาร์ต (Kick-off, Confirm งวด, UAT Sign-off, Go-live, ส่งมอบสุดท้าย) → มีน ผลลัพธ์: <b>มีน 32 การ์ด (21 Lead)</b>, <b>อาร์ต 27 การ์ด (10 Lead)</b></p>
+    <p><b>เพิ่มการ์ด PC ฝั่ง DTWU ให้โม 13 ใบ</b> (เดิมมีแต่เมืองสมุทร) รวมเป็น <b>35 การ์ดข้ามไซต์ (25 Lead)</b> · เพิ่ม จูน/ชมพู่ ในการ์ด Fit Gap ของอีกไซต์ที่ยังไม่มี ~53 การ์ด · เพิ่มเตทีม/โม เป็น Consult ในการ์ดสรุป Fit Gap</p>
+    <p><b>บั๊กที่แก้ระหว่างทาง:</b> แยก Label "มีน (PM)" กับ "มีน (PO)" ที่เดิมปนกันจนแยกไม่ออกในไฟล์ by-person + สร้าง SA-ก้อง.csv ที่หายไปจากชุดเดิม (เขามี Lead 3 การ์ดแต่ไม่เคยมีไฟล์ของตัวเอง)</p>
+    <p style="color:var(--muted);font-size:13px;">หมายเหตุ: จัดสรร Lead/Support ด้วยกฎ (keyword + epic matching) ไม่ได้ตรวจทีละใบ 166 ใบด้วยมือ — ควรเปิด <code>jira/by-person/PM-มีน.md</code>, <code>PM-อาร์ต.md</code>, <code>PC-โม.md</code> ทานคร่าวๆ ก่อนใช้จริง</p>
+  </div>
+</section>
+
+<footer>
+  DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า · ฉบับร่างสำหรับพิจารณา · ข้อมูลอ้างอิงจาก project-dtwu-overview memory และ jira/by-person ณ 05 ก.ค. 2569
+</footer>
+
+</div>
+</body>
+</html>
