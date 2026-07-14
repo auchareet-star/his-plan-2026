@@ -6,28 +6,14 @@
 <title>ผังทีมงานฉบับเต็ม — ทีมเดียวกัน (25 คน)</title>
 <style>
 :root{
-  --paper:#F7F8FA;
+  --paper:#FFFFFF;
   --surface:#FFFFFF;
   --ink:#1A1D22;
   --muted:#6B7280;
-  --line:#E4E7EC;
-  --accent:#3A63E0;      --accent-soft:#EAF0FE;
-  --pillbg:#1B2A4A;       --pilltext:#FFFFFF;
+  --line:#E9ECF1;
+  --accent:#3A63E0;      --accent-soft:#F0F5FF;
+  --pillbg:#3A63E0;       --pilltext:#FFFFFF;
   --radius:10px;
-}
-:root[data-theme="dark"]{
-  --paper:#12151A; --surface:#1B2027; --ink:#E7E7E4; --muted:#9AA3AF;
-  --line:#2B323C;
-  --accent:#7DA0FF; --accent-soft:#1E2A45;
-  --pillbg:#2A3B5E; --pilltext:#F2F5FF;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#12151A; --surface:#1B2027; --ink:#E7E7E4; --muted:#9AA3AF;
-    --line:#2B323C;
-    --accent:#7DA0FF; --accent-soft:#1E2A45;
-    --pillbg:#2A3B5E; --pilltext:#F2F5FF;
-  }
 }
 
 *{box-sizing:border-box;}
@@ -68,13 +54,14 @@ h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balan
   padding:8px 10px;border-radius:999px;margin-bottom:12px;
 }
 .person-card{
-  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);
+  background:var(--accent-soft);border:1px solid var(--line);border-left:4px solid var(--accent);
   border-radius:8px;padding:9px 12px;margin-bottom:10px;
+  box-shadow:0 1px 3px rgba(30,50,120,.06);
 }
 .person-card .p-name{font-weight:700;font-size:12.5px;display:block;line-height:1.3;}
 .person-card .p-role{font-weight:700;font-size:10px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:3px;}
 .person-card .p-nick{font-size:11px;color:var(--muted);margin-top:2px;}
-.person-card .p-tag{display:inline-block;font-size:9.5px;color:var(--muted);background:var(--paper);border-radius:5px;padding:1px 6px;margin-top:4px;}
+.person-card .p-tag{display:inline-block;font-size:9.5px;color:var(--muted);background:#FFFFFF;border-radius:5px;padding:1px 6px;margin-top:4px;}
 
 section{margin-top:34px;}
 h2{font-size:16.5px;font-weight:700;margin:0 0 4px;}
