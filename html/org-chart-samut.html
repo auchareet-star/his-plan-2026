@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ผังทีมงานฉบับเต็ม — ทีมเดียวกัน (25 คน)</title>
+<title>ผังทีมงานฉบับเต็ม — DTMU / DTWU / เมืองสมุทร (25 คน)</title>
 <style>
 :root{
   --paper:#FFFFFF;
@@ -11,8 +11,9 @@
   --ink:#1A1D22;
   --muted:#6B7280;
   --line:#E9ECF1;
+  --gridline:#BFC4CC;
   --accent:#3A63E0;      --accent-soft:#F0F5FF;
-  --pillbg:#3A63E0;       --pilltext:#FFFFFF;
+  --box:#585C86;          --boxtext:#FFFFFF;
   --radius:10px;
 }
 
@@ -21,47 +22,58 @@ body{
   margin:0; padding:36px 20px 70px; background:var(--paper); color:var(--ink);
   font-family:'Sarabun','Leelawadee UI','Segoe UI',sans-serif; line-height:1.5;
 }
-.wrap{max-width:1400px;margin:0 auto;}
+.wrap{max-width:1300px;margin:0 auto;}
 
 header.page{margin-bottom:22px;}
 .eyebrow{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
 h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balance;letter-spacing:-.01em;}
 .subtitle{color:var(--muted);font-size:14px;margin:0;max-width:90ch;}
 
-/* apex chain */
-.apex-wrap{text-align:center;margin:26px 0 4px;}
-.apex-card{
-  display:inline-block;min-width:280px;padding:14px 28px;border-radius:12px;
-  background:var(--accent-soft);border:1px solid var(--line);
+/* ===== matrix chart ===== */
+.matrix{
+  border:2px dotted var(--gridline);border-radius:8px;
+  padding:14px;margin-top:26px;overflow-x:auto;
 }
-.apex-card .a-name{font-weight:700;font-size:15px;display:block;}
-.apex-card .a-role{font-weight:700;font-size:11.5px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:2px;}
-.apex-card .a-nick{font-size:12px;color:var(--muted);margin-top:2px;}
-.vline{width:1.5px;height:22px;background:var(--line);margin:0 auto;}
-.pm-level{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
-.pm-level .apex-card{min-width:240px;}
+.mgrid{
+  display:grid;
+  grid-template-columns:120px 1fr 1fr 0.85fr;
+  min-width:900px;
+}
+.mgrid > div{padding:10px;}
 
-/* fan-out connector into columns */
-.fanout{position:relative;height:22px;margin:0 auto 0;max-width:1360px;}
-.fanout .hline{position:absolute;left:6%;right:6%;top:0;height:1.5px;background:var(--line);}
-.fanout .vstub{position:absolute;top:0;width:1.5px;height:22px;background:var(--line);}
+.site-head{
+  text-align:center;font-weight:700;font-size:18px;
+  border-bottom:2px dashed var(--gridline);padding-bottom:10px;
+}
+.site-head.dtmu{border-right:2px solid var(--gridline);}
+.site-head.dtwu{border-right:2px dashed var(--gridline);}
+.corner{border-bottom:2px dashed var(--gridline);}
 
-/* columns */
-.cols{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;align-items:start;}
-.col-head{
-  background:var(--pillbg);color:var(--pilltext);text-align:center;
-  font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-  padding:8px 10px;border-radius:999px;margin-bottom:12px;
+.row-label{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-weight:700;font-size:17px;
 }
-.person-card{
-  background:var(--accent-soft);border:1px solid var(--line);border-left:4px solid var(--accent);
-  border-radius:8px;padding:9px 12px;margin-bottom:10px;
-  box-shadow:0 1px 3px rgba(30,50,120,.06);
+.row-cell{
+  display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;
+  padding:12px 10px;min-height:70px;
 }
-.person-card .p-name{font-weight:700;font-size:12.5px;display:block;line-height:1.3;}
-.person-card .p-role{font-weight:700;font-size:10px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:3px;}
-.person-card .p-nick{font-size:11px;color:var(--muted);margin-top:2px;}
-.person-card .p-tag{display:inline-block;font-size:9.5px;color:var(--muted);background:#FFFFFF;border-radius:5px;padding:1px 6px;margin-top:4px;}
+.row-cell.dtmu{border-right:2px solid var(--gridline);}
+.row-cell.dtwu{border-right:2px dashed var(--gridline);}
+.row-dashed-top{border-top:2px dashed var(--gridline);}
+
+.row-cell.dev-unified{
+  grid-column:2 / span 3;
+  border-right:none;justify-content:center;
+}
+
+.pbox{
+  background:var(--box);color:var(--boxtext);border-radius:6px;
+  padding:8px 10px;min-width:110px;text-align:center;
+}
+.pbox.pm{min-width:150px;}
+.pbox .b-nick{font-weight:700;font-size:12.5px;display:block;}
+.pbox .b-role{font-size:10.5px;display:block;margin-top:2px;opacity:.92;}
+.pbox .b-tag{font-size:9px;display:block;margin-top:3px;opacity:.8;}
 
 section{margin-top:34px;}
 h2{font-size:16.5px;font-weight:700;margin:0 0 4px;}
@@ -77,106 +89,76 @@ tr:last-child td{font-weight:700;background:var(--paper);}
 
 footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;}
 
-@media(max-width:1100px){
-  .cols{grid-template-columns:repeat(3,1fr);}
-  .fanout{display:none;}
-}
 @media(max-width:640px){
-  .cols{grid-template-columns:1fr;}
+  .mgrid{min-width:760px;}
 }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-<div style="max-width:1400px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <a href="org-chart-pm-delivery-technical.html" style="color:#0a5252;text-decoration:none">Delivery/Technical PM</a> · <b>ผังทีมงานฉบับเต็ม</b></div>
+<div style="max-width:1300px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <a href="org-chart-pm-delivery-technical.html" style="color:#0a5252;text-decoration:none">Delivery/Technical PM</a> · <b>ผังทีมงานฉบับเต็ม</b></div>
 
 <header class="page">
-  <p class="eyebrow">ผังทีมงาน — รวมเป็นทีมเดียวกัน</p>
-  <h1>ผังทีมงานฉบับเต็ม (25 คน) — ไม่แยกตามไซต์</h1>
-  <p class="subtitle">อ้างอิง <code>TeamMembers.xlsx</code> — Senior PM → Delivery PM / Technical PM → คอลัมน์ตามบทบาท (ไม่แยกไซต์) — สายพัฒนา (Development) รวมเป็นคอลัมน์เดียว · ทีม Consult DTMU (มีน-ช/สาม/ก้อง/โอ) แยกเป็นคอลัมน์ของตัวเอง ไม่ปนกับทีมประจำ</p>
+  <p class="eyebrow">ผังทีมงาน — แบบ Matrix ตามไซต์</p>
+  <h1>ผังทีมงานฉบับเต็ม DTMU / DTWU / เมืองสมุทร (25 คน)</h1>
+  <p class="subtitle">อ้างอิง <code>TeamMembers.xlsx</code> — จัดเป็นตาราง Matrix: แถว = PM / Analyst,Imp,Support / Dev · คอลัมน์ = ทีม DTMU / DTWU / เมืองสมุทร (เส้นทึบคั่น DTMU↔DTWU, เส้นประคั่น DTWU↔เมืองสมุทร) — แถว Dev รวมเป็นแถบเดียวไม่แยกไซต์ เพราะเป็น Pool ที่แชร์ใช้ร่วมกัน</p>
 </header>
 
-<div class="apex-wrap">
-  <div class="apex-card">
-    <span class="a-name">นางสาว ธนาวดี สุวรรณาภรณ์</span>
-    <span class="a-role">Senior Project Manager</span>
-    <span class="a-nick">โอ๋</span>
-  </div>
-  <div class="vline"></div>
-  <div class="pm-level">
-    <div class="apex-card">
-      <span class="a-name">นางสาว กัญญาณัฐ นาเจริญ</span>
-      <span class="a-role">Delivery PM</span>
-      <span class="a-nick">มีน (ญ) · แผนงาน/งวดส่งมอบ/ลูกค้า</span>
+<div class="matrix">
+  <div class="mgrid">
+
+    <div class="corner"></div>
+    <div class="site-head dtmu">DTMU</div>
+    <div class="site-head dtwu">DTWU</div>
+    <div class="site-head">เมืองสมุทร</div>
+
+    <div class="row-label">PM</div>
+    <div class="row-cell dtmu">
+      <div class="pbox pm"><span class="b-nick">โอ๋</span><span class="b-role">Senior Project Manager</span></div>
     </div>
-    <div class="apex-card">
-      <span class="a-name">นาย อัชอารีย์ ทิ้งเหม</span>
-      <span class="a-role">Technical PM</span>
-      <span class="a-nick">อาร์ต · Fit Gap/Design/Dev/Data</span>
+    <div class="row-cell dtwu">
+      <div class="pbox pm"><span class="b-nick">มีน (ญ)</span><span class="b-role">Delivery PM</span></div>
     </div>
+    <div class="row-cell">
+      <div class="pbox pm"><span class="b-nick">อาร์ต</span><span class="b-role">Technical PM</span></div>
+    </div>
+
+    <div class="row-label row-dashed-top">Analyst, Imp, Support</div>
+    <div class="row-cell dtmu row-dashed-top">
+      <div class="pbox"><span class="b-nick">เบนซ์ (ญ)</span><span class="b-role">Project-Co</span></div>
+      <div class="pbox"><span class="b-nick">มีน (ช)</span><span class="b-role">Product Specialist</span><span class="b-tag">Consult → DTWU, เมืองสมุทร</span></div>
+      <div class="pbox"><span class="b-nick">โอ</span><span class="b-role">SA</span><span class="b-tag">Consult → DTWU, เมืองสมุทร</span></div>
+      <div class="pbox"><span class="b-nick">สาม</span><span class="b-role">BA</span><span class="b-tag">Consult → DTWU, เมืองสมุทร</span></div>
+      <div class="pbox"><span class="b-nick">ก้อง</span><span class="b-role">SA</span><span class="b-tag">Consult → DTWU, เมืองสมุทร</span></div>
+      <div class="pbox"><span class="b-nick">นัท (ญ)</span><span class="b-role">UX/UI</span></div>
+      <div class="pbox"><span class="b-nick">มิ้นท์</span><span class="b-role">UX/UI</span></div>
+      <div class="pbox"><span class="b-nick">(น้องที่มีนแนะนำมา)</span><span class="b-role">Junior Imp</span></div>
+    </div>
+    <div class="row-cell dtwu row-dashed-top">
+      <div class="pbox"><span class="b-nick">ชมพู่</span><span class="b-role">BA</span></div>
+      <div class="pbox"><span class="b-nick">นนท์</span><span class="b-role">Junior Imp</span></div>
+    </div>
+    <div class="row-cell row-dashed-top">
+      <div class="pbox"><span class="b-nick">จูน</span><span class="b-role">Product Specialist</span></div>
+      <div class="pbox"><span class="b-nick">โม</span><span class="b-role">Project-Co</span></div>
+      <div class="pbox"><span class="b-nick">เตทีม</span><span class="b-role">Senior Imp (จาก HosXP)</span></div>
+    </div>
+
+    <div class="row-label row-dashed-top">Dev</div>
+    <div class="row-cell dev-unified row-dashed-top">
+      <div class="pbox"><span class="b-nick">ซี</span><span class="b-role">Developer Lead</span></div>
+      <div class="pbox"><span class="b-nick">เต๋า</span><span class="b-role">Supervisor Dev</span></div>
+      <div class="pbox"><span class="b-nick">กระต่าย</span><span class="b-role">Supervisor Dev</span></div>
+      <div class="pbox"><span class="b-nick">มิน</span><span class="b-role">Senior Dev</span></div>
+      <div class="pbox"><span class="b-nick">โอปอล์</span><span class="b-role">Senior Dev</span></div>
+      <div class="pbox"><span class="b-nick">จีเน่</span><span class="b-role">Senior Dev</span></div>
+      <div class="pbox"><span class="b-nick">หมี</span><span class="b-role">Senior Dev</span></div>
+      <div class="pbox"><span class="b-nick">พีช</span><span class="b-role">Junior Dev</span></div>
+      <div class="pbox"><span class="b-nick">เติร์ก</span><span class="b-role">Junior Dev</span></div>
+    </div>
+
   </div>
-  <div class="vline"></div>
-</div>
-
-<div class="fanout">
-  <div class="hline"></div>
-  <div class="vstub" style="left:8.3%;"></div>
-  <div class="vstub" style="left:25%;"></div>
-  <div class="vstub" style="left:41.6%;"></div>
-  <div class="vstub" style="left:58.3%;"></div>
-  <div class="vstub" style="left:75%;"></div>
-  <div class="vstub" style="left:91.6%;"></div>
-</div>
-
-<div class="cols">
-
-  <div class="col">
-    <div class="col-head">Product / Business Analysis</div>
-    <div class="person-card"><span class="p-name">นางสาว จิรัชญา วงษ์วานิช</span><span class="p-role">Product Specialist</span><span class="p-nick">จูน</span></div>
-    <div class="person-card"><span class="p-name">นางสาว ศุภรินทร์ พิมพ์ดีด</span><span class="p-role">Business Analyst</span><span class="p-nick">ชมพู่</span></div>
-  </div>
-
-  <div class="col">
-    <div class="col-head">Project Coordinator</div>
-    <div class="person-card"><span class="p-name">นางสาว จิรพรรณ พูลทวี</span><span class="p-role">Project Coordinator</span><span class="p-nick">โม</span><span class="p-tag">ข้ามไซต์ DTWU+เมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นางสาว ชลาลัย ออประเสริฐสอน</span><span class="p-role">Project Coordinator</span><span class="p-nick">เบนซ์ (ญ)</span><span class="p-tag">DTMU</span></div>
-  </div>
-
-  <div class="col">
-    <div class="col-head">UX/UI Design</div>
-    <div class="person-card"><span class="p-name">นางสาว ณัฐธิดา พรมมา</span><span class="p-role">UX/UI Designer</span><span class="p-nick">นัท (ญ)</span></div>
-    <div class="person-card"><span class="p-name">นางสาว กันติชา กันยาประสิทธิ์</span><span class="p-role">UX/UI Designer</span><span class="p-nick">มิ้นท์</span></div>
-  </div>
-
-  <div class="col">
-    <div class="col-head">Consult Team (DTMU)</div>
-    <div class="person-card"><span class="p-name">นาย เจษฎาภรณ์ มีมูซอ</span><span class="p-role">Product Specialist</span><span class="p-nick">มีน (ช)</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นาย เกรียงพล เพิ่มเจริญ</span><span class="p-role">Business Analyst</span><span class="p-nick">สาม</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นาย ปกรณ์ นิยะโสม</span><span class="p-role">System Analyst</span><span class="p-nick">ก้อง</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นาย สถาพร กองทอง</span><span class="p-role">System Analyst</span><span class="p-nick">โอ</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
-  </div>
-
-  <div class="col">
-    <div class="col-head">Development</div>
-    <div class="person-card"><span class="p-name">นางสาว มัทรี แย้มสุนทร</span><span class="p-role">Developer Lead</span><span class="p-nick">ซี</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นาย พิพัฒน์ เภาน้อย</span><span class="p-role">Supervisor Dev</span><span class="p-nick">เต๋า</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-    <div class="person-card"><span class="p-name">นาย กฤตพล เมธาวรา</span><span class="p-role">Supervisor Dev</span><span class="p-nick">กระต่าย</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-    <div class="person-card"><span class="p-name">นาย ชัยมินทร์ สหเจริญชัย</span><span class="p-role">Senior Dev</span><span class="p-nick">มิน</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นางสาว สุทธิรัตน์ แถมจะโปะ</span><span class="p-role">Senior Dev</span><span class="p-nick">โอปอล์</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
-    <div class="person-card"><span class="p-name">นาย กฤตณัฐ แสงศรี</span><span class="p-role">Senior Dev</span><span class="p-nick">จีเน่</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-    <div class="person-card"><span class="p-name">นาย ชัยวิวัฒน์ กกสันเทียะ</span><span class="p-role">Senior Dev</span><span class="p-nick">หมี</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-    <div class="person-card"><span class="p-name">นาย ติรวิชญ์ เกษมไชยานันท์</span><span class="p-role">Junior Dev</span><span class="p-nick">พีช</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-    <div class="person-card"><span class="p-name">นาย ภาคิม สงวนพัฒน์</span><span class="p-role">Junior Dev</span><span class="p-nick">เติร์ก</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
-  </div>
-
-  <div class="col">
-    <div class="col-head">Tester / Implementer</div>
-    <div class="person-card"><span class="p-name">นาย ชินวัฒน์ บุญสูง</span><span class="p-role">Implementer Lead</span><span class="p-nick">เตทีม</span><span class="p-tag">จาก HosXP · นำ Data Migration</span></div>
-    <div class="person-card"><span class="p-name">นาย ธนาดล ทรงประเสริฐ</span><span class="p-role">Implementer</span><span class="p-nick">นนท์</span></div>
-    <div class="person-card"><span class="p-name">(น้องที่มีนแนะนำมา)</span><span class="p-role">Junior Implementer</span><span class="p-nick">ยังไม่ระบุชื่อในชีต</span></div>
-  </div>
-
 </div>
 
 <section>
@@ -184,14 +166,14 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
   <p class="section-note">ตรงตามตาราง "สรุปจำนวนบุคลากร" ท้ายชีต TeamMembers.xlsx</p>
   <div class="table-scroll">
     <table>
-      <tr><th>หมวด</th><th>จำนวน</th></tr>
-      <tr><td>PM (Senior PM / Delivery PM / Technical PM)</td><td>3</td></tr>
-      <tr><td>ตำแหน่งอื่นๆ (Analyst, Imp, Support)</td><td>13</td></tr>
-      <tr><td>Dev</td><td>9</td></tr>
-      <tr><td>รวมทั้งหมด</td><td>25</td></tr>
+      <tr><th>หมวด</th><th>DTMU</th><th>DTWU</th><th>เมืองสมุทร</th><th>รวม</th></tr>
+      <tr><td>PM</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+      <tr><td>Analyst, Imp, Support</td><td>8</td><td>2</td><td>3</td><td>13</td></tr>
+      <tr><td>Dev (รวมเป็น Pool เดียว ไม่แยกไซต์)</td><td colspan="3">9</td><td>9</td></tr>
+      <tr><td>รวมทั้งหมด</td><td>16</td><td>6</td><td>4</td><td>25</td></tr>
     </table>
   </div>
-  <p class="note-box" style="margin-top:12px;">⚠️ รูปอ้างอิงที่ส่งมามีชื่อ "นาย ธนพล อโศกบุญรัตน์ — Tester" ที่ไม่มีอยู่ใน TeamMembers.xlsx (26 แถวที่ตรวจสอบแล้ว) — chart นี้ยังไม่ได้ใส่คนนี้เพราะไม่มีแหล่งข้อมูลยืนยัน ถ้ามีอยู่จริงและอยากเพิ่ม แจ้งชื่อ-ตำแหน่ง-ทีมให้ครบแล้วจะเพิ่มให้</p>
+  <p class="note-box" style="margin-top:12px;">⚠️ ยังไม่ได้ใส่ "นาย ธนพล อโศกบุญรัตน์ — Tester" ที่เห็นในภาพอ้างอิงก่อนหน้า เพราะไม่มีชื่อนี้ใน TeamMembers.xlsx (26 แถวที่ตรวจสอบแล้ว) — แจ้งทีม/ตำแหน่งเพิ่มเติมได้ถ้ามีอยู่จริง</p>
 </section>
 
 <footer>ทีมโครงการ HIS รวมทุกไซต์ (DTMU + DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า) · สร้างจาก C:\AYD\Project\DTWU\Docs\team\TeamMembers.xlsx · เอกสารวางแผนภายใน</footer>
