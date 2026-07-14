@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ผังทีมงานฉบับเต็ม — ทีมเดียวกัน (25 คน)</title>
+<style>
+:root{
+  --paper:#F7F8FA;
+  --surface:#FFFFFF;
+  --ink:#1A1D22;
+  --muted:#6B7280;
+  --line:#E4E7EC;
+  --accent:#3A63E0;      --accent-soft:#EAF0FE;
+  --pillbg:#1B2A4A;       --pilltext:#FFFFFF;
+  --radius:10px;
+}
+:root[data-theme="dark"]{
+  --paper:#12151A; --surface:#1B2027; --ink:#E7E7E4; --muted:#9AA3AF;
+  --line:#2B323C;
+  --accent:#7DA0FF; --accent-soft:#1E2A45;
+  --pillbg:#2A3B5E; --pilltext:#F2F5FF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#12151A; --surface:#1B2027; --ink:#E7E7E4; --muted:#9AA3AF;
+    --line:#2B323C;
+    --accent:#7DA0FF; --accent-soft:#1E2A45;
+    --pillbg:#2A3B5E; --pilltext:#F2F5FF;
+  }
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0; padding:36px 20px 70px; background:var(--paper); color:var(--ink);
+  font-family:'Sarabun','Leelawadee UI','Segoe UI',sans-serif; line-height:1.5;
+}
+.wrap{max-width:1400px;margin:0 auto;}
+
+header.page{margin-bottom:22px;}
+.eyebrow{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
+h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balance;letter-spacing:-.01em;}
+.subtitle{color:var(--muted);font-size:14px;margin:0;max-width:90ch;}
+
+/* apex chain */
+.apex-wrap{text-align:center;margin:26px 0 4px;}
+.apex-card{
+  display:inline-block;min-width:280px;padding:14px 28px;border-radius:12px;
+  background:var(--accent-soft);border:1px solid var(--line);
+}
+.apex-card .a-name{font-weight:700;font-size:15px;display:block;}
+.apex-card .a-role{font-weight:700;font-size:11.5px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:2px;}
+.apex-card .a-nick{font-size:12px;color:var(--muted);margin-top:2px;}
+.vline{width:1.5px;height:22px;background:var(--line);margin:0 auto;}
+.pm-level{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
+.pm-level .apex-card{min-width:240px;}
+
+/* fan-out connector into columns */
+.fanout{position:relative;height:22px;margin:0 auto 0;max-width:1360px;}
+.fanout .hline{position:absolute;left:6%;right:6%;top:0;height:1.5px;background:var(--line);}
+.fanout .vstub{position:absolute;top:0;width:1.5px;height:22px;background:var(--line);}
+
+/* columns */
+.cols{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;align-items:start;}
+.col-head{
+  background:var(--pillbg);color:var(--pilltext);text-align:center;
+  font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:8px 10px;border-radius:999px;margin-bottom:12px;
+}
+.person-card{
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);
+  border-radius:8px;padding:9px 12px;margin-bottom:10px;
+}
+.person-card .p-name{font-weight:700;font-size:12.5px;display:block;line-height:1.3;}
+.person-card .p-role{font-weight:700;font-size:10px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:3px;}
+.person-card .p-nick{font-size:11px;color:var(--muted);margin-top:2px;}
+.person-card .p-tag{display:inline-block;font-size:9.5px;color:var(--muted);background:var(--paper);border-radius:5px;padding:1px 6px;margin-top:4px;}
+
+section{margin-top:34px;}
+h2{font-size:16.5px;font-weight:700;margin:0 0 4px;}
+.section-note{color:var(--muted);font-size:13px;margin:0 0 12px;}
+.note-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 18px;font-size:12.5px;color:var(--muted);}
+
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;}
+table{width:100%;border-collapse:collapse;background:var(--surface);font-size:13px;min-width:440px;}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:center;}
+th{background:var(--paper);color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.02em;text-transform:uppercase;}
+td:first-child,th:first-child{text-align:left;font-weight:600;}
+tr:last-child td{font-weight:700;background:var(--paper);}
+
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;}
+
+@media(max-width:1100px){
+  .cols{grid-template-columns:repeat(3,1fr);}
+  .fanout{display:none;}
+}
+@media(max-width:640px){
+  .cols{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<div style="max-width:1400px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <a href="org-chart-pm-delivery-technical.html" style="color:#0a5252;text-decoration:none">Delivery/Technical PM</a> · <b>ผังทีมงานฉบับเต็ม</b></div>
+
+<header class="page">
+  <p class="eyebrow">ผังทีมงาน — รวมเป็นทีมเดียวกัน</p>
+  <h1>ผังทีมงานฉบับเต็ม (25 คน) — ไม่แยกตามไซต์</h1>
+  <p class="subtitle">อ้างอิง <code>TeamMembers.xlsx</code> — Senior PM → Delivery PM / Technical PM → คอลัมน์ตามบทบาท (ไม่แยกไซต์) — สายพัฒนา (Development) รวมเป็นคอลัมน์เดียว มีหมายเหตุห้อยบอกที่มา/การแชร์งานต่อคน</p>
+</header>
+
+<div class="apex-wrap">
+  <div class="apex-card">
+    <span class="a-name">นางสาว ธนาวดี สุวรรณาภรณ์</span>
+    <span class="a-role">Senior Project Manager</span>
+    <span class="a-nick">โอ๋</span>
+  </div>
+  <div class="vline"></div>
+  <div class="pm-level">
+    <div class="apex-card">
+      <span class="a-name">นางสาว กัญญาณัฐ นาเจริญ</span>
+      <span class="a-role">Delivery PM</span>
+      <span class="a-nick">มีน (ญ) · แผนงาน/งวดส่งมอบ/ลูกค้า</span>
+    </div>
+    <div class="apex-card">
+      <span class="a-name">นาย อัชอารีย์ ทิ้งเหม</span>
+      <span class="a-role">Technical PM</span>
+      <span class="a-nick">อาร์ต · Fit Gap/Design/Dev/Data</span>
+    </div>
+  </div>
+  <div class="vline"></div>
+</div>
+
+<div class="fanout">
+  <div class="hline"></div>
+  <div class="vstub" style="left:8.3%;"></div>
+  <div class="vstub" style="left:25%;"></div>
+  <div class="vstub" style="left:41.6%;"></div>
+  <div class="vstub" style="left:58.3%;"></div>
+  <div class="vstub" style="left:75%;"></div>
+  <div class="vstub" style="left:91.6%;"></div>
+</div>
+
+<div class="cols">
+
+  <div class="col">
+    <div class="col-head">Product / Business Analysis</div>
+    <div class="person-card"><span class="p-name">นางสาว จิรัชญา วงษ์วานิช</span><span class="p-role">Product Specialist</span><span class="p-nick">จูน</span></div>
+    <div class="person-card"><span class="p-name">นาย เจษฎาภรณ์ มีมูซอ</span><span class="p-role">Product Specialist</span><span class="p-nick">มีน (ช)</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นางสาว ศุภรินทร์ พิมพ์ดีด</span><span class="p-role">Business Analyst</span><span class="p-nick">ชมพู่</span></div>
+    <div class="person-card"><span class="p-name">นาย เกรียงพล เพิ่มเจริญ</span><span class="p-role">Business Analyst</span><span class="p-nick">สาม</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
+  </div>
+
+  <div class="col">
+    <div class="col-head">Project Coordinator</div>
+    <div class="person-card"><span class="p-name">นางสาว จิรพรรณ พูลทวี</span><span class="p-role">Project Coordinator</span><span class="p-nick">โม</span><span class="p-tag">ข้ามไซต์ DTWU+เมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นางสาว ชลาลัย ออประเสริฐสอน</span><span class="p-role">Project Coordinator</span><span class="p-nick">เบนซ์ (ญ)</span><span class="p-tag">DTMU</span></div>
+  </div>
+
+  <div class="col">
+    <div class="col-head">UX/UI Design</div>
+    <div class="person-card"><span class="p-name">นางสาว ณัฐธิดา พรมมา</span><span class="p-role">UX/UI Designer</span><span class="p-nick">นัท (ญ)</span></div>
+    <div class="person-card"><span class="p-name">นางสาว กันติชา กันยาประสิทธิ์</span><span class="p-role">UX/UI Designer</span><span class="p-nick">มิ้นท์</span></div>
+  </div>
+
+  <div class="col">
+    <div class="col-head">SA / Technical Lead</div>
+    <div class="person-card"><span class="p-name">นาย ปกรณ์ นิยะโสม</span><span class="p-role">System Analyst</span><span class="p-nick">ก้อง</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นาย สถาพร กองทอง</span><span class="p-role">System Analyst</span><span class="p-nick">โอ</span><span class="p-tag">Consult → DTWU, เมืองสมุทร</span></div>
+  </div>
+
+  <div class="col">
+    <div class="col-head">Development</div>
+    <div class="person-card"><span class="p-name">นางสาว มัทรี แย้มสุนทร</span><span class="p-role">Developer Lead</span><span class="p-nick">ซี</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นาย พิพัฒน์ เภาน้อย</span><span class="p-role">Supervisor Dev</span><span class="p-nick">เต๋า</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+    <div class="person-card"><span class="p-name">นาย กฤตพล เมธาวรา</span><span class="p-role">Supervisor Dev</span><span class="p-nick">กระต่าย</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+    <div class="person-card"><span class="p-name">นาย ชัยมินทร์ สหเจริญชัย</span><span class="p-role">Senior Dev</span><span class="p-nick">มิน</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นางสาว สุทธิรัตน์ แถมจะโปะ</span><span class="p-role">Senior Dev</span><span class="p-nick">โอปอล์</span><span class="p-tag">เดิม DTWU → ประจำเมืองสมุทร</span></div>
+    <div class="person-card"><span class="p-name">นาย กฤตณัฐ แสงศรี</span><span class="p-role">Senior Dev</span><span class="p-nick">จีเน่</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+    <div class="person-card"><span class="p-name">นาย ชัยวิวัฒน์ กกสันเทียะ</span><span class="p-role">Senior Dev</span><span class="p-nick">หมี</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+    <div class="person-card"><span class="p-name">นาย ติรวิชญ์ เกษมไชยานันท์</span><span class="p-role">Junior Dev</span><span class="p-nick">พีช</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+    <div class="person-card"><span class="p-name">นาย ภาคิม สงวนพัฒน์</span><span class="p-role">Junior Dev</span><span class="p-nick">เติร์ก</span><span class="p-tag">DTMU Pool · แชร์ได้ 2 ไซต์</span></div>
+  </div>
+
+  <div class="col">
+    <div class="col-head">Tester / Implementer</div>
+    <div class="person-card"><span class="p-name">นาย ชินวัฒน์ บุญสูง</span><span class="p-role">Implementer Lead</span><span class="p-nick">เตทีม</span><span class="p-tag">จาก HosXP · นำ Data Migration</span></div>
+    <div class="person-card"><span class="p-name">นาย ธนาดล ทรงประเสริฐ</span><span class="p-role">Implementer</span><span class="p-nick">นนท์</span></div>
+    <div class="person-card"><span class="p-name">(น้องที่มีนแนะนำมา)</span><span class="p-role">Junior Implementer</span><span class="p-nick">ยังไม่ระบุชื่อในชีต</span></div>
+  </div>
+
+</div>
+
+<section>
+  <h2>สรุปจำนวนบุคลากร (Headcount)</h2>
+  <p class="section-note">ตรงตามตาราง "สรุปจำนวนบุคลากร" ท้ายชีต TeamMembers.xlsx</p>
+  <div class="table-scroll">
+    <table>
+      <tr><th>หมวด</th><th>จำนวน</th></tr>
+      <tr><td>PM (Senior PM / Delivery PM / Technical PM)</td><td>3</td></tr>
+      <tr><td>ตำแหน่งอื่นๆ (Analyst, Imp, Support)</td><td>13</td></tr>
+      <tr><td>Dev</td><td>9</td></tr>
+      <tr><td>รวมทั้งหมด</td><td>25</td></tr>
+    </table>
+  </div>
+  <p class="note-box" style="margin-top:12px;">⚠️ รูปอ้างอิงที่ส่งมามีชื่อ "นาย ธนพล อโศกบุญรัตน์ — Tester" ที่ไม่มีอยู่ใน TeamMembers.xlsx (26 แถวที่ตรวจสอบแล้ว) — chart นี้ยังไม่ได้ใส่คนนี้เพราะไม่มีแหล่งข้อมูลยืนยัน ถ้ามีอยู่จริงและอยากเพิ่ม แจ้งชื่อ-ตำแหน่ง-ทีมให้ครบแล้วจะเพิ่มให้</p>
+</section>
+
+<footer>ทีมโครงการ HIS รวมทุกไซต์ (DTMU + DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า) · สร้างจาก C:\AYD\Project\DTWU\Docs\team\TeamMembers.xlsx · เอกสารวางแผนภายใน</footer>
+
+</div>
+</body>
+</html>
