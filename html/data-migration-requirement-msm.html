@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ตัวอย่างเอกสาร Migration Requirement — เมืองสมุทร</title>
+<style>
+  :root{
+    --pri:#2f7cc4; --pri-dk:#1d5490; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eaf3fb; --ok:#2e9e5b; --eg:#fff8d8; --eg-bd:#e2c34a;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(29,84,144,.25)}
+  header.cover h1{margin:0 0 6px;font-size:25px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  h3{color:var(--pri-dk);font-size:16px;margin:16px 0 7px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:#f6faff}
+  ul,ol{margin:6px 0;padding-left:22px}li{margin:3px 0}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit,.egbox{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:14px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .egbox{background:var(--eg);border-left:4px solid var(--eg-bd)}
+  .egbox b{color:#8a6d09}
+  .v{background:var(--eg);border-bottom:1px dashed var(--eg-bd);padding:0 4px;border-radius:3px;font-weight:600}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;color:#fff;white-space:nowrap}
+  .t-must{background:var(--crit)}.t-should{background:var(--accent)}.t-could{background:#7a8794}
+  .t-crit{background:var(--crit)}.t-src{background:#7a5aa8}.t-tgt{background:var(--pri)}
+  .t-hosp{background:#0d6e6e}.t-ayd{background:var(--pri)}
+  .id{font-family:Consolas,monospace;font-weight:700;color:var(--pri-dk);white-space:nowrap}
+  .no{color:var(--muted)}
+  .toc{background:#f6faff;border:1px dashed var(--line);border-radius:10px;padding:14px 18px;font-size:13.5px}
+  .toc a{color:var(--pri-dk);text-decoration:none}.toc a:hover{text-decoration:underline}
+  code{background:#eef3f7;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12.5px;color:#1d5490}
+  .ctrl{background:#f6faff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;font-size:13.5px}
+  .ctrl .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 20px}
+  .signs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px;margin-top:26px;text-align:center;font-size:13.5px}
+  .signs .line{border-bottom:1px dotted #8b98a5;height:44px;margin-bottom:6px}
+  .signs .role{color:var(--muted);font-size:12.5px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:12px}
+    .v,.egbox{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>ความต้องการการโอนย้ายข้อมูล (Data Migration Requirement)</h1>
+  <div class="sub">โรงพยาบาลเมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · <b>HosXP → HA.OS</b> · ผู้รับจ้าง บริษัท อโยเดีย จำกัด<br>
+  <a href="msm.html" style="color:#dcecfb">🏠 กลับหน้าเมืองสมุทร</a> · <a href="data-migration-plan-msm.html" style="color:#dcecfb">📄 แผน Migration (ละเอียด)</a> · <a href="data-migration-checklist-msm.html" style="color:#dcecfb">✅ Checklist</a> · <a href="../deliverables/samut/templates/S1-03.html" style="color:#dcecfb">📦 S1-03 (เอกสารส่งมอบ)</a> · <a href="timeline-msm.html" style="color:#dcecfb">📅 Timeline</a></div>
+  <div class="pills">
+    <span class="pill">📝 ตัวอย่างเอกสาร (Sample) — ตัวเลขสมมติ</span>
+    <span class="pill">🎯 32 ข้อความต้องการ (MIG-R)</span>
+    <span class="pill">🚫 มี Non-scope ระบุชัด</span>
+    <span class="pill">✍️ ต้องให้ รพ. ลงนามยืนยันก่อนทำ Mapping</span>
+  </div>
+</header>
+
+<section>
+  <div class="egbox"><b>⚠️ นี่คือ "ตัวอย่าง" (Sample) เท่านั้น</b> — ตัวเลข ปริมาณข้อมูล ปีย้อนหลัง และชื่อผู้รับผิดชอบทั้งหมด<b>เป็นค่าสมมติ</b>เพื่อให้เห็นรูปแบบเอกสารที่สมบูรณ์
+  ค่าที่ต้องยืนยันกับโรงพยาบาลจริงถูกไฮไลต์ไว้แบบนี้ → <span class="v">ค่าตัวอย่าง</span> · ก่อนใช้งานจริงต้องเก็บข้อมูลจริงจาก Data Profiling + สัมภาษณ์ Data Owner แล้วแทนที่ทุกค่า</div>
+  <div class="toc"><strong>สารบัญ</strong> ·
+    <a href="#s0">⓪ ข้อมูลควบคุมเอกสาร</a> · <a href="#s1">① วัตถุประสงค์และขอบเขต</a> · <a href="#s2">② ผู้เกี่ยวข้อง / Data Owner</a> ·
+    <a href="#s3">③ ระบบต้นทาง (Source Inventory)</a> · <a href="#s4">④ ขอบเขตข้อมูล + ปีย้อนหลัง</a> ·
+    <a href="#s5">⑤ Non-scope (ไม่ย้าย)</a> · <a href="#s6">⑥ ความต้องการรายข้อ MIG-R</a> ·
+    <a href="#s7">⑦ Business Rules / กฎการแปลง</a> · <a href="#s8">⑧ กฎ Dedup + Golden Record</a> ·
+    <a href="#s9">⑨ ข้อมูลวิกฤต + เกณฑ์ยอมรับ</a> · <a href="#s10">⑩ Cut-off / Delta / Downtime</a> ·
+    <a href="#s11">⑪ ความปลอดภัย + PDPA</a> · <a href="#s12">⑫ สิ่งที่ต้องได้จาก รพ.</a> ·
+    <a href="#s13">⑬ เกณฑ์การยอมรับ</a> · <a href="#s14">⑭ ข้อสมมติ / ประเด็นค้าง</a> · <a href="#s15">⑮ การอนุมัติ</a>
+  </div>
+</section>
+
+<!-- 0 -->
+<section id="s0">
+  <h2><span class="n">0</span>ข้อมูลควบคุมเอกสาร (Document Control)</h2>
+  <div class="ctrl">
+    <div class="g">
+      <div><b>รหัสเอกสาร:</b> <span class="v">MSM-MIG-REQ-001</span></div>
+      <div><b>เวอร์ชัน:</b> <span class="v">0.3 (ร่างเพื่อทบทวน)</span></div>
+      <div><b>ผู้จัดทำ:</b> <span class="v">Senior Imp เตทีม (HosXP)</span></div>
+      <div><b>วันที่จัดทำ:</b> <span class="v">18 ส.ค. 2569</span></div>
+      <div><b>ผู้สอบทาน:</b> <span class="v">PM อาร์ต (Technical PM)</span></div>
+      <div><b>ผู้อนุมัติ:</b> <span class="v">ผู้อำนวยการ / คณะทำงาน HIS รพ.เมืองสมุทร</span></div>
+      <div><b>สถานะ:</b> <span class="v">ร่าง — รอ รพ. ยืนยันข้อ 4, 5, 12</span></div>
+      <div><b>Sprint:</b> <span class="v">S4</span> (ตาม Checklist Data Migration หมวด ①)</div>
+      <div><b>เอกสารสืบเนื่อง:</b> S1-03 (Migration Plan) → S2-05 (Data Mapping) → S2-06 (Data Dictionary) → S2-14 (Reconciliation)</div>
+    </div>
+  </div>
+  <h3>ประวัติการแก้ไข</h3>
+  <table>
+    <thead><tr><th style="width:10%">เวอร์ชัน</th><th style="width:16%">วันที่</th><th style="width:24%">ผู้แก้ไข</th><th>รายละเอียด</th></tr></thead>
+    <tbody>
+      <tr><td>0.1</td><td><span class="v">05 ส.ค. 2569</span></td><td>Senior Imp เตทีม</td><td>ร่างแรกจากผล Data Profiling เบื้องต้น 3 แหล่ง</td></tr>
+      <tr><td>0.2</td><td><span class="v">12 ส.ค. 2569</span></td><td>Senior Imp เตทีม</td><td>เพิ่ม Non-scope + กฎ Dedup หลังประชุมเวชระเบียน</td></tr>
+      <tr><td>0.3</td><td><span class="v">18 ส.ค. 2569</span></td><td>PM อาร์ต</td><td>เพิ่มเกณฑ์ยอมรับ (ข้อ 13) + ข้อสมมติ/ประเด็นค้าง</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+  <h2><span class="n">1</span>วัตถุประสงค์และขอบเขตของเอกสาร</h2>
+  <p><b>วัตถุประสงค์:</b> ระบุให้ชัดว่า<b>ข้อมูลใดต้องถูกโอนย้าย ย้อนหลังเท่าใด ภายใต้กฎธุรกิจใด และจะถือว่า "สำเร็จ" ด้วยเกณฑ์ใด</b>
+  เพื่อให้ทีมพัฒนานำไปจัดทำ Data Mapping (S2-05) และ Data Dictionary (S2-06) ได้โดยไม่ต้องตีความเอง
+  และเพื่อให้โรงพยาบาล<b>ลงนามยืนยันขอบเขต</b>ก่อนเริ่มงานแปลงข้อมูลจริง</p>
+  <table>
+    <thead><tr><th style="width:26%">หัวข้อ</th><th>ขอบเขต</th></tr></thead>
+    <tbody>
+      <tr><td><strong>อยู่ในขอบเขตเอกสารนี้</strong></td><td>ความต้องการเชิงข้อมูล (What) — ชุดข้อมูล, ช่วงเวลา, กฎการแปลง, กฎการรวมผู้ป่วยซ้ำ, เกณฑ์ยอมรับ, สิ่งที่ รพ. ต้องจัดหา</td></tr>
+      <tr><td><strong>ไม่อยู่ในขอบเขตเอกสารนี้</strong></td><td>วิธีการ/เครื่องมือ ETL, ตารางเวลาซ้อม, Runbook Cut-over, แผน Rollback → อยู่ใน <a href="data-migration-plan-msm.html">Migration Plan (S1-03)</a></td></tr>
+      <tr><td><strong>ขอบเขตสถานที่</strong></td><td>ครบ <b>9 จุดบริการ</b> — เมืองสมุทรปู่เจ้าฯ <span class="v">6 จุด</span> + เมืองสมุทรปากน้ำ (สมุทรเวชกิจ) <span class="v">3 จุด</span> รวมเข้าฐานข้อมูล HA.OS เดียว</td></tr>
+      <tr><td><strong>ระบบต้นทาง</strong></td><td>HosXP <b>3 แหล่ง/3 เวอร์ชัน</b> — <code>v4</code> · <code>v3</code> · <code>vPCU</code></td></tr>
+      <tr><td><strong>ระบบปลายทาง</strong></td><td>HA.OS (<code>TBM_*</code> master / <code>TB_*</code> ธุรกรรม)</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 <b>หลักการตั้งขอบเขต:</b> "ถูกต้อง 100% สำหรับข้อมูลวิกฤต" มาก่อน "ครบทุกข้อมูล" — ข้อมูลที่ไม่จำเป็นต่อการรักษา/เบิกจ่ายต่อเนื่อง ให้พิจารณาไว้ใน Non-scope (ข้อ 5) แล้วเปิด HosXP เดิมแบบ read-only ทดแทน</div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <h2><span class="n">2</span>ผู้เกี่ยวข้องและเจ้าของข้อมูล (Data Owner)</h2>
+  <p class="no">ทุกโดเมนข้อมูลต้องมี <b>Data Owner ฝั่งโรงพยาบาล 1 คน</b> ที่มีอำนาจตัดสินใจเรื่องกฎการแปลงและลงนามรับรองผล Reconciliation</p>
+  <table>
+    <thead><tr><th style="width:24%">โดเมนข้อมูล</th><th style="width:24%">Data Owner (รพ.)</th><th style="width:24%">ผู้รับผิดชอบ (อโยเดีย)</th><th>หน้าที่ตัดสินใจ</th></tr></thead>
+    <tbody>
+      <tr><td>เวชระเบียน / ผู้ป่วย</td><td><span class="v">หน.เวชระเบียน (คุณ ____)</span> <span class="tag t-hosp">รพ.</span></td><td>Senior Imp เตทีม <span class="tag t-ayd">AYD</span></td><td>ชี้ขาดเคสผู้ป่วยซ้ำ, เลือก Golden Record</td></tr>
+      <tr><td>แพทย์ / การรักษา</td><td><span class="v">ผู้แทนองค์กรแพทย์</span> <span class="tag t-hosp">รพ.</span></td><td>BA + Imp <span class="tag t-ayd">AYD</span></td><td>ยืนยันปีย้อนหลังของประวัติการรักษา/ผล Lab</td></tr>
+      <tr><td>เภสัชกรรม / คลังยา</td><td><span class="v">หน.เภสัชกรรม</span> <span class="tag t-hosp">รพ.</span></td><td>Imp (โมดูลยา) <span class="tag t-ayd">AYD</span></td><td>Mapping รหัสยา → TMT/24 หลัก, ยาที่ใช้ต่อเนื่อง</td></tr>
+      <tr><td>การเงิน / เรียกเก็บ</td><td><span class="v">หน.การเงิน + หน.ศูนย์เคลม</span> <span class="tag t-hosp">รพ.</span></td><td>Imp (โมดูลการเงิน) <span class="tag t-ayd">AYD</span></td><td>ยอดลูกหนี้ยกมา, เคลมค้างส่ง, CSOP/SSOP</td></tr>
+      <tr><td>IT / ฐานข้อมูล</td><td><span class="v">หน.IT รพ.</span> <span class="tag t-hosp">รพ.</span></td><td>DBA โครงการ <span class="tag t-ayd">AYD</span></td><td>ให้สิทธิ์ read-only, จัดหา dump, หน้าต่างเวลา</td></tr>
+      <tr><td>ภาพรวมโครงการ</td><td><span class="v">ประธานคณะทำงาน HIS</span> <span class="tag t-hosp">รพ.</span></td><td>PM อาร์ต <span class="tag t-ayd">AYD</span></td><td>อนุมัติเอกสารนี้, ตัดสิน Go/No-Go</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>⚠️ เงื่อนไขสำคัญ:</b> หากโดเมนใดยังไม่มี Data Owner ที่ระบุตัวได้ ให้ถือว่า<b>ยังเปิดข้อมูลนั้นไม่ได้</b> — ต้องยกเป็นประเด็นค้าง (ข้อ 14) เพราะไม่มีใครลงนามรับรองผลได้ในภายหลัง</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <h2><span class="n">3</span>ระบบต้นทาง — บัญชีแหล่งข้อมูล (Source Inventory) <span class="tag t-src">SOURCE</span></h2>
+  <table>
+    <thead><tr><th style="width:10%">แหล่ง</th><th style="width:20%">ครอบคลุม</th><th style="width:14%">ฐานข้อมูล</th><th style="width:13%">ขนาดโดยประมาณ</th><th style="width:15%">ช่วงข้อมูลที่มี</th><th>ข้อจำกัด/ความเสี่ยง</th></tr></thead>
+    <tbody>
+      <tr><td><code>v4</code><br><span class="no">หลัก</span></td><td>IPD + OPD รพ.หลัก (ปู่เจ้าฯ)</td><td><span class="v">MySQL 5.7</span></td><td><span class="v">~ 420 GB</span></td><td><span class="v">2555 – ปัจจุบัน</span></td><td>ปริมาณมากสุด · schema IPD ต้อง map แยก</td></tr>
+      <tr><td><code>v3</code><br><span class="no">OPD เก่า</span></td><td>ผู้ป่วยนอก (เวอร์ชันเก่า)</td><td><span class="v">MySQL 5.1</span></td><td><span class="v">~ 95 GB</span></td><td><span class="v">2550 – 2561</span></td><td>schema ต่างจาก v4 · <b>ผู้ป่วยซ้ำกับ v4</b> · encoding ไทยบางตารางเป็น latin1</td></tr>
+      <tr><td><code>vPCU</code></td><td>คลินิกย่อย / PCU (รวมฝั่งปากน้ำ)</td><td><span class="v">MySQL 5.5</span></td><td><span class="v">~ 40 GB</span></td><td><span class="v">2558 – ปัจจุบัน</span></td><td>รหัสมาตรฐาน/สิทธิอาจต่าง · HN ชุดแยก ชนกับ v4 ได้</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 ข้อควรรู้:</b> HN ในแต่ละแหล่ง<b>ไม่ได้เป็น unique ข้ามแหล่ง</b> — HN เดียวกันอาจหมายถึงคนละคน และคนเดียวกันอาจมีหลาย HN → บังคับให้ต้องมีกฎ Dedup ที่ชัดเจน (ข้อ 8) และห้ามใช้ HN เป็น key เดียวในการรวมข้อมูล</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <h2><span class="n">4</span>ขอบเขตข้อมูลที่ต้องโอนย้าย + ปีย้อนหลัง</h2>
+  <p class="no">ตารางนี้คือ<b>หัวใจของเอกสาร</b> — โรงพยาบาลต้องยืนยัน "ปีย้อนหลัง" ทุกบรรทัด เพราะกระทบทั้งเวลาที่ใช้ Migrate และขนาดของ Downtime</p>
+  <table>
+    <thead><tr><th style="width:4%">#</th><th style="width:22%">ชุดข้อมูล (Dataset)</th><th style="width:9%">แหล่ง</th><th style="width:11%">ย้อนหลัง</th><th style="width:12%">ปริมาณโดยประมาณ</th><th style="width:8%">ระดับ</th><th>หมายเหตุ / เงื่อนไข</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>ทะเบียนผู้ป่วย (Patient Master)</b></td><td>v4+v3+vPCU</td><td><span class="v">ทั้งหมด</span></td><td><span class="v">~ 480,000 ราย</span><br><span class="no">(หลัง dedup ~ 395,000)</span></td><td><span class="tag t-must">MUST</span></td><td>ย้ายทุกรายไม่จำกัดปี · เป็นฐานของทุกโดเมน</td></tr>
+      <tr><td>2</td><td>สิทธิการรักษา (สปสช./ปกส./ข้าราชการ)</td><td>v4+v3+vPCU</td><td><span class="v">สิทธิปัจจุบัน</span></td><td><span class="v">~ 480,000 record</span></td><td><span class="tag t-must">MUST</span></td><td>เก็บเฉพาะสิทธิที่ยัง active ณ cut-off · ประวัติสิทธิเก่าไม่ย้าย</td></tr>
+      <tr><td>3</td><td><b>ประวัติแพ้ยา (Allergy)</b> <span class="tag t-crit">วิกฤต</span></td><td>ทุกแหล่ง</td><td><span class="v">ทั้งหมด</span></td><td><span class="v">~ 38,000 record</span></td><td><span class="tag t-must">MUST</span></td><td><b>รวมทุกแหล่งแบบ union ห้ามตกหล่นแม้รายเดียว</b></td></tr>
+      <tr><td>4</td><td><b>ยาที่ใช้ต่อเนื่อง (Active Med)</b> <span class="tag t-crit">วิกฤต</span></td><td>v4, vPCU</td><td><span class="v">12 เดือนล่าสุด</span></td><td><span class="v">~ 120,000 record</span></td><td><span class="tag t-must">MUST</span></td><td>เกณฑ์ "ต่อเนื่อง" = มีการจ่ายยาซ้ำ ≥ <span class="v">3</span> ครั้งใน <span class="v">12</span> เดือน</td></tr>
+      <tr><td>5</td><td>ประวัติการรักษา OPD (Visit/VN)</td><td>v4+v3+vPCU</td><td><span class="v">5 ปี</span></td><td><span class="v">~ 6,800,000 visit</span></td><td><span class="tag t-must">MUST</span></td><td>เกิน 5 ปี → ดูจาก HosXP read-only (ข้อ 5)</td></tr>
+      <tr><td>6</td><td>ประวัติการรักษา IPD (Admit)</td><td>v4</td><td><span class="v">5 ปี</span></td><td><span class="v">~ 145,000 admit</span></td><td><span class="tag t-must">MUST</span></td><td>รวม Discharge Summary · schema IPD map แยก</td></tr>
+      <tr><td>7</td><td>คำสั่งการรักษา/ยา (Orders)</td><td>v4+v3+vPCU</td><td><span class="v">5 ปี</span></td><td><span class="v">~ 21,000,000 รายการ</span></td><td><span class="tag t-must">MUST</span></td><td>ปริมาณมากสุด — กระทบเวลา Load โดยตรง</td></tr>
+      <tr><td>8</td><td><b>ผล Lab</b> <span class="tag t-crit">วิกฤต</span></td><td>v4+vPCU</td><td><span class="v">3 ปี</span></td><td><span class="v">~ 2,400,000 record</span></td><td><span class="tag t-must">MUST</span></td><td>ค่าผลเป็นตัวเลข+หน่วย ต้อง map หน่วยให้ตรง · ค่าอ้างอิงมาด้วย</td></tr>
+      <tr><td>9</td><td>ผลรังสี / index ไป PACS</td><td>v4</td><td><span class="v">3 ปี</span></td><td><span class="v">~ 310,000 record</span></td><td><span class="tag t-should">SHOULD</span></td><td>ย้าย <b>index + รายงานผล</b> เท่านั้น · ไฟล์ภาพยังอยู่ PACS เดิม</td></tr>
+      <tr><td>10</td><td><b>นัดหมาย (Appointment)</b> <span class="tag t-crit">วิกฤต</span></td><td>ทุกแหล่ง</td><td><span class="v">นัดในอนาคตทั้งหมด<br>+ ย้อนหลัง 1 ปี</span></td><td><span class="v">~ 95,000 นัด</span></td><td><span class="tag t-must">MUST</span></td><td><b>นัดในอนาคตต้องครบ 100%</b> — ตกหล่น = ผู้ป่วยมาแล้วไม่มีคิว</td></tr>
+      <tr><td>11</td><td>การวินิจฉัย (ICD10) / หัตถการ (ICD9)</td><td>ทุกแหล่ง</td><td><span class="v">5 ปี</span></td><td><span class="v">~ 8,200,000 record</span></td><td><span class="tag t-must">MUST</span></td><td>ตรวจกับ master ICD ปลายทาง · รหัสไม่ผ่าน flag รายงาน</td></tr>
+      <tr><td>12</td><td>Master ยา + คลังยา/เวชภัณฑ์</td><td>v4</td><td><span class="v">รายการปัจจุบัน</span></td><td><span class="v">~ 12,000 รายการ</span></td><td><span class="tag t-must">MUST</span></td><td>ย้าย<b>ยอดคงเหลือ ณ cut-off</b> · ไม่ย้ายประวัติเคลื่อนไหวย้อนหลัง</td></tr>
+      <tr><td>13</td><td>รายการค่าบริการ + ชุดราคาตามสิทธิ</td><td>v4</td><td><span class="v">รายการปัจจุบัน</span></td><td><span class="v">~ 9,500 รายการ</span></td><td><span class="tag t-must">MUST</span></td><td>ต้องพร้อม<b>ก่อน</b> Load ธุรกรรมการเงิน</td></tr>
+      <tr><td>14</td><td>ใบเสร็จ / รายได้</td><td>v4+vPCU</td><td><span class="v">3 ปี</span></td><td><span class="v">~ 4,100,000 ใบ</span></td><td><span class="tag t-should">SHOULD</span></td><td>เพื่อการสืบค้นย้อนหลัง · ต้อง balance ตรงกับต้นทาง</td></tr>
+      <tr><td>15</td><td><b>ลูกหนี้ค้างชำระ / เคลมค้างส่ง</b></td><td>v4+vPCU</td><td><span class="v">ยอดค้าง ณ cut-off</span></td><td><span class="v">~ 68,000 record</span></td><td><span class="tag t-must">MUST</span></td><td><b>ยอดรวมต้องตรง 100%</b> — กระทบรายได้ รพ. โดยตรง</td></tr>
+      <tr><td>16</td><td>บุคลากร / ผู้ใช้ระบบ</td><td>v4</td><td><span class="v">ที่ยังปฏิบัติงาน</span></td><td><span class="v">~ 1,200 คน</span></td><td><span class="tag t-must">MUST</span></td><td>ผูกสิทธิ์การใช้งาน · ไม่ย้ายผู้ที่ลาออกแล้ว</td></tr>
+      <tr><td>17</td><td>ข้อมูล 43 แฟ้ม / งานส่งออก สปสช.</td><td>ทุกแหล่ง</td><td><span class="v">2 ปี</span></td><td><span class="v">—</span></td><td><span class="tag t-should">SHOULD</span></td><td>เพื่อความต่อเนื่องการส่งออกหลัง Go-live</td></tr>
+      <tr><td>18</td><td>เอกสารสแกน / แนบไฟล์</td><td>v4</td><td><span class="v">3 ปี</span></td><td><span class="v">~ 1.2 TB</span></td><td><span class="tag t-could">COULD</span></td><td><b>ขึ้นกับพื้นที่จัดเก็บที่ รพ. จัดหา</b> — หากไม่พอ ให้ตกไป Non-scope</td></tr>
+    </tbody>
+  </table>
+  <div class="egbox"><b>📌 วิธีอ่านระดับความสำคัญ:</b>
+    <span class="tag t-must">MUST</span> = ไม่ย้ายไม่ได้ ถือเป็นเงื่อนไข Go-live ·
+    <span class="tag t-should">SHOULD</span> = ควรย้าย หากกระทบตารางเวลาให้เลื่อนไปหลัง Go-live ได้ ·
+    <span class="tag t-could">COULD</span> = ย้ายถ้าทรัพยากรเอื้อ ไม่ผูกกับ Go-live</div>
+  <div class="warn"><b>⚠️ ผลกระทบของ "ปีย้อนหลัง":</b> ทุก 1 ปีที่เพิ่มในข้อ 5–8 และ 11 ทำให้ปริมาณข้อมูลและเวลา Load เพิ่มอย่างมีนัยสำคัญ ซึ่งกระทบหน้าต่าง Downtime (ข้อ 10) โดยตรง —
+  หากโรงพยาบาลต้องการเพิ่มปีย้อนหลังจากค่าในตารางนี้ ต้อง<b>ทบทวนหน้าต่าง Cut-over ใหม่</b> และวัดเวลาจริงในรอบซ้อมที่ 3</div>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <h2><span class="n">5</span>ข้อมูลที่ไม่โอนย้าย (Non-scope) — ต้องระบุให้ชัด</h2>
+  <p class="no">การระบุ Non-scope ให้ชัดสำคัญเท่ากับการระบุขอบเขต เพราะเป็นสาเหตุอันดับต้นของข้อพิพาทตอนตรวจรับ</p>
+  <table>
+    <thead><tr><th style="width:28%">รายการที่ไม่ย้าย</th><th style="width:32%">เหตุผล</th><th>แนวทางทดแทน</th></tr></thead>
+    <tbody>
+      <tr><td>ประวัติการรักษาเกิน <span class="v">5 ปี</span> (OPD/IPD/Orders)</td><td>ปริมาณมหาศาล กระทบ Downtime · ความถี่การเรียกดูต่ำ</td><td>เปิด HosXP เดิมแบบ <b>read-only</b> ต่อไปอีก <span class="v">2 ปี</span> พร้อมคู่มือการค้นหา</td></tr>
+      <tr><td>ผล Lab / รังสี เกิน <span class="v">3 ปี</span></td><td>คุณค่าทางคลินิกลดลง · หน่วยวัดเก่าไม่ตรงมาตรฐานปัจจุบัน</td><td>HosXP read-only + PACS เดิม</td></tr>
+      <tr><td>ไฟล์ภาพ DICOM ใน PACS</td><td>อยู่นอกระบบ HIS · ขนาดใหญ่มาก</td><td>ย้ายเฉพาะ index/link · เปิดดูจาก PACS เดิมผ่าน HA.OS</td></tr>
+      <tr><td>ประวัติการเคลื่อนไหวคลังยา/พัสดุย้อนหลัง</td><td>ไม่จำเป็นต่อการดำเนินงานต่อเนื่อง</td><td>ย้ายเฉพาะ<b>ยอดคงเหลือ ณ cut-off</b> · รายงานย้อนหลังจาก HosXP</td></tr>
+      <tr><td>ใบเสร็จ/รายได้ เกิน <span class="v">3 ปี</span></td><td>เกินอายุการตรวจสอบตามระเบียบที่ รพ. กำหนด</td><td>HosXP read-only + รายงานที่ export ไว้แล้ว</td></tr>
+      <tr><td>ข้อมูลผู้ป่วยที่ตรวจสอบแล้วว่าเป็น <b>test/ข้อมูลขยะ</b></td><td>ทำให้สถิติและ Reconciliation เพี้ยน</td><td>คัดออกตามกฎที่ Data Owner เวชระเบียนยืนยัน + ทำรายการแนบเป็นหลักฐาน</td></tr>
+      <tr><td>บัญชีผู้ใช้ที่ลาออก/ไม่ใช้งาน</td><td>ความปลอดภัย</td><td>เก็บเฉพาะชื่อผู้บันทึกในประวัติเดิม (ไม่สร้าง user)</td></tr>
+      <tr><td>ระบบเสริมที่ไม่ใช่ HosXP <span class="no">(เช่น โปรแกรมแยกของหน่วยงาน)</span></td><td>อยู่นอกสัญญาแนบท้าย 1</td><td>ต้องยกเป็น Change Request หากต้องการย้าย</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 เงื่อนไขบังคับ:</b> การเปิด HosXP เดิมแบบ read-only เป็น<b>ข้อกำหนดที่โรงพยาบาลต้องจัดหา</b> (เครื่อง/สิทธิ์/ผู้ดูแล) — หาก รพ. ไม่สามารถคงระบบเดิมไว้ได้ ต้องทบทวนขอบเขตข้อ 4 ใหม่ทั้งหมด เพราะแนวทางทดแทนข้างต้นจะใช้ไม่ได้</div>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <h2><span class="n">6</span>ความต้องการรายข้อ (Migration Requirements)</h2>
+  <p class="no">แต่ละข้อมีรหัสอ้างอิงเพื่อใช้ผูกกับ Data Mapping (S2-05) และผลการทดสอบ Reconciliation (S2-14)</p>
+  <h3>6.1 ความต้องการด้านความครบถ้วน (Completeness)</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน (Verification)</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-001</td><td><span class="tag t-must">MUST</span></td><td>ผู้ป่วยทุกรายในทั้ง 3 แหล่งต้องปรากฏใน HA.OS อย่างน้อย 1 ระเบียน (ยกเว้นที่คัดออกตามกฎ Non-scope ข้อ 5)</td><td>Count ต้นทาง (หลังหักที่คัดออก) = Count ปลายทาง</td></tr>
+      <tr><td class="id">MIG-R-002</td><td><span class="tag t-must">MUST</span></td><td>ประวัติแพ้ยาต้องถูกรวมจากทุกแหล่งแบบ union — ห้ามตกหล่นแม้รายการเดียว</td><td>เทียบรายรายการ (record-by-record) = 100%</td></tr>
+      <tr><td class="id">MIG-R-003</td><td><span class="tag t-must">MUST</span></td><td>นัดหมายที่มีวันนัด ≥ วัน Go-live ต้องถูกย้ายครบทุกรายการ พร้อมแพทย์/คลินิก/ช่วงเวลาเดิม</td><td>เทียบรายรายการ = 100% + Key User สุ่มเปิดดูตารางนัด <span class="v">5</span> คลินิก</td></tr>
+      <tr><td class="id">MIG-R-004</td><td><span class="tag t-must">MUST</span></td><td>ยาที่ใช้ต่อเนื่องของผู้ป่วยโรคเรื้อรังต้องปรากฏในหน้าจอสั่งยาของ HA.OS ได้ทันทีวันแรกที่เปิดใช้</td><td>สุ่มผู้ป่วยโรคเรื้อรัง <span class="v">100</span> ราย เปิดเทียบกับ HosXP</td></tr>
+      <tr><td class="id">MIG-R-005</td><td><span class="tag t-must">MUST</span></td><td>ทุก visit/admit ที่ย้ายมาต้องผูกกับผู้ป่วยที่มีอยู่จริง (ไม่มี orphan)</td><td>Referential check: orphan = 0</td></tr>
+      <tr><td class="id">MIG-R-006</td><td><span class="tag t-should">SHOULD</span></td><td>ผลแล็บที่ย้ายมาต้องแสดงกราฟแนวโน้มย้อนหลังได้ต่อเนื่องไม่ขาดช่วง</td><td>สุ่ม <span class="v">30</span> เคสที่มีผลต่อเนื่อง เปิดดูกราฟ</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.2 ความต้องการด้านความถูกต้อง (Accuracy)</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-007</td><td><span class="tag t-must">MUST</span></td><td>วันที่ทุกฟิลด์ต้องแปลง พ.ศ. → ค.ศ. ถูกต้อง ไม่มีวันเกิดเพี้ยน 543 ปี</td><td>ตรวจช่วงวันเกิดที่เป็นไปได้ (อายุ 0–130 ปี) · นอกช่วง = 0 record</td></tr>
+      <tr><td class="id">MIG-R-008</td><td><span class="tag t-must">MUST</span></td><td>ชื่อ-สกุลภาษาไทยต้องไม่มีอักขระเพี้ยนจากปัญหา encoding (โดยเฉพาะแหล่ง <code>v3</code>)</td><td>สุ่ม <span class="v">500</span> ราย/แหล่ง + ตรวจ pattern อักขระผิดอัตโนมัติ</td></tr>
+      <tr><td class="id">MIG-R-009</td><td><span class="tag t-must">MUST</span></td><td>สิทธิการรักษาต้อง map เป็นรหัสมาตรฐานปลายทางถูกต้อง และตรวจสอบสิทธิกับ สปสช. ได้</td><td>ทดสอบตรวจสอบสิทธิจริง <span class="v">50</span> ราย ครบทุกประเภทสิทธิ</td></tr>
+      <tr><td class="id">MIG-R-010</td><td><span class="tag t-must">MUST</span></td><td>รหัสยาต้อง map เข้ากับ drug master ของ HA.OS (TMT/รหัส 24 หลัก) ครบทุกรายการที่ยังใช้งาน</td><td>รายการยา active ที่ map ไม่ได้ = 0 · รายการที่เลิกใช้ให้ทำบัญชียกเว้น</td></tr>
+      <tr><td class="id">MIG-R-011</td><td><span class="tag t-must">MUST</span></td><td>รหัส ICD10/ICD9 ต้องตรวจผ่าน master ปลายทาง — รหัสที่ไม่ผ่านต้องมีรายงานและได้รับการตัดสินจาก Data Owner</td><td>รายการ flag ทั้งหมดต้องมีสถานะปิด (แก้/ยอมรับ) ก่อน Cut-over</td></tr>
+      <tr><td class="id">MIG-R-012</td><td><span class="tag t-must">MUST</span></td><td>ยอดลูกหนี้ค้างชำระรวมและยอดเคลมค้างส่งรวม ปลายทาง = ต้นทาง</td><td>ผลต่าง = <span class="v">0.00 บาท</span> · ลงนามโดย หน.การเงิน</td></tr>
+      <tr><td class="id">MIG-R-013</td><td><span class="tag t-should">SHOULD</span></td><td>ยอดคงเหลือคลังยา/เวชภัณฑ์ ณ cut-off ตรงกับการตรวจนับจริงของ รพ.</td><td>ผลต่างไม่เกิน <span class="v">0.5%</span> ของมูลค่ารวม และมีคำอธิบายทุกรายการที่ต่าง</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.3 ความต้องการด้านการใช้งานต่อเนื่อง (Continuity)</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-014</td><td><span class="tag t-must">MUST</span></td><td>ผู้ป่วยเดิมต้องค้นเจอด้วย <b>HN เดิม</b> ที่เคยใช้ในทุกแหล่ง (รองรับ HN ทางเลือก/HN เก่า)</td><td>ค้นด้วย HN เดิมจาก 3 แหล่ง แหล่งละ <span class="v">50</span> ราย เจอครบ</td></tr>
+      <tr><td class="id">MIG-R-015</td><td><span class="tag t-must">MUST</span></td><td>ต้องส่งเบิก e-Claim (CSOPBIL) จากข้อมูลที่ย้ายแล้วได้สำเร็จ ผ่านการตรวจของ สปสช.</td><td>ส่งไฟล์ทดสอบจริง <span class="v">1</span> รอบ ผ่านการตรวจ (ไม่มี error ระดับ reject)</td></tr>
+      <tr><td class="id">MIG-R-016</td><td><span class="tag t-must">MUST</span></td><td>ต้องส่งออก 43 แฟ้มจาก HA.OS ได้ตามรอบปกติของ รพ. โดยไม่ขาดช่วงคาบเกี่ยว Cut-over</td><td>ทดสอบ export 1 รอบเดือน + ตรวจความครบของแฟ้ม</td></tr>
+      <tr><td class="id">MIG-R-017</td><td><span class="tag t-must">MUST</span></td><td>เลข HN/VN/AN ที่ระบบใหม่ออกให้ต้องต่อเนื่องจากเลขสุดท้ายของระบบเดิม ไม่ชนกัน</td><td>ตรวจ running number ก่อนเปิดใช้ + ทดสอบออกเลขใหม่ <span class="v">20</span> ครั้ง</td></tr>
+      <tr><td class="id">MIG-R-018</td><td><span class="tag t-should">SHOULD</span></td><td>รายงานประจำที่ รพ. ใช้อยู่ต้องดึงข้อมูลย้อนหลังที่ย้ายมาได้ถูกต้อง</td><td>เทียบ <span class="v">10</span> รายงานหลักกับผลจาก HosXP ช่วงเดียวกัน</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.4 ความต้องการด้านคุณภาพข้อมูลและการตรวจสอบย้อนกลับ (Quality &amp; Traceability)</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-019</td><td><span class="tag t-must">MUST</span></td><td>ทุกระเบียนที่ย้ายมาต้องระบุแหล่งที่มาได้ (v4/v3/vPCU) และ key เดิมของต้นทาง</td><td>ตรวจฟิลด์ source system + legacy key ต้องไม่ว่าง</td></tr>
+      <tr><td class="id">MIG-R-020</td><td><span class="tag t-must">MUST</span></td><td>ทุกกฎการแปลง/คัดออกต้องบันทึกเป็นลายลักษณ์อักษรและตรวจย้อนกลับได้ว่าใครอนุมัติ</td><td>ทะเบียนกฎการแปลงครบทุกข้อ + ผู้อนุมัติกำกับ</td></tr>
+      <tr><td class="id">MIG-R-021</td><td><span class="tag t-must">MUST</span></td><td>ระเบียนที่ย้ายไม่สำเร็จต้องมีรายงาน error ระบุสาเหตุรายรายการ ไม่ใช่แค่จำนวนรวม</td><td>Error report ดาวน์โหลดได้ · ทุกบรรทัดมีสาเหตุ</td></tr>
+      <tr><td class="id">MIG-R-022</td><td><span class="tag t-should">SHOULD</span></td><td>ต้องเก็บ snapshot ข้อมูลต้นทางที่ใช้ในรอบจริงไว้ตรวจสอบย้อนหลัง</td><td>มีสำเนา snapshot + checksum เก็บไว้อย่างน้อย <span class="v">1 ปี</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.5 ความต้องการด้านสมรรถนะและเวลา (Performance)</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-023</td><td><span class="tag t-must">MUST</span></td><td>การ Load รอบจริงทั้งหมดต้องเสร็จภายในหน้าต่าง Downtime ที่ตกลง (<span class="v">12 ชม.</span>) รวมเวลา Reconciliation</td><td>วัดเวลาจริงในรอบซ้อมที่ 3 ด้วยข้อมูลปริมาณเท่าจริง</td></tr>
+      <tr><td class="id">MIG-R-024</td><td><span class="tag t-must">MUST</span></td><td>การ Extract จากระบบเดิมต้องไม่ทำให้ HosXP ที่ยังให้บริการอยู่ช้าลงจนกระทบผู้ป่วย</td><td>ทำนอกเวลาให้บริการ / อ่านจาก replica · เฝ้าดู response time ระหว่าง Extract</td></tr>
+      <tr><td class="id">MIG-R-025</td><td><span class="tag t-should">SHOULD</span></td><td>ต้องรองรับการ Load ซ้ำเฉพาะบางโดเมน (re-run รายส่วน) โดยไม่ต้องเริ่มใหม่ทั้งหมด</td><td>ทดสอบ re-run <span class="v">2</span> โดเมนในรอบซ้อมที่ 3</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.6 ความต้องการด้านความปลอดภัยและกฎหมาย</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-026</td><td><span class="tag t-must">MUST</span></td><td>ข้อมูลผู้ป่วยต้องอยู่ในเครือข่าย/เครื่องที่โรงพยาบาลอนุญาตเท่านั้น ห้ามนำออกนอกสถานที่โดยไม่ได้รับอนุมัติ</td><td>บันทึกอนุมัติการเข้าถึง + ทะเบียนเครื่องที่ใช้</td></tr>
+      <tr><td class="id">MIG-R-027</td><td><span class="tag t-must">MUST</span></td><td>สภาพแวดล้อมทดสอบ/ซ้อมต้องปกปิดข้อมูลระบุตัวตน (masking) หรือควบคุมการเข้าถึงเทียบเท่า Production</td><td>ตรวจ config สภาพแวดล้อมทดสอบก่อนรอบซ้อมแรก</td></tr>
+      <tr><td class="id">MIG-R-028</td><td><span class="tag t-must">MUST</span></td><td>ผู้เข้าถึงข้อมูลต้องลงนามข้อตกลงรักษาความลับ และมีบันทึกการเข้าถึง (access log)</td><td>ทะเบียนผู้เข้าถึง + NDA ครบทุกคน</td></tr>
+      <tr><td class="id">MIG-R-029</td><td><span class="tag t-must">MUST</span></td><td>สำเนาข้อมูลชั่วคราว (staging/dump) ต้องถูกลบอย่างปลอดภัยเมื่อจบงาน</td><td>ใบรับรองการทำลายข้อมูล ลงนามโดย IT รพ.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.7 ความต้องการด้านการยืนยันโดยผู้ใช้</h3>
+  <table>
+    <thead><tr><th style="width:11%">รหัส</th><th style="width:9%">ระดับ</th><th style="width:44%">ความต้องการ</th><th>เกณฑ์ยืนยัน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">MIG-R-030</td><td><span class="tag t-must">MUST</span></td><td>Key User แต่ละโดเมนต้องสุ่มเปิดเวชระเบียนจริงเทียบกับระบบเดิม และลงนามรับรอง</td><td>ใบรับรองรายโดเมนครบทุกโดเมนที่ระบุในข้อ 2</td></tr>
+      <tr><td class="id">MIG-R-031</td><td><span class="tag t-must">MUST</span></td><td>เคสผู้ป่วยที่จับคู่ไม่ชัดเจนต้องผ่านการตัดสินโดยเจ้าหน้าที่เวชระเบียน ห้ามรวมอัตโนมัติ</td><td>คิว manual review ต้องปิดครบ 100% ก่อน Cut-over</td></tr>
+      <tr><td class="id">MIG-R-032</td><td><span class="tag t-should">SHOULD</span></td><td>ต้องมีช่องทางแจ้งปัญหาข้อมูลหลัง Go-live พร้อมเวลาตอบสนองที่ตกลงกัน</td><td>ช่องทาง + SLA ระบุใน Hypercare Plan</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <h2><span class="n">7</span>กฎธุรกิจและกฎการแปลงข้อมูล (Business &amp; Transformation Rules)</h2>
+  <p class="no">กฎทุกข้อต้องมีผู้อนุมัติฝั่งโรงพยาบาล และจะถูกนำไปใช้เป็นข้อกำหนดใน Data Mapping (S2-05)</p>
+  <table>
+    <thead><tr><th style="width:9%">รหัส</th><th style="width:20%">เรื่อง</th><th style="width:40%">กฎ</th><th>ผู้อนุมัติ</th></tr></thead>
+    <tbody>
+      <tr><td class="id">BR-01</td><td>ปี พ.ศ. → ค.ศ.</td><td>ลบ 543 จากทุกฟิลด์วันที่ที่ตรวจพบว่าเป็น พ.ศ. · ถ้าผลลัพธ์อยู่นอกช่วงที่เป็นไปได้ → flag ไม่แปลงอัตโนมัติ</td><td>PM + IT รพ.</td></tr>
+      <tr><td class="id">BR-02</td><td>เลขบัตรประชาชน</td><td>ตรวจ checksum 13 หลัก · ไม่ผ่าน → เก็บค่าเดิมไว้แต่ทำเครื่องหมาย "รอตรวจสอบ" และห้ามใช้เป็น key จับคู่</td><td>หน.เวชระเบียน</td></tr>
+      <tr><td class="id">BR-03</td><td>ผู้ป่วยไม่มีบัตรประชาชน <span class="no">(ต่างด้าว/ทารก/ไม่ทราบชื่อ)</span></td><td>จับคู่ด้วย ชื่อ-สกุล + วันเกิด + เพศ + HN · หากยังไม่ชัด → เข้าคิว manual review</td><td>หน.เวชระเบียน</td></tr>
+      <tr><td class="id">BR-04</td><td>วันเกิดไม่สมบูรณ์</td><td>กรณีมีเฉพาะปี ให้ใช้ <span class="v">1 ม.ค.</span> ของปีนั้น และทำเครื่องหมายว่าเป็นค่าประมาณ</td><td>หน.เวชระเบียน</td></tr>
+      <tr><td class="id">BR-05</td><td>สิทธิการรักษา</td><td>map เป็นรหัสมาตรฐานปลายทาง · สิทธิที่หมดอายุก่อน cut-off ไม่ย้าย · ผู้ป่วยไม่มีสิทธิ → ตั้งเป็น "ชำระเงินเอง"</td><td>หน.ศูนย์เคลม</td></tr>
+      <tr><td class="id">BR-06</td><td>รหัสยา</td><td>map เข้า drug master ปลายทางด้วยรหัส TMT/24 หลัก · ยาที่เลิกใช้แล้วให้ย้ายเฉพาะเพื่ออ่านประวัติ ห้ามให้สั่งใหม่ได้</td><td>หน.เภสัชกรรม</td></tr>
+      <tr><td class="id">BR-07</td><td>หน่วยผลแล็บ</td><td>map หน่วยและค่าอ้างอิงตามตารางที่ห้องแล็บยืนยัน · หน่วยที่ map ไม่ได้ → flag ห้าม Load</td><td>หน.ห้องปฏิบัติการ</td></tr>
+      <tr><td class="id">BR-08</td><td>ผู้ป่วยเสียชีวิต</td><td>ย้ายข้อมูลตามปกติ แต่ตั้งสถานะให้ระบบไม่เปิดนัดหมาย/สั่งการรักษาใหม่ได้</td><td>หน.เวชระเบียน</td></tr>
+      <tr><td class="id">BR-09</td><td>ข้อมูลซ้ำภายในแหล่งเดียวกัน</td><td>เก็บระเบียนที่ปรับปรุงล่าสุด · ระเบียนอื่นเก็บเป็นประวัติ ไม่ลบทิ้ง</td><td>Data Owner รายโดเมน</td></tr>
+      <tr><td class="id">BR-10</td><td>ข้อมูลทดสอบ/ขยะ</td><td>คัดออกตามเงื่อนไขที่ตกลง (เช่น ชื่อที่ขึ้นต้นด้วย "ทดสอบ") · ต้องทำรายการแนบให้ รพ. ตรวจก่อนคัดออกจริง</td><td>หน.เวชระเบียน + IT</td></tr>
+      <tr><td class="id">BR-11</td><td>HN ซ้ำข้ามจุดบริการ</td><td>คง HN เดิมของแหล่งหลัก (<code>v4</code>) เป็น HN ปัจจุบัน · HN จากแหล่งอื่นเก็บเป็น <b>HN ทางเลือก</b> ค้นหาได้</td><td>หน.เวชระเบียน</td></tr>
+      <tr><td class="id">BR-12</td><td>เอกสารแนบ/สแกน</td><td>ย้ายเฉพาะที่เปิดอ่านได้จริงและไม่เสียหาย · ไฟล์เสียหายให้รายงานเป็นรายการ</td><td>IT รพ.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <h2><span class="n">8</span>กฎการรวมผู้ป่วยซ้ำ (Deduplication) และ Golden Record</h2>
+  <p class="no">เป็นความต้องการที่มีความเสี่ยงสูงสุด เพราะผลลัพธ์กระทบความปลอดภัยผู้ป่วยโดยตรง</p>
+  <h3>8.1 ลำดับกฎการจับคู่</h3>
+  <table>
+    <thead><tr><th style="width:8%">ลำดับ</th><th style="width:34%">เงื่อนไขจับคู่</th><th style="width:16%">ผลการตัดสิน</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>เลขบัตรประชาชนตรงกัน (ผ่าน checksum)</td><td><b>รวมอัตโนมัติ</b></td><td>ความเชื่อมั่นสูงสุด</td></tr>
+      <tr><td>2</td><td>ชื่อ + สกุล + วันเกิด + เพศ ตรงกันทั้งหมด</td><td><b>รวมอัตโนมัติ</b></td><td>ใช้เมื่อไม่มีเลขบัตร</td></tr>
+      <tr><td>3</td><td>ชื่อ+สกุลคล้ายกันมาก + วันเกิดตรง + เพศตรง</td><td><span style="color:var(--accent);font-weight:700">manual review</span></td><td>ครอบคลุมกรณีสะกดต่างเล็กน้อย</td></tr>
+      <tr><td>4</td><td>ชื่อ+สกุลตรง แต่วันเกิดต่างกันเล็กน้อย</td><td><span style="color:var(--accent);font-weight:700">manual review</span></td><td>มักเป็นความผิดพลาดการบันทึก</td></tr>
+      <tr><td>5</td><td>ไม่เข้าเงื่อนไขข้างต้น</td><td>ถือเป็นคนละคน</td><td>สร้างระเบียนแยก</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 ข้อห้ามเด็ดขาด:</b> ห้ามรวมผู้ป่วยอัตโนมัติในกรณีที่เข้าเงื่อนไขลำดับ 3–4 · เคสเหล่านี้ต้องให้<b>เจ้าหน้าที่เวชระเบียนตัดสินทีละราย</b> และคิวต้องปิดครบก่อน Cut-over (MIG-R-031)</div>
+  <h3>8.2 กฎการสร้าง Golden Record</h3>
+  <table>
+    <thead><tr><th style="width:26%">ประเภทข้อมูล</th><th style="width:30%">วิธีเลือก/รวม</th><th>เหตุผล</th></tr></thead>
+    <tbody>
+      <tr><td>ชื่อ-สกุล, ที่อยู่, เบอร์ติดต่อ</td><td>ใช้ค่าที่<b>ปรับปรุงล่าสุด</b></td><td>สะท้อนสถานะปัจจุบัน</td></tr>
+      <tr><td>เลขบัตรประชาชน</td><td>ใช้ค่าที่ผ่าน checksum · ถ้ามีหลายค่าที่ผ่าน → manual review</td><td>ป้องกันข้อมูลตัวตนผิด</td></tr>
+      <tr><td><b>ประวัติแพ้ยา</b> <span class="tag t-crit">วิกฤต</span></td><td><b>รวมทุกแหล่ง (union) ห้ามตัดออก</b> แม้ซ้ำก็เก็บทั้งคู่แล้วให้เภสัชตรวจภายหลัง</td><td>ตกหล่น 1 รายการ = อันตรายถึงชีวิต</td></tr>
+      <tr><td>ประวัติการรักษา / visit</td><td>รวมทุกแหล่ง เรียงตามเวลา คงแหล่งที่มาไว้ทุกระเบียน</td><td>ต้องเห็นประวัติต่อเนื่อง</td></tr>
+      <tr><td>HN</td><td>HN แหล่งหลักเป็นหลัก · ที่เหลือเป็น HN ทางเลือก (BR-11)</td><td>ผู้ป่วยยังถือบัตรเดิม</td></tr>
+      <tr><td>สิทธิการรักษา</td><td>ใช้สิทธิที่ active ล่าสุด ณ cut-off</td><td>ใช้เบิกจ่ายได้จริง</td></tr>
+    </tbody>
+  </table>
+  <div class="egbox"><b>📊 ตัวอย่างผลที่คาดหมาย (จาก Profiling เบื้องต้น):</b> จากผู้ป่วยรวม <span class="v">~480,000</span> ราย คาดว่าเป็นคนซ้ำ <span class="v">~85,000</span> ราย
+  (ส่วนใหญ่ <code>v4</code>↔<code>v3</code>) เหลือผู้ป่วยจริง <span class="v">~395,000</span> ราย โดยมีเคสที่ต้อง manual review ประมาณ <span class="v">3,000–5,000</span> เคส →
+  ต้องเผื่อกำลังคนเวชระเบียน <span class="v">2 คน × 3 สัปดาห์</span> ในแผนงาน</div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <h2><span class="n">9</span>ข้อมูลวิกฤตและเกณฑ์ความถูกต้องรายระดับ</h2>
+  <table>
+    <thead><tr><th style="width:24%">กลุ่มข้อมูล</th><th style="width:14%">เกณฑ์</th><th style="width:26%">วิธีตรวจ</th><th>ผลหากไม่ผ่าน</th></tr></thead>
+    <tbody>
+      <tr><td><b>ข้อมูลวิกฤต</b> <span class="tag t-crit">แพ้ยา · ยา active · ผล Lab · นัดหมาย</span></td><td><b>100%</b></td><td>เทียบรายรายการ ต้นทาง ↔ ปลายทาง</td><td style="color:var(--crit);font-weight:700">No-Go — ห้ามเปิดใช้ระบบ</td></tr>
+      <tr><td>ข้อมูลการเงิน (ลูกหนี้ · เคลมค้าง)</td><td><b>100%</b> ของยอดรวม</td><td>Control total + ลงนามโดย หน.การเงิน</td><td style="color:var(--crit);font-weight:700">No-Go</td></tr>
+      <tr><td>ทะเบียนผู้ป่วย + สิทธิ</td><td><b>100%</b> ของจำนวน</td><td>Record count + สุ่มตรวจ</td><td style="color:var(--crit);font-weight:700">No-Go</td></tr>
+      <tr><td>ประวัติการรักษา / Orders / ICD</td><td><span class="v">≥ 99.9%</span></td><td>Record count รายโดเมน + error report</td><td>เปิดใช้ได้ ถ้ามีแผนแก้ที่ตกลงกัน</td></tr>
+      <tr><td>ใบเสร็จ / รายงานย้อนหลัง</td><td><span class="v">≥ 99.5%</span></td><td>Count + สุ่มตรวจ</td><td>แก้ในช่วง Hypercare</td></tr>
+      <tr><td>เอกสารแนบ / สแกน</td><td><span class="v">≥ 95%</span></td><td>Count ไฟล์ + สุ่มเปิดอ่าน</td><td>แก้ภายหลัง ไม่บล็อก Go-live</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 เกณฑ์เหล่านี้จะถูกนำไปใช้เป็น<b>เงื่อนไข Go/No-Go</b> ในเอกสาร S2-14 (Reconciliation) และ S2-17 (Go-Live/Cutover Checklist) — ตัวเลขทุกช่องต้องได้รับการยืนยันจากคณะทำงาน HIS ก่อน</div>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <h2><span class="n">10</span>ความต้องการด้าน Cut-off, Delta และ Downtime</h2>
+  <table>
+    <thead><tr><th style="width:28%">หัวข้อ</th><th style="width:24%">ค่าที่ต้องการ</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td>วิธีการโอนย้าย</td><td><span class="v">Full load + Delta</span></td><td>Full load ล่วงหน้า แล้วตาม Delta เฉพาะข้อมูลที่เปลี่ยนในคืน Cut-over เพื่อลด Downtime</td></tr>
+      <tr><td>วันตัดยอด Full load</td><td><span class="v">ก่อน Cut-over 7 วัน</span></td><td>ให้เวลาตรวจสอบก่อนรอบจริง</td></tr>
+      <tr><td>ช่วง Delta ที่ต้องรองรับ</td><td><span class="v">7 วันสุดท้าย</span></td><td>ต้องระบุได้ว่าระเบียนใดเปลี่ยนแปลง (ใช้ timestamp ต้นทาง)</td></tr>
+      <tr><td>หน้าต่าง Downtime ที่ยอมรับได้</td><td><span class="v">ไม่เกิน 12 ชม.</span></td><td>เลือกคืนวันหยุด · ต้องวัดเวลาจริงในรอบซ้อมที่ 3</td></tr>
+      <tr><td>Data freeze ระบบเดิม</td><td><span class="v">22:00 น. คืนก่อน Go-live</span></td><td>หลังเวลานี้ HosXP บันทึกใหม่ไม่ได้ · ใช้แบบฟอร์มมือระหว่าง freeze</td></tr>
+      <tr><td>การบันทึกย้อนหลังช่วง freeze</td><td><span class="v">คีย์เข้า HA.OS ภายใน 24 ชม.</span></td><td>ต้องมีขั้นตอนและผู้รับผิดชอบชัดเจน</td></tr>
+      <tr><td>จุดตัดสินใจ Go/No-Go</td><td><span class="v">หลัง Reconciliation ข้อมูลวิกฤตครบ</span></td><td>ตามเกณฑ์ข้อ 9 · ผู้ตัดสิน = คณะทำงาน HIS + PM</td></tr>
+      <tr><td>ระยะเปิด HosXP read-only</td><td><span class="v">2 ปี หลัง Go-live</span></td><td>เงื่อนไขรองรับ Non-scope (ข้อ 5)</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>⚠️ ข้อสังเกต:</b> หากต้นทางบางตารางไม่มี timestamp การแก้ไขที่เชื่อถือได้ จะทำ Delta ไม่ได้ ต้อง Full load ทั้งหมดในคืน Cut-over ซึ่งจะทำให้ Downtime ยาวขึ้นมาก —
+  ประเด็นนี้ต้องตรวจให้จบใน Data Profiling ก่อนยืนยันหน้าต่าง Downtime (ดูประเด็นค้าง OI-02)</div>
+</section>
+
+<!-- 11 -->
+<section id="s11">
+  <h2><span class="n">11</span>ความปลอดภัยข้อมูลและ PDPA</h2>
+  <ul>
+    <li>ข้อมูลผู้ป่วยทั้งหมดถือเป็น<b>ข้อมูลส่วนบุคคลอ่อนไหว</b> — การเข้าถึงต้องมีเหตุผลตามหน้าที่และได้รับอนุมัติเป็นลายลักษณ์อักษร</li>
+    <li>สภาพแวดล้อมซ้อม/ทดสอบต้อง<b>ปกปิดข้อมูลระบุตัวตน</b> หรือควบคุมการเข้าถึงเทียบเท่า Production (MIG-R-027)</li>
+    <li>ห้ามคัดลอกข้อมูลออกนอกเครือข่ายที่โรงพยาบาลกำหนด · ห้ามใช้อุปกรณ์เก็บข้อมูลส่วนตัว</li>
+    <li>ผู้ปฏิบัติงานทุกคนต้องลงนามข้อตกลงรักษาความลับ และมีบันทึกการเข้าถึงย้อนหลังได้</li>
+    <li>สำเนาชั่วคราว (staging/dump/backup ระหว่างทาง) ต้องถูก<b>ลบอย่างปลอดภัย</b>เมื่อจบงาน พร้อมใบรับรองการทำลาย (MIG-R-029)</li>
+    <li>การส่งข้อมูลระหว่างระบบต้องเข้ารหัสระหว่างทาง</li>
+  </ul>
+  <div class="note">💡 รายละเอียดมาตรการทั้งหมดอยู่ในเอกสารด้านความมั่นคงปลอดภัยของโครงการ — เอกสารฉบับนี้ระบุเฉพาะข้อกำหนดที่ผูกกับงานโอนย้ายข้อมูล</div>
+</section>
+
+<!-- 12 -->
+<section id="s12">
+  <h2><span class="n">12</span>สิ่งที่โรงพยาบาลต้องจัดหา (Input จาก รพ.)</h2>
+  <p class="no">รายการเหล่านี้เป็น<b>เงื่อนไขเริ่มงาน</b> — หากล่าช้าจะกระทบวันเริ่มซ้อมและวัน Go-live โดยตรง</p>
+  <table>
+    <thead><tr><th style="width:5%">#</th><th style="width:32%">สิ่งที่ต้องจัดหา</th><th style="width:16%">ผู้รับผิดชอบ (รพ.)</th><th style="width:14%">ต้องได้ภายใน</th><th>ผลกระทบหากล่าช้า</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>สิทธิ์เข้าถึง HosXP แบบ read-only ครบทั้ง 3 แหล่ง</td><td><span class="v">หน.IT</span></td><td><span class="v">ส.ค. 2569</span></td><td style="color:var(--crit);font-weight:700">เริ่ม Profiling ไม่ได้</td></tr>
+      <tr><td>2</td><td>สำเนาฐานข้อมูล (dump) สำหรับสภาพแวดล้อมซ้อม</td><td><span class="v">หน.IT</span></td><td><span class="v">ก.ย. 2569</span></td><td style="color:var(--crit);font-weight:700">ซ้อมรอบ 1 เลื่อน</td></tr>
+      <tr><td>3</td><td>ยืนยันปีย้อนหลังทุกชุดข้อมูล (ข้อ 4)</td><td><span class="v">คณะทำงาน HIS</span></td><td><span class="v">ส.ค. 2569</span></td><td style="color:var(--crit);font-weight:700">ทำ Mapping ไม่ได้</td></tr>
+      <tr><td>4</td><td>ยืนยันรายการ Non-scope (ข้อ 5)</td><td><span class="v">คณะทำงาน HIS</span></td><td><span class="v">ส.ค. 2569</span></td><td>เสี่ยงข้อพิพาทตอนตรวจรับ</td></tr>
+      <tr><td>5</td><td>ตารางเทียบรหัสยา รพ. → TMT/24 หลัก</td><td><span class="v">หน.เภสัชกรรม</span></td><td><span class="v">ก.ย. 2569</span></td><td>ยา map ไม่ได้ → สั่งยาไม่ได้วันเปิดใช้</td></tr>
+      <tr><td>6</td><td>ตารางหน่วยและค่าอ้างอิงผลแล็บ</td><td><span class="v">หน.ห้องปฏิบัติการ</span></td><td><span class="v">ก.ย. 2569</span></td><td>ผลแล็บแสดงผิดหน่วย</td></tr>
+      <tr><td>7</td><td>รายการค่าบริการ + ชุดราคาตามสิทธิที่ใช้จริง</td><td><span class="v">หน.การเงิน</span></td><td><span class="v">ก.ย. 2569</span></td><td>คิดเงินผิดวันเปิดใช้</td></tr>
+      <tr><td>8</td><td>กำลังคนเวชระเบียนสำหรับ manual review เคสซ้ำ</td><td><span class="v">หน.เวชระเบียน</span></td><td><span class="v">ต.ค.–พ.ย. 2569</span></td><td style="color:var(--crit);font-weight:700">ปิดคิวไม่ทัน → No-Go</td></tr>
+      <tr><td>9</td><td>Key User ลงนามรับรองผลรายโดเมนทุกรอบซ้อม</td><td><span class="v">Data Owner ทุกโดเมน</span></td><td>ทุกรอบซ้อม</td><td>ไม่มีหลักฐานตรวจรับ</td></tr>
+      <tr><td>10</td><td>ยืนยันหน้าต่าง Downtime + วันหยุดที่ใช้ Cut-over</td><td><span class="v">คณะทำงาน HIS</span></td><td><span class="v">พ.ย. 2569</span></td><td>วางแผน Cut-over ไม่ได้</td></tr>
+      <tr><td>11</td><td>เครื่อง/พื้นที่จัดเก็บสำหรับ HosXP read-only หลัง Go-live</td><td><span class="v">หน.IT</span></td><td><span class="v">ธ.ค. 2569</span></td><td>แนวทางทดแทน Non-scope ใช้ไม่ได้</td></tr>
+      <tr><td>12</td><td>อนุมัติการเข้าถึงข้อมูลผู้ป่วยตาม PDPA + NDA</td><td><span class="v">ผู้บริหาร รพ.</span></td><td><span class="v">ส.ค. 2569</span></td><td style="color:var(--crit);font-weight:700">เข้าถึงข้อมูลจริงไม่ได้</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 13 -->
+<section id="s13">
+  <h2><span class="n">13</span>เกณฑ์การยอมรับเอกสารและงานโอนย้าย</h2>
+  <h3>13.1 เกณฑ์ยอมรับเอกสารฉบับนี้</h3>
+  <ul>
+    <li>ทุกช่องที่ไฮไลต์ไว้ถูกแทนที่ด้วยค่าจริงจาก Data Profiling และการยืนยันของโรงพยาบาลแล้ว</li>
+    <li>ทุกโดเมนข้อมูลมี Data Owner ที่ระบุชื่อได้ (ข้อ 2)</li>
+    <li>รายการ Non-scope (ข้อ 5) ได้รับการยืนยันเป็นลายลักษณ์อักษร</li>
+    <li>กฎการแปลงทุกข้อ (ข้อ 7) มีผู้อนุมัติกำกับ</li>
+    <li>ประเด็นค้างระดับสูง (ข้อ 14) ปิดครบหรือมีแผนปิดที่ตกลงกัน</li>
+    <li>ลงนามครบตามข้อ 15</li>
+  </ul>
+  <h3>13.2 เกณฑ์ยอมรับผลการโอนย้าย (ใช้ตอน Cut-over)</h3>
+  <ul>
+    <li>ความต้องการระดับ <span class="tag t-must">MUST</span> ทุกข้อผ่านเกณฑ์ยืนยันที่ระบุไว้</li>
+    <li>ข้อมูลวิกฤตผ่าน Reconciliation <b>100%</b> (ข้อ 9)</li>
+    <li>คิว manual review เคสผู้ป่วยซ้ำปิดครบ 100%</li>
+    <li>ไม่มีประเด็นระดับวิกฤต/สูงค้างอยู่</li>
+    <li>Key User ลงนามรับรองครบทุกโดเมน</li>
+    <li>ทดสอบส่งเบิก e-Claim ผ่านแล้วอย่างน้อย 1 รอบ</li>
+  </ul>
+  <div class="crit"><b>🔴 เงื่อนไข No-Go:</b> หากข้อใดข้อหนึ่งใน 13.2 ไม่ผ่าน ให้ถือเป็น No-Go และดำเนินการตามแผน Rollback ใน <a href="data-migration-plan-msm.html">Migration Plan (S1-03) ข้อ 10</a> โดยไม่ต้องรอการตัดสินใจเพิ่มเติม</div>
+</section>
+
+<!-- 14 -->
+<section id="s14">
+  <h2><span class="n">14</span>ข้อสมมติ ข้อจำกัด และประเด็นค้าง</h2>
+  <h3>14.1 ข้อสมมติ (Assumptions)</h3>
+  <ul>
+    <li>โรงพยาบาลคงระบบ HosXP เดิมไว้แบบ read-only ได้อย่างน้อย <span class="v">2 ปี</span> หลัง Go-live</li>
+    <li>โครงสร้างฐานข้อมูลต้นทางไม่มีการเปลี่ยนแปลงระหว่างโครงการ</li>
+    <li>ปริมาณข้อมูลเติบโตไม่เกิน <span class="v">10%</span> จากที่ประเมินไว้ ณ วันจัดทำเอกสาร</li>
+    <li>โรงพยาบาลจัดกำลังคนสำหรับตรวจสอบและ manual review ได้ตามข้อ 12</li>
+  </ul>
+  <h3>14.2 ประเด็นค้าง (Open Issues)</h3>
+  <table>
+    <thead><tr><th style="width:9%">รหัส</th><th style="width:40%">ประเด็น</th><th style="width:11%">ระดับ</th><th style="width:16%">ผู้รับผิดชอบ</th><th>ต้องปิดภายใน</th></tr></thead>
+    <tbody>
+      <tr><td class="id">OI-01</td><td>ยังไม่ยืนยันปีย้อนหลังของผล Lab (3 ปี หรือ 5 ปี) — กระทบปริมาณข้อมูลอย่างมีนัยสำคัญ</td><td style="color:var(--crit);font-weight:700">สูง</td><td>องค์กรแพทย์ + PM</td><td><span class="v">ก.ย. 2569</span></td></tr>
+      <tr><td class="id">OI-02</td><td>ตารางบางส่วนใน <code>v3</code> ไม่มี timestamp การแก้ไข → อาจทำ Delta ไม่ได้ ต้อง Full load ในคืน Cut-over</td><td style="color:var(--crit);font-weight:700">สูง</td><td>Senior Imp เตทีม</td><td><span class="v">ต.ค. 2569</span></td></tr>
+      <tr><td class="id">OI-03</td><td>ยังไม่ได้ตารางเทียบรหัสยา รพ. → TMT ครบทุกรายการ</td><td style="color:var(--crit);font-weight:700">สูง</td><td>หน.เภสัชกรรม</td><td><span class="v">ก.ย. 2569</span></td></tr>
+      <tr><td class="id">OI-04</td><td>พื้นที่จัดเก็บเอกสารสแกน <span class="v">~1.2 TB</span> ยังไม่ยืนยันว่าเพียงพอ (กระทบข้อ 4 รายการ 18)</td><td style="color:var(--accent);font-weight:700">กลาง</td><td>หน.IT รพ.</td><td><span class="v">ต.ค. 2569</span></td></tr>
+      <tr><td class="id">OI-05</td><td>เกณฑ์คัดข้อมูลทดสอบ/ขยะ (BR-10) ยังไม่ได้รับการยืนยันเป็นลายลักษณ์อักษร</td><td style="color:var(--accent);font-weight:700">กลาง</td><td>หน.เวชระเบียน</td><td><span class="v">ก.ย. 2569</span></td></tr>
+      <tr><td class="id">OI-06</td><td>ยังไม่ระบุ Data Owner ของข้อมูลรังสี/PACS</td><td style="color:var(--accent);font-weight:700">กลาง</td><td>คณะทำงาน HIS</td><td><span class="v">ก.ย. 2569</span></td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>⚠️ กติกา:</b> ประเด็นระดับ "สูง" ที่ยังไม่ปิด จะทำให้ยังไม่สามารถอนุมัติ Data Mapping (S2-05) ได้ เพราะขอบเขตยังไม่นิ่ง</div>
+</section>
+
+<!-- 15 -->
+<section id="s15">
+  <h2><span class="n">15</span>การอนุมัติเอกสาร</h2>
+  <p class="no">การลงนามในเอกสารฉบับนี้ถือเป็นการ<b>ยืนยันขอบเขตการโอนย้ายข้อมูล</b> การเปลี่ยนแปลงหลังจากนี้ต้องดำเนินการผ่านกระบวนการควบคุมการเปลี่ยนแปลง (Change Request)</p>
+  <div class="signs">
+    <div><div class="line"></div>(<span class="v">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)<br><span class="role">ผู้จัดทำ — Senior Imp เตทีม (HosXP)</span></div>
+    <div><div class="line"></div>(<span class="v">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)<br><span class="role">ผู้สอบทาน — Project Manager (อโยเดีย)</span></div>
+    <div><div class="line"></div>(<span class="v">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)<br><span class="role">ผู้รับรองข้อมูล — หัวหน้าเวชระเบียน (รพ.)</span></div>
+    <div><div class="line"></div>(<span class="v">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)<br><span class="role">ผู้อนุมัติ — ประธานคณะทำงาน HIS (รพ.)</span></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">📎</span>เอกสารที่เกี่ยวข้อง</h2>
+  <table>
+    <thead><tr><th style="width:12%">รหัส</th><th style="width:34%">เอกสาร</th><th>ความสัมพันธ์กับเอกสารฉบับนี้</th></tr></thead>
+    <tbody>
+      <tr><td><a href="../deliverables/samut/templates/S1-03.html">S1-03</a></td><td>แผนการโอนย้ายข้อมูล (Data Migration Plan)</td><td>เอกสารฉบับนี้เป็น<b>ภาคผนวกด้านความต้องการ</b> — S1-03 ระบุวิธีการ/ตารางเวลา/Rollback</td></tr>
+      <tr><td><a href="../deliverables/samut/templates/S2-05.html">S2-05</a></td><td>การจับคู่ข้อมูล (Data Mapping)</td><td>นำข้อ 4, 7, 8 ไปแปลงเป็น mapping ราย field</td></tr>
+      <tr><td><a href="../deliverables/samut/templates/S2-06.html">S2-06</a></td><td>พจนานุกรมข้อมูล (Data Dictionary)</td><td>นิยาม field/ประเภท/master code ที่อ้างถึงในข้อ 7</td></tr>
+      <tr><td><a href="../deliverables/samut/templates/S2-14.html">S2-14</a></td><td>การกระทบยอดการโอนย้ายข้อมูล (Reconciliation)</td><td>ใช้เกณฑ์ข้อ 9 และ 13.2 เป็นแบบทดสอบ</td></tr>
+      <tr><td><a href="../deliverables/samut/templates/S2-17.html">S2-17</a></td><td>รายการตรวจสอบ Go-Live / Cutover</td><td>ใช้เงื่อนไข Go/No-Go จากข้อ 13.2</td></tr>
+      <tr><td><a href="data-migration-checklist-msm.html">—</a></td><td>Checklist Data Migration (เมืองสมุทร)</td><td>เอกสารนี้คือผลลัพธ์ของรายการ "จัดทำ Migration Requirement" หมวด ① Sprint S4</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>ตัวอย่างเอกสาร Migration Requirement · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · HosXP → HA.OS · ผู้รับจ้าง บริษัท อโยเดีย จำกัด · <b>ตัวเลขทั้งหมดเป็นค่าสมมติสำหรับเป็นตัวอย่างเท่านั้น</b></footer>
+</div>
+</body>
+</html>
