@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เชื่อมต่อ LIS (GEMs) ⇄ HA.OS — WebAPI · เมืองสมุทร</title>
+<style>
+  :root{
+    --pri:#2f7cc4; --pri-dk:#1d5490; --accent:#e8743b; --ink:#1f2d3d; --muted:#5b6b7b;
+    --bg:#f4f6f8; --card:#fff; --line:#dfe4e8; --crit:#d6453d; --warn-bg:#fff4e5; --warn-bd:#f0a14b;
+    --note-bg:#eaf3fb; --ok:#2e9e5b; --lis:#7a5aa8;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Sarabun","Segoe UI Thai","Leelawadee UI","Tahoma",sans-serif;margin:0;
+       background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+  header.cover{background:linear-gradient(135deg,var(--pri-dk),var(--pri));color:#fff;
+       border-radius:16px;padding:30px 32px;margin-bottom:22px;box-shadow:0 10px 30px rgba(29,84,144,.25)}
+  header.cover .kicker{font-size:12.5px;opacity:.9;letter-spacing:.5px;font-weight:700;margin-bottom:4px}
+  header.cover h1{margin:0 0 6px;font-size:25px}
+  header.cover .sub{font-size:14.5px;opacity:.95}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+        padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+          padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(31,45,61,.04)}
+  h2{font-size:19px;margin:2px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:var(--pri-dk)}
+  h2 .n{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;min-width:28px;
+        text-align:center;padding:2px 9px;margin-right:10px;font-size:15px}
+  h3{color:var(--pri-dk);font-size:16px;margin:18px 0 7px;padding-left:10px;border-left:4px solid var(--pri)}
+  h4{color:var(--pri-dk);font-size:14.5px;margin:14px 0 5px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--pri);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:#f6faff}
+  table.fields{font-size:13px}
+  table.fields td:first-child{font-family:Consolas,monospace;font-size:12.5px;color:#1d5490;white-space:nowrap}
+  table.fields td:nth-child(2){white-space:nowrap;color:var(--muted);font-size:12.5px}
+  ul,ol{margin:6px 0;padding-left:22px}li{margin:3px 0}
+  strong{color:var(--pri-dk)}
+  .note,.warn,.crit,.ok{border-radius:10px;padding:11px 15px;margin:11px 0;font-size:14px}
+  .note{background:var(--note-bg);border-left:4px solid var(--pri)}
+  .warn{background:var(--warn-bg);border-left:4px solid var(--warn-bd)}
+  .warn b{color:#b4651b}
+  .crit{background:#fdeceb;border-left:4px solid var(--crit)}
+  .crit b{color:var(--crit)}
+  .ok{background:#eaf7ef;border-left:4px solid var(--ok)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;color:#fff;white-space:nowrap}
+  .t-his{background:var(--pri)}.t-lis{background:var(--lis)}.t-crit{background:var(--crit)}
+  .t-m{background:var(--crit)}.t-o{background:#9aa7b2}
+  .toc{background:#f6faff;border:1px dashed var(--line);border-radius:10px;padding:14px 18px;font-size:13.5px}
+  .toc a{color:var(--pri-dk);text-decoration:none}.toc a:hover{text-decoration:underline}
+  code{background:#eef3f7;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12.5px;color:#1d5490}
+  pre{background:#1f2d3d;color:#e6edf3;border-radius:10px;padding:14px 16px;overflow-x:auto;
+      font-family:Consolas,"Courier New",monospace;font-size:12.5px;line-height:1.55;margin:10px 0}
+  pre .k{color:#79c0ff}pre .s{color:#a5d6ff}pre .c{color:#8b949e;font-style:italic}pre .n{color:#ffa657}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding:14px}
+
+  /* ---- sequence diagram ---- */
+  .seq{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:12px 0;background:#fcfdfe}
+  .seq-head{display:grid;grid-template-columns:1fr 1fr;background:#eef3f7;border-bottom:1px solid var(--line)}
+  .seq-head span{padding:8px 12px;font-weight:700;font-size:13px;text-align:center;color:var(--pri-dk)}
+  .seq-head span:first-child{border-right:1px dashed #c6d3dd}
+  .seq-body{padding:10px 12px}
+  .seq-row{display:flex;align-items:center;gap:9px;margin:5px 0}
+  .seq-no{flex:0 0 22px;height:22px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;
+          font-weight:700;display:flex;align-items:center;justify-content:center}
+  .msg{flex:1;position:relative;padding:7px 30px;border-radius:8px;font-size:13px;font-weight:600}
+  .msg small{display:block;font-weight:400;font-size:11.5px;opacity:.85;margin-top:1px}
+  .to-r{background:#eaf3fb;border:1px solid #bcd8ef;color:var(--pri-dk)}
+  .to-r::after{content:"▶";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--pri)}
+  .to-l{background:#f3edfa;border:1px solid #d3c2e8;color:#5c3f85}
+  .to-l::before{content:"◀";position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--lis)}
+  .rsp{background:#f4f7f9;border:1px dashed #c6d3dd;color:var(--muted);font-weight:500}
+  .seq-note{flex:1;background:#fffaf2;border:1px dashed #e6c79a;border-radius:8px;padding:5px 12px;
+            font-size:12.5px;color:#8a6113;margin-left:31px}
+  .seq-phase{margin:12px 0 4px;font-size:12.5px;font-weight:700;color:var(--muted);
+             border-top:1px dashed var(--line);padding-top:8px}
+  .seq-phase:first-child{border-top:0;margin-top:0;padding-top:0}
+
+  /* ---- flow chips ---- */
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0;font-size:13px}
+  .flow .step{background:#eaf3fb;border:1px solid #bcd8ef;border-radius:8px;padding:5px 11px;font-weight:600;color:var(--pri-dk)}
+  .flow .step.s-end{background:#eaf7ef;border-color:#b6e0c6;color:#1d7040}
+  .flow .step.s-bad{background:#fdeceb;border-color:#f3c0bc;color:var(--crit)}
+  .flow .ar{color:var(--muted);font-weight:800}
+
+  /* ---- 2-column arch ---- */
+  .arch{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+  .arch .box{border-radius:12px;padding:12px 14px;font-size:13px}
+  .arch .b-his{background:#eaf3fb;border:2px solid var(--pri)}
+  .arch .b-lis{background:#f3edfa;border:2px solid var(--lis)}
+  .arch h4{margin:0 0 6px;font-size:14px}
+  .arch ul{padding-left:18px;margin:4px 0}
+  .arch li{font-family:Consolas,monospace;font-size:12px;margin:2px 0}
+  @media(max-width:760px){.arch{grid-template-columns:1fr}.seq-head{grid-template-columns:1fr}}
+  @media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-size:11.5px}
+    section{break-inside:avoid;box-shadow:none}pre{background:#f4f6f8;color:#1f2d3d;border:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="kicker">SITE · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) — เชื่อมต่อระบบห้องปฏิบัติการ (LIS)</div>
+  <h1>GEMs LIS ⇄ HA.OS — รายละเอียดการเชื่อมต่อ WebAPI</h1>
+  <div class="sub">
+    อ้างอิง <b>GFM-DDS-03 (WebAPI Specification 001-69) - GEMs.xlsx</b> v.1.0 · Rev.1 (2025-08-01)<br>
+    REST / JSON · <code style="background:rgba(255,255,255,.2);color:#fff">POST</code> ทุกเส้น · Auth = <code style="background:rgba(255,255,255,.2);color:#fff">Bearer Token</code><br>
+    <a href="msm.html" style="color:#dcecfb">🏠 กลับหน้าเมืองสมุทร</a> ·
+    <a href="module-fitgap-msm.html" style="color:#dcecfb">🧩 Module Fit Gap</a> ·
+    <a href="checklist-msm.html" style="color:#dcecfb">📋 Checklist</a> ·
+    <a href="index.html" style="color:#dcecfb">แผนรวม 2 Site</a> ·
+    <a href="risk.html" style="color:#dcecfb">⚠️ ความเสี่ยง</a>
+  </div>
+  <div class="pills">
+    <span class="pill">🔌 10 Endpoints (9 ชีต)</span>
+    <span class="pill">↔️ 2 ทิศทาง</span>
+    <span class="pill">🏥 HIS สร้าง API เอง 7 เส้น</span>
+    <span class="pill">🧪 11 Use Case</span>
+    <span class="pill">⚠️ 14 ประเด็นค้าง</span>
+  </div>
+</header>
+
+<section>
+  <div class="toc"><strong>สารบัญ</strong> ·
+    <a href="#s1">① Flow ภาพรวม</a> · <a href="#s2">② Flow by Case</a> · <a href="#s3">③ รายละเอียดเคส</a> ·
+    <a href="#s4">④ รายละเอียดแต่ละเส้น</a> · <a href="#s5">⑤ ประเด็นค้าง / Checklist</a>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <h2><span class="n">1</span>Flow ภาพรวม</h2>
+
+  <div class="note"><b>📌 ขอบเขตของเอกสารนี้:</b> การเชื่อมต่อ <b>ระบบห้องปฏิบัติการ (LIS) ยี่ห้อ GEMs</b> ของ
+  <b>โรงพยาบาลเมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ)</b> เข้ากับ <b>HA.OS</b> (ระบบ HIS ใหม่ที่ส่งมอบ) ·
+  ในเอกสารทั้งฉบับ คำว่า <b>“HIS”</b> = <b>HA.OS</b> · <b>“LIS”</b> = <b>GEMs</b><br>
+  <span style="color:var(--muted);font-size:13px">งานนี้เป็น interface ที่ต้องยืนยันขอบเขตในช่วง Fit Gap และผูกเข้าแผนพัฒนา —
+  ดู <a href="module-fitgap-msm.html">Module Fit Gap</a> และ <a href="checklist-msm.html">Checklist</a></span></div>
+
+  <h3>1.1 สรุป Endpoint ทั้งหมด (10 เส้น)</h3>
+  <table>
+    <thead><tr><th style="width:4%">#</th><th style="width:24%">Endpoint</th><th style="width:14%">ทิศทาง</th>
+      <th style="width:15%">ผู้พัฒนา API</th><th>หน้าที่</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>/api/Token</code></td><td><span class="tag t-his">HIS → LIS</span></td><td>LIS</td><td>ขอ Token สำหรับเรียก API</td></tr>
+      <tr><td>2</td><td><code>/api/LabRequest</code></td><td><span class="tag t-his">HIS → LIS</span></td><td>LIS</td><td>ส่งใบสั่งตรวจ 1 ใบ (Push)</td></tr>
+      <tr><td>3</td><td><code>/api/LabRequestQueue</code></td><td><span class="tag t-his">HIS → LIS</span></td><td>LIS</td><td>ส่งใบสั่งตรวจหลายใบ (Push แบบ Batch)</td></tr>
+      <tr><td>4</td><td><code>/api/RequestByVisitNo</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>ดึงใบสั่งตรวจด้วย Barcode/HN (Pull — Kiosk)</td></tr>
+      <tr><td>5</td><td><code>/api/UpdateStatus</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>แจ้งสถานะรายการตรวจ (รับแลป / Reject / ถอย / ยกเลิก)</td></tr>
+      <tr><td>6</td><td><code>/api/LabResult</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>ส่งผลตรวจ Routine</td></tr>
+      <tr><td>7</td><td><code>/api/LabResultBacteria</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>ส่งผลเพาะเชื้อ + ความไวยา</td></tr>
+      <tr><td>8</td><td><code>/api/LabResultBBScreening</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>ส่งผลตรวจ Blood Bank (Screening)</td></tr>
+      <tr><td>9</td><td><code>/api/LabResultBBCrossmatch</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>แจ้งจอง / จ่าย / ปลดคล้อง / ยกเลิกจ่ายถุงเลือด</td></tr>
+      <tr><td>10</td><td><code>/api/Transfusion/report</code></td><td><span class="tag t-lis">LIS → HIS</span></td><td><b>HIS</b></td><td>ส่งรายงานการให้เลือด / ปฏิกิริยา</td></tr>
+    </tbody>
+  </table>
+
+  <div class="arch">
+    <div class="box b-his">
+      <h4>🏥 HIS เป็น <u>Client</u> — 3 เส้น</h4>
+      <div style="font-size:12.5px;color:var(--muted)">LIS เป็นผู้สร้าง API · HIS เขียนโค้ดเรียก</div>
+      <ul>
+        <li>POST /api/Token</li>
+        <li>POST /api/LabRequest</li>
+        <li>POST /api/LabRequestQueue</li>
+      </ul>
+    </div>
+    <div class="box b-lis">
+      <h4>🧪 HIS เป็น <u>Server</u> — 7 เส้น</h4>
+      <div style="font-size:12.5px;color:var(--muted)"><b>HIS ต้องสร้าง API เอง</b> ให้ LIS เรียกเข้ามา</div>
+      <ul>
+        <li>POST /api/RequestByVisitNo</li>
+        <li>POST /api/UpdateStatus</li>
+        <li>POST /api/LabResult</li>
+        <li>POST /api/LabResultBacteria</li>
+        <li>POST /api/LabResultBBScreening</li>
+        <li>POST /api/LabResultBBCrossmatch</li>
+        <li>POST /api/Transfusion/report</li>
+      </ul>
+    </div>
+  </div>
+  <div class="crit"><b>🔴 ประเด็นสำคัญที่สุด:</b> เอกสารให้สเปค <code>/api/Token</code> เฉพาะฝั่ง LIS
+  แต่ 7 เส้นที่ LIS เรียกเข้ามาที่ HIS ต้องมี <code>Authorization: Bearer</code> ทุกเส้น ⇒
+  <b>ฝั่ง HIS ต้องมี <code>/api/Token</code> ของตัวเองด้วย</b> — ยังไม่มีในเอกสาร ต้องตกลงกับ GEMs</div>
+
+  <h3>1.2 วงจรชีวิตของ 1 ใบสั่งตรวจ</h3>
+  <div class="seq">
+    <div class="seq-head"><span>🏥 HIS</span><span>🧪 GEMs LIS</span></div>
+    <div class="seq-body">
+      <div class="seq-phase">ขั้นตอน 0 — Authentication</div>
+      <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/Token<small>Username, Password</small></div></div>
+      <div class="seq-row"><div class="seq-no">2</div><div class="msg rsp">◀ ตอบกลับ: Token + Expire</div></div>
+      <div class="seq-row"><div class="seq-no">3</div><div class="msg to-l">POST /api/Token (ฝั่ง HIS)<small>⚠️ ยังไม่มีในเอกสาร — ต้องยืนยัน</small></div></div>
+
+      <div class="seq-phase">ขั้นตอน 1 — สั่งตรวจ</div>
+      <div class="seq-row"><div class="seq-no">4</div><div class="msg to-r">POST /api/LabRequest<small>LabNo, HN, TestList[], RequestStatus = "N"</small></div></div>
+      <div class="seq-row"><div class="seq-no">5</div><div class="msg to-r">หรือ POST /api/LabRequestQueue<small>RequestList[] — ส่งหลายใบพร้อมกัน</small></div></div>
+      <div class="seq-row"><div class="seq-no">6</div><div class="msg rsp">◀ ตอบกลับ: { Status: 0, Message: "Success" }</div></div>
+
+      <div class="seq-phase">ขั้นตอน 2 — เจาะเลือด / Kiosk (ผู้ป่วยสแกนบัตรเอง)</div>
+      <div class="seq-row"><div class="seq-no">7</div><div class="msg to-l">POST /api/RequestByVisitNo<small>BarcodeNo = HN หรือเลขนัดหมาย</small></div></div>
+      <div class="seq-row"><div class="seq-no">8</div><div class="msg rsp">▶ ตอบกลับ: RequestList[] — รายการตรวจของผู้ป่วย</div></div>
+
+      <div class="seq-phase">ขั้นตอน 3 — รับสิ่งส่งตรวจ</div>
+      <div class="seq-row"><div class="seq-no">9</div><div class="msg to-l">POST /api/UpdateStatus<small>TestStatus = "A" (รับแลป) หรือ "J" (Reject)</small></div></div>
+
+      <div class="seq-phase">ขั้นตอน 4 — รายงานผล</div>
+      <div class="seq-row"><div class="seq-no">10</div><div class="msg to-l">POST /api/LabResult<small>Lab ทั่วไป · ResultStatus = "P" → "F"</small></div></div>
+      <div class="seq-row"><div class="seq-no">11</div><div class="msg to-l">POST /api/LabResultBacteria<small>Microbiology + OrganismList[] + MedicineList[]</small></div></div>
+      <div class="seq-row"><div class="seq-no">12</div><div class="msg to-l">POST /api/LabResultBBScreening<small>Blood Bank — ABO/Rh, Antibody</small></div></div>
+      <div class="seq-row"><div class="seq-no">13</div><div class="msg to-l">POST /api/LabResultBBCrossmatch<small>CommandType = APPROVED / ISSUED</small></div></div>
+
+      <div class="seq-phase">ขั้นตอน 5 — หลังให้เลือด</div>
+      <div class="seq-row"><div class="seq-no">14</div><div class="msg to-l">POST /api/Transfusion/report<small>HN + BagNo + V/S + ปฏิกิริยา</small></div></div>
+    </div>
+  </div>
+
+  <h3>1.3 State Machine — สถานะของรายการตรวจ</h3>
+  <div class="flow">
+    <span class="step">New <code style="background:none;color:inherit">RequestStatus=N</code></span><span class="ar">→</span>
+    <span class="step">Accepted <code style="background:none;color:inherit">TestStatus=A</code></span><span class="ar">→</span>
+    <span class="step">Prelim <code style="background:none;color:inherit">ResultStatus=P</code></span><span class="ar">→</span>
+    <span class="step s-end">Final <code style="background:none;color:inherit">ResultStatus=F</code></span>
+  </div>
+  <table>
+    <thead><tr><th style="width:20%">จากสถานะ</th><th style="width:32%">เหตุการณ์ (API / ค่า)</th><th>ไปสถานะ</th></tr></thead>
+    <tbody>
+      <tr><td>—</td><td><code>LabRequest</code> · RequestStatus = <code>N</code></td><td>New — LIS สร้างคิวรอรับสิ่งส่งตรวจ</td></tr>
+      <tr><td>New</td><td><code>LabRequest</code> · RequestStatus = <code>U</code></td><td>Updated (แก้ไขใบสั่ง)</td></tr>
+      <tr><td>New</td><td><code>LabRequest</code> · RequestStatus = <code>C</code></td><td>Cancelled (ยกเลิกทั้งใบ)</td></tr>
+      <tr><td>New</td><td><code>UpdateStatus</code> · TestStatus = <code>A</code></td><td>Accepted — รับแลปแล้ว</td></tr>
+      <tr><td>New</td><td><code>UpdateStatus</code> · TestStatus = <code>J</code></td><td>Rejected — สิ่งส่งตรวจไม่ผ่าน ต้องเจาะใหม่</td></tr>
+      <tr><td>Accepted</td><td><code>LabResult*</code> · ResultStatus = <code>P</code></td><td>Prelim — ผลเบื้องต้น (ส่งซ้ำได้หลายครั้ง)</td></tr>
+      <tr><td>Prelim</td><td><code>LabResult*</code> · ResultStatus = <code>F</code></td><td>Final — ผลสมบูรณ์ ปิดงาน</td></tr>
+      <tr><td>Final</td><td><code>UpdateStatus</code> · TestStatus = <code>C</code></td><td>Recall — ถอยสถานะเพื่อแก้ผล รอ Approve ใหม่</td></tr>
+      <tr><td>Accepted</td><td><code>UpdateStatus</code> · TestStatus = <code>X</code></td><td>Voided — ยกเลิกรายการตรวจ</td></tr>
+    </tbody>
+  </table>
+
+  <h3>1.4 คีย์เชื่อมข้อมูล (Correlation Key)</h3>
+  <table>
+    <thead><tr><th style="width:16%">Key</th><th style="width:44%">ใช้ในเส้น</th><th>บทบาท</th></tr></thead>
+    <tbody>
+      <tr><td><code>LabNo</code></td><td>ทุกเส้น ยกเว้น Token / RequestByVisitNo / Transfusion</td><td><b>คีย์หลัก</b> ผูก Order ↔ Status ↔ Result — <b>HIS เป็นผู้ออกเลข</b></td></tr>
+      <tr><td><code>TestCode</code></td><td>LabRequest, UpdateStatus, LabResult ทุกตัว</td><td>คีย์รอง ระบุรายการตรวจภายในใบเดียวกัน</td></tr>
+      <tr><td><code>HN</code></td><td>LabRequest, RequestByVisitNo, Transfusion</td><td>คีย์ผู้ป่วย</td></tr>
+      <tr><td><code>BagNo</code></td><td>BBCrossmatch, Transfusion</td><td>คีย์ถุงเลือด</td></tr>
+      <tr><td><code>BarcodeNo</code></td><td>RequestByVisitNo</td><td>HN หรือเลขนัดหมาย (input จาก Kiosk)</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>⚠️ ระวัง:</b> <code>Transfusion/report</code> <b>ไม่มี <code>LabNo</code></b> — ผูกข้อมูลได้ด้วย <code>HN</code> + <code>BagNo</code> เท่านั้น</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <h2><span class="n">2</span>Flow by Case</h2>
+
+  <h3>Case 1 — สั่งตรวจปกติ (Push ทีละใบ)</h3>
+  <div class="seq"><div class="seq-head"><span>🏥 HIS</span><span>🧪 LIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/LabRequest<small>LabNo, HN, TestList[], RequestStatus = "N"</small></div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg rsp">◀ { Status: 0, Message: "Success" }</div></div>
+    <div class="seq-row"><div class="seq-note">LIS สร้าง Order เข้าคิว รอรับสิ่งส่งตรวจ</div></div>
+  </div></div>
+  <p><b>ใช้เมื่อ:</b> แพทย์สั่งตรวจใน OPD/IPD ทีละใบ → HIS ยิงทันทีที่ Save Order</p>
+
+  <h3>Case 2 — สั่งตรวจเป็นชุด / Sync คิวจากเครื่อง Computer</h3>
+  <div class="seq"><div class="seq-head"><span>🏥 HIS</span><span>🧪 LIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/LabRequestQueue<small>RequestList[ {Order1}, {Order2}, … ]</small></div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg rsp">◀ { Status: 0, Message: "Success" }</div></div>
+  </div></div>
+  <p><b>ใช้เมื่อ:</b> ส่งคิวรวมของหน่วยงาน/เครื่อง หรือ Re-sync งานค้าง</p>
+  <div class="warn"><b>⚠️ ข้อจำกัด:</b> โครงสร้างเหมือน <code>LabRequest</code> แต่ <b>ไม่มีฟิลด์ <code>Quantity</code></b> ⇒ <b>สั่งขอเลือดผ่านเส้นนี้ไม่ได้</b></div>
+
+  <h3>Case 3 — Kiosk / จุดเจาะเลือด ดึงรายการด้วย Barcode (Pull)</h3>
+  <div class="seq"><div class="seq-head"><span>🧪 LIS / Kiosk</span><span>🏥 HIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-note">ผู้ป่วยสแกนบัตร / ใบนัด ที่ Kiosk</div></div>
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/RequestByVisitNo<small>{ BarcodeNo: "0845466" }</small></div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg rsp">◀ พบ: { Status: 0, Message: "มีรายการตรวจวันนี้", RequestList: [...] }</div></div>
+    <div class="seq-row"><div class="seq-no">3</div><div class="msg rsp">◀ ไม่พบ: { Status: xx, Message: "ไม่พบ HN" }</div></div>
+    <div class="seq-row"><div class="seq-note">LIS แสดงคิว / พิมพ์ Sticker Barcode ให้จุดเจาะเลือด</div></div>
+  </div></div>
+  <div class="note">💡 <code>Message</code> ใช้บอกบริบทเพิ่ม เช่น "มีรายการตรวจวันอื่นด้วย" ⇒ <b>ต้องตกลงชุด Message มาตรฐานร่วมกัน</b></div>
+
+  <h3>Case 4 — แก้ไข / ยกเลิกใบสั่งตรวจ (จาก HIS)</h3>
+  <table>
+    <thead><tr><th style="width:26%">กรณี</th><th style="width:37%">ค่าที่ส่ง</th><th>ผลลัพธ์</th></tr></thead>
+    <tbody>
+      <tr><td>แก้ไขทั้งใบ</td><td>LabNo เดิม + <code>RequestStatus = "U"</code></td><td>LIS อัปเดตใบสั่งเดิม</td></tr>
+      <tr><td>ยกเลิกทั้งใบ</td><td>LabNo เดิม + <code>RequestStatus = "C"</code></td><td>LIS ยกเลิกทั้งใบ</td></tr>
+      <tr><td>ยกเลิกบางรายการ</td><td><code>RequestStatus = "U"</code> + <code>TestStatus = "C"/"X"</code> เฉพาะรายการนั้น</td><td>LIS ยกเลิกเฉพาะรายการที่ระบุ</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 กฎที่ต้องตกลง:</b> เมื่อ <code>RequestStatus = "U"</code> ต้องส่ง <code>TestList[]</code> <b>ทั้งชุด (Replace)</b> หรือ <b>เฉพาะที่เปลี่ยน (Delta)</b> — สเปคไม่ระบุ ถ้าเข้าใจต่างกันรายการจะหายหรือซ้ำ</div>
+
+  <h3>Case 5 — รับแลป / Reject สิ่งส่งตรวจ (จาก LIS)</h3>
+  <div class="seq"><div class="seq-head"><span>🧪 LIS</span><span>🏥 HIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/UpdateStatus<small>LabNo, TestList[{ TestCode, TestStatus: "A" }]</small></div></div>
+    <div class="seq-row"><div class="seq-note">HIS อัปเดตสถานะให้ Ward เห็นว่า "รับแลปแล้ว"</div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg to-r">กรณีสิ่งส่งตรวจไม่ผ่าน → TestStatus = "J"<small>HIS แจ้ง Ward ให้เจาะใหม่</small></div></div>
+  </div></div>
+  <p>ส่งเป็นระดับ <code>TestCode</code> ⇒ ใบเดียวรับแลปบางรายการและ Reject บางรายการได้</p>
+
+  <h3>Case 6 — รายงานผลตรวจ Routine</h3>
+  <div class="seq"><div class="seq-head"><span>🧪 LIS</span><span>🏥 HIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/LabResult · ResultStatus = "P"<small>ผลเบื้องต้น (ส่งซ้ำได้)</small></div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg to-r">POST /api/LabResult · ResultStatus = "F"<small>ผล Final + Filedata[] (PDF)</small></div></div>
+    <div class="seq-row"><div class="seq-no">3</div><div class="msg to-r">กรณีค่าวิกฤต · CriticalFlag = "C"<small>+ InformCriticalBy / To / DateTime → HIS Alert แพทย์เจ้าของไข้</small></div></div>
+  </div></div>
+
+  <h3>Case 7 — แก้ไขผลหลัง Approve (Amend)</h3>
+  <div class="flow">
+    <span class="step">ผล Final แล้ว</span><span class="ar">→</span>
+    <span class="step s-bad">UpdateStatus · TestStatus = "C"</span><span class="ar">→</span>
+    <span class="step">HIS ตีตรา "กำลังแก้ไขผล"</span><span class="ar">→</span>
+    <span class="step">LabResult · ResultStatus = "F" (ผลใหม่)</span><span class="ar">→</span>
+    <span class="step s-end">Final ใหม่</span>
+  </div>
+
+  <h3>Case 8 — ผลเพาะเชื้อ + ความไวยา (Microbiology)</h3>
+  <div class="seq"><div class="seq-head"><span>🧪 LIS</span><span>🏥 HIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">Day 1 · ResultStatus = "P"<small>"No growth 24 hr" — OrganismList: []</small></div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg to-r">Day 2 · ResultStatus = "P"<small>พบเชื้อ → OrganismList[] มีข้อมูล</small></div></div>
+    <div class="seq-row"><div class="seq-no">3</div><div class="msg to-r">Final · ResultStatus = "F"<small>+ MedicineList[] (S/I/R + MIC)</small></div></div>
+  </div></div>
+  <p><b>โครงสร้างซ้อน 4 ชั้น:</b></p>
+  <div class="flow">
+    <span class="step">TestList[]</span><span class="ar">▸</span>
+    <span class="step">ResultList[]</span><span class="ar">&nbsp;</span>
+    <span class="step">OrganismList[]</span><span class="ar">▸</span>
+    <span class="step">MedicineList[]</span>
+  </div>
+  <div class="note">💡 <b>ไม่พบเชื้อ</b> ⇒ ส่ง <code>"OrganismList": []</code> (Array ว่าง) <b>ห้ามส่ง null</b></div>
+
+  <h3>Case 9 — Blood Bank: Screening</h3>
+  <div class="seq"><div class="seq-head"><span>🧪 LIS</span><span>🏥 HIS</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">POST /api/LabResultBBScreening<small>ABO/Rh, Antibody screening, PatientRemark</small></div></div>
+    <div class="seq-row"><div class="seq-note">PatientRemark = ข้อมูลติดตัวผู้ป่วย เช่น "พบ Anti-E" — HIS ควรเก็บถาวร</div></div>
+  </div></div>
+
+  <h3>Case 10 — Blood Bank: Crossmatch → จอง → จ่าย → รับ</h3>
+  <div class="seq"><div class="seq-head"><span>🏥 HIS / 🧪 LIS</span><span>ปลายทาง</span></div><div class="seq-body">
+    <div class="seq-row"><div class="seq-no">1</div><div class="msg to-r">HIS → LIS · POST /api/LabRequest<small>TestCode = ขอเลือด, Quantity = 2</small></div></div>
+    <div class="seq-row"><div class="seq-note">LIS ทำ Crossmatch</div></div>
+    <div class="seq-row"><div class="seq-no">2</div><div class="msg to-l">LIS → HIS · CommandType = "APPROVED"<small>จองถุงเลือด — HIS แสดง "จองแล้ว 2 ถุง" + Compatible</small></div></div>
+    <div class="seq-row"><div class="seq-no">3</div><div class="msg to-l">LIS → HIS · CommandType = "ISSUED"<small>จ่ายเลือด — HIS ตั้งเบิก / คิดค่าใช้จ่าย (PaidStatus)</small></div></div>
+    <div class="seq-row"><div class="seq-no">4</div><div class="msg to-l">LIS → HIS · CommandType = "UNTIE" / "CANCEL ISSUE"<small>ยกเลิกจอง (คืนถุงเข้าคลัง) / ยกเลิกการจ่าย</small></div></div>
+  </div></div>
+
+  <h3>Case 11 — รายงานการให้เลือด / Transfusion Reaction</h3>
+  <div class="flow">
+    <span class="step">พยาบาลบันทึกเวลาเริ่ม/หยุด + V/S</span><span class="ar">→</span>
+    <span class="step">POST /api/Transfusion/report</span><span class="ar">→</span>
+    <span class="step s-end">HIS บันทึกในเวชระเบียน</span>
+  </div>
+  <div class="crit"><b>🔴 ต้องยืนยัน:</b> สเปคระบุทิศทาง <code>LIS ⇒ HIS</code> แต่ในทางปฏิบัติ <b>พยาบาลบันทึกที่ HIS</b>
+  ⇒ ทิศทางน่าจะกลับด้าน (HIS ⇒ LIS) ถ้าเป็นเช่นนั้น <b>LIS ต้องเป็นผู้สร้าง API เส้นนี้แทน</b></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <h2><span class="n">3</span>รายละเอียดเคส — Business Rules &amp; Validation</h2>
+
+  <h3>3.1 กติกาข้อมูลร่วม (ใช้ทุกเส้น)</h3>
+  <table>
+    <thead><tr><th style="width:24%">หัวข้อ</th><th>ข้อกำหนด</th></tr></thead>
+    <tbody>
+      <tr><td>Content-Type</td><td><code>application/json</code></td></tr>
+      <tr><td>Authorization</td><td><code>Bearer {Token}</code> — ทุกเส้น ยกเว้น <code>/api/Token</code></td></tr>
+      <tr><td>รูปแบบวันที่-เวลา</td><td><code>DD/MM/YYYY HH:mm:ss</code> — <b>ปี ค.ศ. เท่านั้น</b></td></tr>
+      <tr><td>รูปแบบวันเกิด</td><td><code>DD/MM/YYYY</code> — <b>ค.ศ.</b> เช่น <code>15/01/1990</code></td></tr>
+      <tr><td>Response มาตรฐาน</td><td><code>{ Status: 0, Message: "Success" }</code> · <code>Status = 0</code> สำเร็จ, <code>xx</code> = Error</td></tr>
+      <tr><td>ไฟล์แนบ</td><td>Base64 string · ชื่อไฟล์รูปแบบ <code>LN_DDMMYYYYHHmmss.pdf</code></td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 จุดที่ HIS ไทยมักพลาด:</b> ฐานข้อมูลโรงพยาบาลเก็บ <b>พ.ศ.</b>
+  ⇒ ต้อง <b>−543 ทุกฟิลด์วันที่ก่อนส่ง</b> และ <b>+543 เมื่อรับ</b> (รวม DateOfBirth, RequestDate, CollectionDateTime, ทุก DateTime ในผล)</div>
+
+  <h3>3.2 ตาราง Code / Enumeration ทั้งหมด</h3>
+  <table>
+    <thead><tr><th style="width:28%">ฟิลด์</th><th style="width:30%">ค่าที่รับได้</th><th>ความหมาย</th></tr></thead>
+    <tbody>
+      <tr><td><code>Sex</code></td><td><code>M</code> / <code>F</code></td><td>ชาย / หญิง</td></tr>
+      <tr><td><code>VisitType</code></td><td><code>IPD</code> / <code>OPD</code></td><td>ผู้ป่วยใน / ผู้ป่วยนอก</td></tr>
+      <tr><td><code>Priority</code></td><td><code>R</code> / <code>S</code> / <code>E</code></td><td>Routine (default) / STAT / Emergency</td></tr>
+      <tr><td><code>RequestStatus</code></td><td><code>N</code> / <code>U</code> / <code>C</code></td><td>New / Update / Cancel — <b>ระดับใบสั่ง</b></td></tr>
+      <tr><td><code>TestStatus</code> (ใน Request)</td><td><code>N</code> / <code>U</code> / <code>C</code> / <code>X</code></td><td>New / Update / Cancel / Delete — <b>ระดับรายการ</b></td></tr>
+      <tr><td><code>TestStatus</code> (ใน UpdateStatus)</td><td><code>A</code> / <code>J</code> / <code>C</code> / <code>X</code></td><td>Accept (รับแลป) / Reject / ถอยสถานะแก้ผล / ยกเลิกรายการ</td></tr>
+      <tr><td><code>TestType</code></td><td><code>T</code> / <code>P</code></td><td>Test เดี่ยว / Profile (ชุดตรวจ)</td></tr>
+      <tr><td><code>ResultStatus</code></td><td><code>P</code> / <code>F</code></td><td>Prelim / Final</td></tr>
+      <tr><td><code>ResultType</code> (Bacteria)</td><td><code>T</code> / <code>F</code></td><td>Text / File</td></tr>
+      <tr><td><code>ResultFlag</code></td><td><code>L</code>, <code>LL</code>, <code>H</code>, <code>HH</code></td><td>ต่ำ / ต่ำมาก / สูง / สูงมาก</td></tr>
+      <tr><td><code>CriticalFlag</code></td><td><code>C</code> / ว่าง</td><td>ค่าวิกฤต / ปกติ</td></tr>
+      <tr><td><code>CommandType</code> (Crossmatch)</td><td><code>APPROVED</code> / <code>ISSUED</code> / <code>UNTIE</code> / <code>CANCEL ISSUE</code></td><td>จอง / จ่ายแล้ว / ยกเลิกจอง / ยกเลิกจ่าย</td></tr>
+      <tr><td><code>ABOGroup</code></td><td><code>A</code> / <code>B</code> / <code>O</code> / <code>AB</code></td><td>หมู่เลือด</td></tr>
+      <tr><td><code>RhGroup</code></td><td><code>Positive</code> / <code>Negative</code></td><td>Rh (ส่งเป็นคำเต็ม ไม่ใช่ +/−)</td></tr>
+      <tr><td><code>IsNewPatient</code></td><td><code>1</code> / <code>0</code></td><td>ให้เลือดครั้งแรก / เคยให้แล้ว</td></tr>
+      <tr><td><code>PaidStatus</code></td><td><code>P</code> / <code>N</code></td><td>จ่ายเงินแล้ว / ยังไม่จ่าย</td></tr>
+    </tbody>
+  </table>
+  <div class="crit"><b>🔴 ระวังซ้อนทับ:</b> <code>TestStatus</code> มี <b>2 ชุดค่าคนละความหมาย</b> —
+  ใน <code>LabRequest</code> = <code>N/U/C/X</code> แต่ใน <code>UpdateStatus</code> = <code>A/J/C/X</code> ·
+  ตัว <code>C</code> ซ้ำกันแต่คนละความหมาย (Cancel vs ถอยสถานะ) ⇒ <b>ต้องแยก mapping ในโค้ดให้ชัดเจน</b></div>
+
+  <h3>3.3 กติกาเฉพาะเคส</h3>
+
+  <h4>Case 1–2 · สั่งตรวจ</h4>
+  <ul>
+    <li><code>LabNo</code> HIS เป็นผู้ออก ต้อง unique ทั้งระบบ (ตัวอย่าง 11 หลัก <code>12345600102</code>)</li>
+    <li><b>ฟิลด์บังคับส่วนหัว:</b> <code>LabNo, HN, PrefixName, FirstName, LastName, DateOfBirth, Sex, VisitType, Priority, RequestDate, RequestByCode, RequestBy, RequestStatus</code></li>
+    <li><b>ฟิลด์บังคับใน TestList[]:</b> <code>TestCode, TestName, TestType, CollectionDateTime</code></li>
+    <li>ต่างชาติไม่มีบัตรประชาชน ⇒ ส่ง <code>PassportNo</code> แทน <code>PersonalID</code></li>
+    <li><code>Quantity</code> = จำนวนถุงเลือดที่ขอ — <b>รายการที่ไม่ใช่ขอเลือดให้ส่ง <code>0</code></b> (มีเฉพาะ <code>/api/LabRequest</code>)</li>
+    <li>สั่งชุดตรวจ ⇒ <code>TestType = "P"</code> และ <code>TestCode</code> = ProfileCode</li>
+  </ul>
+
+  <h4>Case 3 · Kiosk</h4>
+  <ul>
+    <li>Input มีตัวเดียว: <code>BarcodeNo</code> = HN <b>หรือ</b> เลขนัดหมาย ⇒ HIS ต้องรองรับทั้ง 2 แบบในฟิลด์เดียว</li>
+    <li>Response คืน <code>RequestList[]</code> โครงเดียวกับ LabRequest (แต่ <b>ไม่มี <code>Quantity</code></b>)</li>
+    <li>ต้องนิยาม: คืนเฉพาะ order ของวันนี้ หรือ order ค้างทั้งหมด — สเปคใบ้ไว้ว่าคืนได้ทั้งคู่ผ่าน <code>Message</code></li>
+  </ul>
+
+  <h4>Case 5 · UpdateStatus</h4>
+  <ul>
+    <li>ส่งเป็นระดับ <code>TestCode</code> — ใบเดียวรับแลปบางรายการ Reject บางรายการได้</li>
+    <li><code>UpdateBy</code>, <code>UpdateDateTime</code> บังคับ (ใช้ Audit Trail)</li>
+  </ul>
+
+  <h4>Case 6–8 · Result</h4>
+  <ul>
+    <li>ส่ง <code>P</code> ได้หลายครั้ง · <code>F</code> = ปิดงาน</li>
+    <li><b>ค่าวิกฤตต้องมาครบชุด 5 ฟิลด์:</b> <code>CriticalFlag, InformCriticalByCode, InformCriticalBy, InformCriticalTo, InformCriticalDateTime</code></li>
+    <li><code>Filedata[]</code> รองรับหลายไฟล์ต่อ 1 LabNo</li>
+    <li>Bacteria: <code>OrganismList[]</code> อยู่ใน <code>TestList[]</code> (<b>ไม่ใช่ใน ResultList</b>) — ตำแหน่งซ้อนต่างจากที่คาด ต้องยืนยัน</li>
+    <li>Bacteria: <code>MedicineValue</code> เก็บทั้งผลและ MIC รวมกัน เช่น <code>"S  (MIC:&lt;=2)"</code> ⇒ ถ้า HIS ต้องแยกเก็บ ต้อง parse เอง</li>
+  </ul>
+
+  <h4>Case 10 · Crossmatch — ฟิลด์ที่ต้องมีค่าตาม CommandType</h4>
+  <table>
+    <thead><tr><th style="width:22%">CommandType</th><th style="width:22%">ความหมาย</th><th>ฟิลด์ที่ต้องมีค่า</th></tr></thead>
+    <tbody>
+      <tr><td><code>APPROVED</code></td><td>จองถุงเลือด</td><td><code>CrossmatchResult, CrossmatchBy, CrossmatchDateTime</code></td></tr>
+      <tr><td><code>ISSUED</code></td><td>จ่ายเลือดแล้ว</td><td><code>IssueBy, IssueDateTime</code> (+ <code>ReceiveBy/ReceiveDateTime</code> เมื่อ Ward รับ)</td></tr>
+      <tr><td><code>UNTIE</code></td><td>ยกเลิกการจอง</td><td><code>UntieBy, UntieDateTime</code></td></tr>
+      <tr><td><code>CANCEL ISSUE</code></td><td>ยกเลิกการจ่าย</td><td><code>CancelIssueBy, CancelIssueDateTime</code></td></tr>
+    </tbody>
+  </table>
+  <p><code>SubBagNo</code> เป็น Array — ใช้กรณีรวมถุงเลือด (pooled) · ทุก CommandType ใช้ payload โครงเดียวกัน ต่างกันที่ฟิลด์เวลา/ผู้ทำที่ถูกเติม</p>
+
+  <h4>Case 11 · Transfusion</h4>
+  <ul>
+    <li>V/S (<code>Pulse, BloodPressure, Temperature, RespiratoryRate</code>) = <b>วัดหลังหยุดให้เลือด</b></li>
+    <li>ลายเซ็น 3 ระดับ: <code>ReportBy</code> (พยาบาล) → <code>CertifyBy</code> (แพทย์) → <code>CheckingBy</code> (นักเทคนิคการแพทย์)</li>
+  </ul>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <h2><span class="n">4</span>รายละเอียดแต่ละเส้น</h2>
+  <p style="font-size:13px;color:var(--muted)">สัญลักษณ์: <span class="tag t-m">M</span> = Mandatory · <span class="tag t-o">O</span> = Option</p>
+
+  <!-- 4.1 -->
+  <h3>4.1 <code>POST /api/Token</code> — ขอ Token <span class="tag t-his">HIS → LIS</span></h3>
+  <p><b>Headers:</b> <code>Content-Type: application/json</code> (ไม่ต้องมี Authorization)</p>
+  <h4>Request Body</h4>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:14%">Type</th><th style="width:8%">M/O</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Username</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>ชื่อผู้ใช้ที่ LIS ออกให้</td></tr>
+      <tr><td>Password</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>รหัสผ่าน</td></tr>
+    </tbody>
+  </table>
+  <h4>Response Body</h4>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:14%">Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Status</td><td>Number</td><td>0 = Success, xx = Error</td></tr>
+      <tr><td>Message</td><td>Text(250)</td><td>Success หรือ Error message</td></tr>
+      <tr><td>Token</td><td>Text(250)</td><td>เลข Token สำหรับเรียก API อื่น</td></tr>
+      <tr><td>Expire</td><td>DateTime</td><td>อายุของ Token</td></tr>
+    </tbody>
+  </table>
+<pre><span class="c">// Request</span>
+{ <span class="k">"Username"</span>: <span class="s">"Gems"</span>, <span class="k">"Password"</span>: <span class="s">"1234"</span> }
+
+<span class="c">// Response</span>
+{ <span class="k">"Status"</span>: <span class="n">0</span>, <span class="k">"Message"</span>: <span class="s">"Success"</span>,
+  <span class="k">"Token"</span>: <span class="s">"xxxxxxxxxxx"</span>, <span class="k">"Expire"</span>: <span class="s">"31/12/2025 23:59:59"</span> }</pre>
+  <div class="note">💡 <b>ข้อควรทำ:</b> cache Token ไว้ในหน่วยความจำ · ขอใหม่เมื่อเหลืออายุ &lt; 5 นาที หรือเจอ HTTP 401</div>
+
+  <!-- 4.2 -->
+  <h3>4.2 <code>POST /api/LabRequest</code> — ส่งใบสั่งตรวจ <span class="tag t-his">HIS → LIS</span></h3>
+  <p><b>Headers:</b> <code>Content-Type: application/json</code> · <code>Authorization: Bearer {Token}</code></p>
+  <h4>Request Body — ส่วนหัว (42 ฟิลด์)</h4>
+  <table class="fields">
+    <thead><tr><th style="width:19%">Field</th><th style="width:12%">Type</th><th style="width:7%">M/O</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>LabNo</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>หมายเลขสั่งตรวจ (คีย์หลัก)</td></tr>
+      <tr><td>HN</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>รหัสประจำตัวผู้ป่วย</td></tr>
+      <tr><td>AN</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>Admission number</td></tr>
+      <tr><td>VN</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>Visit number</td></tr>
+      <tr><td>PrefixName</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>คำนำหน้าชื่อผู้ป่วย</td></tr>
+      <tr><td>FirstName</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>ชื่อผู้ป่วย</td></tr>
+      <tr><td>LastName</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>นามสกุลผู้ป่วย</td></tr>
+      <tr><td>DateOfBirth</td><td>Text(10)</td><td><span class="tag t-m">M</span></td><td><code>DD/MM/YYYY</code> <b>ค.ศ.</b> เช่น 15/01/1990</td></tr>
+      <tr><td>PersonalID</td><td>Text(20)</td><td><span class="tag t-o">O</span></td><td>เลขบัตรประชาชน</td></tr>
+      <tr><td>PassportNo</td><td>Text(20)</td><td><span class="tag t-o">O</span></td><td>ต่างชาติส่งเป็น Passport No แทน</td></tr>
+      <tr><td>Phone</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>หมายเลขโทรศัพท์</td></tr>
+      <tr><td>Address</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>บ้านเลขที่ / หมู่บ้าน / ชื่ออาคาร</td></tr>
+      <tr><td>SubDistrict</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ตำบล / แขวง</td></tr>
+      <tr><td>District</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>อำเภอ / เขต</td></tr>
+      <tr><td>ProvinceCode</td><td>Text(2)</td><td><span class="tag t-o">O</span></td><td>รหัสจังหวัด เช่น <code>10</code></td></tr>
+      <tr><td>ProvinceName</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>ชื่อจังหวัด</td></tr>
+      <tr><td>PostalCode</td><td>Text(5)</td><td><span class="tag t-o">O</span></td><td>รหัสไปรษณีย์</td></tr>
+      <tr><td>Sex</td><td>Text(1)</td><td><span class="tag t-m">M</span></td><td><code>M</code> = Male, <code>F</code> = Female</td></tr>
+      <tr><td>Weight</td><td>Number</td><td><span class="tag t-o">O</span></td><td>น้ำหนัก (kg)</td></tr>
+      <tr><td>Height</td><td>Number</td><td><span class="tag t-o">O</span></td><td>ส่วนสูง (cm)</td></tr>
+      <tr><td>VisitType</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td><code>IPD</code> / <code>OPD</code></td></tr>
+      <tr><td>RequestUnit</td><td>Text(10)</td><td><span class="tag t-o">O</span></td><td>รหัสหน่วยงานที่สั่ง</td></tr>
+      <tr><td>RequestUnitName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อหน่วยงานที่สั่ง</td></tr>
+      <tr><td>Room</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>ห้องที่สั่งตรวจ เช่น <code>401</code></td></tr>
+      <tr><td>Priority</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td><code>R</code> = Routine (default), <code>S</code> = STAT, <code>E</code> = Emergency</td></tr>
+      <tr><td>RightsCode</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>รหัสสิทธิ์การรักษา</td></tr>
+      <tr><td>RightsName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อสิทธิ์การรักษา</td></tr>
+      <tr><td>DepartmentCode</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>รหัสแผนกที่สั่งตรวจ</td></tr>
+      <tr><td>DepartmentName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อแผนกที่สั่งตรวจ</td></tr>
+      <tr><td>WardCode</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>รหัส Ward ที่สั่งตรวจ</td></tr>
+      <tr><td>WardName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อ Ward ที่สั่งตรวจ</td></tr>
+      <tr><td>AdmissionDate</td><td>Text(20)</td><td><span class="tag t-o">O</span></td><td><code>DD/MM/YYYY HH:mm:ss</code></td></tr>
+      <tr><td>DoctorCode</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>รหัสแพทย์ที่สั่งตรวจ</td></tr>
+      <tr><td>DoctorName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อแพทย์ที่สั่งตรวจ</td></tr>
+      <tr><td>RequestRemark</td><td>Text(4000)</td><td><span class="tag t-o">O</span></td><td>หมายเหตุของการสั่งตรวจ</td></tr>
+      <tr><td>ComputerName</td><td>Text(50)</td><td><span class="tag t-o">O</span></td><td>ชื่อเครื่องที่สั่งตรวจ</td></tr>
+      <tr><td>ComputerIP</td><td>Text(15)</td><td><span class="tag t-o">O</span></td><td>IP เครื่องที่สั่งตรวจ</td></tr>
+      <tr><td>RequestDate</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td><code>DD/MM/YYYY HH:mm:ss</code></td></tr>
+      <tr><td>RequestByCode</td><td>Text(50)</td><td><span class="tag t-m">M</span></td><td>รหัสเจ้าหน้าที่ผู้สั่ง</td></tr>
+      <tr><td>RequestBy</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>ชื่อเจ้าหน้าที่ผู้สั่ง</td></tr>
+      <tr><td>RequestStatus</td><td>Text(1)</td><td><span class="tag t-m">M</span></td><td><code>N</code> = New, <code>U</code> = Update, <code>C</code> = Cancel</td></tr>
+      <tr><td>Image</td><td>Text(Max)</td><td><span class="tag t-o">O</span></td><td>Base64 (เช่น ใบขอตรวจที่สแกน)</td></tr>
+    </tbody>
+  </table>
+  <h4>Request Body — <code>TestList[]</code> (Array — บังคับ)</h4>
+  <table class="fields">
+    <thead><tr><th style="width:19%">Field</th><th style="width:12%">Type</th><th style="width:7%">M/O</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>TestCode</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>รหัสรายการตรวจ (หรือ ProfileCode กรณีสั่งเป็นชุด)</td></tr>
+      <tr><td>TestName</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>ชื่อรายการตรวจ</td></tr>
+      <tr><td>TestType</td><td>Text(1)</td><td><span class="tag t-m">M</span></td><td><code>T</code> = Test, <code>P</code> = Profile</td></tr>
+      <tr><td>SpacimenCode</td><td>Text(20)</td><td><span class="tag t-o">O</span></td><td>รหัสสิ่งส่งตรวจ <i>(สะกดตามสเปค)</i></td></tr>
+      <tr><td>SpacimenName</td><td>Text(120)</td><td><span class="tag t-o">O</span></td><td>ชื่อสิ่งส่งตรวจ</td></tr>
+      <tr><td>TestStatus</td><td>Text(1)</td><td><span class="tag t-o">O</span></td><td><code>N</code>/<code>U</code>/<code>C</code>/<code>X</code> = New/Update/Cancel/Delete</td></tr>
+      <tr><td>CollectionDateTime</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td><code>DD/MM/YYYY HH:mm:ss</code> — เวลาเก็บสิ่งส่งตรวจ</td></tr>
+      <tr><td>TestRemark</td><td>Text(4000)</td><td><span class="tag t-o">O</span></td><td>หมายเหตุเฉพาะรายการตรวจ</td></tr>
+      <tr><td>Quantity</td><td>Number</td><td><span class="tag t-m">M</span></td><td>จำนวนถุงเลือดที่ขอ — <b>ไม่ใช่ขอเลือดให้ส่ง <code>0</code></b></td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345600102"</span>, <span class="k">"HN"</span>: <span class="s">"0845466"</span>, <span class="k">"AN"</span>: <span class="s">"123456"</span>, <span class="k">"VN"</span>: <span class="s">"123456"</span>,
+  <span class="k">"PrefixName"</span>: <span class="s">"นาย"</span>, <span class="k">"FirstName"</span>: <span class="s">"ทดสอบ"</span>, <span class="k">"LastName"</span>: <span class="s">"ระบบ"</span>,
+  <span class="k">"DateOfBirth"</span>: <span class="s">"13/07/1965"</span>, <span class="k">"PersonalID"</span>: <span class="s">""</span>, <span class="k">"PassportNo"</span>: <span class="s">""</span>,
+  <span class="k">"Sex"</span>: <span class="s">"F"</span>, <span class="k">"Weight"</span>: <span class="n">66.80</span>, <span class="k">"Height"</span>: <span class="n">155.00</span>,
+  <span class="k">"VisitType"</span>: <span class="s">"IPD"</span>, <span class="k">"RequestUnit"</span>: <span class="s">"01"</span>, <span class="k">"RequestUnitName"</span>: <span class="s">"Lab ABC"</span>,
+  <span class="k">"Priority"</span>: <span class="s">"R"</span>,
+  <span class="k">"DepartmentCode"</span>: <span class="s">"D001"</span>, <span class="k">"DepartmentName"</span>: <span class="s">"อายุรเวช"</span>,
+  <span class="k">"WardCode"</span>: <span class="s">"W002"</span>, <span class="k">"WardName"</span>: <span class="s">"ผู้ป่วยชาย"</span>,
+  <span class="k">"AdmissionDate"</span>: <span class="s">"16/08/2023 08:30:00"</span>,
+  <span class="k">"DoctorCode"</span>: <span class="s">"D003"</span>, <span class="k">"DoctorName"</span>: <span class="s">"นพ.ทดสอบ ระบบ"</span>,
+  <span class="k">"RequestDate"</span>: <span class="s">"16/08/2023 08:30:00"</span>,
+  <span class="k">"RequestByCode"</span>: <span class="s">"U001"</span>, <span class="k">"RequestBy"</span>: <span class="s">"นางสาวทดสอบ"</span>,
+  <span class="k">"RequestStatus"</span>: <span class="s">"N"</span>, <span class="k">"Image"</span>: <span class="s">""</span>,
+  <span class="k">"TestList"</span>: [
+    { <span class="k">"TestCode"</span>: <span class="s">"CH003"</span>, <span class="k">"TestName"</span>: <span class="s">"Creatinine"</span>, <span class="k">"TestType"</span>: <span class="s">"T"</span>,
+      <span class="k">"SpacimenCode"</span>: <span class="s">"01"</span>, <span class="k">"SpacimenName"</span>: <span class="s">"Lit"</span>, <span class="k">"TestStatus"</span>: <span class="s">"N"</span>,
+      <span class="k">"CollectionDateTime"</span>: <span class="s">"07/02/2023 11:27:30"</span>, <span class="k">"TestRemark"</span>: <span class="s">""</span>, <span class="k">"Quantity"</span>: <span class="n">0</span> }
+  ]
+}</pre>
+  <p><b>Response:</b> <code>{ "Status": 0, "Message": "Success" }</code></p>
+
+  <!-- 4.3 -->
+  <h3>4.3 <code>POST /api/LabRequestQueue</code> — ส่งใบสั่งตรวจแบบชุด <span class="tag t-his">HIS → LIS</span></h3>
+  <p>โครงสร้าง = <code>LabRequest</code> ครอบด้วย <code>RequestList[]</code></p>
+  <table>
+    <thead><tr><th style="width:32%">ต่างจาก <code>/api/LabRequest</code></th><th>ผลกระทบ</th></tr></thead>
+    <tbody>
+      <tr><td>ห่อด้วย <code>RequestList[]</code></td><td>ส่งได้หลายใบใน 1 request</td></tr>
+      <tr><td><code>TestList[]</code> <b>ไม่มี <code>Quantity</code></b></td><td><b>ใช้ขอเลือดผ่านเส้นนี้ไม่ได้</b></td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"RequestList"</span>: [
+    { <span class="k">"LabNo"</span>: <span class="s">"12345600102"</span>, <span class="k">"HN"</span>: <span class="s">"0845466"</span>, <span class="c">/* …ฟิลด์เหมือน LabRequest… */</span>
+      <span class="k">"TestList"</span>: [ { <span class="k">"TestCode"</span>: <span class="s">"CH003"</span>, <span class="k">"TestName"</span>: <span class="s">"Creatinine"</span>,
+                      <span class="k">"TestType"</span>: <span class="s">"T"</span>, <span class="k">"CollectionDateTime"</span>: <span class="s">"07/02/2023 11:27:30"</span> } ] },
+    { <span class="k">"LabNo"</span>: <span class="s">"12345600103"</span>, <span class="k">"HN"</span>: <span class="s">"0845467"</span>, <span class="k">"TestList"</span>: [ <span class="c">/* … */</span> ] }
+  ]
+}</pre>
+  <div class="crit"><b>🔴 ข้อจำกัด:</b> Response ไม่ระบุว่าใบไหนสำเร็จ/ล้มเหลว — batch เป็น all-or-nothing หรือ partial?
+  <b>ต้องตกลง</b> · แนะนำขอเพิ่ม <code>ResultList[{ LabNo, Status, Message }]</code></div>
+
+  <!-- 4.4 -->
+  <h3>4.4 <code>POST /api/RequestByVisitNo</code> — ดึงรายการด้วย Barcode <span class="tag t-lis">LIS → HIS</span></h3>
+  <div class="warn"><b>⚠️ เส้นนี้ HIS ต้องเป็นผู้พัฒนา API</b></div>
+  <h4>Request Body</h4>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:14%">Type</th><th style="width:8%">M/O</th><th>Description</th></tr></thead>
+    <tbody><tr><td>BarcodeNo</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>เลข HN หรือเลขนัดหมาย</td></tr></tbody>
+  </table>
+  <h4>Response Body</h4>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:14%">Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Status</td><td>Number</td><td>0 = Success, xx = Error</td></tr>
+      <tr><td>Message</td><td>Text(250)</td><td>เช่น "มีรายการตรวจวันนี้", "มีรายการตรวจวันอื่นด้วย", "ไม่พบรายการ", "ไม่พบ HN"</td></tr>
+      <tr><td>RequestList[]</td><td>Array</td><td>โครงเดียวกับ LabRequest (<b>ไม่มี <code>Quantity</code></b>)</td></tr>
+    </tbody>
+  </table>
+<pre><span class="c">// Request</span>
+{ <span class="k">"BarcodeNo"</span>: <span class="s">"0845466"</span> }
+
+<span class="c">// Response</span>
+{
+  <span class="k">"Status"</span>: <span class="n">0</span>, <span class="k">"Message"</span>: <span class="s">"Success"</span>,
+  <span class="k">"RequestList"</span>: [
+    { <span class="k">"LabNo"</span>: <span class="s">"12345600102"</span>, <span class="k">"HN"</span>: <span class="s">"0845466"</span>, <span class="k">"PrefixName"</span>: <span class="s">"นาย"</span>,
+      <span class="k">"FirstName"</span>: <span class="s">"ทดสอบ"</span>, <span class="k">"LastName"</span>: <span class="s">"ระบบ"</span>, <span class="k">"DateOfBirth"</span>: <span class="s">"13/07/1965"</span>,
+      <span class="k">"Sex"</span>: <span class="s">"F"</span>, <span class="k">"VisitType"</span>: <span class="s">"IPD"</span>, <span class="k">"Priority"</span>: <span class="s">"R"</span>,
+      <span class="k">"RequestDate"</span>: <span class="s">"16/08/2023 08:30:00"</span>,
+      <span class="k">"RequestByCode"</span>: <span class="s">"U001"</span>, <span class="k">"RequestBy"</span>: <span class="s">"นางสาวทดสอบ"</span>, <span class="k">"RequestStatus"</span>: <span class="s">"N"</span>,
+      <span class="k">"TestList"</span>: [ { <span class="k">"TestCode"</span>: <span class="s">"CH003"</span>, <span class="k">"TestName"</span>: <span class="s">"Creatinine"</span>,
+                      <span class="k">"TestType"</span>: <span class="s">"T"</span>, <span class="k">"CollectionDateTime"</span>: <span class="s">"07/02/2023 11:27:30"</span> } ] }
+  ]
+}</pre>
+
+  <!-- 4.5 -->
+  <h3>4.5 <code>POST /api/UpdateStatus</code> — แจ้งสถานะรายการตรวจ <span class="tag t-lis">LIS → HIS</span></h3>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:12%">Type</th><th style="width:7%">M/O</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>LabNo</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>หมายเลขสั่งตรวจ</td></tr>
+      <tr><td>TestList[]</td><td>ArrayList</td><td><span class="tag t-m">M</span></td><td>Array ของรายการตรวจ</td></tr>
+      <tr><td>↳ TestCode</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td>รหัสรายการตรวจ</td></tr>
+      <tr><td>↳ TestName</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>ชื่อรายการตรวจ</td></tr>
+      <tr><td>↳ TestStatus</td><td>Text(2)</td><td><span class="tag t-m">M</span></td><td><code>A</code> = รับแลป, <code>J</code> = Reject, <code>C</code> = ถอยสถานะแก้ผล, <code>X</code> = ยกเลิกรายการ</td></tr>
+      <tr><td>↳ UpdateBy</td><td>Text(120)</td><td><span class="tag t-m">M</span></td><td>เจ้าหน้าที่ผู้ทำรายการ</td></tr>
+      <tr><td>↳ UpdateDateTime</td><td>Text(20)</td><td><span class="tag t-m">M</span></td><td><code>DD/MM/YYYY HH:mm:ss</code> (ค.ศ.)</td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345600102"</span>,
+  <span class="k">"TestList"</span>: [
+    { <span class="k">"TestCode"</span>: <span class="s">"CH003"</span>, <span class="k">"TestName"</span>: <span class="s">"Creatinine"</span>, <span class="k">"TestStatus"</span>: <span class="s">"A"</span>,
+      <span class="k">"UpdateBy"</span>: <span class="s">"นาย กขค"</span>, <span class="k">"UpdateDateTime"</span>: <span class="s">"15/01/2025 10:48:00"</span> }
+  ]
+}</pre>
+  <p><b>Response:</b> <code>{ "Status": 0, "Message": "Success" }</code></p>
+
+  <!-- 4.6 -->
+  <h3>4.6 <code>POST /api/LabResult</code> — ผลตรวจ Routine <span class="tag t-lis">LIS → HIS</span></h3>
+  <h4>ส่วนหัว</h4>
+  <table class="fields">
+    <thead><tr><th style="width:20%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>LabNo</td><td>Text(10) <sup>①</sup></td><td>หมายเลขของการสั่งตรวจ</td></tr>
+      <tr><td>RequestRemark</td><td>Text(4000)</td><td>หมายเหตุของการสั่งตรวจ</td></tr>
+      <tr><td>ResultStatus</td><td>Text(2)</td><td><code>P</code> = Prelim, <code>F</code> = Final</td></tr>
+      <tr><td>Filedata[]</td><td>Array</td><td>รองรับมากกว่า 1 ไฟล์</td></tr>
+      <tr><td>↳ FileName</td><td>Text(250)</td><td>รูปแบบ <code>LN_DDMMYYYYHHmmss.pdf</code></td></tr>
+      <tr><td>↳ Filebase64</td><td>Text(Max)</td><td>เนื้อไฟล์ Base64</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12.5px;color:var(--muted)"><sup>①</sup> สเปคระบุ Text(10) แต่ตัวอย่างยาว 11 หลัก และหน้า Request ระบุ Text(20) — <b>ให้ยึด Text(20)</b> (ดูข้อ 5.2)</p>
+  <h4><code>TestList[]</code></h4>
+  <table class="fields">
+    <thead><tr><th style="width:24%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>TestCode</td><td>Text(20)</td><td>รหัสรายการตรวจ</td></tr>
+      <tr><td>TestName</td><td>Text(120)</td><td>ชื่อรายการตรวจ</td></tr>
+      <tr><td>TestRemark</td><td>Text(500)</td><td>หมายเหตุรายการตรวจ</td></tr>
+      <tr><td>InformCriticalByCode</td><td>Text(120)</td><td>รหัสเจ้าหน้าที่รายงานค่าวิกฤต</td></tr>
+      <tr><td>InformCriticalBy</td><td>Text(120)</td><td>ชื่อเจ้าหน้าที่รายงานค่าวิกฤต</td></tr>
+      <tr><td>InformCriticalTo</td><td>Text(120)</td><td>เจ้าหน้าที่รับการรายงานค่าวิกฤต</td></tr>
+      <tr><td>InformCriticalDateTime</td><td>Text(20)</td><td><code>DD/MM/YYYY HH:mm:ss</code></td></tr>
+      <tr><td>CriticalFlag</td><td>Text(1)</td><td><code>C</code> = Critical, ว่าง = ไม่มีค่าวิกฤต</td></tr>
+      <tr><td>ReportResultByCode</td><td>Text(120)</td><td>รหัสเจ้าหน้าที่รายงานผล</td></tr>
+      <tr><td>ReportResultBy</td><td>Text(120)</td><td>ชื่อเจ้าหน้าที่รายงานผล</td></tr>
+      <tr><td>ReportResultDateTime</td><td>Text(20)</td><td>วันเวลาที่รายงานผล</td></tr>
+      <tr><td>ApproveResultByCode</td><td>Text(120)</td><td>รหัสเจ้าหน้าที่อนุมัติผล</td></tr>
+      <tr><td>ApproveResultBy</td><td>Text(120)</td><td>ชื่อเจ้าหน้าที่อนุมัติผล</td></tr>
+      <tr><td>ApproveResultDateTime</td><td>Text(20)</td><td>วันเวลาที่อนุมัติผล</td></tr>
+    </tbody>
+  </table>
+  <h4><code>ResultList[]</code> (อยู่ภายใน TestList[])</h4>
+  <table class="fields">
+    <thead><tr><th style="width:20%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>ResultCode</td><td>Text(15)</td><td>รหัสของผลตรวจ</td></tr>
+      <tr><td>ResultName</td><td>Text(120)</td><td>ชื่อของผลตรวจ</td></tr>
+      <tr><td>ResultValue</td><td>Text(250)</td><td>ค่าผลตรวจ</td></tr>
+      <tr><td>ResultUnit</td><td>Text(20)</td><td>หน่วยของผลตรวจ</td></tr>
+      <tr><td>ResultFlag</td><td>Text(10)</td><td><code>L</code>, <code>LL</code> = ต่ำ · <code>H</code>, <code>HH</code> = สูง</td></tr>
+      <tr><td>ReferenceRange</td><td>Text(250)</td><td>ค่าอ้างอิงหรือค่าปกติ</td></tr>
+      <tr><td>ResultRemark</td><td>Text(500)</td><td>หมายเหตุของผลตรวจ</td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345678902"</span>, <span class="k">"RequestRemark"</span>: <span class="s">"No Dx"</span>, <span class="k">"ResultStatus"</span>: <span class="s">"F"</span>,
+  <span class="k">"Filedata"</span>: [ { <span class="k">"FileName"</span>: <span class="s">"0240405170001_20240517100553.pdf"</span>,
+                  <span class="k">"Filebase64"</span>: <span class="s">"JVBERi0xLjUKJYCBgoMK…"</span> } ],
+  <span class="k">"TestList"</span>: [
+    { <span class="k">"TestCode"</span>: <span class="s">"CH002"</span>, <span class="k">"TestName"</span>: <span class="s">"*BUN"</span>, <span class="k">"TestRemark"</span>: <span class="s">""</span>,
+      <span class="k">"InformCriticalByCode"</span>: <span class="s">""</span>, <span class="k">"InformCriticalBy"</span>: <span class="s">""</span>, <span class="k">"InformCriticalTo"</span>: <span class="s">""</span>,
+      <span class="k">"InformCriticalDateTime"</span>: <span class="s">""</span>, <span class="k">"CriticalFlag"</span>: <span class="s">""</span>,
+      <span class="k">"ReportResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ReportResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ReportResultDateTime"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+      <span class="k">"ApproveResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ApproveResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ApproveResultDateTime"</span>: <span class="s">"07/02/2023 10:48:00"</span>,
+      <span class="k">"ResultList"</span>: [
+        { <span class="k">"ResultCode"</span>: <span class="s">"15"</span>, <span class="k">"ResultName"</span>: <span class="s">"*BUN"</span>, <span class="k">"ResultValue"</span>: <span class="s">"8.1"</span>,
+          <span class="k">"ResultUnit"</span>: <span class="s">"mg/dL"</span>, <span class="k">"ResultFlag"</span>: <span class="s">"H"</span>,
+          <span class="k">"ReferenceRange"</span>: <span class="s">"7.0 - 18.7"</span>, <span class="k">"ResultRemark"</span>: <span class="s">""</span> }
+      ] }
+  ]
+}</pre>
+  <p><b>Response:</b> <code>{ "Status": 0, "Message": "Success" }</code></p>
+
+  <!-- 4.7 -->
+  <h3>4.7 <code>POST /api/LabResultBacteria</code> — ผลเพาะเชื้อ <span class="tag t-lis">LIS → HIS</span></h3>
+  <p>โครงสร้างเหมือน <code>LabResult</code> + เพิ่ม <code>OrganismList[]</code> และ <code>MedicineList[]</code></p>
+  <div class="note">💡 <b>ต่างจาก LabResult:</b> ไม่มีชุดฟิลด์ค่าวิกฤต (<code>InformCritical*</code>, <code>CriticalFlag</code>) · เพิ่ม <code>ResultType</code> ใน ResultList</div>
+  <h4><code>ResultList[]</code> — ฟิลด์ที่เพิ่ม</h4>
+  <table class="fields">
+    <thead><tr><th style="width:20%">Field</th><th style="width:14%">Type</th><th>Format</th></tr></thead>
+    <tbody><tr><td>ResultType</td><td>Text(1)</td><td><code>T</code> = Text, <code>F</code> = File</td></tr></tbody>
+  </table>
+  <h4><code>OrganismList[]</code> (อยู่ภายใน <code>TestList[]</code>)</h4>
+  <table class="fields">
+    <thead><tr><th style="width:34%">Field</th><th style="width:22%">Type</th><th>ตัวอย่าง / ความหมาย</th></tr></thead>
+    <tbody>
+      <tr><td>OrganismCode / Name / Value</td><td>Text(20)/(120)/(250)</td><td><code>esccol</code> / <code>Organism</code> / <code>Escherichia coli</code></td></tr>
+      <tr><td>GramCode / Name / Value</td><td>Text(20)/(120)/(250)</td><td>ผล Gram stain</td></tr>
+      <tr><td>GradeCode / Name / Value</td><td>Text(20)/(120)/(250)</td><td>ระดับการเจริญของเชื้อ</td></tr>
+      <tr><td>ColonyCode / Name / Value</td><td>Text(20)/(120)/(250)</td><td>ลักษณะโคโลนี</td></tr>
+    </tbody>
+  </table>
+  <h4><code>MedicineList[]</code> (อยู่ภายใน <code>OrganismList[]</code>)</h4>
+  <table class="fields">
+    <thead><tr><th style="width:24%">Field</th><th style="width:16%">Type</th><th>ตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><td>MedicineCode</td><td>Text(20)</td><td><code>am</code></td></tr>
+      <tr><td>MedicineName</td><td>Text(120)</td><td><code>Ampicillin</code></td></tr>
+      <tr><td>MedicineValue</td><td>Text(250)</td><td><code>S  (MIC:&lt;=2)</code> — รวมผลและ MIC ในสตริงเดียว</td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345678902"</span>, <span class="k">"RequestRemark"</span>: <span class="s">""</span>, <span class="k">"ResultStatus"</span>: <span class="s">"F"</span>,
+  <span class="k">"Filedata"</span>: [ { <span class="k">"FileName"</span>: <span class="s">"12345678902_07022024104800.pdf"</span>, <span class="k">"Filebase64"</span>: <span class="s">"JVBERi…"</span> } ],
+  <span class="k">"TestList"</span>: [
+    { <span class="k">"TestCode"</span>: <span class="s">"4009"</span>, <span class="k">"TestName"</span>: <span class="s">"Hemoculture and sensitivity Automate"</span>,
+      <span class="k">"TestRemark"</span>: <span class="s">""</span>,
+      <span class="k">"ReportResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ReportResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ReportResultDateTime"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+      <span class="k">"ApproveResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ApproveResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ApproveResultDateTime"</span>: <span class="s">"07/02/2023 10:48:00"</span>,
+      <span class="k">"ResultList"</span>: [
+        { <span class="k">"ResultCode"</span>: <span class="s">"4009"</span>, <span class="k">"ResultName"</span>: <span class="s">"Hemo culture"</span>, <span class="k">"ResultType"</span>: <span class="s">"T"</span>,
+          <span class="k">"ResultValue"</span>: <span class="s">"POSITIVE"</span>, <span class="k">"ResultUnit"</span>: <span class="s">""</span>, <span class="k">"ResultFlag"</span>: <span class="s">""</span>,
+          <span class="k">"ReferenceRange"</span>: <span class="s">""</span>, <span class="k">"ResultRemark"</span>: <span class="s">""</span> }
+      ],
+      <span class="k">"OrganismList"</span>: [
+        { <span class="k">"OrganismCode"</span>: <span class="s">"esccol"</span>, <span class="k">"OrganismName"</span>: <span class="s">"Organism"</span>,
+          <span class="k">"OrganismValue"</span>: <span class="s">"Escherichia coli"</span>,
+          <span class="k">"GramCode"</span>: <span class="s">""</span>, <span class="k">"GramName"</span>: <span class="s">""</span>, <span class="k">"GramValue"</span>: <span class="s">""</span>,
+          <span class="k">"GradeCode"</span>: <span class="s">""</span>, <span class="k">"GradeName"</span>: <span class="s">""</span>, <span class="k">"GradeValue"</span>: <span class="s">""</span>,
+          <span class="k">"ColonyCode"</span>: <span class="s">""</span>, <span class="k">"ColonyName"</span>: <span class="s">""</span>, <span class="k">"ColonyValue"</span>: <span class="s">""</span>,
+          <span class="k">"MedicineList"</span>: [
+            { <span class="k">"MedicineCode"</span>: <span class="s">"am"</span>, <span class="k">"MedicineName"</span>: <span class="s">"Ampicillin"</span>,
+              <span class="k">"MedicineValue"</span>: <span class="s">"S  (MIC:&lt;=2)"</span> }
+          ] }
+      ] }
+  ]
+}</pre>
+  <div class="note">💡 <b>กฎ:</b> ไม่พบเชื้อ ⇒ ส่ง <code>"OrganismList": []</code></div>
+
+  <!-- 4.8 -->
+  <h3>4.8 <code>POST /api/LabResultBBScreening</code> — ผล Blood Bank Screening <span class="tag t-lis">LIS → HIS</span></h3>
+  <table class="fields">
+    <thead><tr><th style="width:22%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>LabNo</td><td>Text(10) <sup>①</sup></td><td>หมายเลขของการสั่งตรวจ</td></tr>
+      <tr><td>RequestRemark</td><td>Text(4000)</td><td>หมายเหตุของการสั่งตรวจ</td></tr>
+      <tr><td><b>PatientRemark</b></td><td>Text(4000)</td><td><b>หมายเหตุติดตัวผู้ป่วย</b> เช่น กรณีตรวจพบ Antibody</td></tr>
+      <tr><td>TestList[]</td><td>Array</td><td>TestCode, TestName, TestRemark, ReportResultBy*, ApproveResultBy* (เหมือน LabResult)</td></tr>
+      <tr><td>↳ ResultList[]</td><td>Array</td><td>ResultCode, ResultName, ResultValue, ResultUnit, ResultFlag, ReferenceRange, ResultRemark</td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345678902"</span>, <span class="k">"RequestRemark"</span>: <span class="s">""</span>, <span class="k">"PatientRemark"</span>: <span class="s">""</span>,
+  <span class="k">"TestList"</span>: [
+    { <span class="k">"TestCode"</span>: <span class="s">"BB-003"</span>, <span class="k">"TestName"</span>: <span class="s">"Antibody screening (PT)"</span>, <span class="k">"TestRemark"</span>: <span class="s">""</span>,
+      <span class="k">"ReportResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ReportResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ReportResultDateTime"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+      <span class="k">"ApproveResultByCode"</span>: <span class="s">"U004"</span>, <span class="k">"ApproveResultBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"ApproveResultDateTime"</span>: <span class="s">"07/02/2023 10:48:00"</span>,
+      <span class="k">"ResultList"</span>: [
+        { <span class="k">"ResultCode"</span>: <span class="s">"BB-003-04"</span>, <span class="k">"ResultName"</span>: <span class="s">"Antibody screening result"</span>,
+          <span class="k">"ResultValue"</span>: <span class="s">"Negative"</span>, <span class="k">"ResultUnit"</span>: <span class="s">""</span>, <span class="k">"ResultFlag"</span>: <span class="s">""</span>,
+          <span class="k">"ReferenceRange"</span>: <span class="s">""</span>, <span class="k">"ResultRemark"</span>: <span class="s">""</span> }
+      ] }
+  ]
+}</pre>
+  <div class="warn"><b>⚠️ ต่างจากเส้นผลอื่น:</b> <b>ไม่มี <code>ResultStatus</code> (P/F)</b> และ <b>ไม่มี <code>Filedata[]</code></b>
+  ⇒ แนบ PDF ผล Blood Bank ไม่ได้ และส่ง Prelim ไม่ได้ (ดูข้อ 5.1)</div>
+
+  <!-- 4.9 -->
+  <h3>4.9 <code>POST /api/LabResultBBCrossmatch</code> — จอง / จ่าย / ยกเลิกถุงเลือด <span class="tag t-lis">LIS → HIS</span></h3>
+  <table class="fields">
+    <thead><tr><th style="width:26%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>LabNo</td><td>Text(10) <sup>①</sup></td><td>หมายเลขของการสั่งตรวจ</td></tr>
+      <tr><td>CommandType</td><td>Text(50)</td><td><code>APPROVED</code> = จองถุงเลือด · <code>ISSUED</code> = จ่ายเลือดแล้ว · <code>UNTIE</code> = ยกเลิกการจอง · <code>CANCEL ISSUE</code> = ยกเลิกการจ่าย</td></tr>
+      <tr><td>BloodBagList[]</td><td>Array</td><td>Array ของถุงเลือด</td></tr>
+      <tr><td>↳ BagNo</td><td>Text(20)</td><td>Barcode ถุงเลือด</td></tr>
+      <tr><td>↳ SubBagNo</td><td>Array</td><td>Barcode ถุงเลือดย่อย (กรณีรวมถุงเลือด)</td></tr>
+      <tr><td>↳ ProductCode</td><td>Text(20)</td><td>รหัสชนิดถุงเลือด</td></tr>
+      <tr><td>↳ ProductName</td><td>Text(120)</td><td>ชนิดถุงเลือด เช่น <code>LPRC</code></td></tr>
+      <tr><td>↳ Volume</td><td>Number</td><td>ปริมาณของถุงเลือด (mL)</td></tr>
+      <tr><td>↳ CrossmatchResult</td><td>Text(120)</td><td>ผลการ crossmatch เช่น <code>Compatible</code></td></tr>
+      <tr><td>↳ CrossmatchBy</td><td>Text(120)</td><td>เจ้าหน้าที่อนุมัติผลการ crossmatch</td></tr>
+      <tr><td>↳ CrossmatchDateTime</td><td>Text(20)</td><td>วันเวลาที่อนุมัติผล crossmatch</td></tr>
+      <tr><td>↳ IssueBy / IssueDateTime</td><td>Text(120)/(20)</td><td>เจ้าหน้าที่และเวลาจ่ายเลือด</td></tr>
+      <tr><td>↳ ReceiveBy / ReceiveDateTime</td><td>Text(120)/(20)</td><td>เจ้าหน้าที่และเวลารับเลือด</td></tr>
+      <tr><td>↳ UntieBy / UntieDateTime</td><td>Text(120)/(20)</td><td>เจ้าหน้าที่และเวลาปลดคล้องเลือด</td></tr>
+      <tr><td>↳ CancelIssueBy / CancelIssueDateTime</td><td>Text(120)/(20)</td><td>เจ้าหน้าที่และเวลายกเลิกการจ่ายเลือด</td></tr>
+      <tr><td>↳ ABOGroup</td><td>Text(20)</td><td><code>A</code> / <code>B</code> / <code>O</code> / <code>AB</code></td></tr>
+      <tr><td>↳ RhGroup</td><td>Text(20)</td><td><code>Positive</code> / <code>Negative</code></td></tr>
+      <tr><td>↳ ExpiredDateTime</td><td>Text(20)</td><td>วันเวลาที่ถุงเลือดหมดอายุ</td></tr>
+      <tr><td>↳ IsNewPatient</td><td>Bit(1)</td><td><code>1</code> = ให้เลือดครั้งแรก, <code>0</code> = เคยให้แล้ว</td></tr>
+      <tr><td>↳ PaidStatus</td><td>Text(1)</td><td><code>P</code> = จ่ายเงินแล้ว, <code>N</code> = ยังไม่จ่าย</td></tr>
+    </tbody>
+  </table>
+<pre>{
+  <span class="k">"LabNo"</span>: <span class="s">"12345678902"</span>, <span class="k">"CommandType"</span>: <span class="s">"APPROVED"</span>,
+  <span class="k">"BloodBagList"</span>: [
+    { <span class="k">"BagNo"</span>: <span class="s">"14364001425"</span>,
+      <span class="k">"SubBagNo"</span>: [<span class="s">"1111111111"</span>, <span class="s">"2222222222"</span>, <span class="s">"3333333333"</span>],
+      <span class="k">"ProductCode"</span>: <span class="s">"0701N11346"</span>, <span class="k">"ProductName"</span>: <span class="s">"LPRC"</span>, <span class="k">"Volume"</span>: <span class="n">250.00</span>,
+      <span class="k">"CrossmatchResult"</span>: <span class="s">"Compatible"</span>, <span class="k">"CrossmatchBy"</span>: <span class="s">"นาย กขค"</span>,
+      <span class="k">"CrossmatchDateTime"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+      <span class="k">"IssueBy"</span>: <span class="s">""</span>, <span class="k">"IssueDateTime"</span>: <span class="s">""</span>,
+      <span class="k">"ReceiveBy"</span>: <span class="s">""</span>, <span class="k">"ReceiveDateTime"</span>: <span class="s">""</span>,
+      <span class="k">"UntieBy"</span>: <span class="s">""</span>, <span class="k">"UntieDateTime"</span>: <span class="s">""</span>,
+      <span class="k">"CancelIssueBy"</span>: <span class="s">""</span>, <span class="k">"CancelIssueDateTime"</span>: <span class="s">""</span>,
+      <span class="k">"ABOGroup"</span>: <span class="s">"O"</span>, <span class="k">"RhGroup"</span>: <span class="s">"Positive"</span>,
+      <span class="k">"ExpiredDateTime"</span>: <span class="s">"31/03/2023 23:59:59"</span>,
+      <span class="k">"IsNewPatient"</span>: <span class="n">1</span>, <span class="k">"PaidStatus"</span>: <span class="s">"P"</span> }
+  ]
+}</pre>
+  <p><b>Response:</b> <code>{ "Status": 0, "Message": "Success" }</code></p>
+
+  <!-- 4.10 -->
+  <h3>4.10 <code>POST /api/Transfusion/report</code> — รายงานการให้เลือด <span class="tag t-lis">LIS → HIS</span> <sup>③</sup></h3>
+  <table class="fields">
+    <thead><tr><th style="width:24%">Field</th><th style="width:14%">Type</th><th>Description / Format</th></tr></thead>
+    <tbody>
+      <tr><td>HN</td><td>Text(20)</td><td>รหัสประจำตัวผู้ป่วย</td></tr>
+      <tr><td>BagNo</td><td>Text(20)</td><td>Barcode ถุงเลือด</td></tr>
+      <tr><td>ProductCode</td><td>Text(20)</td><td>รหัสชนิดถุงเลือด</td></tr>
+      <tr><td>ProductName</td><td>Text(120)</td><td>ชนิดถุงเลือด</td></tr>
+      <tr><td>ABOGroup</td><td>Text(20)</td><td><code>A</code> / <code>B</code> / <code>O</code> / <code>AB</code></td></tr>
+      <tr><td>RhGroup</td><td>Text(20)</td><td><code>Positive</code> / <code>Negative</code></td></tr>
+      <tr><td>DateTimeReaction</td><td>Text(10) <sup>②</sup></td><td>เวลาที่เกิดปฏิกิริยา</td></tr>
+      <tr><td>DateTimeStart</td><td>Text(10) <sup>②</sup></td><td>วันเวลาที่เริ่มให้เลือด</td></tr>
+      <tr><td>DateTimeStop</td><td>Text(10) <sup>②</sup></td><td>วันเวลาที่หยุดให้เลือด</td></tr>
+      <tr><td>Pulse</td><td>Text(10)</td><td>ชีพจร — <b>วัดหลังหยุดให้เลือด</b></td></tr>
+      <tr><td>BloodPressure</td><td>Text(10)</td><td>ความดันโลหิต เช่น <code>120/60</code> — วัดหลังหยุดเลือด</td></tr>
+      <tr><td>Temperature</td><td>Text(10)</td><td>อุณหภูมิร่างกาย เช่น <code>36.5</code> — วัดหลังหยุดเลือด</td></tr>
+      <tr><td>RespiratoryRate</td><td>Text(10)</td><td>อัตราการหายใจ — วัดหลังหยุดเลือด</td></tr>
+      <tr><td>TRDetails</td><td>Text(500)</td><td>Transfusion Reaction (การแสดงอาการ)</td></tr>
+      <tr><td>TTDetails</td><td>Text(500)</td><td>Transfusion Type</td></tr>
+      <tr><td>Remark</td><td>Text(4000)</td><td>หมายเหตุ</td></tr>
+      <tr><td>ReportBy / ReportDate</td><td>Text(120)/(20)</td><td>ผู้รายงาน (พยาบาล) และวันที่รายงาน</td></tr>
+      <tr><td>CertifyBy / CertifyDate</td><td>Text(120)/(20)</td><td>ผู้รับรองผล (แพทย์) และวันที่รับรอง</td></tr>
+      <tr><td>CheckingBy / CheckingDate</td><td>Text(120)/(20)</td><td>ผู้ตรวจสอบ (นักเทคนิคการแพทย์) และวันที่ตรวจสอบ</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12.5px;color:var(--muted)">
+    <sup>②</sup> สเปคระบุ Text(10) แต่ Format เป็น <code>DD/MM/YYYY HH:mm:ss</code> (19 ตัวอักษร) — <b>ให้ยึด Text(20)</b><br>
+    <sup>③</sup> ทิศทางตามเอกสาร แต่ในทางปฏิบัติน่าจะกลับด้าน — ดูข้อ 5.1
+  </p>
+<pre>{
+  <span class="k">"HN"</span>: <span class="s">"12345678902"</span>, <span class="k">"BagNo"</span>: <span class="s">"66A000001"</span>,
+  <span class="k">"ProductCode"</span>: <span class="s">"0701N11346"</span>, <span class="k">"ProductName"</span>: <span class="s">"LPRC"</span>,
+  <span class="k">"ABOGroup"</span>: <span class="s">"O"</span>, <span class="k">"RhGroup"</span>: <span class="s">"Positive"</span>,
+  <span class="k">"DateTimeReaction"</span>: <span class="s">"27/10/2021 15:30:58"</span>,
+  <span class="k">"DateTimeStart"</span>: <span class="s">"27/10/2021 15:30:58"</span>,
+  <span class="k">"DateTimeStop"</span>: <span class="s">"27/10/2021 16:30:58"</span>,
+  <span class="k">"Pulse"</span>: <span class="s">"60"</span>, <span class="k">"BloodPressure"</span>: <span class="s">"120/60"</span>,
+  <span class="k">"Temperature"</span>: <span class="s">"36.5"</span>, <span class="k">"RespiratoryRate"</span>: <span class="s">"25"</span>,
+  <span class="k">"TRDetails"</span>: <span class="s">""</span>, <span class="k">"TTDetails"</span>: <span class="s">""</span>, <span class="k">"Remark"</span>: <span class="s">""</span>,
+  <span class="k">"ReportBy"</span>: <span class="s">"พยาบาล1"</span>, <span class="k">"ReportDate"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+  <span class="k">"CertifyBy"</span>: <span class="s">"แพทย์1"</span>, <span class="k">"CertifyDate"</span>: <span class="s">"07/02/2023 10:45:00"</span>,
+  <span class="k">"CheckingBy"</span>: <span class="s">"ทพ.1"</span>, <span class="k">"CheckingDate"</span>: <span class="s">"07/02/2023 10:45:00"</span>
+}</pre>
+  <p><b>Response:</b> <code>{ "Status": 0, "Message": "Success" }</code></p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <h2><span class="n">5</span>ประเด็นค้าง / ข้อควรตกลงก่อนพัฒนา</h2>
+
+  <h3>5.1 ประเด็นเชิงออกแบบ — ต้องเคลียร์กับ GEMs</h3>
+  <table>
+    <thead><tr><th style="width:4%">#</th><th style="width:38%">ประเด็น</th><th>ผลกระทบ / สิ่งที่ต้องทำ</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Token ฝั่ง HIS</b> — สเปคมี <code>/api/Token</code> เฉพาะฝั่ง LIS แต่ 7 เส้น LIS→HIS ต้องใช้ <code>Bearer</code></td><td><b>HIS ต้องสร้าง Token API เอง</b> หรือใช้ API Key แทน — ต้องตกลง</td></tr>
+      <tr><td>2</td><td><b>Batch Response ไม่ระบุรายใบ</b> — <code>/api/LabRequestQueue</code> คืนแค่ Status/Message</td><td>Partial fail ตรวจไม่ได้ → ขอเพิ่ม <code>ResultList[{LabNo, Status, Message}]</code></td></tr>
+      <tr><td>3</td><td><b>ไม่มีตาราง Error Code</b> — มีแค่ "0 = Success, xx = Error"</td><td>ต้องขอ Error Code Table ก่อนเขียน error handling</td></tr>
+      <tr><td>4</td><td><b>ทิศทาง <code>Transfusion/report</code></b> — สเปคว่า LIS→HIS แต่พยาบาลบันทึกที่ HIS</td><td>ถ้าผิดทิศ ต้องกลับด้าน = LIS เป็นผู้สร้าง API แทน</td></tr>
+      <tr><td>5</td><td><b><code>Quantity</code> มีเฉพาะ <code>/api/LabRequest</code></b></td><td>สั่งขอเลือดผ่าน Queue / Kiosk ไม่ได้</td></tr>
+      <tr><td>6</td><td><b><code>BBScreening</code> ไม่มี <code>ResultStatus</code> และ <code>Filedata[]</code></b></td><td>แนบ PDF ผล Blood Bank / ส่ง Prelim ไม่ได้</td></tr>
+      <tr><td>7</td><td><b><code>OrganismList[]</code> อยู่ใน <code>TestList[]</code></b> (ไม่ใช่ใน <code>ResultList[]</code>)</td><td>ถ้า 1 Test มีหลาย Specimen จะแยกไม่ได้ — ต้องยืนยันตำแหน่ง</td></tr>
+      <tr><td>8</td><td><b><code>RequestStatus="U"</code> = Replace หรือ Delta?</b></td><td>ถ้าเข้าใจต่างกัน รายการตรวจจะหาย / ซ้ำ</td></tr>
+      <tr><td>9</td><td><b>Idempotency</b> — ส่ง <code>LabNo</code> ซ้ำด้วย <code>RequestStatus="N"</code> จะเกิดอะไร</td><td>เสี่ยง Order ซ้ำเมื่อ retry</td></tr>
+      <tr><td>10</td><td><b>ขนาด Payload</b> — <code>Image</code> และ <code>Filebase64</code> เป็น Base64 ไม่จำกัดขนาด</td><td>ต้องกำหนด Max size + timeout + <code>maxRequestLength</code> ที่ IIS</td></tr>
+      <tr><td>11</td><td><b>Retry / Timeout policy</b> ไม่ระบุ</td><td>ต้องตกลง: retry กี่ครั้ง, backoff, dead-letter queue</td></tr>
+      <tr><td>12</td><td><b><code>MedicineValue</code> รวมผล + MIC ในสตริงเดียว</b> (<code>"S  (MIC:&lt;=2)"</code>)</td><td>HIS ต้อง parse เอง ถ้าต้องการแยกเก็บ</td></tr>
+      <tr><td>13</td><td><b><code>RequestByVisitNo</code> คืน order ช่วงไหน</b></td><td>ต้องนิยาม: วันนี้ / ค้างทั้งหมด / N วันย้อนหลัง</td></tr>
+      <tr><td>14</td><td><b>ไม่มี API ถามสถานะย้อนกลับ</b> (Query by LabNo)</td><td>ถ้า Callback หาย ต้องมีทาง reconcile</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 ข้อผิดพลาดในเอกสาร (Typo / ขัดแย้ง) — ต้องแจ้งแก้</h3>
+  <table>
+    <thead><tr><th style="width:26%">จุด</th><th style="width:30%">เอกสารเขียน</th><th>ที่ถูกต้อง / ที่ควรเป็น</th></tr></thead>
+    <tbody>
+      <tr><td>LabRequest — TestList</td><td><code>SpacimenCode</code>, <code>SpacimenName</code></td><td>สะกดผิด (ควรเป็น <code>Specimen</code>) — <b>แต่ต้องใช้ตามสเปคจนกว่าจะแก้</b></td></tr>
+      <tr><td>LabRequest — Example</td><td><code>Piority: "R"</code></td><td>ชื่อฟิลด์จริงคือ <code>Priority</code></td></tr>
+      <tr><td>LabResult / BB — Example</td><td><code>LabNumber: "12345678902"</code></td><td>ชื่อฟิลด์จริงคือ <code>LabNo</code></td></tr>
+      <tr><td>Bacteria — Example</td><td><code>GrameName</code>, <code>GrameValue</code></td><td>ชื่อฟิลด์จริงคือ <code>GramName</code>, <code>GramValue</code></td></tr>
+      <tr><td>LabResult / BB — Type</td><td><code>LabNo</code> = Text(10)</td><td>ขัดกับ Request ที่เป็น Text(20) และตัวอย่าง 11 หลัก ⇒ ใช้ <b>Text(20)</b></td></tr>
+      <tr><td>Transfusion — Type</td><td><code>DateTimeStart/Stop/Reaction</code> = Text(10)</td><td>Format ยาว 19 ตัวอักษร ⇒ ใช้ <b>Text(20)</b></td></tr>
+      <tr><td>Result Routine / Bacteria</td><td><code>ResultStatus</code> Description = "หมายเหตุของการสั่งตรวจ"</td><td>Copy-paste ผิด — ที่ถูกคือ "สถานะของผลตรวจ"</td></tr>
+      <tr><td>Bacteria — Type</td><td><code>ResultStatus</code> = Text(4000)</td><td>ควรเป็น Text(2) (ค่าคือ P/F)</td></tr>
+      <tr><td>หัวข้อในชีต</td><td>เขียน <code>api/LabRequest</code> / <code>api/Token</code> แต่ Endpoint จริงต่างกัน</td><td>ยึดตามบรรทัด <b>Endpoint:</b> เท่านั้น</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.3 Checklist งานฝั่ง HIS</h3>
+  <table>
+    <thead><tr><th style="width:22%">กลุ่มงาน</th><th>รายการ</th></tr></thead>
+    <tbody>
+      <tr><td><b>Authentication</b></td><td>☐ สร้าง <code>/api/Token</code> (ฝั่ง HIS) + กลไก issue / verify / expire</td></tr>
+      <tr><td><b>สร้าง API รับ</b></td><td>☐ <code>RequestByVisitNo</code> ☐ <code>UpdateStatus</code> ☐ <code>LabResult</code> ☐ <code>LabResultBacteria</code> ☐ <code>LabResultBBScreening</code> ☐ <code>LabResultBBCrossmatch</code> ☐ <code>Transfusion/report</code> (ถ้าทิศทางตามสเปค)</td></tr>
+      <tr><td><b>สร้าง Client เรียก</b></td><td>☐ <code>Token</code> (+ cache / refresh) ☐ <code>LabRequest</code> ☐ <code>LabRequestQueue</code></td></tr>
+      <tr><td><b>แปลงข้อมูล</b></td><td>☐ ตัวแปลง พ.ศ. ⇄ ค.ศ. ครอบทุกฟิลด์วันที่ (in / out)</td></tr>
+      <tr><td><b>Mapping Table</b></td><td>☐ TestCode / ProfileCode ☐ SpecimenCode ☐ DepartmentCode ☐ WardCode ☐ DoctorCode ☐ RightsCode ☐ ProvinceCode ☐ ProductCode (ชนิดถุงเลือด)</td></tr>
+      <tr><td><b>ออกเลข</b></td><td>☐ ตัวสร้าง <code>LabNo</code> — unique ไม่เกิน 20 หลัก</td></tr>
+      <tr><td><b>ความทนทาน</b></td><td>☐ Logging ทุก transaction (request / response / timestamp) ☐ Retry queue ☐ Alert เมื่อส่งไม่สำเร็จ ☐ กลไก Reconcile</td></tr>
+      <tr><td><b>หน้าจอ</b></td><td>☐ จอสถานะ Lab (New → Accept → Prelim → Final) ให้ Ward ☐ จัดเก็บ/แสดง PDF จาก <code>Filedata[]</code> ☐ Alert ค่าวิกฤต (<code>CriticalFlag="C"</code>) ถึงแพทย์เจ้าของไข้ ☐ หน้าจอ Blood Bank: จอง / จ่าย / ปลดคล้อง + ผูกค่าใช้จ่าย (<code>PaidStatus</code>)</td></tr>
+      <tr><td><b>ทดสอบ</b></td><td>☐ ทดสอบครบ 11 Case ในหัวข้อ 2</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) · เอกสารสรุปจาก <b>GFM-DDS-03 (WebAPI Specification 001-69) - GEMs.xlsx</b> v.1.0 (Rev.1 · 2025-08-01) ·
+  ฉบับ Markdown: <code>docs/gems-webapi-integration-msm.md</code>
+</footer>
+
+</div>
+</body>
+</html>
