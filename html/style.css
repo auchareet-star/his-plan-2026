@@ -100,6 +100,16 @@ strong{color:var(--primary-dark)}
 .lead{background:#2e9e5b;color:#fff;border-radius:5px;font-size:11px;padding:1px 7px}
 .sup{background:#9aa7b2;color:#fff;border-radius:5px;font-size:11px;padding:1px 7px}
 .kv{margin:3px 0;font-size:13px} .kv b{color:var(--primary-dark)}
+/* structured card body (Description / DoD) */
+.jsec{margin:10px 0 4px;font-size:13px}
+.jsec h4{margin:0 0 6px;font-size:13px;color:var(--primary-dark);border-bottom:1px solid var(--line);padding-bottom:3px}
+.jsec h5{margin:9px 0 3px;font-size:12.5px;color:var(--primary-dark)}
+.jsec p{margin:3px 0;line-height:1.55}
+.jsec ul{margin:3px 0 3px 18px;padding:0}
+.jsec li{margin:2px 0;line-height:1.5}
+.jsec ul.dodlist{list-style:none;margin-left:2px}
+.jsec ul.dodlist li::before{content:"☐ ";color:var(--accent);font-weight:700}
+.jdod{background:#f7fafa;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
 .person{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
 .person>summary{list-style:none;cursor:pointer;padding:12px 18px;background:linear-gradient(135deg,#0d6e6e,#0a5252);color:#fff;font-weight:700;font-size:15px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .person>summary::-webkit-details-marker{display:none}
