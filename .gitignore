@@ -5,3 +5,7 @@
 !index.html
 !html/
 !deliverables/
+
+# สำรองชั่วคราวใน html/ ไม่ต้องเก็บใน repo
+html/_bak-*/
+html/*.bak
