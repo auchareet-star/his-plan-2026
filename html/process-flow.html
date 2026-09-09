@@ -63,11 +63,11 @@ td.c{text-align:center;white-space:nowrap}
   <div class="k">PROCESS FLOW · 2 SITE</div>
   <h1>🔁 Flow การทำงาน — จาก Requirement ถึง Final Work Product</h1>
   <div class="sub">ตั้งแต่รับความต้องการจากผู้ใช้ในห้อง Fit Gap จนถึงส่งมอบตามงวดงาน · ใช้ร่วมกัน 2 ไซต์ (วลัยลักษณ์ + เมืองสมุทร)<br>
-  ขั้น ①–⑦ อ้างอิงชีต <b>Fit Gap Plan</b> ใน <span class="fpath">Project-Tracker.xlsx</span> · เพิ่มขั้น <b>2.5 Product Alignment</b> เข้ามาเป็น gate ของ PO</div>
+  ขั้น ①–⑦ อ้างอิงชีต <b>Fit Gap Plan</b> ใน <span class="fpath">Project-Tracker.xlsx</span> · ขั้น <b>2.5 PO 2 ฝ่ายตกลงผล</b> คือ gate เดียวก่อนออกแบบ — ยกเลิก Checkpoint ทีม Product แล้ว (9 ก.ย. 69)</div>
   <div class="pills">
-    <span class="pill">14 ขั้น · 3 Gate · 4 ลูปย้อนกลับ</span>
+    <span class="pill">14 ขั้น · 2 Gate · 4 ลูปย้อนกลับ</span>
     <span class="pill">ทุกขั้นมี Work Product ที่จับต้องได้</span>
-    <span class="pill">ปรับปรุง 9 ก.ย. 2569</span>
+    <span class="pill">ปรับปรุง 9 ก.ย. 2569 · ยกเลิก CP ทีม Product</span>
   </div>
 </header>
 
@@ -97,16 +97,16 @@ td.c{text-align:center;white-space:nowrap}
 
       <!-- 2 สรุป -->
       <rect x="192" y="60" width="160" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
-      <text x="272" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">② สรุป + CP Product</text>
+      <text x="272" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">② สรุป + ยืนยัน AS-IS</text>
       <text x="272" y="103" text-anchor="middle" font-size="11" fill="#41616b">Summary Gap</text>
-      <text x="272" y="121" text-anchor="middle" font-size="10.5" fill="#7a8b96">Type → Final (เทียบ DTMU)</text>
+      <text x="272" y="121" text-anchor="middle" font-size="10.5" fill="#7a8b96">Type → Final · AS-IS ของ DTMU</text>
 
       <!-- 2.5 gate -->
       <rect x="374" y="52" width="176" height="92" rx="11" fill="#f4edfb" stroke="#7b4fa8" stroke-width="2"/>
-      <text x="462" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#5a3580">⭐ 2.5 Product Alignment</text>
-      <text x="462" y="95" text-anchor="middle" font-size="11" fill="#5a4a6b"><tspan font-weight="700">PO</tspan> จับคู่ req 2 ไซต์</text>
-      <text x="462" y="113" text-anchor="middle" font-size="11" fill="#5a4a6b">+ ตัดสิน Core / Config / Site</text>
-      <text x="462" y="132" text-anchor="middle" font-size="10.5" fill="#8a7a9b">GATE ❷ — ผ่านก่อนถึงออกแบบได้</text>
+      <text x="462" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#5a3580">⭐ 2.5 PO 2 ฝ่ายตกลงผล</text>
+      <text x="462" y="95" text-anchor="middle" font-size="11" fill="#5a4a6b"><tspan font-weight="700">มีน × จูน</tspan> จับคู่ req 2 ไซต์</text>
+      <text x="462" y="113" text-anchor="middle" font-size="11" fill="#5a4a6b">+ ตัดสิน Fit / Config / Product / Branch</text>
+      <text x="462" y="132" text-anchor="middle" font-size="10.5" fill="#8a7a9b">GATE ❶ — ผ่านก่อนถึงออกแบบได้</text>
 
       <!-- 3 ออกแบบ -->
       <rect x="572" y="60" width="160" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
@@ -118,7 +118,7 @@ td.c{text-align:center;white-space:nowrap}
       <rect x="754" y="60" width="160" height="76" rx="11" fill="#fdf4e3" stroke="#c9821a" stroke-width="2"/>
       <text x="834" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#8a5a10">④ ยืนยันกับ User</text>
       <text x="834" y="103" text-anchor="middle" font-size="11" fill="#7a5a2a">Final Checklist + CF</text>
-      <text x="834" y="121" text-anchor="middle" font-size="10.5" fill="#a08a5a">GATE ❸ — Sign-off</text>
+      <text x="834" y="121" text-anchor="middle" font-size="10.5" fill="#a08a5a">GATE ❷ — Sign-off</text>
 
       <!-- 5 สร้าง -->
       <rect x="936" y="60" width="110" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
@@ -142,9 +142,6 @@ td.c{text-align:center;white-space:nowrap}
         <line x1="1047" y1="98" x2="1060" y2="98"/>
       </g>
 
-      <!-- Gate 1 -->
-      <text x="272" y="44" text-anchor="middle" font-size="10.5" font-weight="700" fill="#c9821a">GATE ❶ CP ทีม Product</text>
-
       <!-- ลูปย้อนกลับ -->
       <g stroke="#c0504d" stroke-width="1.6" fill="none" marker-end="url(#arL)" stroke-dasharray="5 3">
         <path d="M272,140 L272,168 L90,168 L90,140"/>
@@ -167,7 +164,7 @@ td.c{text-align:center;white-space:nowrap}
 <section>
   <h2>กติกาที่ทำให้ flow นี้ไม่พัง</h2>
   <div class="rulebox">
-    <b>1. ไม่มีอะไรข้าม Gate ❷ ได้</b> — ทุกความต้องการต้องผ่าน Product Alignment ให้ PO ตัดสินก่อนว่าจะเข้า Core / ทำเป็น Config / หรือแยกรายไซต์
+    <b>1. ไม่มีอะไรข้าม Gate ❶ ได้</b> — ทุกความต้องการต้องผ่านการตกลงของ PO 2 ฝ่ายก่อน ว่าเป็น Fit / Config / Product / Branch
     ถ้าลัดเข้า Dev ตรง ๆ จะได้โค้ดเฉพาะไซต์ที่อีกไซต์ใช้ไม่ได้ ซึ่งขัดเป้าหมายที่จะให้ DTMU เป็น Product กลาง
   </div>
   <div class="rulebox">
@@ -285,9 +282,9 @@ td.c{text-align:center;white-space:nowrap}
   <div class="stage gate">
     <div class="hd">
       <div class="num">②</div>
-      <div class="ttl"><h3>สรุป + Checkpoint ทีม Product <span style="font-size:12px;color:#8a5a10">— GATE ❶</span></h3>
-        <div class="who"><span class="chip c-ba">BA</span><span class="chip c-po">PO</span> · ร่วมกับทีม Product (DTMU)</div></div>
-      <div class="when">~2 สัปดาห์หลัง workshop</div>
+      <div class="ttl"><h3>สรุป Summary Gap + ยืนยัน AS-IS ของ DTMU</h3>
+        <div class="who"><span class="chip c-ba">BA</span> ทำเอง · เปิด DTMU จริงเทียบทีละข้อ</div></div>
+      <div class="when">~3 วันทำการหลัง workshop</div>
     </div>
     <div class="io">
       <div><h4>Input</h4><ul>
@@ -297,7 +294,7 @@ td.c{text-align:center;white-space:nowrap}
       <div><h4>สิ่งที่ทำ</h4><ul>
         <li>ลงข้อที่เรียบเรียงแล้วในชีต <b>Summary Gap</b></li>
         <li>ให้ <b>Type</b> ตอนเก็บ: Fit / Config / Partial / Gap / ไม่แน่ใจ</li>
-        <li>เปิด Checkpoint กับทีม Product — <b>เปิด DTMU จริงแล้วเขียน AS-IS</b> ว่าวันนี้ทำได้แค่ไหน แล้วลง <b>Final</b></li>
+        <li><b>เปิด DTMU จริงแล้วเขียน AS-IS</b> ว่าวันนี้ทำได้แค่ไหน แล้วลง <b>Final</b> <span class="small muted">(เดิมทำในรอบ Checkpoint ทีม Product — ยกเลิกรอบนั้นแล้ว BA ทำเองต่อเนื่อง)</span></li>
         <li>ระบุ <b>Response</b> ว่าใครรับ: DTMU / Product / รายไซต์</li>
       </ul></div>
       <div class="out"><h4>Work Product</h4><ul>
@@ -307,16 +304,16 @@ td.c{text-align:center;white-space:nowrap}
         <li>การ์ด <span class="jc">[Fit Gap] :</span> ใน Jira</li>
       </ul></div>
     </div>
-    <div class="dod"><b>ผ่าน Gate ❶ เมื่อ:</b> ทุกข้อมี Final และ AS-IS ที่ยืนยันกับระบบจริงแล้ว · ข้อที่ยัง “ไม่แน่ใจ” ถูกยกออกมาเป็นคำถามที่มีเจ้าของและกำหนดตอบ · PO เปิดไฟล์แล้วเริ่มจับคู่ได้ทันทีโดยไม่ต้องหาข้อมูลเพิ่ม</div>
+    <div class="dod"><b>ขั้นนี้จบเมื่อ:</b> ทุกข้อมี Final และ AS-IS ที่ยืนยันกับระบบจริงแล้ว · ข้อที่ยัง “ไม่แน่ใจ” ถูกยกออกมาเป็นคำถามที่มีเจ้าของและกำหนดตอบ · PO เปิดไฟล์แล้วเริ่มจับคู่ได้ทันทีโดยไม่ต้องหาข้อมูลเพิ่ม</div>
   </div>
 
   <!-- 2.5 -->
   <div class="stage gate">
     <div class="hd">
       <div class="num">2.5</div>
-      <div class="ttl"><h3>⭐ Product Alignment — PO จับคู่ 2 ไซต์ และตัดสินว่าอะไรเข้า Product กลาง <span style="font-size:12px;color:#8a5a10">— GATE ❷</span></h3>
-        <div class="who"><span class="chip c-po">PO</span> ลงมือเอง · ร่วมกับ Product Owner ฝั่ง DTMU · <span class="chip c-ba">BA</span> นั่งด้วยเพื่อตอบคำถามรายข้อ</div></div>
-      <div class="when">ต่อจาก ② ทันที</div>
+      <div class="ttl"><h3>⭐ PO 2 ฝ่ายตกลงผล — จับคู่ 2 ไซต์ และตัดสิน Fit / Config / Product / Branch <span style="font-size:12px;color:#8a5a10">— GATE ❶</span></h3>
+        <div class="who"><span class="chip c-po">PO ไซต์ (จูน)</span> × <span class="chip c-po">PO DTMU (มีน)</span> คุยกันเอง — ไม่มีรอบ CP ทีม Product แล้ว · <span class="chip c-ba">BA</span> นั่งด้วยเพื่อตอบคำถามรายข้อ</div></div>
+      <div class="when">ต่อจาก ② ทันที · ไม่ต้องรอรอบ</div>
     </div>
     <div class="io">
       <div><h4>Input</h4><ul>
@@ -327,8 +324,9 @@ td.c{text-align:center;white-space:nowrap}
       <div><h4>สิ่งที่ทำ</h4><ul>
         <li><b>จับคู่</b> requirement ที่เป็นเรื่องเดียวกันข้ามไซต์ — จับที่ระดับ<b>ปัญหา</b> ไม่ใช่ระดับวิธีแก้ จึงจะเห็นคู่ที่ข้ามโมดูลด้วย</li>
         <li>ออกแบบ <b>Product TO-BE</b> ที่ตอบได้ทั้ง 2 ไซต์ — ถ้าความต้องการสวนทางกัน ให้แก้ด้วย config ไม่ใช่แยกโค้ด</li>
-        <li><b>ตัดสิน</b>: <b>Core</b> / <b>Config รายไซต์</b> / <b>Connector รายไซต์</b> / <b>เฉพาะไซต์</b> / <b>ไม่ทำ</b> พร้อม<b>เหตุผล</b>ทุกข้อ</li>
+        <li><b>ตัดสิน 4 ทาง</b>: <b>Fit</b> (ของเดิมใช้ได้ ไม่ต้องทำอะไร) / <b>Config</b> (ตั้งค่าได้ ไม่แก้โค้ด → Imp รับไป) / <b>Product</b> (เข้า core ใช้ร่วมกับ DTMU → ต้องผ่านมีน) / <b>Branch</b> (พัฒนาแยกเฉพาะไซต์) พร้อม<b>เหตุผล</b>ทุกข้อ</li>
         <li>ให้ Priority และเรียงลำดับเข้า Sprint</li>
+        <li>ผลที่เป็น <b>Fit</b> หรือ <b>Config</b> ไม่ต้องเข้าสาย UX/UI และ Dev — ตัดออกจากคิวได้ทันที</li>
         <li>ข้อที่ข้อมูลยังไม่พอ → ตีกลับให้ BA ที่ขั้น ①b หรือส่งเข้า Open Questions — ไม่ปล่อยผ่านแบบคลุมเครือ</li>
       </ul></div>
       <div class="out"><h4>Work Product</h4><ul>
@@ -337,7 +335,7 @@ td.c{text-align:center;white-space:nowrap}
         <li>รายการ Open Questions สำหรับวาระประชุม</li>
       </ul></div>
     </div>
-    <div class="dod"><b>ผ่าน Gate ❷ เมื่อ:</b> ทุกหัวข้อที่จะทำต่อมี Decision + เหตุผลบันทึกไว้ · ไม่มีข้อไหนตัดสินให้แยกรายไซต์โดยไม่มีเหตุผลเขียนกำกับ · ข้อที่ยังตัดสินไม่ได้ถูกย้ายเข้า Open Questions พร้อมกำหนดตอบ</div>
+    <div class="dod"><b>ผ่าน Gate ❶ เมื่อ:</b> ทุกหัวข้อที่จะทำต่อมี Decision + เหตุผลบันทึกไว้ · ไม่มีข้อไหนตัดสินให้แยกรายไซต์โดยไม่มีเหตุผลเขียนกำกับ · ข้อที่ยังตัดสินไม่ได้ถูกย้ายเข้า Open Questions พร้อมกำหนดตอบ</div>
   </div>
 
   <div class="rulebox" style="margin:14px 0 0">
@@ -345,7 +343,7 @@ td.c{text-align:center;white-space:nowrap}
     BA รับผิดชอบว่า “ข้อนี้คืออะไร และ DTMU วันนี้ทำได้แค่ไหน” (①b + ②) ·
     PO รับผิดชอบว่า “ข้อนี้กับข้อนั้นเรื่องเดียวกันไหม และ Product ควรเป็นอย่างไร” (2.5)<br>
     <span class="small muted">สัญญาณส่งมอบงาน = ช่อง <b>“AS-IS ยืนยันแล้ว?”</b> ในไฟล์ Excel —
-    ถ้ายังเป็น “ต้องยืนยันกับ DTMU” แปลว่าขั้น ② ยังไม่จบ ยังไม่ควรเรียกประชุม PO</span>
+    ถ้ายังเป็น “ต้องยืนยันกับ DTMU” แปลว่าขั้น ② ยังไม่จบ ยังไม่ควรนัด PO คุยกัน</span>
   </div>
 
   <!-- 3 -->
@@ -358,7 +356,7 @@ td.c{text-align:center;white-space:nowrap}
     </div>
     <div class="io">
       <div><h4>Input</h4><ul>
-        <li>Decision จาก Gate ❷</li>
+        <li>Decision จาก Gate ❶</li>
         <li>Workflow หน้างานเดิมที่เก็บมาจาก ①</li>
       </ul></div>
       <div><h4>สิ่งที่ทำ</h4><ul>
@@ -405,9 +403,9 @@ td.c{text-align:center;white-space:nowrap}
   <div class="stage gate">
     <div class="hd">
       <div class="num">④</div>
-      <div class="ttl"><h3>Final Checklist + นำเสนอ User <span style="font-size:12px;color:#8a5a10">— GATE ❸</span></h3>
+      <div class="ttl"><h3>Final Checklist + นำเสนอ User <span style="font-size:12px;color:#8a5a10">— GATE ❷</span></h3>
         <div class="who"><span class="chip c-po">PO</span><span class="chip c-ba">BA</span><span class="chip c-pm">PM</span><span class="chip c-user">ผู้ใช้ รพ.</span></div></div>
-      <div class="when">2 วันต่อรอบ CP</div>
+      <div class="when">4 รอบ · 25 ก.ย. · 9 ต.ค. · 22 ต.ค. · 30 ต.ค. 69</div>
     </div>
     <div class="io">
       <div><h4>Input</h4><ul>
@@ -425,7 +423,7 @@ td.c{text-align:center;white-space:nowrap}
         <li>การ์ด <span class="jc">[Review] :</span></li>
       </ul></div>
     </div>
-    <div class="dod"><b>ผ่าน Gate ❸ เมื่อ:</b> ผู้ใช้ยืนยันครบทุกข้อ · ข้อที่ยังไม่ยืนยันถูกแยกออกไปเป็นรอบถัดไปแทนที่จะดองไว้ · รายการ “ไม่ทำ” ถูกสื่อสารและรับทราบแล้ว</div>
+    <div class="dod"><b>ผ่าน Gate ❷ เมื่อ:</b> ผู้ใช้ยืนยันครบทุกข้อ · ข้อที่ยังไม่ยืนยันถูกแยกออกไปเป็นรอบถัดไปแทนที่จะดองไว้ · รายการ “ไม่ทำ” ถูกสื่อสารและรับทราบแล้ว</div>
   </div>
 
   <!-- 5 -->
@@ -567,10 +565,10 @@ td.c{text-align:center;white-space:nowrap}
   <div class="loopbox"><b>L1 · ข้อมูลจาก workshop ไม่พอ</b> (พบตอน ②) → นัดเก็บรอบ 2 เฉพาะหัวข้อที่ขาด ไม่ต้องรื้อทั้งโมดูล ·
   ในไฟล์ Fit Gap Plan จะเห็นเป็นรอบที่ 2 ของโมดูลเดิม</div>
   <div class="loopbox"><b>L2 · ผู้ใช้ไม่ยืนยันตอน ④</b> → กลับไปแก้ที่ ③ (Flow/BR/FR) ·
-  ถ้าสิ่งที่ผู้ใช้ขอเปลี่ยนกระทบว่า “เข้า Core หรือแยกไซต์” ต้อง<b>วนกลับ Gate ❷</b> ให้ PO ตัดสินใหม่ ห้ามให้ BA ตัดสินเอง</div>
+  ถ้าสิ่งที่ผู้ใช้ขอเปลี่ยนกระทบว่า “เข้า Core หรือแยกไซต์” ต้อง<b>วนกลับ Gate ❶</b> ให้ PO ตัดสินใหม่ ห้ามให้ BA ตัดสินเอง</div>
   <div class="loopbox"><b>L3 · Test / UAT ไม่ผ่าน</b> → การ์ดเดิน In Review → <b>Reopen</b> → REOPENED กลับเข้า Dev ·
   ถ้าที่ไม่ผ่านคือ “เข้าใจ requirement ผิด” ไม่ใช่ bug ให้ตีกลับถึง ③ และบันทึกเหตุผลไว้ที่ Topic เดิม</div>
-  <div class="loopbox"><b>L4 · Requirement ใหม่โผล่กลางทาง</b> → เปิดการ์ด <span class="jc">[Fit Gap][ใหม่] :</span> แล้วเข้าคิวที่ Gate ❷ ก่อนเสมอ ·
+  <div class="loopbox"><b>L4 · Requirement ใหม่โผล่กลางทาง</b> → เปิดการ์ด <span class="jc">[Fit Gap][ใหม่] :</span> แล้วเข้าคิวที่ Gate ❶ ก่อนเสมอ ·
   ไม่แทรกเข้า Dev ตรง ๆ แม้จะดูเป็นงานเล็ก เพราะงานเล็กที่ทำเฉพาะไซต์คือต้นเหตุที่ทำให้ Product แตกเป็น 2 ชุด</div>
 </section>
 
@@ -581,7 +579,7 @@ td.c{text-align:center;white-space:nowrap}
     <thead><tr><th style="width:150px">ชนิดการ์ด</th><th class="c" style="width:90px">เกิดที่ขั้น</th><th>ใช้ทำอะไร</th><th style="width:190px">ปิดการ์ดเมื่อ</th></tr></thead>
     <tbody>
       <tr><td><span class="jc">[Fit Gap] :</span></td><td class="c">②</td><td>งานที่มาจาก Summary Gap ตรง ๆ — 1 การ์ด = 1 สิ่งที่ต้องทำ</td><td>ผ่าน Test และผู้ใช้ยืนยัน</td></tr>
-      <tr><td><span class="jc">[Fit Gap][ใหม่] :</span></td><td class="c">L4</td><td>ความต้องการที่โผล่หลังปิดรอบ workshop</td><td>ผ่าน Gate ❷ แล้วเดินเหมือนการ์ดปกติ</td></tr>
+      <tr><td><span class="jc">[Fit Gap][ใหม่] :</span></td><td class="c">L4</td><td>ความต้องการที่โผล่หลังปิดรอบ workshop</td><td>ผ่าน Gate ❶ แล้วเดินเหมือนการ์ดปกติ</td></tr>
       <tr><td><span class="jc">[Flow] :</span></td><td class="c">③</td><td>เขียน Workflow ของโมดูล</td><td>Flow ผ่านการทานกับ Imp และ PO</td></tr>
       <tr><td><span class="jc">[BR/FR] :</span></td><td class="c">③</td><td>เขียน Business Rule / Functional Requirement</td><td>Dev อ่านแล้วลงมือได้ ไม่มีคำถามค้าง</td></tr>
       <tr><td><span class="jc">[Review] :</span></td><td class="c">④ · ⑨</td><td>รอบนำเสนอ/ทาน กับผู้ใช้</td><td>มีบันทึกผลและรายการที่ต้องแก้</td></tr>
@@ -658,7 +656,7 @@ td.c{text-align:center;white-space:nowrap}
 
 <footer>
   Flow การทำงาน 2 ไซต์ · ขั้น ①–⑦ อ้างอิงชีต Fit Gap Plan ใน Project-Tracker.xlsx · ขั้น 2.5 เพิ่มจาก Product-Alignment-2Site.xlsx<br>
-  ปรับปรุง 9 ก.ย. 2569
+  ปรับปรุง 9 ก.ย. 2569 · ยกเลิก CP ทีม Product
 </footer>
 
 </div>
