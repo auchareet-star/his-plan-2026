@@ -7,20 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{ size:A4 landscape; margin:0; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
-        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
-  .slide{ width:min(1160px,97vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
-          padding:28px 38px 22px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
-          display:flex; flex-direction:column; position:relative; }
-  .head{ margin-bottom:12px; }
-  .head h1{ font-size:23px; font-weight:700; color:#1d5490; }
-  .head h1 .en{ color:#5b6675; font-weight:600; font-size:18px; }
-  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
-            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
-  .logo{ position:absolute; top:26px; right:38px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{ size:A4 landscape; margin:0; }
   /* schedule flow */
   .flow{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:10px; }
   .flow .s{ background:#eaf3fb; border:1px solid #bcd8ef; border-radius:8px; padding:6px 11px;
@@ -42,11 +32,10 @@
   .who{ margin-top:8px; font-size:11.5px; background:rgba(255,255,255,.7); border-radius:7px; padding:6px 9px; }
   .who b{ color:#1d5490; }
   .foot{ margin-top:10px; font-size:11px; color:#5b6675; text-align:center; }
-  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
-    .panel,.flow .s{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 <div class="slide">
   <div class="logo">🏥 AYODIA</div>
   <div class="head">
@@ -92,5 +81,6 @@
 
   <div class="foot">Output: Observation Notes ต่อแผนก/Site → ใช้ประกอบ Fit Gap Workshop W1 เป็นต้นไป · ดู <a href="fitgap-workshop-msm.html">Fit Gap Workshop</a></div>
 </div>
+<script src="nav.js"></script>
 </body>
 </html>

@@ -7,20 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{ size:A4 landscape; margin:0; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
-        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
-  .slide{ width:min(1160px,97vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
-          padding:30px 40px 26px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
-          display:flex; flex-direction:column; position:relative; }
-  .head{ margin-bottom:16px; }
-  .head h1{ font-size:24px; font-weight:700; color:#1d5490; }
-  .head h1 .en{ color:#5b6675; font-weight:600; font-size:20px; }
-  .head .u{ margin-top:6px; height:5px; width:210px; border-radius:3px;
-            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
-  .logo{ position:absolute; top:26px; right:40px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{ size:A4 landscape; margin:0; }
   .body{ flex:1; display:grid; grid-template-columns:1.15fr 1fr; gap:18px; }
   .panel{ border:1px solid #d7dce3; border-radius:12px; padding:14px 16px; }
   .panel h3{ font-size:15px; color:#1d5490; margin-bottom:9px; font-weight:700; }
@@ -48,11 +38,10 @@
   .tl .st .d{ font-size:11px; font-weight:700; color:#1d5490; }
   .tl .st .l{ font-size:10.5px; color:#5b6675; line-height:1.25; }
   .foot{ margin-top:10px; font-size:11.5px; color:#5b6675; text-align:center; }
-  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
-    .panel,.flow .s,.src .c,.crit,.tag,.tl .st .dot{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 <div class="slide">
   <div class="logo">🏥 AYODIA</div>
   <div class="head">
@@ -107,5 +96,6 @@
 
   <div class="foot">🔴 ความเสี่ยงอันดับ 1 ของโครงการ · ผู้นำงาน: Senior Imp เตทีม (HosXP) + Dev + Key User รพ. · เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) 9 จุดบริการ · <a href="data-migration-checklist-msm.html" style="color:#1d5490">✅ ดู Checklist</a></div>
 </div>
+<script src="nav.js"></script>
 </body>
 </html>

@@ -4,29 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ผังทีมงานฉบับเต็ม — ทีมเดียวกัน (25 คน)</title>
+<link rel="stylesheet" href="style.css">
 <style>
-:root{
-  --paper:#FFFFFF;
-  --surface:#FFFFFF;
-  --ink:#1A1D22;
-  --muted:#6B7280;
-  --line:#E9ECF1;
-  --accent:#3A63E0;      --accent-soft:#F0F5FF;
-  --pillbg:#3A63E0;       --pilltext:#FFFFFF;
-  --radius:10px;
-}
+/* CSS เฉพาะหน้านี้ — ส่วนกลางอยู่ที่ style.css */
+:root{--role:#3A63E0;--paper:#FFFFFF;--surface:#FFFFFF;--accent-soft:#F0F5FF;--pillbg:#3A63E0;--pilltext:#FFFFFF;--radius:10px}
 
-*{box-sizing:border-box;}
-body{
-  margin:0; padding:36px 20px 70px; background:var(--paper); color:var(--ink);
-  font-family:'Sarabun','Leelawadee UI','Segoe UI',sans-serif; line-height:1.5;
-}
 .wrap{max-width:1400px;margin:0 auto;}
-
-header.page{margin-bottom:22px;}
-.eyebrow{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
-h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balance;letter-spacing:-.01em;}
-.subtitle{color:var(--muted);font-size:14px;margin:0;max-width:90ch;}
 
 /* apex chain */
 .apex-wrap{text-align:center;margin:26px 0 4px;}
@@ -35,7 +18,7 @@ h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balan
   background:var(--accent-soft);border:1px solid var(--line);
 }
 .apex-card .a-name{font-weight:700;font-size:15px;display:block;}
-.apex-card .a-role{font-weight:700;font-size:11.5px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:2px;}
+.apex-card .a-role{font-weight:700;font-size:11.5px;letter-spacing:.03em;color:var(--role);text-transform:uppercase;display:block;margin-top:2px;}
 .apex-card .a-nick{font-size:12px;color:var(--muted);margin-top:2px;}
 .vline{width:1.5px;height:22px;background:var(--line);margin:0 auto;}
 .pm-level{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
@@ -54,28 +37,20 @@ h1{font-size:clamp(20px,3vw,26px);font-weight:700;margin:0 0 6px;text-wrap:balan
   padding:8px 10px;border-radius:999px;margin-bottom:12px;
 }
 .person-card{
-  background:var(--accent-soft);border:1px solid var(--line);border-left:4px solid var(--accent);
+  background:var(--accent-soft);border:1px solid var(--line);border-left:4px solid var(--role);
   border-radius:8px;padding:9px 12px;margin-bottom:10px;
   box-shadow:0 1px 3px rgba(30,50,120,.06);
 }
 .person-card .p-name{font-weight:700;font-size:12.5px;display:block;line-height:1.3;}
-.person-card .p-role{font-weight:700;font-size:10px;letter-spacing:.03em;color:var(--accent);text-transform:uppercase;display:block;margin-top:3px;}
+.person-card .p-role{font-weight:700;font-size:10px;letter-spacing:.03em;color:var(--role);text-transform:uppercase;display:block;margin-top:3px;}
 .person-card .p-nick{font-size:11px;color:var(--muted);margin-top:2px;}
 .person-card .p-tag{display:inline-block;font-size:9.5px;color:var(--muted);background:#FFFFFF;border-radius:5px;padding:1px 6px;margin-top:4px;}
-
-section{margin-top:34px;}
-h2{font-size:16.5px;font-weight:700;margin:0 0 4px;}
 .section-note{color:var(--muted);font-size:13px;margin:0 0 12px;}
 .note-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 18px;font-size:12.5px;color:var(--muted);}
 
 .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;}
-table{width:100%;border-collapse:collapse;background:var(--surface);font-size:13px;min-width:440px;}
-th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:center;}
-th{background:var(--paper);color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.02em;text-transform:uppercase;}
 td:first-child,th:first-child{text-align:left;font-weight:600;}
 tr:last-child td{font-weight:700;background:var(--paper);}
-
-footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;}
 
 @media(max-width:1100px){
   .cols{grid-template-columns:repeat(3,1fr);}
@@ -88,13 +63,14 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
 </head>
 <body>
 
-<div class="wrap">
-<div style="max-width:1400px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <a href="org-chart-pm-delivery-technical.html" style="color:#0a5252;text-decoration:none">Delivery/Technical PM</a> · <b>ผังทีมงานฉบับเต็ม</b></div>
+<div class="wrap w-wide">
+<div id="ay-nav"></div>
+<div class="bc"><a href="../index.html">🏠 หน้าแรก</a> · <a href="msm.html">เมืองสมุทร</a> · <a href="org-chart-pm-delivery-technical.html">Delivery/Technical PM</a> · <b>ผังทีมงานฉบับเต็ม</b></div>
 
-<header class="page">
-  <p class="eyebrow">ผังทีมงาน — รวมเป็นทีมเดียวกัน</p>
+<header class="cover">
+  <div class="k">ผังทีมงาน — รวมเป็นทีมเดียวกัน</div>
   <h1>ผังทีมงานฉบับเต็ม (25 คน) — ไม่แยกตามไซต์</h1>
-  <p class="subtitle">อ้างอิง <code>TeamMembers.xlsx</code> — Senior PM → Delivery PM / Technical PM → คอลัมน์ตามบทบาท (ไม่แยกไซต์) — สายพัฒนา (Development) รวมเป็นคอลัมน์เดียว · ทีม Consult DTMU (มีน-ช/สาม/ก้อง/โอ) แยกเป็นคอลัมน์ของตัวเอง ไม่ปนกับทีมประจำ</p>
+  <div class="sub">อ้างอิง <code>TeamMembers.xlsx</code> — Senior PM → Delivery PM / Technical PM → คอลัมน์ตามบทบาท (ไม่แยกไซต์) — สายพัฒนา (Development) รวมเป็นคอลัมน์เดียว · ทีม Consult DTMU (มีน-ช/สาม/ก้อง/โอ) แยกเป็นคอลัมน์ของตัวเอง ไม่ปนกับทีมประจำ</div>
 </header>
 
 <div class="apex-wrap">
@@ -197,5 +173,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
 <footer>ทีมโครงการ HIS รวมทุกไซต์ (DTMU + DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า) · สร้างจาก C:\AYD\Project\DTWU\Docs\team\TeamMembers.xlsx · เอกสารวางแผนภายใน</footer>
 
 </div>
+<script src="nav.js"></script>
 </body>
 </html>

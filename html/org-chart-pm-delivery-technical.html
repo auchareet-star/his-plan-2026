@@ -4,24 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delivery PM vs Technical PM — DTWU/วลัยลักษณ์ + เมืองสมุทร/ปู่เจ้า</title>
+<link rel="stylesheet" href="style.css">
 <style>
-:root{
-  --paper:#F5F3EE;
-  --surface:#FFFFFF;
-  --ink:#22262B;
-  --muted:#5B6472;
-  --line:#DEDAD0;
-  --line-strong:#C9C3B4;
-  --delivery:#1E4B8F;
-  --delivery-soft:#E7EEF9;
-  --technical:#0E7A5F;
-  --technical-soft:#E2F2EC;
-  --shared:#8A6D3B;
-  --shared-soft:#F1E9D8;
-  --warn:#9C4221;
-  --warn-soft:#FBEBE3;
-  --radius:10px;
-}
+/* CSS เฉพาะหน้านี้ — ส่วนกลางอยู่ที่ style.css */
+:root{--paper:#F5F3EE;--surface:#FFFFFF;--line-strong:#C9C3B4;--delivery:#1E4B8F;--delivery-soft:#E7EEF9;--technical:#0E7A5F;--technical-soft:#E2F2EC;--shared:#8A6D3B;--shared-soft:#F1E9D8;--warn:#9C4221;--warn-soft:#FBEBE3;--radius:10px}
+
 :root[data-theme="dark"]{
   --paper:#12151A;
   --surface:#1B2027;
@@ -56,62 +43,13 @@
     --warn-soft:#3A241A;
   }
 }
-
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  padding:48px 24px 80px;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'Sarabun','Leelawadee UI','Segoe UI',sans-serif;
-  line-height:1.6;
-}
 .wrap{max-width:980px;margin:0 auto;}
 
-header.page{margin-bottom:40px;}
-.eyebrow{
-  font-size:13px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin:0 0 10px;
-}
-h1{
-  font-size:clamp(26px,4vw,36px);
-  font-weight:700;
-  margin:0 0 8px;
-  text-wrap:balance;
-  letter-spacing:-.01em;
-}
-.subtitle{
-  color:var(--muted);
-  font-size:16px;
-  margin:0;
-  max-width:65ch;
-}
-
 .badge-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 14px;
-  border-radius:999px;
-  font-size:13.5px;
-  font-weight:600;
-  border:1px solid var(--line-strong);
-}
 .badge.delivery{background:var(--delivery-soft);color:var(--delivery);border-color:transparent;}
 .badge.technical{background:var(--technical-soft);color:var(--technical);border-color:transparent;}
 .badge.pc{background:var(--shared-soft);color:var(--shared);border-color:transparent;}
 .dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
-
-section{margin-top:44px;}
-h2{
-  font-size:20px;
-  font-weight:700;
-  margin:0 0 4px;
-}
 .section-note{color:var(--muted);font-size:14.5px;margin:0 0 20px;}
 
 /* org tree */
@@ -228,27 +166,6 @@ h2{
 
 /* RACI table */
 .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;}
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:var(--surface);
-  font-size:14px;
-  min-width:760px;
-}
-th,td{
-  padding:11px 14px;
-  border-bottom:1px solid var(--line);
-  text-align:center;
-  white-space:nowrap;
-}
-th{
-  background:var(--paper);
-  color:var(--muted);
-  font-weight:600;
-  font-size:12.5px;
-  letter-spacing:.03em;
-  text-transform:uppercase;
-}
 td:first-child,th:first-child{
   text-align:left;
   white-space:normal;
@@ -259,7 +176,6 @@ td:first-child,th:first-child{
 tr:last-child td{border-bottom:none;}
 .raci-A{color:var(--delivery);font-weight:700;}
 .raci-R{color:var(--technical);font-weight:700;}
-.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted);}
 .legend b{color:var(--ink);}
 
 code{background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.9em;font-family:'Cascadia Code','Consolas',monospace;}
@@ -336,14 +252,6 @@ code{background:var(--surface);border:1px solid var(--line);padding:1px 6px;bord
 .callout p{margin:0 0 8px;font-size:14.5px;}
 .callout p:last-child{margin-bottom:0;}
 
-footer{
-  margin-top:52px;
-  padding-top:20px;
-  border-top:1px solid var(--line);
-  color:var(--muted);
-  font-size:13px;
-}
-
 @media(max-width:700px){
   .tree-node.pm{min-width:0;width:100%;}
   .role-title{text-align:left;}
@@ -353,13 +261,14 @@ footer{
 </head>
 <body>
 
-<div class="wrap">
-<div style="max-width:1080px;margin:0 auto 10px;font-size:13px;color:#5B6472"><a href="../index.html" style="color:#0a5252;text-decoration:none">🏠 หน้าแรก</a> · <a href="msm.html" style="color:#0a5252;text-decoration:none">เมืองสมุทร</a> · <b>ผังทีมงาน (Delivery/Technical PM)</b></div>
+<div class="wrap w-narrow">
+<div id="ay-nav"></div>
+<div class="bc"><a href="../index.html">🏠 หน้าแรก</a> · <a href="msm.html">เมืองสมุทร</a> · <b>ผังทีมงาน (Delivery/Technical PM)</b></div>
 
-<header class="page">
-  <p class="eyebrow">โครงสร้างบริหารโครงการ — เสนอเปลี่ยนจาก 1 PM/ไซต์ เป็นแบ่งตามหน้าที่</p>
+<header class="cover">
+  <div class="k">โครงสร้างบริหารโครงการ — เสนอเปลี่ยนจาก 1 PM/ไซต์ เป็นแบ่งตามหน้าที่</div>
   <h1>Project Manager (Delivery) · (Technical) · Project Coordinator</h1>
-  <p class="subtitle">ครอบคลุมทั้ง 2 โครงการ: DTWU/วลัยลักษณ์ และ เมืองสมุทร (สมุทรเวชกิจ + ปู่เจ้าฯ) — มีน ดูแลฝั่ง Delivery ทั้ง 2 ไซต์, อาร์ต ดูแลฝั่ง Technical ทั้ง 2 ไซต์, โม ดูแลฝั่งประสานงาน/ติดตามงาน (PC) ทั้ง 2 ไซต์</p>
+  <div class="sub">ครอบคลุมทั้ง 2 โครงการ: DTWU/วลัยลักษณ์ และ เมืองสมุทร (สมุทรเวชกิจ + ปู่เจ้าฯ) — มีน ดูแลฝั่ง Delivery ทั้ง 2 ไซต์, อาร์ต ดูแลฝั่ง Technical ทั้ง 2 ไซต์, โม ดูแลฝั่งประสานงาน/ติดตามงาน (PC) ทั้ง 2 ไซต์</div>
   <div class="badge-row">
     <span class="badge delivery"><span class="dot"></span>Delivery PM — มีน</span>
     <span class="badge technical"><span class="dot"></span>Technical PM — อาร์ต</span>
@@ -689,5 +598,6 @@ footer{
 </footer>
 
 </div>
+<script src="nav.js"></script>
 </body>
 </html>

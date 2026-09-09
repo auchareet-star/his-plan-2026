@@ -7,20 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{ size:A4 landscape; margin:0; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
-        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
-  .slide{ width:min(1220px,97vw); aspect-ratio:16/9.4; margin:22px auto; background:#fff;
-          padding:26px 34px 18px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
-          display:flex; flex-direction:column; position:relative; }
-  .head{ margin-bottom:10px; }
-  .head h1{ font-size:22px; font-weight:700; color:#1d5490; }
-  .head h1 .en{ color:#5b6675; font-weight:600; font-size:17px; }
-  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
-            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
-  .logo{ position:absolute; top:24px; right:34px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{ size:A4 landscape; margin:0; }
   table{ width:100%; border-collapse:collapse; flex:1; table-layout:fixed; }
   th,td{ border:1px solid #dfe4e8; padding:6px 10px; vertical-align:top; text-align:left; }
   th{ background:#2f7cc4; color:#fff; font-size:12.5px; font-weight:700; }
@@ -32,11 +22,10 @@
   tbody tr:nth-child(even) td.hos{ background:#fdf5ec; }
   li{ margin:1px 0 1px 14px; }
   .foot{ margin-top:8px; font-size:11px; color:#5b6675; text-align:center; }
-  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
-    th,td.ph{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 <div class="slide">
   <div class="logo">🏥 AYODIA</div>
   <div class="head">
@@ -128,5 +117,6 @@
 
   <div class="foot">เมืองสมุทร (ปู่เจ้าฯ + ปากน้ำ) 9 จุดบริการ · ดูรายละเอียดเต็มที่ <b>แผน Data Migration (ละเอียด)</b> และ <b>Checklist Data Migration</b></div>
 </div>
+<script src="nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+/* ============================================================
+   slide.css — โครงร่วมของ "สไลด์นำเสนอ" ทุกหน้า
+   ใช้คู่กับ nav.js (แถบเมนูซ่อนตอนพิมพ์อยู่แล้ว)
+
+   สองรูปแบบ ใช้โทน/ฟอนต์/เงา/ระยะขอบชุดเดียวกัน ต่างแค่สัดส่วน
+     <div class="slide">        สไลด์ 16:9 สำหรับนำเสนอ
+     <div class="slide wide">   A4 แนวนอน สำหรับตารางกว้าง (Gantt / ตารางนัด)
+   ============================================================ */
+@page{ size:A4 landscape; margin:0 }
+*{ box-sizing:border-box }
+body{ margin:0; background:#e9ecf0; color:#22303f;
+  font-family:"Prompt","Sarabun","Segoe UI Thai","Leelawadee UI",Tahoma,sans-serif;
+  -webkit-font-smoothing:antialiased }
+
+.slide{ width:min(1160px,97vw); aspect-ratio:16/9;
+  margin:22px auto; background:#fff; padding:30px 40px 26px;
+  box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
+  display:flex; flex-direction:column; position:relative }
+
+/* สไลด์ตารางกว้าง — สูงตามเนื้อหา ไม่บังคับ 16:9 */
+.slide.wide{ width:min(1600px,97vw); aspect-ratio:auto; min-height:760px;
+  padding:22px 28px 20px }
+
+/* หัวสไลด์ */
+.head{ position:relative; margin-bottom:16px }
+.head h1{ margin:0; font-size:24px; font-weight:700; color:#1d5490; line-height:1.25 }
+.head h1 .en{ color:#5b6675; font-weight:600; font-size:20px }
+.head .u{ margin-top:6px; height:5px; width:210px; border-radius:3px;
+  background:linear-gradient(90deg,#f4c430 0 32%,#2f7cc4 32% 100%) }
+.head .sub,.slide>.sub{ font-size:12px; color:#5b6675; margin:6px 2px 8px }
+
+/* มุมขวาบน */
+.logo{ position:absolute; top:26px; right:40px; display:flex; align-items:center; gap:8px;
+  color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px }
+.logo .m{ width:26px; height:26px; border-radius:6px; background:#eef1f5;
+  display:flex; align-items:center; justify-content:center; font-size:15px }
+
+@media print{
+  body{ background:#fff }
+  .slide{ box-shadow:none; margin:0; width:100%; border-radius:0; aspect-ratio:auto }
+  *{ -webkit-print-color-adjust:exact; print-color-adjust:exact }
+}

@@ -7,20 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{ size:A4 landscape; margin:0; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#22303f;
-        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
-  .slide{ width:min(1160px,97vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
-          padding:28px 38px 20px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
-          display:flex; flex-direction:column; position:relative; }
-  .head{ margin-bottom:12px; }
-  .head h1{ font-size:22px; font-weight:700; color:#1d5490; }
-  .head h1 .en{ color:#5b6675; font-weight:600; font-size:16px; }
-  .head .u{ margin-top:6px; height:5px; width:230px; border-radius:3px;
-            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#2f7cc4 32%,#2f7cc4 100%); }
-  .logo{ position:absolute; top:26px; right:38px; color:#c9ccd2; font-weight:700; font-size:13px; letter-spacing:1px; }
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{ size:A4 landscape; margin:0; }
   .pageno{ position:absolute; bottom:12px; right:20px; font-size:11px; color:#aab0bb; }
   /* flow */
   .flow{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0; }
@@ -41,11 +31,10 @@
   tbody tr:nth-child(even) td{ background:#f8fafc; }
   .badge{ display:inline-block; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:5px; color:#fff; }
   .b-cfg{ background:#2e9e5b; } .b-gap{ background:#e0a800; }
-  @media print{ body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0}
-    th,td.grp,.flow .s,.badge{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 
 <!-- SLIDE 1 : ภาพรวม + จุดบรรจบ -->
 <div class="slide">
@@ -144,5 +133,6 @@
   <div class="pageno">4 / 4</div>
 </div>
 
+<script src="nav.js"></script>
 </body>
 </html>

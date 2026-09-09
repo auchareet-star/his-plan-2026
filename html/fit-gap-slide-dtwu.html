@@ -1,9 +1,11 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>DTWU / วลัยลักษณ์ — Fit Gap นัดรายวัน (สไลด์)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{size:A4 landscape;margin:8mm}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Sarabun","Segoe UI Thai","Tahoma",sans-serif;color:#1f2d3d;background:#dfe4e8;-webkit-font-smoothing:antialiased}
-  .slide{width:min(1600px,97vw);min-height:760px;margin:16px auto;background:#fff;padding:18px 24px 16px;box-shadow:0 6px 24px rgba(0,0,0,.15);border-radius:8px;display:flex;flex-direction:column}
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{size:A4 landscape;margin:8mm}
   .ph{font-size:21px;font-weight:800;color:#fff;padding:7px 16px;border-radius:7px;background:#9560b8}
   .ph small{font-weight:500;opacity:.92;font-size:13px}
   .sub{font-size:12.5px;color:#5b6b7b;margin:9px 2px 8px}
@@ -15,12 +17,12 @@
   td.dt{white-space:nowrap;font-weight:700;color:#33414f;width:130px}
   td.mo b{color:#0a5252}
   .sep{color:#b7c2cc;font-weight:700;padding:0 2px}
-  @media print{body{background:#fff} .slide{box-shadow:none;margin:0;width:100%;border-radius:0;padding:0}
-    thead th,tbody tr:nth-child(even){-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>
-<div class="slide">
+<div id="ay-nav"></div>
+<div class="slide wide">
   <div class="ph">Fit Gap — นัดเก็บความต้องการ/Fit Gap รายโมดูล · DTWU / วลัยลักษณ์ <small>· Dental + Education · Fit Gap S2–S7</small></div>
   <div class="sub">โมดูลที่นัด Fit Gap ในช่วงวันเดียวกัน รวมไว้แถวเดียว · รวม <b>11 รอบนัด</b></div>
   <table><thead><tr><th class="sp">Sprint</th><th class="dt">ช่วงวันที่</th><th>โมดูลที่นัด Fit Gap</th></tr></thead>
   <tbody><tr><td class="sp">S2</td><td class="dt">6-10 ก.ค.</td><td class="mo"><b>M1</b> เวชระเบียน + เวชสถิติ <span class="sep">·</span> <b>M2</b> ศูนย์สิทธิประโยชน์ <span class="sep">·</span> <b>M3</b> ศูนย์รับ-ส่งต่อผู้ป่วย</td></tr><tr><td class="sp">S2</td><td class="dt">13-17 ก.ค.</td><td class="mo"><b>M4</b> คลินิกทันตกรรม <span class="sep">·</span> <b>M5-7</b> คิว + นัดหมาย + ตารางทันตแพทย์</td></tr><tr><td class="sp">S3</td><td class="dt">20-24 ก.ค.</td><td class="mo"><b>M8</b> งานรังสีวิทยา + PACS <span class="sep">·</span> <b>M11</b> Dental Lab</td></tr><tr><td class="sp">S3</td><td class="dt">27-31 ก.ค.</td><td class="mo"><b>M12</b> หอผู้ป่วยใน / รับผู้ป่วยใน <span class="sep">·</span> <b>M15</b> ห้องจ่ายยา + ทะเบียนยา + แพ้ยา</td></tr><tr><td class="sp">S4</td><td class="dt">3-7 ส.ค.</td><td class="mo"><b>M16-17</b> การเงิน + ลูกหนี้ (+ SAP Req) <span class="sep">·</span> <b>M18</b> คลังสินค้า + พัสดุ <span class="sep">·</span> <b>M24-25</b> ขออนุมัติ + การแจ้งเตือน</td></tr><tr><td class="sp">S4</td><td class="dt">10-14 ส.ค.</td><td class="mo"><b>M28</b> คลังผู้ป่วย [Need] - Deep Req <span class="sep">·</span> <b>M29-31</b> DF + Admin + IAM (SSO/ADFS)</td></tr><tr><td class="sp">S5</td><td class="dt">17-21 ส.ค.</td><td class="mo"><b>M26</b> เวชระเบียนทันตกรรมอิเล็กทรอนิกส์ <span class="sep">·</span> <b>M27</b> บริหารจัดการบุคลากร (+ WU-HRMS)</td></tr><tr><td class="sp">S5</td><td class="dt">24-28 ส.ค.</td><td class="mo"><b>M32</b> สารสนเทศการเรียนการสอน [Need] - Deep Req</td></tr><tr><td class="sp">S6</td><td class="dt">31 ส.ค.-4 ก.ย.</td><td class="mo"><b>M9-10</b> จุลชีววิทยา + พยาธิวิทยา <span class="sep">·</span> <b>M13-14</b> ห้องผ่าตัด + วิสัญญี</td></tr><tr><td class="sp">S6</td><td class="dt">7-11 ก.ย.</td><td class="mo"><b>M19-23</b> เวชภัณฑ์ปลอดเชื้อ/IC/MIS/KPI/ข่าวสาร</td></tr><tr><td class="sp">S7</td><td class="dt">14-18 ก.ย.</td><td class="mo"><b>M33-36</b> Mobile (Patient/Student/Staff/Dentist)</td></tr></tbody></table>
-</div></body></html>
+</div><script src="nav.js"></script>
+</body></html>

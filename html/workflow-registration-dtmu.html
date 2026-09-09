@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-  :root{
-    --ink:#1F3D7A; --ink2:#334155; --line:#CCD6E3; --bg:#F1F5F9; --card:#FFFFFF;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
+/* CSS เฉพาะหน้านี้ — ส่วนกลางอยู่ที่ style.css */
+:root{--flow-ink:#1F3D7A;--ink2:#334155}
+
   body{
     font-family:'Prompt',Tahoma,sans-serif; background:var(--bg); color:var(--ink2);
     height:100vh; display:flex; flex-direction:column; overflow:hidden;
@@ -20,18 +20,17 @@
     background:var(--card); border-bottom:1px solid var(--line); padding:12px 18px;
     display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:0 0 auto;
   }
-  h1{font-size:17px; font-weight:600; color:var(--ink); line-height:1.35}
+  h1{font-size:17px; font-weight:600; color:var(--flow-ink); line-height:1.35}
   h1 small{display:block; font-size:12px; font-weight:400; color:#64748B}
   .toolbar{margin-left:auto; display:flex; align-items:center; gap:6px; flex-wrap:wrap}
   button{
-    font-family:inherit; font-size:13px; font-weight:500; color:var(--ink);
+    font-family:inherit; font-size:13px; font-weight:500; color:var(--flow-ink);
     background:#fff; border:1px solid var(--line); border-radius:7px;
     padding:6px 12px; cursor:pointer; transition:.15s;
   }
   button:hover{background:#EEF2F8; border-color:#94A3B8}
-  button.on{background:var(--ink); border-color:var(--ink); color:#fff}
+  button.on{background:var(--flow-ink); border-color:var(--flow-ink); color:#fff}
   #zoomLabel{font-size:12px; color:#64748B; min-width:46px; text-align:center}
-  .legend{display:flex; gap:14px; font-size:12px; color:#475569; align-items:center}
   .legend i{display:inline-block; width:12px; height:12px; border-radius:3px; margin-inline-end:5px; vertical-align:-2px; border:1px solid #CBD5E1}
   #stage{
     flex:1 1 auto; overflow:auto; padding:22px; cursor:grab;
@@ -52,6 +51,7 @@
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 <header>
   <h1>Workflow งานเวชระเบียน — ครบทุกกรณี
     <small>ระบบ DTMU · เรียงตามลำดับที่เจ้าหน้าที่ทำงานจริง</small></h1>
@@ -107,5 +107,6 @@
   addEventListener('mouseup',()=>{ down=false; stage.classList.remove('drag'); });
   fitW.onclick();
 </script>
+<script src="nav.js"></script>
 </body>
 </html>

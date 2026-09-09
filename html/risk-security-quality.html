@@ -7,23 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
 <style>
-  @page{ size:A4 landscape; margin:0; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:"Prompt","Segoe UI Thai","Tahoma",sans-serif; color:#2a2f3a;
-        background:#e9ecf0; -webkit-font-smoothing:antialiased; }
-  .slide{ width:min(1120px,96vw); aspect-ratio:16/9; margin:22px auto; background:#fff;
-          padding:34px 44px 30px; box-shadow:0 8px 26px rgba(20,30,50,.14); border-radius:6px;
-          position:relative; display:flex; flex-direction:column; }
-  /* header */
-  .head{ position:relative; margin-bottom:22px; }
-  .head h1{ font-size:26px; font-weight:700; color:#1f2430; letter-spacing:.2px; }
-  .head .u{ margin-top:7px; height:5px; width:190px; border-radius:3px;
-            background:linear-gradient(90deg,#f4c430 0%,#f4c430 32%,#e63535 32%,#e63535 100%); }
-  .logo{ position:absolute; top:2px; right:0; display:flex; align-items:center; gap:8px;
-         font-weight:700; color:#c9ccd2; font-size:13px; letter-spacing:1px; }
-  .logo .m{ width:26px; height:26px; border-radius:6px; background:#eef1f5;
-            display:flex; align-items:center; justify-content:center; font-size:15px; }
+/* CSS เฉพาะสไลด์นี้ — โครงร่วมอยู่ที่ slide.css */
+@page{ size:A4 landscape; margin:0; }
   /* table */
   table{ width:100%; border-collapse:collapse; font-size:15px; flex:1; }
   th,td{ border:1px solid #d7dce3; padding:12px 16px; text-align:left; vertical-align:top; }
@@ -36,12 +23,10 @@
   td.mit li{ margin:3px 0; }
   tbody tr:nth-child(even){ background:#fafbfc; }
   .en{ color:#5b6675; font-weight:600; }
-  @media print{ body{ background:#fff; } .slide{ box-shadow:none; margin:0; width:100%;
-    border-radius:0; page-break-after:always; }
-    thead th,tbody tr:nth-child(even){ -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
 </style>
 </head>
 <body>
+<div id="ay-nav"></div>
 
 <!-- ===== Slide 5 : Security Risk ===== -->
 <section class="slide">
@@ -137,5 +122,6 @@
   </table>
 </section>
 
+<script src="nav.js"></script>
 </body>
 </html>
