@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow การทำงาน — จาก Requirement ถึง Final Work Product</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* CSS เฉพาะหน้านี้ — ส่วนกลางอยู่ที่ style.css */
+:root{--gate:#c9821a;--loop:#c0504d;--newst:#7b4fa8}
+
+/* แถบภาพรวม */
+.svgwrap{overflow-x:auto;background:#fbfdfd;border:1px solid var(--line);border-radius:12px;padding:8px}
+.svgwrap svg{display:block;min-width:1000px}
+
+/* การ์ดขั้นตอน */
+.stage{border:1px solid var(--line);border-left:5px solid var(--primary);border-radius:12px;
+  background:#fff;margin:12px 0;overflow:hidden}
+.stage.gate{border-left-color:var(--gate);background:#fffdf7}
+.stage.newst{border-left-color:var(--newst);background:#fbf8fe}
+.stage > .hd{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:#f3f7f7;flex-wrap:wrap}
+.stage.gate > .hd{background:#fdf4e3}
+.stage.newst > .hd{background:#f4edfb}
+.stage .num{background:var(--primary);color:#fff;font-weight:800;font-size:14px;border-radius:9px;
+  min-width:52px;text-align:center;padding:5px 8px;line-height:1.35;flex:none}
+.stage.gate .num{background:var(--gate)} .stage.newst .num{background:var(--newst)}
+.stage .ttl{flex:1;min-width:230px}
+.stage .ttl h3{margin:0;font-size:16px;color:var(--primary-dark)}
+.stage.gate .ttl h3{color:#8a5a10} .stage.newst .ttl h3{color:#5a3580}
+.stage .ttl .who{font-size:12.5px;color:var(--muted);margin-top:2px}
+.stage .when{font-size:12px;color:var(--muted);text-align:right;flex:none;min-width:120px}
+.io{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:0}
+.io > div{padding:12px 16px;border-top:1px solid var(--line)}
+.io > div + div{border-left:1px solid var(--line)}
+.io h4{margin:0 0 6px;font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted)}
+.io .out{background:#f4faf6}
+.io .out h4{color:#2e7d4f}
+.io ul{margin:0;padding-left:17px;font-size:13px}
+.io li{margin:3px 0}
+.dod{padding:9px 16px;border-top:1px dashed var(--line);font-size:12.5px;background:#fafcfc}
+.dod b{color:var(--primary-dark)}
+@media(max-width:820px){.io{grid-template-columns:1fr}.io > div + div{border-left:0}}
+
+.chip{display:inline-block;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;color:#fff;margin-right:4px}
+.c-po{background:#0d6e6e}.c-ba{background:#3b82c4}.c-pm{background:#9560b8}.c-imp{background:#2e9e5b}
+.c-sa{background:#5b6b7b}.c-dev{background:#c9821a}.c-user{background:#c0504d}.c-ux{background:#c95f9b}
+.jc{font-family:"Cascadia Code","Consolas",monospace;background:#eef4f4;border:1px solid #d6e2e2;
+  border-radius:4px;padding:0 5px;font-size:12px;color:var(--primary-dark);font-weight:700}
+.fpath{font-family:"Cascadia Code","Consolas",monospace;font-size:12px;color:#7a4b12}
+.loopbox{background:#fdf0ef;border-left:4px solid var(--loop);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.loopbox b{color:#a5403c}
+td.c{text-align:center;white-space:nowrap}
+.rulebox{background:#eef7f7;border-left:4px solid var(--primary);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+@media print{.wrap{padding:0}body{font-size:11.5px}.stage{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="ay-nav"></div>
+<div class="bc"><a href="../index.html">🏠 หน้าแรก</a> · <b>Flow การทำงาน (Requirement → Work Product)</b></div>
+
+<header class="cover">
+  <div class="k">PROCESS FLOW · 2 SITE</div>
+  <h1>🔁 Flow การทำงาน — จาก Requirement ถึง Final Work Product</h1>
+  <div class="sub">ตั้งแต่รับความต้องการจากผู้ใช้ในห้อง Fit Gap จนถึงส่งมอบตามงวดงาน · ใช้ร่วมกัน 2 ไซต์ (วลัยลักษณ์ + เมืองสมุทร)<br>
+  ขั้น ①–⑦ อ้างอิงชีต <b>Fit Gap Plan</b> ใน <span class="fpath">Project-Tracker.xlsx</span> · เพิ่มขั้น <b>2.5 Product Alignment</b> เข้ามาเป็น gate ของ PO</div>
+  <div class="pills">
+    <span class="pill">14 ขั้น · 3 Gate · 4 ลูปย้อนกลับ</span>
+    <span class="pill">ทุกขั้นมี Work Product ที่จับต้องได้</span>
+    <span class="pill">ปรับปรุง 9 ก.ย. 2569</span>
+  </div>
+</header>
+
+<!-- ============ ภาพรวม ============ -->
+<section>
+  <h2>ภาพรวม 1 หน้าจอ</h2>
+  <div class="svgwrap">
+  <svg viewBox="0 0 1180 300" width="100%" height="300" role="img" aria-label="แผนภาพ flow การทำงาน 6 เฟส พร้อมลูปย้อนกลับ">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,4 L0,8 z" fill="#0d6e6e"/>
+      </marker>
+      <marker id="arL" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,4 L0,8 z" fill="#c0504d"/>
+      </marker>
+    </defs>
+
+    <!-- เฟส -->
+    <g font-family="Sarabun,Segoe UI Thai,Tahoma,sans-serif">
+      <!-- 1 เก็บ + 1b เรียบเรียง -->
+      <rect x="10" y="52" width="160" height="92" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
+      <text x="90" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">① เก็บ Requirement</text>
+      <text x="90" y="89" text-anchor="middle" font-size="10.5" fill="#7a8b96">Fit Gap Workshop · บันทึกดิบ</text>
+      <line x1="20" y1="97" x2="160" y2="97" stroke="#b8d4d4" stroke-width="1"/>
+      <text x="90" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">①b BA เรียบเรียง</text>
+      <text x="90" y="131" text-anchor="middle" font-size="10.5" fill="#7a8b96">แตกข้อ · ภาษากลาง · retag</text>
+
+      <!-- 2 สรุป -->
+      <rect x="192" y="60" width="160" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
+      <text x="272" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">② สรุป + CP Product</text>
+      <text x="272" y="103" text-anchor="middle" font-size="11" fill="#41616b">Summary Gap</text>
+      <text x="272" y="121" text-anchor="middle" font-size="10.5" fill="#7a8b96">Type → Final (เทียบ DTMU)</text>
+
+      <!-- 2.5 gate -->
+      <rect x="374" y="52" width="176" height="92" rx="11" fill="#f4edfb" stroke="#7b4fa8" stroke-width="2"/>
+      <text x="462" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#5a3580">⭐ 2.5 Product Alignment</text>
+      <text x="462" y="95" text-anchor="middle" font-size="11" fill="#5a4a6b"><tspan font-weight="700">PO</tspan> จับคู่ req 2 ไซต์</text>
+      <text x="462" y="113" text-anchor="middle" font-size="11" fill="#5a4a6b">+ ตัดสิน Core / Config / Site</text>
+      <text x="462" y="132" text-anchor="middle" font-size="10.5" fill="#8a7a9b">GATE ❷ — ผ่านก่อนถึงออกแบบได้</text>
+
+      <!-- 3 ออกแบบ -->
+      <rect x="572" y="60" width="160" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
+      <text x="652" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">③ ออกแบบ</text>
+      <text x="652" y="103" text-anchor="middle" font-size="11" fill="#41616b">Flow · BR/FR · เอกสาร SA</text>
+      <text x="652" y="121" text-anchor="middle" font-size="10.5" fill="#7a8b96">⑤ UX/UI ตามมา</text>
+
+      <!-- 4 ยืนยัน -->
+      <rect x="754" y="60" width="160" height="76" rx="11" fill="#fdf4e3" stroke="#c9821a" stroke-width="2"/>
+      <text x="834" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#8a5a10">④ ยืนยันกับ User</text>
+      <text x="834" y="103" text-anchor="middle" font-size="11" fill="#7a5a2a">Final Checklist + CF</text>
+      <text x="834" y="121" text-anchor="middle" font-size="10.5" fill="#a08a5a">GATE ❸ — Sign-off</text>
+
+      <!-- 5 สร้าง -->
+      <rect x="936" y="60" width="110" height="76" rx="11" fill="#e6f2f2" stroke="#0d6e6e" stroke-width="1.5"/>
+      <text x="991" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#0a5252">⑥ Dev</text>
+      <text x="991" y="103" text-anchor="middle" font-size="11" fill="#41616b">+ ⑦ Test</text>
+      <text x="991" y="121" text-anchor="middle" font-size="10.5" fill="#7a8b96">SIT → UAT</text>
+
+      <!-- 6 ส่งมอบ -->
+      <rect x="1064" y="60" width="106" height="76" rx="11" fill="#e8f5ea" stroke="#2e7d4f" stroke-width="2"/>
+      <text x="1117" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#26663f">🏁 ส่งมอบ</text>
+      <text x="1117" y="107" text-anchor="middle" font-size="11" fill="#3d7a55">Go-live</text>
+      <text x="1117" y="125" text-anchor="middle" font-size="10.5" fill="#5a8f6f">+ งวดงาน</text>
+
+      <!-- ลูกศรหน้า -->
+      <g stroke="#0d6e6e" stroke-width="2" fill="none" marker-end="url(#ar)">
+        <line x1="171" y1="98" x2="188" y2="98"/>
+        <line x1="353" y1="98" x2="370" y2="98"/>
+        <line x1="551" y1="98" x2="568" y2="98"/>
+        <line x1="733" y1="98" x2="750" y2="98"/>
+        <line x1="915" y1="98" x2="932" y2="98"/>
+        <line x1="1047" y1="98" x2="1060" y2="98"/>
+      </g>
+
+      <!-- Gate 1 -->
+      <text x="272" y="44" text-anchor="middle" font-size="10.5" font-weight="700" fill="#c9821a">GATE ❶ CP ทีม Product</text>
+
+      <!-- ลูปย้อนกลับ -->
+      <g stroke="#c0504d" stroke-width="1.6" fill="none" marker-end="url(#arL)" stroke-dasharray="5 3">
+        <path d="M272,140 L272,168 L90,168 L90,140"/>
+        <path d="M834,140 L834,196 L652,196 L652,140"/>
+        <path d="M991,140 L991,224 L462,224 L462,148"/>
+        <path d="M1117,140 L1117,252 L90,252 L90,142"/>
+      </g>
+      <text x="181" y="164" text-anchor="middle" font-size="10" fill="#a5403c">L1 · ข้อมูลไม่พอ → เก็บรอบ 2</text>
+      <text x="743" y="192" text-anchor="middle" font-size="10" fill="#a5403c">L2 · User ไม่ CF → แก้ Flow/BR-FR</text>
+      <text x="727" y="220" text-anchor="middle" font-size="10" fill="#a5403c">L3 · Test/UAT ไม่ผ่าน → Reopen (กลับเข้า gate ถ้าขอบเขตเปลี่ยน)</text>
+      <text x="604" y="248" text-anchor="middle" font-size="10" fill="#a5403c">L4 · Requirement ใหม่ระหว่างทาง → เข้าคิว [Fit Gap][ใหม่] ห้ามลัดเข้า Dev</text>
+
+      <text x="10" y="288" font-size="10.5" fill="#7a8b96">เส้นทึบ = ทางเดินปกติ · เส้นประแดง = ลูปย้อนกลับ · กรอบส้ม/ม่วง = จุดตัดสินใจที่ต้องมีคนเซ็นรับก่อนไปต่อ</text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<!-- ============ กติกา 3 ข้อ ============ -->
+<section>
+  <h2>กติกาที่ทำให้ flow นี้ไม่พัง</h2>
+  <div class="rulebox">
+    <b>1. ไม่มีอะไรข้าม Gate ❷ ได้</b> — ทุกความต้องการต้องผ่าน Product Alignment ให้ PO ตัดสินก่อนว่าจะเข้า Core / ทำเป็น Config / หรือแยกรายไซต์
+    ถ้าลัดเข้า Dev ตรง ๆ จะได้โค้ดเฉพาะไซต์ที่อีกไซต์ใช้ไม่ได้ ซึ่งขัดเป้าหมายที่จะให้ DTMU เป็น Product กลาง
+  </div>
+  <div class="rulebox">
+    <b>2. ทุกขั้นต้องมี Work Product ที่เปิดดูได้</b> — ถ้าขั้นไหนจบแล้วไม่มีไฟล์/การ์ด/เอกสารเพิ่มขึ้นมา แปลว่าขั้นนั้นยังไม่จบ ใช้ตาราง
+    <a href="#artifacts">“ของที่ได้จริงในแต่ละขั้น”</a> เป็นตัวเช็ก
+  </div>
+  <div class="rulebox">
+    <b>3. ทุกอย่างสาวกลับไปหาต้นทางได้</b> — Jira card → Topic ID (<span class="jc">PA-xx-xx</span>) → แถวใน Summary Gap → ชีตบันทึกดิบของ workshop
+    เวลาลูกค้าถามว่า “ทำไมทำแบบนี้” ต้องเปิดย้อนได้ภายใน 1 นาที
+  </div>
+</section>
+
+<!-- ============ รายละเอียดรายขั้น ============ -->
+<section>
+  <h2>รายละเอียดทีละขั้น</h2>
+  <p class="legend">แต่ละขั้นอ่านเป็น <b>Input → สิ่งที่ทำ → Output (Work Product)</b> · แถบล่างคือเงื่อนไขว่าขั้นนั้น “จบ” เมื่อไร</p>
+
+  <!-- 0 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">0</div>
+      <div class="ttl"><h3>เตรียมก่อนเปิดห้อง (Prepare)</h3>
+        <div class="who"><span class="chip c-pm">PM</span><span class="chip c-po">PO</span> · ประสานกับผู้รับผิดชอบฝั่ง รพ.</div></div>
+      <div class="when">ก่อนวัน workshop</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>TOR / สัญญาแนบท้าย 1</li>
+        <li>Module List (Project-Tracker)</li>
+        <li>ผลเดินสำรวจหน้างาน (Site Walkthrough)</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>แบ่งโมดูลเป็นกลุ่มต่อรอบ workshop</li>
+        <li>ทำ Fit Gap Template ของโมดูลนั้น</li>
+        <li>นัดวัน + ยืนยันผู้ให้ข้อมูลฝั่ง รพ. ว่าเป็นคนหน้างานจริง</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>แถวใหม่ในชีต <b>Fit Gap Plan</b></li>
+        <li>Template Excel รายโมดูล</li>
+        <li>หนังสือ/นัดหมายที่ยืนยันแล้ว</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> มีวัน–เวลา–ห้อง–รายชื่อผู้เข้าร่วมฝั่ง รพ. ครบ และทีมอ่าน TOR ส่วนของโมดูลนั้นมาแล้ว</div>
+  </div>
+
+  <!-- 1 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">①</div>
+      <div class="ttl"><h3>Fit Gap Workshop — เก็บ Requirement</h3>
+        <div class="who"><span class="chip c-ba">BA นำห้อง</span><span class="chip c-po">PO</span><span class="chip c-imp">Imp / PC</span><span class="chip c-user">ผู้ใช้ รพ.</span></div></div>
+      <div class="when">1 รอบ = ครึ่งวัน–เต็มวัน</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>Template รายโมดูล</li>
+        <li>ระบบ DTMU สำหรับเดินให้ดูจริง</li>
+        <li>ฟอร์ม/เอกสารที่ รพ. ใช้อยู่เดิม</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>เดิน flow หน้างานจริงทีละขั้น แล้วเทียบกับ DTMU ตรงหน้า</li>
+        <li>จดความต้องการดิบตามคำพูดผู้ใช้ ไม่ต้องรีบแปลง</li>
+        <li>สิ่งที่ยังตอบไม่ได้ให้ปักเป็น <b>Question ??</b> พร้อมชื่อคนที่ต้องตอบ</li>
+        <li>เก็บหลักฐาน: ฟอร์มเดิม รูปหน้างาน ตัวอย่างรายงาน</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>ชีตบันทึกดิบรายโมดูลใน <span class="fpath">Fitgap &amp; Workshop.xlsx</span></li>
+        <li>รายการคำถามค้าง + เจ้าของคำถาม</li>
+        <li>ไฟล์แนบ/รูป/ฟอร์มเดิม</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> เดินครบทุกหัวข้อของโมดูล · ทุกข้อมีวันที่ + ชื่อผู้ให้ข้อมูล · คำถามค้างทุกข้อมีคนรับไปตอบ</div>
+  </div>
+
+  <!-- 1b -->
+  <div class="stage newst">
+    <div class="hd">
+      <div class="num">①b</div>
+      <div class="ttl"><h3>BA เรียบเรียง + วิเคราะห์ — ทำบันทึกดิบให้กลายเป็นข้อที่ “จับคู่ได้”</h3>
+        <div class="who"><span class="chip c-ba">BA เจ้าของโมดูล</span> · <span class="chip c-imp">Imp / PC</span> ช่วยทาน · <span class="chip c-user">ผู้ใช้</span> ตอบคำถามค้าง</div></div>
+      <div class="when">~3–5 วันหลัง workshop</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>บันทึกดิบจากห้อง workshop</li>
+        <li>ฟอร์ม/รายงานเดิมที่เก็บมา</li>
+        <li>คำถามค้าง (Question ??)</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li><b>แตกข้อ</b> — 1 ย่อหน้าที่ผู้ใช้พูดมักมี 2–3 ความต้องการปนกัน ต้องแยกให้ <b>1 ข้อ = 1 เรื่อง</b> ถ้าไม่แตก PO จับคู่ไม่ได้</li>
+        <li><b>เขียนใหม่ให้เป็นภาษากลาง</b> — เปลี่ยนจากคำพูดผู้ใช้เป็น “ระบบต้องสามารถ…” ตัดคำเฉพาะไซต์ออก
+          <span class="small muted">(เมืองสมุทรเขียน “เคสด่วน” · วลัยลักษณ์เขียน “คิวด่วน pass คิวอื่นได้” = เรื่องเดียวกัน)</span></li>
+        <li><b>หาปัญหาที่อยู่เบื้องหลัง</b> — ผู้ใช้มักขอ<i>วิธีแก้</i>มา ไม่ได้ขอ<i>ปัญหา</i> BA ต้องถอยกลับไปหาปัญหาจริง เพราะการจับคู่ข้ามไซต์เกิดที่ระดับปัญหา ไม่ใช่ระดับวิธีแก้</li>
+        <li><b>จัดโมดูลใหม่ (retag)</b> — บางข้อถูกพูดในโมดูลหนึ่งแต่เป็นเรื่องของอีกโมดูล ต้องย้ายไปโมดูลจริง
+          <span class="small muted">(“ระยะเวลารอคอย” ถูกพูดในงานพยาบาลของเมืองสมุทร แต่เป็นเรื่องของโมดูลคิว)</span></li>
+        <li><b>ตัดซ้ำ + รวมข้อภายในไซต์เดียวกันก่อน</b> ลดจำนวนข้อที่ PO ต้องไล่</li>
+        <li><b>ปิดคำถามค้าง</b> — ตามคำตอบจากผู้ใช้ให้จบ ไม่ส่งของที่ยังไม่รู้ต่อไป</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>รายการ requirement ที่แตกเป็นข้อ เขียนเป็นภาษากลาง และติดโมดูลถูกต้องแล้ว</li>
+        <li>บันทึกปัญหาเบื้องหลังของแต่ละข้อ (ใช้จับคู่ในขั้น 2.5)</li>
+        <li>คำถามค้างที่ได้คำตอบแล้ว</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ทุกข้อเป็น 1 เรื่องเดียว อ่านแล้วรู้ว่า “ระบบต้องทำอะไรได้” โดยไม่ต้องกลับไปอ่านบันทึกดิบ · อยู่ในโมดูลที่ถูกต้อง · คำถามค้างปิดหมดหรือมีกำหนดตอบชัด</div>
+  </div>
+
+  <div class="rulebox" style="margin:14px 0 18px">
+    <b>ทำไมขั้น ①b ขาดไม่ได้:</b> ขั้นนี้คือขั้นที่ทำให้ requirement ของ 2 ไซต์ “พูดภาษาเดียวกัน” — ถ้าข้ามไป PO จะจับคู่เจอเฉพาะข้อที่บังเอิญใช้คำเหมือนกัน<br>
+    <span class="small muted">หลักฐานจากของจริง: ตอนทำ <span class="fpath">Product-Alignment-2Site.xlsx</span> รอบแรก จับคู่ข้ามไซต์ได้ <b>21 จาก 461 ข้อ</b>
+    ส่วนหนึ่งเพราะข้อความยังเป็นคำพูดผู้ใช้ดิบ ๆ และหลายข้อยังอยู่ผิดโมดูล — ตัวเลขนี้ควรสูงขึ้นเมื่อ ①b ทำครบ</span>
+  </div>
+
+  <!-- 2 -->
+  <div class="stage gate">
+    <div class="hd">
+      <div class="num">②</div>
+      <div class="ttl"><h3>สรุป + Checkpoint ทีม Product <span style="font-size:12px;color:#8a5a10">— GATE ❶</span></h3>
+        <div class="who"><span class="chip c-ba">BA</span><span class="chip c-po">PO</span> · ร่วมกับทีม Product (DTMU)</div></div>
+      <div class="when">~2 สัปดาห์หลัง workshop</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>รายการ requirement ที่ผ่าน ①b มาแล้ว</li>
+        <li>ระบบ DTMU ตัวจริง (ไว้เปิดเทียบ)</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>ลงข้อที่เรียบเรียงแล้วในชีต <b>Summary Gap</b></li>
+        <li>ให้ <b>Type</b> ตอนเก็บ: Fit / Config / Partial / Gap / ไม่แน่ใจ</li>
+        <li>เปิด Checkpoint กับทีม Product — <b>เปิด DTMU จริงแล้วเขียน AS-IS</b> ว่าวันนี้ทำได้แค่ไหน แล้วลง <b>Final</b></li>
+        <li>ระบุ <b>Response</b> ว่าใครรับ: DTMU / Product / รายไซต์</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>ชีต <b>Summary Gap</b> (Type · Final · Response · Effort)</li>
+        <li><b>DTMU AS-IS</b> รายข้อ + สถานะเป็น “ยืนยันแล้ว”</li>
+        <li>ชีต <b>Task of Summary Gap</b> — แตกเป็นงานพร้อมเลขการ์ด</li>
+        <li>การ์ด <span class="jc">[Fit Gap] :</span> ใน Jira</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>ผ่าน Gate ❶ เมื่อ:</b> ทุกข้อมี Final และ AS-IS ที่ยืนยันกับระบบจริงแล้ว · ข้อที่ยัง “ไม่แน่ใจ” ถูกยกออกมาเป็นคำถามที่มีเจ้าของและกำหนดตอบ · PO เปิดไฟล์แล้วเริ่มจับคู่ได้ทันทีโดยไม่ต้องหาข้อมูลเพิ่ม</div>
+  </div>
+
+  <!-- 2.5 -->
+  <div class="stage gate">
+    <div class="hd">
+      <div class="num">2.5</div>
+      <div class="ttl"><h3>⭐ Product Alignment — PO จับคู่ 2 ไซต์ และตัดสินว่าอะไรเข้า Product กลาง <span style="font-size:12px;color:#8a5a10">— GATE ❷</span></h3>
+        <div class="who"><span class="chip c-po">PO</span> ลงมือเอง · ร่วมกับ Product Owner ฝั่ง DTMU · <span class="chip c-ba">BA</span> นั่งด้วยเพื่อตอบคำถามรายข้อ</div></div>
+      <div class="when">ต่อจาก ② ทันที</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>Summary Gap ของ<b>ทั้ง 2 ไซต์</b> ที่ผ่าน ①b มาแล้ว</li>
+        <li>AS-IS ของ DTMU ที่ยืนยันจากขั้น ②</li>
+        <li>ทิศทาง Product · ข้อจำกัดสัญญา · กำลังทีม</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li><b>จับคู่</b> requirement ที่เป็นเรื่องเดียวกันข้ามไซต์ — จับที่ระดับ<b>ปัญหา</b> ไม่ใช่ระดับวิธีแก้ จึงจะเห็นคู่ที่ข้ามโมดูลด้วย</li>
+        <li>ออกแบบ <b>Product TO-BE</b> ที่ตอบได้ทั้ง 2 ไซต์ — ถ้าความต้องการสวนทางกัน ให้แก้ด้วย config ไม่ใช่แยกโค้ด</li>
+        <li><b>ตัดสิน</b>: <b>Core</b> / <b>Config รายไซต์</b> / <b>Connector รายไซต์</b> / <b>เฉพาะไซต์</b> / <b>ไม่ทำ</b> พร้อม<b>เหตุผล</b>ทุกข้อ</li>
+        <li>ให้ Priority และเรียงลำดับเข้า Sprint</li>
+        <li>ข้อที่ข้อมูลยังไม่พอ → ตีกลับให้ BA ที่ขั้น ①b หรือส่งเข้า Open Questions — ไม่ปล่อยผ่านแบบคลุมเครือ</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li><span class="fpath">Product-Alignment-2Site.xlsx</span> ที่มี <b>PO Decision</b> + <b>เหตุผล</b> ครบ</li>
+        <li>Topic ID (<span class="jc">PA-xx-xx</span>) ใช้อ้างตลอดสายงาน</li>
+        <li>รายการ Open Questions สำหรับวาระประชุม</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>ผ่าน Gate ❷ เมื่อ:</b> ทุกหัวข้อที่จะทำต่อมี Decision + เหตุผลบันทึกไว้ · ไม่มีข้อไหนตัดสินให้แยกรายไซต์โดยไม่มีเหตุผลเขียนกำกับ · ข้อที่ยังตัดสินไม่ได้ถูกย้ายเข้า Open Questions พร้อมกำหนดตอบ</div>
+  </div>
+
+  <div class="rulebox" style="margin:14px 0 0">
+    <b>เส้นแบ่งระหว่าง BA กับ PO:</b>
+    BA รับผิดชอบว่า “ข้อนี้คืออะไร และ DTMU วันนี้ทำได้แค่ไหน” (①b + ②) ·
+    PO รับผิดชอบว่า “ข้อนี้กับข้อนั้นเรื่องเดียวกันไหม และ Product ควรเป็นอย่างไร” (2.5)<br>
+    <span class="small muted">สัญญาณส่งมอบงาน = ช่อง <b>“AS-IS ยืนยันแล้ว?”</b> ในไฟล์ Excel —
+    ถ้ายังเป็น “ต้องยืนยันกับ DTMU” แปลว่าขั้น ② ยังไม่จบ ยังไม่ควรเรียกประชุม PO</span>
+  </div>
+
+  <!-- 3 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">③</div>
+      <div class="ttl"><h3>วิเคราะห์ + Flow + BR/FR</h3>
+        <div class="who"><span class="chip c-ba">BA</span><span class="chip c-imp">Imp</span> · ปรึกษา SA</div></div>
+      <div class="when">~2 สัปดาห์</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>Decision จาก Gate ❷</li>
+        <li>Workflow หน้างานเดิมที่เก็บมาจาก ①</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>เขียน Workflow AS-IS → TO-BE ของโมดูล</li>
+        <li>แตกเป็น <b>BR</b> (กติกาธุรกิจ) · <b>FR</b> (สิ่งที่ระบบต้องทำได้) · <b>Non-functional</b></li>
+        <li>เปิดการ์ด Jira พร้อม DoD ทุกใบ และผูก Topic ID กลับไปที่ Product Alignment</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>Workflow diagram ต่อโมดูล</li>
+        <li>เอกสาร BR / FR / Non-functional</li>
+        <li>การ์ด <span class="jc">[Flow] :</span> และ <span class="jc">[BR/FR] :</span></li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ทุก FR สาวกลับไปหา Topic ID ได้ · ทุกการ์ดมี DoD เป็น checklist · BA กับ Imp อ่านแล้วเข้าใจตรงกันโดยไม่ต้องถามเพิ่ม</div>
+  </div>
+
+  <!-- 3b -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">③b</div>
+      <div class="ttl"><h3>เอกสารเทคนิค (ขนานกับ ③)</h3>
+        <div class="who"><span class="chip c-sa">SA / Tech Lead</span></div></div>
+      <div class="when">~2 สัปดาห์</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>BR/FR จากขั้น ③</li>
+        <li>ข้อกำหนดเทคนิคใน TOR</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>ออกแบบ DB Schema ที่รองรับทั้ง 2 ไซต์</li>
+        <li>เขียน API Spec + Integration Spec (เช่น PACS, LIS/GEMs, iClaim, SAP)</li>
+        <li>ระบุ Non-functional: ความปลอดภัย · ประสิทธิภาพ · สำรองข้อมูล</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>SRD · Workflow · API Spec · DB Schema</li>
+        <li class="small">— ชุดนี้คือของที่ผูกกับ <b>งวด 2</b> ของ TOR วลัยลักษณ์</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> Dev อ่านแล้วลงมือได้โดยไม่ต้องเดา · ส่วนที่เป็น connector รายไซต์ถูกแยกออกจาก core ชัดเจน</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="stage gate">
+    <div class="hd">
+      <div class="num">④</div>
+      <div class="ttl"><h3>Final Checklist + นำเสนอ User <span style="font-size:12px;color:#8a5a10">— GATE ❸</span></h3>
+        <div class="who"><span class="chip c-po">PO</span><span class="chip c-ba">BA</span><span class="chip c-pm">PM</span><span class="chip c-user">ผู้ใช้ รพ.</span></div></div>
+      <div class="when">2 วันต่อรอบ CP</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul>
+        <li>Workflow + BR/FR</li>
+        <li>Decision จาก Product Alignment</li>
+      </ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>รวมเป็น Final Checklist รายโมดูลด้วยภาษาที่ผู้ใช้อ่านรู้เรื่อง</li>
+        <li>นำเสนอ + เดินให้ดูว่าจะได้อะไร และ<b>อะไรที่ตกลงว่าไม่ทำ</b></li>
+        <li>เก็บการยืนยัน (CF) เป็นลายลักษณ์อักษร</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>Final Checklist ที่ผู้ใช้ยืนยันแล้ว</li>
+        <li>บันทึกการประชุม + รายการที่ขอแก้</li>
+        <li>การ์ด <span class="jc">[Review] :</span></li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>ผ่าน Gate ❸ เมื่อ:</b> ผู้ใช้ยืนยันครบทุกข้อ · ข้อที่ยังไม่ยืนยันถูกแยกออกไปเป็นรอบถัดไปแทนที่จะดองไว้ · รายการ “ไม่ทำ” ถูกสื่อสารและรับทราบแล้ว</div>
+  </div>
+
+  <!-- 5 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">⑤</div>
+      <div class="ttl"><h3>UX/UI Design</h3>
+        <div class="who"><span class="chip c-ux">UX/UI</span><span class="chip c-imp">PC</span> · Review กับ PO</div></div>
+      <div class="when">~2 สัปดาห์ (เริ่มขนานกับ ③ ได้)</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>FR + Workflow ที่ผ่าน CF แล้ว</li><li>Design system ของ DTMU</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>ออกแบบหน้าจอตาม FR โดยยึด pattern เดิมของ DTMU</li>
+        <li>ส่วนที่เป็น config รายไซต์ ต้องออกแบบหน้าตั้งค่าไปด้วย ไม่ใช่ทำ 2 หน้าจอ</li>
+        <li>Review กับ PO และผู้ใช้ก่อนส่งเข้า Dev</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul><li>Mockup / Prototype</li><li>บันทึกผล Review + จุดที่แก้</li></ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ทุกหน้าจอผูกกับ FR ได้ · PO อนุมัติ · Dev เปิดดูแล้วรู้ว่าต้องทำอะไรบ้าง</div>
+  </div>
+
+  <!-- 6 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">⑥⑦</div>
+      <div class="ttl"><h3>Dev + เขียน Test Case (ทำขนานกัน)</h3>
+        <div class="who"><span class="chip c-dev">Dev</span><span class="chip c-imp">QA / Imp</span></div></div>
+      <div class="when">~4 สัปดาห์ต่อรอบ</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>BR/FR + เอกสารเทคนิค + UX</li><li>การ์ด Jira ที่เข้า Sprint แล้ว</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>พัฒนาใน DTMU เป็น <b>Core</b> ก่อนเสมอ แล้วค่อยเปิด config ให้แต่ละไซต์</li>
+        <li>QA เขียน Test Case ขนานไป โดยอิงจาก DoD ในการ์ด</li>
+        <li>การ์ดเดิน To Do → In Progress → In Review</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>ฟีเจอร์ใน DTMU + ค่า config ของแต่ละไซต์</li>
+        <li>ชุด Test Case</li>
+        <li>การ์ดสถานะ In Review</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ทุกข้อใน DoD ของการ์ดถูกติ๊กครบ · ไม่มีโค้ดที่ hard-code ชื่อไซต์ · Test Case ครอบคลุมทั้ง 2 ไซต์</div>
+  </div>
+
+  <!-- 7 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">⑧</div>
+      <div class="ttl"><h3>Test ภายใน (SIT) + Data Migration Rehearsal</h3>
+        <div class="who"><span class="chip c-imp">QA / Imp</span><span class="chip c-dev">Dev</span></div></div>
+      <div class="when">ต่อเนื่องจาก ⑥</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>ฟีเจอร์ที่ผ่าน In Review</li><li>ชุดข้อมูลทดสอบ / ข้อมูลจริงที่ migrate มา</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>รัน Test Case เต็มชุด แล้วบันทึกผล</li>
+        <li>ทดสอบเชื่อมต่อระบบภายนอกตาม Integration Spec</li>
+        <li>เมืองสมุทร: ซ้อม Data Migration (HosXP → HA.OS) แล้วทานยอด</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul><li>ผลทดสอบ + Defect list</li><li>รายงานผลซ้อม Migration + ผลกระทบยอด</li></ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> Test Case ผ่านครบ · Defect ระดับสูงปิดหมด · ผลกระทบยอด migration ตรงตามเกณฑ์ที่ตกลงไว้</div>
+  </div>
+
+  <!-- 8 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">⑨</div>
+      <div class="ttl"><h3>UAT + Training ผู้ใช้</h3>
+        <div class="who"><span class="chip c-pm">PM</span><span class="chip c-imp">Imp</span><span class="chip c-user">ผู้ใช้ รพ.</span></div></div>
+      <div class="when">ผูกกับงวด 3 (วลัยลักษณ์)</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>ระบบที่ผ่าน SIT</li><li>Final Checklist ที่ผู้ใช้ CF ไว้ตอน ④</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>ผู้ใช้ทดสอบเองตาม scenario งานจริง</li>
+        <li>อบรมผู้ใช้ + ส่งมอบคู่มือ</li>
+        <li>ข้อที่ไม่ผ่าน → <b>Reopen</b> การ์ดกลับไป Dev</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>ผล UAT + เอกสาร Sign-off</li>
+        <li>คู่มือผู้ใช้ · บันทึกการอบรม · รายชื่อผู้เข้าอบรม</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ผู้ใช้เซ็นรับ UAT · อบรมครบทุกกลุ่มงาน · ข้อที่ Reopen ถูกปิดหรือย้ายไปเฟสถัดไปอย่างมีข้อตกลง</div>
+  </div>
+
+  <!-- 9 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">⑩</div>
+      <div class="ttl"><h3>Go-live + Hypercare</h3>
+        <div class="who"><span class="chip c-pm">PM</span><span class="chip c-imp">Imp</span><span class="chip c-dev">Dev standby</span></div></div>
+      <div class="when">เมืองสมุทรไปเป็นคลื่น</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>UAT Sign-off</li><li>แผน Go-live + แผนถอย (rollback)</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>Migration ข้อมูลจริง แล้วเปิดใช้งาน</li>
+        <li>เมืองสมุทร: ปากน้ำก่อน แล้วค่อยครบ 9 จุดบริการ</li>
+        <li>เฝ้าระบบช่วง Hypercare + เก็บปัญหาหน้างานรายวัน</li>
+      </ul></div>
+      <div class="out"><h4>Work Product</h4><ul>
+        <li>ระบบใช้งานจริง</li>
+        <li>บันทึก Go-live · Hypercare log · รายการปัญหาและการแก้</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ผู้ใช้ทำงานได้ครบทุกจุดบริการโดยไม่ต้องกลับไปใช้ระบบเดิม · ปัญหาที่ค้างมีเจ้าของและกำหนดแก้</div>
+  </div>
+
+  <!-- 10 -->
+  <div class="stage">
+    <div class="hd">
+      <div class="num">🏁</div>
+      <div class="ttl"><h3>ส่งมอบตามงวดงาน — Final Work Product</h3>
+        <div class="who"><span class="chip c-pm">PM</span><span class="chip c-po">PO</span></div></div>
+      <div class="when">ตามสัญญาแต่ละไซต์</div>
+    </div>
+    <div class="io">
+      <div><h4>Input</h4><ul><li>Work Product ที่สะสมมาทุกขั้น</li><li>เงื่อนไขงวดงานในสัญญา</li></ul></div>
+      <div><h4>สิ่งที่ทำ</h4><ul>
+        <li>รวบรวมเอกสารตามที่งวดนั้นกำหนด</li>
+        <li>ส่งมอบ → ผู้ว่าจ้างตรวจรับ → ออกหนังสือรับรอง</li>
+      </ul></div>
+      <div class="out"><h4>Work Product สุดท้าย</h4><ul>
+        <li><b>วลัยลักษณ์:</b> งวด 1 แผนพัฒนา · งวด 2 SRD+Workflow+API+DB Schema · งวด 3 UAT+Training+คู่มือ · งวด 4 Go-live</li>
+        <li><b>เมืองสมุทร:</b> งวด 1 ลงนาม (20%) · งวด 2 ตรวจรับ Go-live ปากน้ำ (30%) · งวด 3 ครบ 9 จุดบริการ (50%)</li>
+      </ul></div>
+    </div>
+    <div class="dod"><b>จบเมื่อ:</b> ได้หนังสือรับรองการตรวจรับงานของงวดนั้น</div>
+  </div>
+</section>
+
+<!-- ============ ลูป ============ -->
+<section>
+  <h2>ลูปย้อนกลับ — เกิดขึ้นแน่ ต้องรู้ว่าย้อนไปตรงไหน</h2>
+  <div class="loopbox"><b>L1 · ข้อมูลจาก workshop ไม่พอ</b> (พบตอน ②) → นัดเก็บรอบ 2 เฉพาะหัวข้อที่ขาด ไม่ต้องรื้อทั้งโมดูล ·
+  ในไฟล์ Fit Gap Plan จะเห็นเป็นรอบที่ 2 ของโมดูลเดิม</div>
+  <div class="loopbox"><b>L2 · ผู้ใช้ไม่ยืนยันตอน ④</b> → กลับไปแก้ที่ ③ (Flow/BR/FR) ·
+  ถ้าสิ่งที่ผู้ใช้ขอเปลี่ยนกระทบว่า “เข้า Core หรือแยกไซต์” ต้อง<b>วนกลับ Gate ❷</b> ให้ PO ตัดสินใหม่ ห้ามให้ BA ตัดสินเอง</div>
+  <div class="loopbox"><b>L3 · Test / UAT ไม่ผ่าน</b> → การ์ดเดิน In Review → <b>Reopen</b> → REOPENED กลับเข้า Dev ·
+  ถ้าที่ไม่ผ่านคือ “เข้าใจ requirement ผิด” ไม่ใช่ bug ให้ตีกลับถึง ③ และบันทึกเหตุผลไว้ที่ Topic เดิม</div>
+  <div class="loopbox"><b>L4 · Requirement ใหม่โผล่กลางทาง</b> → เปิดการ์ด <span class="jc">[Fit Gap][ใหม่] :</span> แล้วเข้าคิวที่ Gate ❷ ก่อนเสมอ ·
+  ไม่แทรกเข้า Dev ตรง ๆ แม้จะดูเป็นงานเล็ก เพราะงานเล็กที่ทำเฉพาะไซต์คือต้นเหตุที่ทำให้ Product แตกเป็น 2 ชุด</div>
+</section>
+
+<!-- ============ Jira ============ -->
+<section>
+  <h2>การ์ด Jira เกิดตรงไหนของ flow</h2>
+  <table>
+    <thead><tr><th style="width:150px">ชนิดการ์ด</th><th class="c" style="width:90px">เกิดที่ขั้น</th><th>ใช้ทำอะไร</th><th style="width:190px">ปิดการ์ดเมื่อ</th></tr></thead>
+    <tbody>
+      <tr><td><span class="jc">[Fit Gap] :</span></td><td class="c">②</td><td>งานที่มาจาก Summary Gap ตรง ๆ — 1 การ์ด = 1 สิ่งที่ต้องทำ</td><td>ผ่าน Test และผู้ใช้ยืนยัน</td></tr>
+      <tr><td><span class="jc">[Fit Gap][ใหม่] :</span></td><td class="c">L4</td><td>ความต้องการที่โผล่หลังปิดรอบ workshop</td><td>ผ่าน Gate ❷ แล้วเดินเหมือนการ์ดปกติ</td></tr>
+      <tr><td><span class="jc">[Flow] :</span></td><td class="c">③</td><td>เขียน Workflow ของโมดูล</td><td>Flow ผ่านการทานกับ Imp และ PO</td></tr>
+      <tr><td><span class="jc">[BR/FR] :</span></td><td class="c">③</td><td>เขียน Business Rule / Functional Requirement</td><td>Dev อ่านแล้วลงมือได้ ไม่มีคำถามค้าง</td></tr>
+      <tr><td><span class="jc">[Review] :</span></td><td class="c">④ · ⑨</td><td>รอบนำเสนอ/ทาน กับผู้ใช้</td><td>มีบันทึกผลและรายการที่ต้องแก้</td></tr>
+      <tr><td><span class="jc">[PMO] :</span></td><td class="c">0 · 🏁</td><td>งานบริหารโครงการ เอกสารส่งมอบ งวดงาน</td><td>ส่งมอบและตรวจรับแล้ว</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">สถานะการ์ด: To Do → In Progress → In Review → Done · เส้นทางตีกลับ In Review → Reopen → REOPENED ·
+  โปรเจกต์: <b>WUH</b> วลัยลักษณ์ · <b>MSH</b> เมืองสมุทร · <b>HISP</b> งานกลาง/PMO</p>
+</section>
+
+<!-- ============ artifacts ============ -->
+<section id="artifacts">
+  <h2>ของที่ได้จริงในแต่ละขั้น — เปิดดูได้ที่ไหน</h2>
+  <div class="tblscroll">
+  <table>
+    <thead><tr><th class="c" style="width:70px">ขั้น</th><th style="width:230px">Work Product</th><th>ไฟล์ / หน้าที่เก็บของจริง</th></tr></thead>
+    <tbody>
+      <tr><td class="c">0</td><td>แผนรอบ Fit Gap</td><td><span class="fpath">Project-Tracker.xlsx</span> → ชีต <b>Fit Gap Plan</b> · <a href="fitgap-timeline.html">Timeline Fit Gap → UX/UI → Dev</a></td></tr>
+      <tr><td class="c">①</td><td>บันทึกดิบรายโมดูล</td><td><span class="fpath">HIS [MSH+WUICD] _ Fitgap &amp; Workshop.xlsx</span> → ชีตรายโมดูล · <a href="fitgap-workshop.html">Fit Gap Workshop</a></td></tr>
+      <tr style="background:#f7f2fc"><td class="c"><b>①b</b></td><td><b>รายการ req ที่เรียบเรียงแล้ว</b><div class="small muted">แตกข้อ · ภาษากลาง · retag โมดูล</div></td><td>ชีตรายโมดูล (คอลัมน์ที่ BA เรียบเรียง) → ส่งต่อเข้าชีต <b>Summary Gap</b></td></tr>
+      <tr><td class="c">②</td><td>Summary Gap + AS-IS</td><td>ชีต <b>Summary Gap</b> / <b>Task of Summary Gap</b> · <a href="fitgap-summary.html">Fit Gap Summary</a> · <a href="module-fitgap.html">Module Fit Gap Matrix</a></td></tr>
+      <tr style="background:#f7f2fc"><td class="c"><b>2.5</b></td><td><b>Product Alignment</b><div class="small muted">PO จับคู่ + ตัดสิน</div></td><td><span class="fpath">Product-Alignment-2Site.xlsx</span> → ชีต <b>จับคู่ข้ามไซต์ (PO View)</b> · <b>Product Alignment</b> · <b>Open Questions</b></td></tr>
+      <tr><td class="c">③</td><td>Workflow · BR/FR</td><td><a href="workflow-registration-dtmu.html">Workflow งานเวชระเบียน (DTMU)</a> เป็นตัวอย่างรูปแบบ · การ์ดใน <a href="jira-cards.html">Jira Cards</a></td></tr>
+      <tr><td class="c">③b</td><td>เอกสารเทคนิค</td><td><a href="gems-webapi-integration-msm.html">เชื่อมต่อ LIS (GEMs) ⇄ HA.OS</a> · <span class="fpath">deliverables/</span> (งวด 2)</td></tr>
+      <tr><td class="c">④</td><td>Final Checklist</td><td><a href="checklist.html">Checklist รวม 2 ไซต์</a> · <span class="fpath">Project-Tracker.xlsx</span> → ชีต <b>Checklist (2 ไซต์)</b></td></tr>
+      <tr><td class="c">⑤⑥⑦</td><td>UX · โค้ด · Test Case</td><td>การ์ดใน <a href="jira-cards-sprint.html">Jira Cards (แยกตาม Sprint)</a> · <a href="gantt-fitgap-2site.html">Gantt Fit Gap 2 ไซต์</a></td></tr>
+      <tr><td class="c">⑧</td><td>ผล Migration</td><td><a href="data-migration-checklist-msm.html">Data Migration Checklist</a> · <a href="data-migration-plan-msm.html">แผน Migration</a></td></tr>
+      <tr><td class="c">⑨⑩</td><td>UAT · Training · Go-live</td><td><span class="fpath">Project-Tracker.xlsx</span> → ชีต <b>Key Dates (2 ไซต์)</b> · <a href="timeline.html">Timeline</a></td></tr>
+      <tr><td class="c">🏁</td><td>เอกสารส่งมอบรายงวด</td><td><a href="../deliverables/index.html">deliverables/ — เอกสารส่งมอบรายงวด</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ RACI ============ -->
+<section>
+  <h2>ใครทำอะไรในแต่ละขั้น</h2>
+  <div class="tblscroll">
+  <table>
+    <thead><tr>
+      <th style="width:210px">บทบาท</th>
+      <th class="c">0</th><th class="c">①</th><th class="c" style="background:#7b4fa8">①b</th><th class="c">②</th>
+      <th class="c" style="background:#c9821a">2.5</th>
+      <th class="c">③</th><th class="c">③b</th><th class="c">④</th><th class="c">⑤</th><th class="c">⑥⑦</th><th class="c">⑧</th><th class="c">⑨</th><th class="c">⑩</th><th class="c">🏁</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><span class="chip c-po">PO</span> เจ้าของ Product</td>
+        <td class="c">C</td><td class="c">A</td><td class="c">C</td><td class="c">A</td><td class="c"><b>R</b></td><td class="c">C</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c">A</td><td class="c">C</td><td class="c">I</td><td class="c">C</td><td class="c">C</td><td class="c">A</td></tr>
+      <tr><td><span class="chip c-ba">BA</span> วิเคราะห์ธุรกิจ</td>
+        <td class="c">C</td><td class="c"><b>R</b></td><td class="c"><b>R</b></td><td class="c"><b>R</b></td><td class="c">A</td><td class="c"><b>R</b></td><td class="c">C</td><td class="c">A</td><td class="c">C</td><td class="c">C</td><td class="c">C</td><td class="c">A</td><td class="c">I</td><td class="c">C</td></tr>
+      <tr><td><span class="chip c-pm">PM</span> บริหารโครงการ</td>
+        <td class="c"><b>R</b></td><td class="c">C</td><td class="c">I</td><td class="c">I</td><td class="c">I</td><td class="c">I</td><td class="c">I</td><td class="c"><b>R</b></td><td class="c">I</td><td class="c">C</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c"><b>R</b></td><td class="c"><b>R</b></td></tr>
+      <tr><td><span class="chip c-imp">Imp / PC</span> ผู้ติดตั้ง</td>
+        <td class="c">I</td><td class="c">A</td><td class="c">A</td><td class="c">A</td><td class="c">C</td><td class="c">A</td><td class="c">C</td><td class="c">A</td><td class="c">A</td><td class="c">A</td><td class="c"><b>R</b></td><td class="c">A</td><td class="c">A</td><td class="c">I</td></tr>
+      <tr><td><span class="chip c-sa">SA / Tech Lead</span></td>
+        <td class="c">—</td><td class="c">I</td><td class="c">I</td><td class="c">C</td><td class="c">C</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c">I</td><td class="c">C</td><td class="c">A</td><td class="c">C</td><td class="c">I</td><td class="c">A</td><td class="c">C</td></tr>
+      <tr><td><span class="chip c-ux">UX/UI</span></td>
+        <td class="c">—</td><td class="c">I</td><td class="c">I</td><td class="c">I</td><td class="c">I</td><td class="c">C</td><td class="c">I</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c">C</td><td class="c">—</td><td class="c">I</td><td class="c">—</td><td class="c">—</td></tr>
+      <tr><td><span class="chip c-dev">Dev</span></td>
+        <td class="c">—</td><td class="c">—</td><td class="c">—</td><td class="c">C</td><td class="c">C</td><td class="c">C</td><td class="c">C</td><td class="c">I</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c">A</td><td class="c">C</td><td class="c">A</td><td class="c">I</td></tr>
+      <tr><td><span class="chip c-user">ผู้ใช้ฝั่ง รพ.</span></td>
+        <td class="c">C</td><td class="c"><b>R</b></td><td class="c">C</td><td class="c">I</td><td class="c">I</td><td class="c">C</td><td class="c">I</td><td class="c"><b>R</b></td><td class="c">C</td><td class="c">—</td><td class="c">C</td><td class="c"><b>R</b></td><td class="c"><b>R</b></td><td class="c">C</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small muted"><b>R</b> = ลงมือทำ · <b>A</b> = ร่วมทำ/ให้ข้อมูล · <b>C</b> = ถูกปรึกษา · <b>I</b> = รับทราบ · — = ไม่เกี่ยว</p>
+  <div class="note"><b>เส้นแบ่งความรับผิดชอบ:</b>
+  <b>BA เป็นเจ้าของ ①b + ②</b> — ตอบให้ได้ว่า “ข้อนี้คืออะไร” และ “DTMU วันนี้ทำได้แค่ไหน” ·
+  <b>PO เป็นเจ้าของ 2.5</b> — ตอบว่า “ข้อนี้กับข้อนั้นเรื่องเดียวกันไหม” และ “Product ควรเป็นอย่างไร”<br>
+  PO ต้อง<b>จับคู่และตัดสินเอง</b> ไม่ใช่แค่เซ็นอนุมัติ เพราะการมองข้ามไซต์เป็นการตัดสินใจเชิงผลิตภัณฑ์ ถ้าปล่อยไปโผล่ตอน Dev จะสายเกินแก้</div>
+  <div class="note"><b>ข้อยกเว้น — ข้ามไปหา PO ได้เลยไม่ต้องรอ ①b:</b> หัวข้อที่กระทบ<b>ขอบเขตสัญญา / TOR / ราคา</b>
+  หรือหัวข้อที่ 2 ไซต์ขัดกันแบบ<b>แก้ด้วย config ไม่ได้</b> — ยกเข้าวาระ PO ทันที เพราะเรียบเรียงต่อไปก็ไม่ช่วยตัดสิน</div>
+</section>
+
+<footer>
+  Flow การทำงาน 2 ไซต์ · ขั้น ①–⑦ อ้างอิงชีต Fit Gap Plan ใน Project-Tracker.xlsx · ขั้น 2.5 เพิ่มจาก Product-Alignment-2Site.xlsx<br>
+  ปรับปรุง 9 ก.ย. 2569
+</footer>
+
+</div>
+<script src="nav.js"></script>
+</body>
+</html>
